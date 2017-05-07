@@ -1,0 +1,52 @@
+.k-breadcrumb{
+    list-style: none;
+    padding: .5rem .9375rem;
+    border-radius:$border-radius-sm;
+    background: #f5f5f5;
+    margin:0;
+    
+    li{
+        display: inline-block;
+        vertical-align: middle;
+        color: #ccc;
+
+        &.active{
+            color:#777;
+        }
+
+        a{
+            color:$primary;
+        }
+    }
+
+    li+li::before{
+        color: #ccc;
+        content:"/\00a0";
+        padding:0 0.3125rem;
+    }
+
+    &.k-breadcrumb-info{
+        li>a{
+            color:$info;
+        }
+    }
+
+    &.k-breadcrumb-success{
+        li>a{
+            color:$success;
+        }
+    }
+
+    &.k-breadcrumb-warning{
+        li>a{
+            color:$warning;
+        }
+    }
+
+    &.k-breadcrumb-danger{
+        li>a{
+            color:$danger;
+        }
+    }
+
+}

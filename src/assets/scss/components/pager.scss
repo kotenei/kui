@@ -1,0 +1,67 @@
+.k-pager{
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding:0;
+    vertical-align: middle;
+    margin:.625rem 0;
+
+    @include pager-variant('info',$info);
+    @include pager-variant('success',$success);
+    @include pager-variant('warning',$warning);
+    @include pager-variant('danger',$danger);
+
+    li{
+        display: inline;
+        a,
+        span{
+            padding:0.5625rem 0.9375rem;
+            line-height: $line-height;
+            text-align: center;
+            border:1px solid $pager-border-color;
+            margin-left: -1px;
+            float: left;
+            color: $primary;
+            height: $height-default;
+            transition: background .3s;
+        }
+
+        a:hover{
+            background: $pager-hover-color;
+            color:$pager-font-color;
+        }
+
+        &.active{
+            a,span{
+                background: $primary;
+                color: white;
+            }
+        }
+
+        &.disabled{
+            a,span{
+                cursor:$cursor-disabled;
+                color:$disabled-color;
+                &:hover{
+                    background:none;
+                }
+            }
+        }
+
+
+        &:first-child{
+            a,span{
+                border-radius: $border-radius-sm 0 0 $border-radius-sm;
+            }
+        }
+
+        &:last-child{
+            a,span{
+                border-radius: 0 $border-radius-sm $border-radius-sm 0;
+            }
+        }
+
+    }
+
+    
+}

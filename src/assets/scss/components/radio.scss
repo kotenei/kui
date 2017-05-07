@@ -1,0 +1,93 @@
+.k-radio {
+    label {
+        .k-radio-material{
+
+            padding-right: .1875rem;
+            display: inline;
+
+            &::before{
+                content:" ";
+                position: absolute;
+                width: 3.25rem;
+                height:3.25rem;
+                border-radius: 50%;
+                background: $checked-color;
+                left:-1rem;
+                top:-1rem;
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            .check{
+                display: inline-block;
+                width: 1.25rem;
+                height:1.25rem;
+                border-radius: 50%;
+                background: white;
+                position: absolute;
+                border:2px solid $primary;
+                margin-left: -1.25rem;
+
+                &::before{
+                    content:'';
+                    position: absolute;
+                    width: 0.625rem;
+                    height:0.625rem;
+                    border-radius: 50%;
+                    background: $primary;
+                    left:.1875rem;
+                    top:.1875rem;
+                    transform:scale(0);
+                    transition: transform .3s;
+                }
+
+            }
+        }
+
+        input[type='radio']{
+            &:checked{
+                &+.k-radio-material{
+                    .check{
+                        &::before{
+                            transform:scale(1);
+                        }
+                    }
+                }
+            }
+
+            &:focus{
+                &:checked{
+                    &+.k-radio-material{
+                        &::before{
+                            animation: rippleOn .7s;
+                        }
+                    }
+                }
+
+                &:not(:checked){
+                   &+.k-radio-material{
+                        .check{
+                            &::before{
+                                transform:scale(0);
+                            }
+                        }
+                    }
+                } 
+
+            }
+        }
+    }
+
+     &.disabled{
+            label{
+                .k-radio-material {
+                    .check{    
+                        border-color: $disabled-color;
+                        &::before{
+                            background:$disabled-color;
+                        }
+                    }
+                }
+            }
+        }
+}

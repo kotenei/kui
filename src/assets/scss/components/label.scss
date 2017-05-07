@@ -1,0 +1,36 @@
+.k-label{
+    display: inline-block;
+    padding:.25rem .4rem;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.0625rem;
+    color: $label-color;
+}
+
+.k-label-default{
+    @include label-variant(rgba(#000,(30/100)));
+}
+
+.k-label-primary{
+    @include label-variant($primary);
+}
+
+.k-label-info{
+    @include label-variant($info);
+}
+
+.k-label-success{
+    @include label-variant($success);
+}
+
+.k-label-warning{
+    @include label-variant($warning);
+}
+
+.k-label-danger{
+    @include label-variant($danger);
+}

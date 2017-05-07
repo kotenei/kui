@@ -1,0 +1,100 @@
+.k-popover{
+    @include popover-variant('k-popover');
+    $border-color:#ccc;
+    border:1px solid $border-color;
+    background:white;
+    border-radius: .25rem;
+    color:rgba(0, 0, 0, 0.870588);
+    width: 21.875rem;
+    min-height: 50px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+
+    .k-popover-title{
+        padding:0.5rem .875rem;
+        border-bottom: 1px solid #ebebeb;
+        font-weight: bold;
+        font-size: 0.875rem;
+        background: #f7f7f7;
+        border-radius: .25rem .25rem 0 0;
+    }
+
+    .k-popover-arrow{
+        border: .625rem solid $border-color;
+
+        &::before
+        {
+            position: absolute;
+            content: '';
+            width: 0;
+            height: 0;
+            border: .625rem solid #fff;
+        }
+    }
+
+    &.top{
+        .k-popover-arrow{
+            border-color: $border-color transparent transparent transparent;
+            left:50%;
+            bottom:-1.25rem;
+            margin-left:-.625rem;
+
+            &::before
+            {
+                bottom: -.5625rem;
+                left: 50%;
+                margin-left: -.625rem;
+                border-color: #fff transparent transparent transparent;
+            }
+        }
+    }
+
+    &.bottom{
+        .k-popover-arrow{
+            border-color:  transparent transparent $border-color transparent ;
+            left:50%;
+            top:-1.25rem;
+            margin-left:-.625rem;
+            &::before
+            {
+                top: -.5625rem;
+                left: 50%;
+                margin-left: -.625rem;
+                border-color: transparent transparent #fff transparent  ;
+            }
+        }
+    }
+
+    &.left{
+        .k-popover-arrow{
+            border-color:  transparent transparent transparent $border-color;
+            top:50%;
+            right:-1.25rem;
+            margin-top:-.625rem;
+            &::before
+            {
+                right: -.5625rem;
+                top: 50%;
+                margin-top: -.625rem;
+                border-color: transparent transparent transparent #fff ;
+            }
+        }
+    }
+
+    &.right{
+        .k-popover-arrow{
+            border-color:  transparent $border-color transparent transparent ;
+            top:50%;
+            left:-1.25rem;
+            margin-top:-.625rem;
+            &::before
+            {
+                left: -.5625rem;
+                top: 50%;
+                margin-top: -.625rem;
+                border-color: transparent  #fff transparent  transparent ;
+            }
+        }
+    }
+
+    
+}

@@ -1,0 +1,84 @@
+.k-form-control{
+    display: block;
+    width: 100%;
+    font-size: $font-size-sm;
+    line-height: $line-height;
+    background: $input-bgColor;
+    color:$input-color;
+    padding:$input-padding-y $input-padding-x;
+    border:1px solid $input-border-color;
+    border-radius: $input-border-radius;
+    height: $height-default;
+
+    @include form-control-focus();
+    @include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
+
+    &:disabled,
+    &[readonly]{
+        background-color: $input-bg-disabled;
+    }
+
+    &[disabled]{
+        cursor: $cursor-disabled;
+    }
+
+    &.k-form-control-lg{
+        @include form-control-lg();
+    }
+
+    &.k-form-control-sm{
+        @include form-control-sm();
+    }
+}
+
+
+.k-checkbox,
+.k-radio{
+    position: relative;
+    display: block;
+    color:$input-color;
+    margin-top:.625rem;
+    margin-bottom: .625rem;
+    margin-left: .125rem;
+    margin-right: .125rem;
+
+    &.k-checkbox-inline,
+    &.k-radio-inline{
+        display: inline-block;
+    }
+
+    label{
+        margin-bottom: 0;
+        padding-left: 1.25rem;
+        cursor:pointer;
+        height: 1.25rem;
+        line-height: 1.25rem;
+        vertical-align: top;
+    }
+
+    &.disabled{
+        color:$disabled-color;   
+        label{
+            cursor: $cursor-disabled;
+        }
+    }
+
+}
+
+.k-radio input[type="radio"],
+.k-checkbox input[type="checkbox"] {
+    position: absolute;
+    margin-top: .215rem;
+    margin-left: -1.05rem;
+    padding:0;
+    opacity: 1;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+
+
+
+

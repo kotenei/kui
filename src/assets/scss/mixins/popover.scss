@@ -1,0 +1,136 @@
+@mixin popover-variant($prefix){
+
+    $base-color:rgba(101, 101, 101, 0.8);
+    background: $base-color;
+    color:white;
+    font-weight: 400;
+    max-width: 17.5rem;
+    border-radius: .125rem;
+    position:absolute;  
+
+    .#{$prefix}-arrow{
+        width:0;
+        height:0;
+        position:absolute;
+        border:.3125rem solid $base-color;
+    }
+
+    .#{$prefix}-inner{
+        padding:0.5rem .875rem;
+    }
+
+    &.#{$prefix}-primary{
+        background: $primary;
+        &.top .#{$prefix}-arrow{
+            border-top-color: $primary;
+        }
+        &.left .#{$prefix}-arrow{
+            border-left-color: $primary;
+        }
+        &.right .#{$prefix}-arrow{
+            border-right-color: $primary;
+        }
+        &.bottom .#{$prefix}-arrow{
+            border-bottom-color: $primary;
+        }
+    }
+
+    &.#{$prefix}-info{
+        background: $info;
+        &.top .#{$prefix}-arrow{
+            border-top-color: $info;
+        }
+        &.left .#{$prefix}-arrow{
+            border-left-color: $info;
+        }
+        &.right .#{$prefix}-arrow{
+            border-right-color: $info;
+        }
+        &.bottom .#{$prefix}-arrow{
+            border-bottom-color: $info;
+        }
+    }
+
+    &.#{$prefix}-success{
+        background: $success;
+        &.top .#{$prefix}-arrow{
+            border-top-color: $success;
+        }
+        &.left .#{$prefix}-arrow{
+            border-left-color: $success;
+        }
+        &.right .#{$prefix}-arrow{
+            border-right-color: $success;
+        }
+        &.bottom .#{$prefix}-arrow{
+            border-bottom-color: $success;
+        }
+    }
+
+    &.#{$prefix}-warning{
+        background: $warning;
+        &.top .#{$prefix}-arrow{
+            border-top-color: $warning;
+        }
+        &.left .#{$prefix}-arrow{
+            border-left-color: $warning;
+        }
+        &.right .#{$prefix}-arrow{
+            border-right-color: $warning;
+        }
+        &.bottom .#{$prefix}-arrow{
+            border-bottom-color: $warning;
+        }
+    }
+
+    &.#{$prefix}-danger{
+        background: $danger;
+        &.top .#{$prefix}-arrow{
+            border-top-color: $danger;
+        }
+        &.left .#{$prefix}-arrow{
+            border-left-color: $danger;
+        }
+        &.right .#{$prefix}-arrow{
+            border-right-color: $danger;
+        }
+        &.bottom .#{$prefix}-arrow{
+            border-bottom-color: $danger;
+        }
+    }
+
+    &.top{
+        .#{$prefix}-arrow{
+            border-color: $base-color transparent transparent transparent;
+            left:50%;
+            bottom:-.625rem;
+            margin-left:-.3125rem;
+        }
+    }
+    &.left{
+        .#{$prefix}-arrow{
+            border-color:  transparent transparent transparent $base-color;
+            top:50%;
+            margin-top:-.3125rem;
+            right:-.625rem;
+        }
+    }
+    &.bottom{
+        .#{$prefix}-arrow{
+            border-color:transparent transparent $base-color transparent;
+            left:50%;
+            top:-.625rem;
+            margin-left:-.3125rem;
+        }
+    }
+    &.right{
+        margin-left:.5rem;
+        .#{$prefix}-arrow{
+            border-color:transparent  $base-color transparent transparent;
+            left:-.625rem;
+            top:50%;
+            margin-top:-.3125rem;
+        }
+    }
+
+}

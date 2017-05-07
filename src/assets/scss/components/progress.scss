@@ -1,0 +1,22 @@
+.k-progress{
+    overflow: hidden;
+    height: .25rem;
+    border-radius: .125rem;
+    background-color: #c8c8c8;
+    position: relative;
+    display: block;
+    width: 100%;
+
+    .k-progress-bar{
+        float: left;
+        transition: width .6s ease;
+        color: white;
+        background: $primary;
+        height: .25rem;
+    }
+
+    @include progress-bar-variant('info',$info);
+    @include progress-bar-variant('warning',$warning);
+    @include progress-bar-variant('success',$success);
+    @include progress-bar-variant('danger',$danger);
+}

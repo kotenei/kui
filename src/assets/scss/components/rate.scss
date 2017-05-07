@@ -1,0 +1,34 @@
+.k-rate{
+    overflow: hidden;
+    cursor:pointer;
+    .k-star{
+        display: inline-block;
+        background:url(../images/star/star-off.png);     
+        width:16px;
+        height:16px;
+        vertical-align: middle;
+
+        &.half{
+            background: url(../images/star/star-half.png);
+        }
+
+        &.full{
+            background: url(../images/star/star-on.png);
+        }
+    }
+
+    &.k-rate-big{
+        .k-star{
+            background:url(../images/star/star-off-big.png);
+            width: 24px;
+            height:24px;
+
+            &.half{
+                background: url(../images/star/star-half-big.png);
+            }
+            &.full{
+                background: url(../images/star/star-on-big.png);
+            }
+        }  
+    }
+}

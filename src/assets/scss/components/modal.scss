@@ -1,0 +1,66 @@
+.k-modal{
+    border-radius: $border-radius-sm;
+    border:1px solid $modal-border-color;
+    // box-shadow: 0 14px 45px rgba(0, 0, 0, 0.25), 0 10px 18px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    min-width: 400px;
+    position: fixed;
+    background: #fff;
+    left:50%;
+    top:50%;
+    z-index: 1000;
+
+    .k-modal-head{
+        border-top-left-radius: $border-radius-sm;
+        border-top-right-radius: $border-radius-sm;
+        font-weight: bold;    
+        position: relative;
+        border-bottom:1px solid #e5e5e5;
+        padding:1rem .625rem;
+        font-size: 1.125rem;
+
+        .close{
+            color:#000;
+            opacity: .2;
+            position: absolute;
+            right:1.8rem;
+            font-size: 1.25rem;
+            cursor:pointer;
+            &:hover{
+                opacity: .5;
+            }
+        }
+    }
+
+    .k-modal-container{
+        padding:.625rem;
+        font-size:1rem;
+        color:$modal-container-color;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .k-modal-foot{
+        padding:.625rem;
+        text-align: right;
+        border-top:1px solid #e5e5e5;
+    }
+
+    &.k-modal-material{
+        .k-modal-head{
+            border-bottom:none;
+            padding:1.5rem 1.5rem 1.25rem;
+            .close{
+                top:1.25rem;
+                right:1.5rem;
+            }
+        }
+        .k-modal-container{
+            padding:0 1.5rem 1.5rem;
+        }
+        .k-modal-foot{
+            border-top: none;
+        }
+    }
+
+}

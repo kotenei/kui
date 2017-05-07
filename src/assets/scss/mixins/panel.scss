@@ -1,0 +1,12 @@
+@mixin panel-variant($state, $head-bgColor,$head-font-color:white,$body-font-color:#333){
+    .k-panel-#{$state}{
+        .k-panel-head{
+            color:$head-font-color;
+            background: $head-bgColor;
+        }
+
+        .k-panel-body{
+            color: $body-font-color;
+        }
+    }
+}

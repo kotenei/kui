@@ -1,0 +1,16 @@
+@mixin pager-variant($state,$color){
+    &.k-pager-#{$state}{
+        li{
+
+            a,span{
+                color:$color;
+            }
+
+            &.active{
+                a,span{
+                    background:$color;
+                }
+            }
+        }
+    }
+}

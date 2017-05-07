@@ -1,0 +1,36 @@
+@mixin table-row-variant($state, $background,$font-color:#333) {
+  .k-table {
+     tr{
+
+        &.#{$state}{
+            th,
+            td{
+                background-color: $background;
+                color: $font-color;
+            }
+        }
+
+        th,
+        td {
+            &.#{$state}{
+                background-color: $background;
+                color: $font-color;
+            }
+        } 
+    }
+  }
+
+  .k-table-hover {
+      
+    $hover-background: darken($background, 5%);
+
+    tbody tr:hover{
+        &.#{$state}{
+            td{
+                background-color: $hover-background;
+            }
+        }
+    }
+
+  }
+}

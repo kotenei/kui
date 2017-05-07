@@ -1,0 +1,84 @@
+.k-table{
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+
+    th,
+    td{
+        line-height: $line-height;
+        vertical-align: top;
+        padding:$table-cell-padding;
+        border-top: 1px solid $table-border-color;
+        @include text-truncate();
+    }
+
+    th{
+        vertical-align: bottom;
+        border-bottom: 2px solid $table-border-color;
+        border-top: none;
+    }
+}
+
+.k-table-bordered{
+    border: 1px solid $table-border-color;
+
+    th,
+    td {
+        border: 1px solid $table-border-color;
+    }
+
+    thead {
+        th,
+        td {
+            border-bottom-width: 2px;
+        }
+    }
+}
+
+.k-table-striped{
+    tbody tr:nth-of-type(odd) {
+        background-color: $table-bg-accent;
+    }
+}
+
+.k-table-hover{
+    tbody tr {
+        &:hover {
+            background-color: $table-bg-hover;
+        }
+    }
+}
+
+@include table-row-variant(active, $table-row-bg-active);
+@include table-row-variant(success, $table-row-bg-success);
+@include table-row-variant(info, $table-row-bg-info);
+@include table-row-variant(warning, $table-row-bg-warning);
+@include table-row-variant(danger, $table-row-bg-danger);
+
+
+.k-table-container{
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    .k-table-head-box{
+        .k-table{
+            thead th{
+                border-bottom-width: 1px;
+                &.scroll-flag{
+                    padding:0;
+                    width: 1.0625rem;
+                }
+            }
+        }
+    }
+
+    .k-table-body-box{
+        overflow-y: auto;
+        overflow-x: hidden;
+        
+    }
+
+    .k-table-foot-box{
+
+    }
+}

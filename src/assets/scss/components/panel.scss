@@ -1,0 +1,29 @@
+.k-panel{
+    border-radius: $panel-border-radius;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+    border: none;
+
+    .k-panel-head{
+        padding:.625rem .9375rem;
+        border-top-left-radius: $panel-border-radius;
+        border-top-right-radius: $panel-border-radius;
+    }
+
+    .k-panel-body{
+        padding:.625rem .9375rem;
+        border-bottom-left-radius: $panel-border-radius;
+        border-bottom-right-radius: $panel-border-radius;
+
+        &.k-panel-body-nopadding{
+            padding:0;
+        }
+    }
+}
+
+
+@include panel-variant(default, #eee,#333);
+@include panel-variant(primary, $primary);
+@include panel-variant(info, $info);
+@include panel-variant(success, $success);
+@include panel-variant(warning, $warning);
+@include panel-variant(danger, $danger);

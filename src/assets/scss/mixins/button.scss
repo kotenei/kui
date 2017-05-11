@@ -34,3 +34,7 @@
     border-radius:$border-radius;
 }
 
+@mixin button-group-border($borderColor){
+    border-left-color:darken($borderColor, 5%);
+}
+

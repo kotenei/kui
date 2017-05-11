@@ -24,9 +24,9 @@
 
     &.k-btn-raised,
     &.k-btn-fab{
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        //box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         &:focus{
-            box-shadow: 0 3px 10px rgba(0,0,0,0.16),0 3px 10px rgba(0,0,0,0.23);
+            //box-shadow: 0 3px 10px rgba(0,0,0,0.16),0 3px 10px rgba(0,0,0,0.23);
         }
     }
 
@@ -86,7 +86,7 @@
 .k-btn-default,{
     &.k-btn-raised,
     &.k-btn-fab{
-        @include button-variant($btn-default-color,$white, $white,false);
+        @include button-variant($white,$default, $default,false);
     }
 }
 
@@ -156,4 +156,48 @@ input[type="button"] {
   &.k-btn-block {
     width: 100%;
   }
+}
+
+.k-btn-group{
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    >.k-btn{
+        margin:0;
+        &:first-child{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        &:not(:first-child):not(:last-child){
+            border-radius: 0;
+        }
+        &:last-child{
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        &.k-btn-raised.k-btn-default+.k-btn-raised.k-btn-default{
+            @include button-group-border($default);
+        }
+
+        &.k-btn-raised.k-btn-primary+.k-btn-raised.k-btn-primary{
+             @include button-group-border($primary);
+        }
+
+        &.k-btn-raised.k-btn-info+.k-btn-raised.k-btn-info{
+             @include button-group-border($info);
+        }
+
+        &.k-btn-raised.k-btn-success+.k-btn-raised.k-btn-success{
+             @include button-group-border($success);
+        }
+
+        &.k-btn-raised.k-btn-warning+.k-btn-raised.k-btn-warning{
+             @include button-group-border($warning);
+        }
+
+        &.k-btn-raised.k-btn-danger+.k-btn-raised.k-btn-danger{
+             @include button-group-border($danger);
+        }
+    }
 }

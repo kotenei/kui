@@ -8,7 +8,9 @@ const types = ['button', 'reset', 'submit'];
 class Button extends React.Component {
     static propTypes = {
         disabled: React.PropTypes.bool,
-        type: React.PropTypes.oneOf(types)
+        type: React.PropTypes.oneOf(types),
+        raised: React.PropTypes.bool,
+        fab: React.PropTypes.bool
     }
     static defaultProps = {
         disabled: false,
@@ -17,6 +19,7 @@ class Button extends React.Component {
     render() {
         let classes = getClassSet(this.props);
         classes.disabled = this.props.disabled;
+        classes = classnames(classes, { 'k-btn-raised': this.props.raised, 'k-btn-fab': this.props.fab });
         return (
             <button {...this.props}
                 type={this.props.type}

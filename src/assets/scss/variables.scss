@@ -9,14 +9,14 @@ $enable-transitions:        true !default;
 $enable-hover-media-query:  false !default;
 
 // 主要颜色
-
 $gray-dark:                 #373a3c !default;
 $gray:                      #55595c !default;
 $gray-light:                #818a91 !default;
 $gray-lighter:              #eceeef !default;
 $gray-lightest:             #f7f7f9 !default;
 
-$primary:$teal;
+$default:$teal;
+$primary:$blue;
 $info:$lightBlue;
 $success:$green;
 $danger:$red;
@@ -71,7 +71,7 @@ $btn-border-radius:              $border-radius;
 $btn-border-radius-lg:           $border-radius-lg;
 $btn-border-radius-sm:           $border-radius-sm;
 
-$btn-default-color:              #333 !default;
+$btn-default-color:              $default !default;
 $btn-default-bg:                 #eee !default;
 $btn-default-border:             #ccc !default;
 

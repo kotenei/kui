@@ -40,6 +40,10 @@ module.exports = {
                 })
             },
             {
+                test: /\.(svg|eot|ttf|woff|woff2)/,
+                use: 'url-loader?limit=1&name=fonts/[name].[ext]'
+            },
+            {
                 test: /\.(png|jpe?g|gif)$/,
                 use: 'url-loader?limit=1000&name=images/[folder]/[name].[ext]'
             }

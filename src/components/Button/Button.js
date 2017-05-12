@@ -1,16 +1,16 @@
-import React from 'react';
+import React,{Component,PropTypes} from 'react';
 import classnames from 'classnames';
 import { kStyles, kClass, kSize, prefix, getClassSet } from '../../utils/kUtils';
 import { State, DEFAULT, PRIMARY, Sizes } from '../../utils/styleMaps';
 
 const types = ['button', 'reset', 'submit'];
 
-class Button extends React.Component {
+class Button extends Component {
     static propTypes = {
-        disabled: React.PropTypes.bool,
-        type: React.PropTypes.oneOf(types),
-        raised: React.PropTypes.bool,
-        fab: React.PropTypes.bool
+        disabled: PropTypes.bool,
+        type: PropTypes.oneOf(types),
+        raised: PropTypes.bool,
+        fab: PropTypes.bool
     }
     static defaultProps = {
         disabled: false,

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class ButtonGroup extends React.Component {
+class ButtonGroup extends Component {
     render() {
         return (
             <div className="k-btn-group">

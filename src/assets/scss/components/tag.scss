@@ -1,4 +1,4 @@
-.k-label{
+.k-tag{
     display: inline-block;
     padding:.25rem .4rem;
     font-size: 75%;
@@ -11,26 +11,26 @@
     color: $label-color;
 }
 
-.k-label-default{
+.k-tag-default{
     @include label-variant(rgba(#000,(30/100)));
 }
 
-.k-label-primary{
+.k-tag-primary{
     @include label-variant($primary);
 }
 
-.k-label-info{
+.k-tag-info{
     @include label-variant($info);
 }
 
-.k-label-success{
+.k-tag-success{
     @include label-variant($success);
 }
 
-.k-label-warning{
+.k-tag-warning{
     @include label-variant($warning);
 }
 
-.k-label-danger{
+.k-tag-danger{
     @include label-variant($danger);
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../components/Button';
+import {NavLink} from 'react-router-dom';
 
 const ButtonGroup=Button.Group;
 
@@ -30,7 +31,7 @@ class ButtonView extends React.Component {
                 </div>
                 <h3>Floating Action Button</h3>
                 <div className="k-example">
-                    <Button fab>+</Button>&nbsp;&nbsp;
+                    <Button fab >+</Button>&nbsp;&nbsp;
                     <Button kStyle="primary" fab>+</Button>&nbsp;&nbsp;
                     <Button kStyle="info" fab>+</Button>&nbsp;&nbsp;
                     <Button kStyle="success" fab>+</Button>&nbsp;&nbsp;
@@ -48,7 +49,7 @@ class ButtonView extends React.Component {
                 <h3>Button Group</h3>
                 <div className="k-example">
                     <ButtonGroup>
-                        <Button kStyle="primary" raised>L</Button>
+                        <Button kStyle="primary" raised >L</Button>
                         <Button kStyle="primary" raised>M</Button>
                         <Button kStyle="primary" raised>R</Button>
                     </ButtonGroup>
@@ -79,6 +80,12 @@ class ButtonView extends React.Component {
                         <tr>
                             <td>kSize</td>
                             <td>按钮大小，可选值 'xs' 'sm' 'lg' </td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>icon</td>
+                            <td>图标，<NavLink to="/Icon" activeClassName="selected">参考图标页</NavLink></td>
                             <td>string</td>
                             <td>—</td>
                         </tr>

@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, Route, Link } from 'react-router-dom'
+import { HashRouter as Router, Route, NavLink } from 'react-router-dom'
 
 import Home from './views/Home';
-import Button from './views/Button'
+import Button from './views/Button';
+import Icon from './views/Icon';
 
 ReactDOM.render(
     <Router>
@@ -11,12 +12,18 @@ ReactDOM.render(
             <div className="main-wrapper">
                 <div className="main-nav">
                     <ul>
-                        <li><Link to="/">KUI for React</Link></li>
+                        <li><NavLink to="/" activeClassName="selected">KUI for React</NavLink></li>
                         <li>
-                            基础组件
+                            Basic
                             <ul>
-                                <li><Link to="/Button">Button 按钮</Link></li>
-                                <li><Link to="/Icon">Icon 图标</Link></li>
+                                <li><NavLink to="/Button" activeClassName="selected">Button 按钮</NavLink></li>
+                                <li><NavLink to="/Icon" activeClassName="selected">Icon 图标</NavLink></li>
+                            </ul>
+                        </li>
+                        <li>
+                            Navigation
+                            <ul>
+                                <li><NavLink to="/Breadcrumb" activeClassName="selected">Breadcrumb 面包屑</NavLink></li>
                             </ul>
                         </li>
                     </ul>
@@ -24,6 +31,7 @@ ReactDOM.render(
                 <div className="main-container">
                     <Route path="/" exact component={Home} />
                     <Route path="/Button" exact component={Button} />
+                    <Route path="/Icon" exact component={Icon} />
                 </div>
                 <div className="clearfix"></div>
             </div>

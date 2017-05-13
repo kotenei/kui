@@ -1,5 +1,7 @@
+import objectAssign from 'object-assign'
+
 let constant = obj => {
-    return Object.assign(
+    return objectAssign(
         Object.create({
             values() {
                 return Object.keys(this).map(k => this[k]);

@@ -32,6 +32,10 @@
     line-height: $line-height;
     font-size: $font-size;
     border-radius:$border-radius;
+
+    .k-icon{
+        font-size: $font-size;
+    }
 }
 
 @mixin button-group-border($borderColor){

@@ -1,4 +1,5 @@
-import React,{Component,PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
+import Icon from '../Icon';
 import classnames from 'classnames';
 import { kStyles, kClass, kSize, prefix, getClassSet } from '../../utils/kUtils';
 import { State, DEFAULT, PRIMARY, Sizes } from '../../utils/styleMaps';
@@ -7,6 +8,7 @@ const types = ['button', 'reset', 'submit'];
 
 class Button extends Component {
     static propTypes = {
+        icon: PropTypes.string,
         disabled: PropTypes.bool,
         type: PropTypes.oneOf(types),
         raised: PropTypes.bool,
@@ -16,7 +18,11 @@ class Button extends Component {
         disabled: false,
         type: 'button'
     }
+    renderIcon() {
+        //const
+    }
     render() {
+        const { icon } = this.props;
         let classes = getClassSet(this.props);
         classes.disabled = this.props.disabled;
         classes = classnames(classes, { 'k-btn-raised': this.props.raised, 'k-btn-fab': this.props.fab });
@@ -24,7 +30,10 @@ class Button extends Component {
             <button {...this.props}
                 type={this.props.type}
                 className={classnames(classes, this.props.className)}
-            >{this.props.children}</button>
+            >
+                {icon ? <Icon type={icon} /> : null}
+                {this.props.children}
+            </button>
         )
     }
 }

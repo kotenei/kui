@@ -137,16 +137,27 @@
 
 .k-btn-lg{
     font-size: $font-size-lg;
+    .k-icon{
+        font-size: $font-size-lg;
+    }
 }
 
 .k-btn-sm{
     font-size: $font-size-sm;
     padding:$btn-padding-y-sm $btn-padding-x-sm;
+    font-size: $font-size-sm;
+    .k-icon{
+        font-size: $font-size-sm;
+    }
 }
 
 .k-btn-xs{
     font-size: $font-size-xs;
     padding: $btn-padding-y-xs $btn-padding-x-xs;
+    font-size: $font-size-xs;
+    .k-icon{
+        font-size: $font-size-xs;
+    }
 }
 
 

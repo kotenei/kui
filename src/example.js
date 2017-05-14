@@ -6,7 +6,7 @@ import Home from './views/Home';
 import Button from './views/Button';
 import Icon from './views/Icon';
 import Breadcrumb from './views/Breadcrumb';
-import Label from './views/Label';
+import Tag from './views/Tag';
 
 ReactDOM.render(
     <Router>
@@ -27,12 +27,15 @@ ReactDOM.render(
                             Navigation
                             <ul>
                                 <li><NavLink to="/Breadcrumb" activeClassName="selected">Breadcrumb 面包屑</NavLink></li>
+                                <li><NavLink to="/Dropdown" activeClassName="selected">Dropdown 下拉菜单</NavLink></li>
+                                <li><NavLink to="/Pagination" activeClassName="selected">Pagination 分页</NavLink></li>
+                                <li><NavLink to="/Steps" activeClassName="selected">Steps 步骤</NavLink></li>
                             </ul>
                         </li>
                         <li>
                             Data
                             <ul>
-                                <li><NavLink to="/Label" activeClassName="selected">Label 标签</NavLink></li>
+                                <li><NavLink to="/Tag" activeClassName="selected">Tag 标签</NavLink></li>
                             </ul>
                         </li>
                     </ul>
@@ -41,7 +44,7 @@ ReactDOM.render(
                     <Route path="/" exact component={Home} />
                     <Route path="/Button" exact component={Button} />
                     <Route path="/Icon" exact component={Icon} />
-                    <Route path="/Label" exact component={Label} />
+                    <Route path="/Tag" exact component={Tag} />
                 </div>
                 <div className="clearfix"></div>
             </div>

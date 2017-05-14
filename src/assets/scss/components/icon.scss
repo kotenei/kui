@@ -2,4 +2,9 @@
     font-size:$font-size-lg;
     vertical-align: middle;
     margin:0 .185rem;
+    //transition: all .3s;
+
+    &.k-spin{
+        animation: loadingCircle 1s infinite linear;
+    }
 }

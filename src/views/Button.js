@@ -12,7 +12,7 @@ class ButtonView extends React.Component {
                 <h3>Flat Button</h3>
                 <div className="k-example">
                     <Button >default</Button>&nbsp;&nbsp;
-                    <Button kStyle="primary"  >primary</Button>&nbsp;&nbsp;
+                    <Button kStyle="primary" >primary</Button>&nbsp;&nbsp;
                     <Button kStyle="info">info</Button>&nbsp;&nbsp;
                     <Button kStyle="success">success</Button>&nbsp;&nbsp;
                     <Button kStyle="warning">warning</Button>&nbsp;&nbsp;

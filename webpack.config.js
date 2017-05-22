@@ -8,7 +8,9 @@ module.exports = {
         example: './src/example.js',
         vendors: [
             'react',
-            'react-dom'
+            'react-dom',
+            'react-router',
+            'react-router-dom'
         ]
     },
     output: {

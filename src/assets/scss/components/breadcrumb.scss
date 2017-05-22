@@ -2,50 +2,91 @@
     list-style: none;
     padding: .5rem .9375rem;
     border-radius:$border-radius-sm;
-    background: #f5f5f5;
+    // background: #f5f5f5;
     margin:0;
     
     li{
         display: inline-block;
         vertical-align: middle;
-        color: #ccc;
+        color: $font-color-base;
 
         &.active{
-            color:#777;
+            //color:#777;
         }
 
         a{
-            color:$primary;
+            color: $font-color-base;
+            &:hover{
+                color:$default;
+            }
+
+
+        }
+
+        .separator{
+            margin:0 0.3125rem;
+        }
+
+        span,a{
+            vertical-align: middle;
+        }
+
+        &:last-child{
+            font-weight: 700;
+            .separator{
+                display: none;
+            }
         }
     }
 
-    li+li::before{
-        color: #ccc;
-        content:"/\00a0";
-        padding:0 0.3125rem;
+    // li+li::before{
+    //     color: #ccc;
+    //     content:"/\00a0";
+    //     padding:0 0.3125rem;
+    // }
+
+    &.k-breadcrumb-primary{
+        li>a{
+            
+            &:hover{
+                color:$primary;
+            }
+        }
     }
 
     &.k-breadcrumb-info{
         li>a{
-            color:$info;
+            
+            &:hover{
+                color:$info;
+            }
         }
     }
 
     &.k-breadcrumb-success{
         li>a{
-            color:$success;
+
+            &:hover{
+                color:$success;
+            }
+            
         }
     }
 
     &.k-breadcrumb-warning{
         li>a{
-            color:$warning;
+            
+            &:hover{
+                color:$warning;
+            }
         }
     }
 
     &.k-breadcrumb-danger{
         li>a{
-            color:$danger;
+            &:hover{
+                color:$danger;
+            }
         }
     }
 

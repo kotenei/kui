@@ -36,6 +36,7 @@ import Table from './views/Table';
 import Tabs from './views/Tabs';
 import Tag from './views/Tag';
 import Timeline from './views/Timeline';
+import Tooltip from './views/Tooltip';
 import Tree from './views/Tree';
 import Upload from './views/Upload';
 

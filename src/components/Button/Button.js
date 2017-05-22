@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Icon from '../Icon';
 import classnames from 'classnames';
-import { kStyles, kClass, kSize, prefix, getClassSet } from '../../utils/kUtils';
+import { kStyles, kClass, kSize, getClassSet } from '../../utils/kUtils';
 import { State, DEFAULT, PRIMARY, Sizes } from '../../utils/styleMaps';
 
 const types = ['button', 'reset', 'submit'];
@@ -17,9 +17,6 @@ class Button extends Component {
     static defaultProps = {
         disabled: false,
         type: 'button'
-    }
-    renderIcon() {
-        //const
     }
     render() {
         const { icon } = this.props;

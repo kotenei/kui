@@ -1,4 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { kStyles, kClass, kSize, getClassSet } from '../../utils/kUtils';
+import { State, PRIMARY,Sizes } from '../../utils/styleMaps';
+import classnames from 'classnames';
+import Icon from '../Icon';
 
 class Pagination extends Component {
     constructor(props) {
@@ -79,26 +83,37 @@ class Pagination extends Component {
         let info = this.getPageInfo(),
             className;
         var items = [];
-        className = current > 1 ? '' : 'disabled';
-        items.push(<li className={`${className}`}><a href="javascript:void(0);" onClick={this.handleChange.bind(this, info.pre)}>«</a></li>);
+        className = "k-pagination-prev";
+        if (current <= 1) {
+            className += ' disabled';
+        }
+        items.push(<li className={`${className}`}><a href="javascript:void(0);" onClick={this.handleChange.bind(this, info.pre)}><Icon type="left" /></a></li>);
 
         for (let i = info.start; i <= info.end; i++) {
             className = (i === current) ? 'active' : '';
             items.push(<li className={`${className}`} ><a href="javascript:void(0);" onClick={this.handleChange.bind(this, i)}>{i}</a></li>);
         }
 
-        className = current !== info.allPage ? '' : 'disabled';
-        items.push(<li className={`${className}`}><a href="javascript:void(0);" onClick={this.handleChange.bind(this, info.next)}>»</a></li>);
+        className = 'k-pagination-next';
+        if (current === info.allPage) {
+            className += ' disabled';
+        }
+        items.push(<li className={`${className}`}><a href="javascript:void(0);" onClick={this.handleChange.bind(this, info.next)}><Icon type="right" /></a></li>);
 
         return items;
     }
     render() {
+        let classString = getClassSet(this.props);
         return (
-            <ul className="k-pagination">
+            <ul className={classnames(classString)}>
                 {this.renderItems()}
             </ul>
         )
     }
 }
 
-export default Pagination;
+const styles = State.values().concat(PRIMARY);
+
+export default kStyles(styles, kSize([Sizes.LARGE, Sizes.SMALL,Sizes.XSMALL],
+    kClass('k-pagination', Pagination)
+));

@@ -7,7 +7,10 @@ class PaginationView extends Component {
             <div>
                 <h1>Pagination 分页</h1>
                 <div className="k-example">
-                    <Pagination total={150}  />
+                    <Pagination total={500} kSize="xs" /><br />
+                    <Pagination total={500} kSize="sm" kStyle="primary"/><br />
+                    <Pagination total={500} kStyle="warning" /><br />
+                    <Pagination total={500} kSize="lg" kStyle="danger" />
                 </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">
@@ -37,6 +40,18 @@ class PaginationView extends Component {
                             <td>当前页</td>
                             <td>number</td>
                             <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>kStyle</td>
+                            <td>风格，可选值 'primary' 'info' 'success' 'warning' 'danger'</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>kSize</td>
+                            <td>大小，可选值 'xs' 'sm' 'lg' </td>
+                            <td>string</td>
+                            <td>—</td>
                         </tr>
                         <tr>
                             <td>onChange</td>

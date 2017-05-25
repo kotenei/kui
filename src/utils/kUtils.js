@@ -52,6 +52,7 @@ export const kStyles = (styles, defaultStyle, Component) => {
 };
 
 export const kSize = (sizes, defaultSize, Component) => {
+
     if (typeof defaultSize !== 'string') {
         Component = defaultSize;
         defaultSize = undefined;
@@ -63,7 +64,7 @@ export const kSize = (sizes, defaultSize, Component) => {
             existing.push(size);
         }
     });
-
+    
     const values = [];
     existing.forEach(size => {
         const mappedSize = styleMaps.SIZES[size];
@@ -72,7 +73,6 @@ export const kSize = (sizes, defaultSize, Component) => {
         }
         values.push(size);
     });
-
 
     let propType = PropTypes.oneOf(values);
 

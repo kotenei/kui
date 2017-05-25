@@ -1,5 +1,5 @@
-@mixin pager-variant($state,$color){
-    &.k-pager-#{$state}{
+@mixin pagination-variant($state,$color){
+    &.k-pagination-#{$state}{
         li{
 
             a,span{

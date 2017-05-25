@@ -6,24 +6,28 @@
     vertical-align: middle;
     margin:.625rem 0;
 
-    @include pager-variant('info',$info);
-    @include pager-variant('success',$success);
-    @include pager-variant('warning',$warning);
-    @include pager-variant('danger',$danger);
+    @include pagination-variant('primary',$primary);
+    @include pagination-variant('info',$info);
+    @include pagination-variant('success',$success);
+    @include pagination-variant('warning',$warning);
+    @include pagination-variant('danger',$danger);
 
     li{
         display: inline;
         a,
         span{
-            padding:0.5625rem 0.9375rem;
+            padding: 0 0.25rem;
             line-height: $line-height;
             text-align: center;
             border:1px solid $pager-border-color;
             margin-left: -1px;
             float: left;
-            color: $primary;
+            color: $default;
             height: $height-default;
             transition: background .3s;
+            min-width:2.5rem;
+            height:2.5rem;
+            line-height:2.5rem;
         }
 
         a:hover{
@@ -33,7 +37,7 @@
 
         &.active{
             a,span{
-                background: $primary;
+                background: $default;
                 color: white;
             }
         }
@@ -45,6 +49,13 @@
                 &:hover{
                     background:none;
                 }
+            }
+        }
+
+        &.k-pagination-prev,
+        &.k-pagination-next{
+            a{
+                //padding:0.5625rem;
             }
         }
 
@@ -61,6 +72,49 @@
             }
         }
 
+    }
+
+    &.k-pagination-xs{
+        li{
+            a,span{
+                font-size:$font-size-xs;
+                min-width:1.75rem;
+                height:1.75rem;
+                line-height:1.75rem;
+            }
+
+            .k-icon{
+                 font-size:$font-size-xs;
+            }
+        }
+    }
+
+    &.k-pagination-sm{
+        li{
+            a,span{
+                font-size:$font-size-sm;
+                min-width:1.875rem;
+                height:1.875rem;
+                line-height:1.875rem;
+            }
+            .k-icon{
+                 font-size:$font-size-sm;
+            }
+        }
+    }
+
+    &.k-pagination-lg{
+        li{
+            a,span{
+                font-size:$font-size-lg;
+                min-width:2.8125rem;
+                height:2.8125rem;
+                line-height:2.8125rem;
+            }
+            .k-icon{
+                 font-size:$font-size-lg;
+            }
+        }
     }
 
     

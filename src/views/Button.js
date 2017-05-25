@@ -73,13 +73,13 @@ class ButtonView extends React.Component {
                         </tr>
                         <tr>
                             <td>kStyle</td>
-                            <td>按钮风格，可选值 'default' 'primary' 'info' 'success' 'warning' 'danger'</td>
+                            <td>风格，可选值 'default' 'primary' 'info' 'success' 'warning' 'danger'</td>
                             <td>string</td>
                             <td>'default'</td>
                         </tr>
                         <tr>
                             <td>kSize</td>
-                            <td>按钮大小，可选值 'xs' 'sm' 'lg' </td>
+                            <td>大小，可选值 'xs' 'sm' 'lg' </td>
                             <td>string</td>
                             <td>—</td>
                         </tr>

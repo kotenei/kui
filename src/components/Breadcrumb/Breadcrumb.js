@@ -5,9 +5,9 @@ import classnames from 'classnames';
 
 class Breadcrumb extends Component {
     render() {
-        let classString = getClassSet(this.props);
+        let classes = getClassSet(this.props);
         return (
-            <ul className={classnames(classString)}>
+            <ul className={classnames(classes)}>
                 {this.props.children}
             </ul>
         )

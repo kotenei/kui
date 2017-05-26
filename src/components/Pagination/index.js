@@ -46,7 +46,7 @@ class Pagination extends Component {
     handleChange(current) {
         const { onChange } = this.props;
         if (current != this.state.current) {
-            onchange(current);
+            onChange(current);
             this.setState({
                 current
             });
@@ -159,9 +159,9 @@ class Pagination extends Component {
         return items;
     }
     render() {
-        let classString = getClassSet(this.props);
+        let classes = getClassSet(this.props);
         return (
-            <ul className={classnames(classString)}>
+            <ul className={classnames(classes)}>
                 {this.renderItems()}
             </ul>
         )

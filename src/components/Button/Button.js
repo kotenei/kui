@@ -20,13 +20,13 @@ class Button extends Component {
     }
     render() {
         const { icon } = this.props;
-        let classString = getClassSet(this.props);
-        classString.disabled = this.props.disabled;
-        classString = classnames(classString, { 'k-btn-raised': this.props.raised, 'k-btn-fab': this.props.fab });
+        let classes = getClassSet(this.props);
+        classes.disabled = this.props.disabled;
+        classes = classnames(classes, { 'k-btn-raised': this.props.raised, 'k-btn-fab': this.props.fab });
         return (
             <button {...this.props}
                 type={this.props.type}
-                className={classnames(classString, this.props.className)}
+                className={classnames(classes, this.props.className)}
             >
                 {icon ? <Icon type={icon} /> : null}
                 {this.props.children}

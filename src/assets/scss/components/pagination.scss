@@ -72,6 +72,25 @@
             }
         }
 
+        &.k-pagination-jump-prev,
+        &.k-pagination-jump-next{
+            a{
+                i::before{
+                    content: "\e647";
+                }
+                
+                &:hover{
+                    i::before{
+                        content:"\E618"
+                    }
+                }
+            }
+        }
+
+        &.k-pagination-jump-next a:hover i::before{
+            content:"\E617"
+        }
+
     }
 
     &.k-pagination-xs{

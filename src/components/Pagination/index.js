@@ -46,6 +46,7 @@ class Pagination extends Component {
     handleChange(current) {
         const { onChange } = this.props;
         if (current != this.state.current) {
+            onchange(current);
             this.setState({
                 current
             });

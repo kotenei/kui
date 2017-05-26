@@ -76,6 +76,33 @@ class IconView extends Component {
                 <ul className="icon-list">
                     {this.renderBrand()}
                 </ul>
+
+                <h1>API</h1>
+                <table className="k-table k-table-hover k-table-striped">
+                    <thead>
+                        <tr>
+                            <th>属性</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>默认值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>type</td>
+                            <td>图标类型</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>spin</td>
+                            <td>是否旋转</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
         )
     }

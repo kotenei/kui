@@ -1,37 +1,87 @@
 .k-badge{
-    background: #777;
-    color:#fff;
+
+    position: relative;
     display: inline-block;
-    vertical-align: middle;
-    padding:.1875rem .4375rem;
     line-height: 1;
-    white-space: nowrap;
-    min-width: .625rem;
-    border-radius: .625rem;
-    font-weight: 700;
-    text-align: center;
+    vertical-align: middle;
+    margin:0 .125rem;
+
+    sup{
+        background: $default;
+        color:#fff;
+        display: inline-block;
+        vertical-align: middle;
+        padding:.1875rem .4375rem;
+        line-height: 1;
+        white-space: nowrap;
+        
+        border-radius: .625rem;
+        font-weight: 700;
+        text-align: center;
+
+        &.k-badge-dot,
+        &.k-badge-count{ 
+            z-index: 10;
+            position: absolute;
+            right:.625rem;
+            top:0;
+        }
+
+        &.k-badge-count{   
+            transform: translateY(-50%) translateX(100%);
+        }
+
+        &.k-badge-dot{
+            width: .5rem;
+            height:.5rem;
+            border-radius: 50%;
+            padding:0;
+            min-width: .5rem;
+            top:-.25rem;
+            right:-.25rem;
+        }
+
+        // &:empty{
+        //     display: none;
+        // }
+    }
 
     &.k-badge-primary{
-        background: $primary;
+        sup{
+            background: $primary;
+        }
     }
 
     &.k-badge-info{
-        background: $info;
+        sup{
+            background: $info;
+        }
     }
 
     &.k-badge-success{
-        background: $success;
+        sup{
+            background: $success;
+        }
     }
 
     &.k-badge-warning{
-        background: $warning;
+        sup{
+            background: $warning;
+        }
     }
 
     &.k-badge-danger{
-        background: $danger;
+        sup{
+            background: $danger;
+        }
     }
 
-    &:empty{
-        display: none;
-    }
+    &.k-badge-not-wrap{
+        sup{
+            position: relative;
+            transform: none;
+            top:auto;
+            right:auto;
+        }
+    }  
 }

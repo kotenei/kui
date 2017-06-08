@@ -29,7 +29,7 @@ class Alert extends Component {
     render() {
         const { title, description, showIcon, closable, closeText } = this.props;
         let classes = getClassSet(this.props);
-
+       
         let iconType = '';
         switch (this.props.kStyle) {
             case 'primary':
@@ -49,7 +49,8 @@ class Alert extends Component {
         return (
             <div className={classnames(classes)}>
                 {showIcon ? <Icon type={iconType} /> : null}
-                
+                <span className="k-alert-title">{title}</span>
+                <span className="k-alert-description">{description}</span>
             </div>
         )
     }
@@ -58,5 +59,5 @@ class Alert extends Component {
 const styles = State.values().concat(PRIMARY);
 
 export default kStyles(styles,
-    kClass('k-Alert', Alert)
+    kClass('k-alert', Alert)
 );

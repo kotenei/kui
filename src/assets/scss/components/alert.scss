@@ -1,0 +1,42 @@
+.k-alert{
+    padding:.9375rem;
+    padding-right:2.1875rem;
+    color:rgba(255,255,255,.8);
+    position: relative;
+    background:$default;
+    border-radius: $border-radius-lg;
+
+    .close{
+        color:#fff;
+        opacity: .5;
+        position: absolute;
+        top:.625rem;
+        right:.9375rem;
+        font-size: 1.25rem;
+        cursor:pointer;
+        &:hover{
+            opacity: .8;
+        }
+    }
+
+    &.k-alert-primary{
+        background: $primary;
+    }
+
+    &.k-alert-info{
+        background: $info;
+    }
+
+    &.k-alert-success{
+        background: $success;
+    }
+
+    &.k-alert-warning{
+        background: $warning;
+    }
+
+    &.k-alert-danger{
+        background: $danger;
+    }
+
+}

@@ -3,25 +3,35 @@ import classnames from 'classnames';
 
 
 class Icon extends Component {
+    constructor(props){
+        super(props);
+        this.handleClick=this.handleClick.bind(this);
+    }
     static propTypes = {
         type: PropTypes.string,
         className: PropTypes.string,
         spin: PropTypes.bool,
+        onClick: PropTypes.func
     }
     static defaultProps = {
-        spin: false
+        spin: false,
+        onClick: () => { }
+    }
+    handleClick() {
+        const { onClick } = this.props;
+        onClick();
     }
     render() {
         const { type, className = '', spin } = this.props;
-        const classes = classnames({
-            'k-icon':true,
+        const classes = classnames(className, {
+            'k-icon': true,
             'icon': true,
-            'anticon':true,
+            'anticon': true,
             'k-spin': !!spin || type == 'loading',
             [`icon-${type}`]: true
         });
         return (
-            <i className={classes} />
+            <i className={classes} onClick={this.handleClick}/>
         )
     }
 }

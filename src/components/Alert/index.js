@@ -5,6 +5,7 @@ import { kStyles, kClass, kSize, getClassSet } from '../../utils/kUtils';
 import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
 import Icon from '../Icon';
 
+
 class Alert extends Component {
     constructor(props) {
         super(props);

@@ -1,0 +1,38 @@
+.k-timeline{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .k-timeline-item{
+        position: relative;
+        padding: 0 0 .75rem;
+        list-style: none;
+        margin: 0;
+
+        .k-timeline-item-tail{
+            position: absolute;
+            left: .3125rem;
+            top: 0;
+            height: 100%;
+            border-left: .125rem solid #e9e9e9;
+        }
+
+        .k-timeline-item-head{
+            position: absolute;
+            width: .75rem;
+            height: .75rem;
+            background-color: #fff;
+            border-radius: 6.25rem;
+            border: .125rem solid transparent;
+        }
+
+        .k-timeline-item-content{
+            padding: 0 0 .625rem 1.5rem;
+            font-size: .75rem;
+            position: relative;
+            top: -.1875rem;
+        }
+
+    }
+
+}

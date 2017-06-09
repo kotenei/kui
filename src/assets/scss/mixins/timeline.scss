@@ -1,0 +1,6 @@
+@mixin timeline-item-head-variant($color){
+    .timeline-item-head-#{$color}{
+        border-color: $color;
+        color: $color;
+    }
+}

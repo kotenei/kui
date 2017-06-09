@@ -5,7 +5,7 @@ class AlertView extends Component {
     render() {
         return (
             <div>
-                <h1>Alert 警告</h1>
+                <h1>Alert 警告提示</h1>
                 <div className="k-example">
                     <Alert  showIcon={true} closable title="Default Text"  description="Default Description Default Description Default Description Default Description Default Description Default Description Default Description"/>
                     <Alert kStyle="primary"  showIcon={true} closable title="Primary Text"  description="Primary Description Primary Description Primary Description Primary Description Primary Description Primary Description Primary Description"/>

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Timeline from '../components/Timeline';
+import Icon from '../components/Icon';
 
 class TimelineView extends Component {
     render() {
@@ -9,18 +10,50 @@ class TimelineView extends Component {
                 <div className="k-example">
                     <Timeline>
                         <Timeline.Item>
-                            2015 
+                            2012
                         </Timeline.Item>
-                        <Timeline.Item>
-                            2016 
+                        <Timeline.Item color="info">
+                            2013
                         </Timeline.Item>
-                        <Timeline.Item>
-                            2017 
+                        <Timeline.Item color="success">
+                            2014
+                        </Timeline.Item>
+                        <Timeline.Item color="warning">
+                            2015
+                        </Timeline.Item>
+                        <Timeline.Item color="danger" dot={<Icon type="clockcircleo" style={{ fontSize: '16px' }} />}>
+                            2016
                         </Timeline.Item>
                     </Timeline>
                 </div>
+                <h1>API</h1>
+                <h2>Timeline.Item</h2>
+                <table className="k-table k-table-hover k-table-striped">
+                    <thead>
+                        <tr>
+                            <th>属性</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>默认值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>color</td>
+                            <td>指定圆圈颜色 primary info success warning danger，或自定义的色值</td>
+                            <td>string</td>
+                            <td>primary</td>
+                        </tr>
+                        <tr>
+                            <td>dot</td>
+                            <td>自定义时间轴点</td>
+                            <td>string|ReactNode</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-                    )
+        )
     }
 }
 

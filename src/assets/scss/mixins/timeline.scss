@@ -1,5 +1,5 @@
-@mixin timeline-item-head-variant($color){
-    .timeline-item-head-#{$color}{
+@mixin timeline-item-head-variant($state,$color){
+    &.k-timeline-item-head-#{$state}{
         border-color: $color;
         color: $color;
     }

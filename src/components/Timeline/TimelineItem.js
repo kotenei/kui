@@ -4,22 +4,25 @@ import classnames from 'classnames';
 class TimelineItem extends Component {
     static propTypes = {
         dot: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-        color: PropTypes.oneOf(['blue', 'green', 'red'])
+        color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger'])
     }
     static defaultProps = {
-        color: 'blue'
+        color: 'primary'
     }
     render() {
-        const { children,color } = this.props;
+        const { children, color, dot } = this.props;
         let prefix = 'k-timeline';
         let dotClassName = classnames({
             [`${prefix}-item-head`]: true,
-            [`${prefix}-item-head-${color}`]: true
+            [`${prefix}-item-head-${color}`]: true,
+            [`${prefix}-item-head-custom`]: dot
         });
         return (
             <li className={`${prefix}-item`}>
                 <div className={`${prefix}-item-tail`}></div>
-                <div className={dotClassName}></div>
+                <div className={dotClassName}>
+                    {dot}
+                </div>
                 <div className={`${prefix}-item-content`}>
                     {children}
                 </div>

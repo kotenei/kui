@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 class TimelineItem extends Component {
     static propTypes = {
-        dot: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+        dot: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
         color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger'])
     }
     static defaultProps = {

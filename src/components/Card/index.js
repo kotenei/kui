@@ -16,12 +16,17 @@ class Card extends Component {
     }
     render() {
         const { title, extra, bodyStyle, bordered } = this.props;
-        let prefix = 'k-card';
+        let prefixCls = 'k-card';
+        let cardClassString = classnames({
+            [prefixCls]: true
+        });
 
         return (
-            <div >
-                <div ></div>
-                <div ></div>
+            <div className={cardClassString}>
+                <div className={`${prefixCls}-head`}>
+                    <h3 className={`${prefixCls}-head-title`}>{title}</h3>
+                </div>
+                <div className={`${prefixCls}-body`}></div>
             </div>
         )
     }

@@ -9,24 +9,32 @@ class Card extends Component {
         title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         extra: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         bodyStyle: PropTypes.object,
-        bordered: PropTypes.bool
+        bordered: PropTypes.bool,
+        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     }
     static defaultProps = {
-        bordered: false
+        bordered: true,
+        width: 300
     }
     render() {
-        const { title, extra, bodyStyle, bordered } = this.props;
+        const { title, extra, bodyStyle, bordered, width, children } = this.props;
         let prefixCls = 'k-card';
         let cardClassString = classnames({
-            [prefixCls]: true
+            [prefixCls]: true,
+            [`${prefixCls}-bordered`]: bordered
         });
 
         return (
-            <div className={cardClassString}>
-                <div className={`${prefixCls}-head`}>
-                    <h3 className={`${prefixCls}-head-title`}>{title}</h3>
-                </div>
-                <div className={`${prefixCls}-body`}></div>
+            <div className={cardClassString} style={{ width }}>
+
+                {
+                    title ? <div className={`${prefixCls}-head`}>
+                        <h3 className={`${prefixCls}-head-title`}>{title}</h3>
+                    </div> : null
+                }
+
+                {extra ? <div className={`${prefixCls}-extra`}>{extra}</div> : null}
+                <div className={`${prefixCls}-body`} style={bodyStyle}>{children}</div>
             </div>
         )
     }

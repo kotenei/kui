@@ -3,15 +3,16 @@ import classnames from 'classnames';
 
 
 class Icon extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.handleClick=this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
     static propTypes = {
         type: PropTypes.string,
         className: PropTypes.string,
         spin: PropTypes.bool,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        fontSize: PropTypes.number
     }
     static defaultProps = {
         spin: false,
@@ -22,7 +23,7 @@ class Icon extends Component {
         onClick();
     }
     render() {
-        const { type, className = '', spin } = this.props;
+        const { type, className = '', spin,fontSize } = this.props;
         const classes = classnames(className, {
             'k-icon': true,
             'icon': true,
@@ -31,7 +32,7 @@ class Icon extends Component {
             [`icon-${type}`]: true
         });
         return (
-            <i className={classes} onClick={this.handleClick}/>
+            <i className={classes} onClick={this.handleClick} style={{fontSize}}/>
         )
     }
 }

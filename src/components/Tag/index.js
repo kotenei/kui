@@ -5,15 +5,17 @@ import { State, DEFAULT, PRIMARY, Sizes } from '../../utils/styleMaps';
 
 class Tag extends Component {
     static propTypes = {
-
+        closable: PropTypes.bool,
+        onClose: PropTypes.func
     }
     static defaultProps = {
-
+        closable: false,
+        onClose: () => { }
     }
     render() {
         let classString = getClassSet(this.props);
         return (
-            <span className={classString} ></span>
+            <div className={classnames(classString)} ></div>
         )
     }
 }

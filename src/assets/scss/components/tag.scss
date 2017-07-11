@@ -1,36 +1,39 @@
 .k-tag{
     display: inline-block;
     padding:.25rem .4rem;
-    font-size: 75%;
-    font-weight: bold;
     line-height: 1;
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: 0.0625rem;
     color: $label-color;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: all ease .3s;
+    margin:0 0.5rem 0.5rem 0;
 }
-
+ 
 .k-tag-default{
-    @include label-variant(rgba(#000,(30/100)));
+    border: 1px solid #e9e9e9;
+    color: rgba(0,0,0,.65);
+    @include tag-variant(#f3f3f3);
 }
 
 .k-tag-primary{
-    @include label-variant($primary);
+    @include tag-variant($primary);
 }
 
 .k-tag-info{
-    @include label-variant($info);
+    @include tag-variant($info);
 }
 
 .k-tag-success{
-    @include label-variant($success);
+    @include tag-variant($success);
 }
 
 .k-tag-warning{
-    @include label-variant($warning);
+    @include tag-variant($warning);
 }
 
 .k-tag-danger{
-    @include label-variant($danger);
+    @include tag-variant($danger);
 }

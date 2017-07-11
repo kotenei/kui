@@ -10,10 +10,10 @@ class Alert extends Component {
     constructor(props) {
         super(props);
         this.handleClose = this.handleClose.bind(this);
-        this.animateEnd = this.animateEnd.bind(this);
+        this.handleAnimateEnd = this.handleAnimateEnd.bind(this);
         this.state = {
-            closed: false,
-            to: 1
+            closing: false,
+            closed: false
         }
     }
     static propTypes = {
@@ -27,19 +27,23 @@ class Alert extends Component {
     static defaultProps = {
         showIcon: false,
         closable: false,
-        onClose: () => { }
+        onClose: () => {
+            return true;
+        }
     }
     handleClose() {
         const { onClose } = this.props;
-        this.setState({
-            to: 0
-        })
-        onClose();
-    }
-    animateEnd() {
-        if (this.state.to == 0) {
+        if (onClose() == true) {
             this.setState({
-                closed: true
+                closing: true
+            })
+        }
+    }
+    handleAnimateEnd() {
+        if (this.state.closing) {
+            this.setState({
+                closed: true,
+                closing: false
             });
         }
     }
@@ -62,19 +66,28 @@ class Alert extends Component {
                 iconType = "closecircle";
                 break;
         }
+
+        const alert = this.state.closed ? null : (
+            <div className={classnames(classes)}>
+                {
+                    showIcon && iconType ? <Icon type={iconType} className={classnames({ "k-alert-icon": true, "lg": description != null })} /> : null
+                }
+                <div className="k-alert-content">
+                    <span className="k-alert-title">{title}</span>
+                    {description ? <span className="k-alert-description">{description}</span> : null}
+                    {closable && !closeText ? <Icon type="close" className="k-alert-icon-close" onClick={this.handleClose} /> : null}
+                    {closeText ? <span className="k-alert-closetext" onClick={this.handleClose}>{closeText}</span> : null}
+                </div>
+            </div>
+        );
+
         return (
-            this.state.closed ? null :
-                <Animate to={this.state.to} attributeName="opacity" onAnimationEnd={this.animateEnd} duration={300}>
-                    <div className={classnames(classes)}>
-                        {showIcon && iconType ? <Icon type={iconType} className={classnames({ "k-alert-icon": true, "lg": description != null })} /> : null}
-                        <div className="k-alert-content">
-                            <span className="k-alert-title">{title}</span>
-                            {description ? <span className="k-alert-description">{description}</span> : null}
-                            {closable && !closeText ? <Icon type="close" className="k-alert-icon-close" onClick={this.handleClose} /> : null}
-                            {closeText ? <span className="k-alert-closetext" onClick={this.handleClose}>{closeText}</span> : null}
-                        </div>
-                    </div>
-                </Animate>
+            <Animate canBegin={this.state.closing} to={0} from={1}
+                attributeName="opacity"
+                onAnimationEnd={this.handleAnimateEnd}
+                duration={300}>
+                {alert}
+            </Animate>
         )
     }
 }

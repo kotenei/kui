@@ -41,6 +41,7 @@
     margin-bottom: .625rem;
     margin-left: .125rem;
     margin-right: .125rem;
+   
 
     &.k-checkbox-inline,
     &.k-radio-inline{
@@ -53,7 +54,10 @@
         cursor:pointer;
         height: 1.25rem;
         line-height: 1.25rem;
-        vertical-align: top;
+
+        span{
+            vertical-align: middle;
+        }
     }
 
     &.disabled{
@@ -68,7 +72,7 @@
 .k-radio input[type="radio"],
 .k-checkbox input[type="checkbox"] {
     position: absolute;
-    margin-top: .215rem;
+    margin-top: .3rem;
     margin-left: -1.05rem;
     padding:0;
     opacity: 1;

@@ -25,10 +25,13 @@ class Progress extends Component {
     }
     renderContainer(prefixCls) {
         const { type } = this.props;
-        if (type == 'line') {
-            return <ProgressLine {...this.props } prefixCls={prefixCls} />
-        } else {
-            return <ProgressCircle {...this.props} prefixCls={prefixCls} />
+        switch (type) {
+            case 'line':
+                return <ProgressLine {...this.props } prefixCls={prefixCls} />;
+            case 'circle':
+                return <ProgressCircle {...this.props} prefixCls={prefixCls} />;
+            default:
+                return null;
         }
     }
     render() {
@@ -38,7 +41,7 @@ class Progress extends Component {
         classString = classnames(classString, {
             [`${prefixCls}-line`]: type == 'line',
             [`${prefixCls}-text-inside`]: textInside,
-            [`${prefixCls}-circle`]:type=='circle'
+            [`${prefixCls}-circle`]: type == 'circle'
         });
 
         return (

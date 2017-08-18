@@ -12,13 +12,14 @@ class Checkbox extends Component {
         }
     }
     static propTypes = {
+        option: PropTypes.object,
         disabled: PropTypes.bool,
         checked: PropTypes.bool,
         defaultChecked: PropTypes.bool,
         inline: PropTypes.bool,
         mode: PropTypes.oneOf(['normal', 'material', 'toggle']),
         name: PropTypes.string,
-        value: PropTypes.any,
+        value: PropTypes.string,
         onChange: PropTypes.func
     }
     static defaultProps = {
@@ -27,8 +28,8 @@ class Checkbox extends Component {
         onChange: () => { }
     }
     handleChange(e) {
-        const { onChange } = this.props;
-        onChange(e);
+        const { onChange, option } = this.props;
+        onChange(e, option);
     }
     renderMode() {
         const { mode } = this.props;

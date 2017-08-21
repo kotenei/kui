@@ -46,12 +46,12 @@ class CheckboxView extends Component {
                 </div>
                 <h3>多选框组</h3>
                 <div className="k-example">
-                    <Checkbox.CheckboxGroup options={options} defaultValue={value} />
+                    <CheckboxGroup options={options} defaultValue={value} />
                 </div>
                 <h3>全选/反选</h3>
                 <div className="k-example">
                     <Checkbox checked={checkAll} onChange={this.handleCheckAll}>全选</Checkbox>
-                    <Checkbox.CheckboxGroup options={options} value={checkedList} onChange={this.handleChange} />
+                    <CheckboxGroup options={options} value={checkedList} onChange={this.handleChange} />
                 </div>
                 <h1>API</h1>
                 <h2>Checkbox</h2>
@@ -85,7 +85,7 @@ class CheckboxView extends Component {
                         </tr>
                         <tr>
                             <td>mode</td>
-                            <td>复选框风格，normal material </td>
+                            <td>复选框风格，normal material toggle</td>
                             <td>string</td>
                             <td>material</td>
                         </tr>
@@ -109,7 +109,7 @@ class CheckboxView extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <br/>
+                <br />
                 <h2>Checkbox Group</h2>
                 <table className="k-table k-table-hover k-table-striped">
                     <thead>

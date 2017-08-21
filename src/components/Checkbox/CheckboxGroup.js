@@ -24,6 +24,22 @@ class CheckboxGroup extends Component {
         options: [],
         onChange: () => { }
     }
+    static childContextTypes = {
+        checkboxGroup: PropTypes.any,
+    }
+    getChildContext() {
+        const { name, inline, disabled, onChange } = this.props;
+        const { value } = this.state;
+        return {
+            checkboxGroup: {
+                name,
+                inline,
+                value,
+                disabled,
+                onChange: this.handleToggle
+            }
+        }
+    }
     handleToggle(e, option) {
         const { onChange } = this.props;
         const optionIndex = this.state.value.indexOf(option.value);
@@ -72,6 +88,7 @@ class CheckboxGroup extends Component {
         if (options && options.length > 0) {
             children = this.getOptions().map(option => (
                 <Checkbox
+                    name={option.name}
                     key={option.value}
                     disabled={option.disabled}
                     checked={option.checked}

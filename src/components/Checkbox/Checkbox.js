@@ -7,7 +7,7 @@ class Checkbox extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
-            checked: props.checked,
+            checked: props.checked || props.defaultChecked || false,
             value: props.value
         }
     }
@@ -27,9 +27,15 @@ class Checkbox extends Component {
         mode: 'material',
         onChange: () => { }
     }
+    static contextTypes = {
+        checkboxGroup: PropTypes.any
+    }
     handleChange(e) {
         const { onChange, option } = this.props;
         onChange(e, option);
+        this.setState({
+            checked: e.target.checked
+        })
     }
     renderMode() {
         const { mode } = this.props;
@@ -60,16 +66,25 @@ class Checkbox extends Component {
         });
     }
     render() {
-        const { defaultChecked, disabled, children, mode, name, inline } = this.props;
-        const { checked, value } = this.state;
+        const { checkboxGroup } = this.context;
+        let checkboxProps = { ...this.props };
+        if (checkboxGroup) {
+            checkboxProps.name = checkboxGroup.name;
+            checkboxProps.inline = checkboxGroup.inline;
+            checkboxProps.disabled = checkboxProps.disabled || checkboxGroup.disabled;
+            checkboxProps.checked = checkboxGroup.value.indexOf(checkboxProps.value) !== -1;
+            checkboxProps.onChange = (e) => checkboxGroup.onChange(e, { text: checkboxProps.children, value: checkboxProps.value });
+        }
+        const { disabled, children, mode, name, inline, checked, value } = checkboxProps;
         let prefixCls = 'k-checkbox';
         let classString = classnames({
             [prefixCls]: true,
             [`${prefixCls}-material`]: mode == 'material',
             [`${prefixCls}-toggle`]: mode == 'toggle',
-            [`${prefixCls}-inline`]: inline,
+            [`${prefixCls}-inline`]: checkboxProps.inline,
             'disabled': disabled
         });
+
         return (
             <div className={classString}>
                 <label>
@@ -79,7 +94,7 @@ class Checkbox extends Component {
                         disabled={disabled}
                         defaultChecked={checked}
                         checked={checked}
-                        onChange={this.handleChange} />
+                        onChange={checkboxProps.onChange || this.handleChange} />
                     {this.renderMode()}
                     <span>{children}</span>
                 </label>

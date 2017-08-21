@@ -114,13 +114,13 @@ class RadioView extends Component {
                         <tr>
                             <td>value</td>
                             <td>指定选中选项</td>
-                            <td>array</td>
+                            <td>string</td>
                             <td>—</td>
                         </tr>
                         <tr>
                             <td>defaultValue</td>
                             <td>默认选中选项</td>
-                            <td>array</td>
+                            <td>string</td>
                             <td>—</td>
                         </tr>
                         <tr>

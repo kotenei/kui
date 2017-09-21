@@ -7,11 +7,16 @@ module.exports = {
         KUI: './src/index.js',
         example: './src/example.js',
         vendors: [
+            'classnames',
+            'invariant',
+            'object.omit',
+            'object.pick',
             'react',
             'react-dom',
             'react-router',
             'react-router-dom',
-            'react-smooth'
+            'react-smooth',
+            'shallowequal'
         ]
     },
     output: {

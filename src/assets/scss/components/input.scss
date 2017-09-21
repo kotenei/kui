@@ -1,0 +1,42 @@
+.k-input-affix-wrapper {
+    position: relative;
+    .k-form-control {
+        &:not(:first-child) {
+            padding-left: torem(26px);
+        }
+        &:not(:last-child) {
+            padding-right: torem(26px);
+        }
+    }
+    .k-input-prefix,
+    .k-input-suffix {
+        position: absolute;
+        top: 50%;
+        line-height: 0;
+        z-index: 2;
+    }
+    .k-input-prefix {
+        left: torem(7px);
+    }
+    .k-input-suffix {
+        right: torem(7px);
+    }
+    &.k-input-affix-wrapper-lg {
+        .k-input-prefix,
+        .k-input-suffix {
+            font-size: $font-size-lg;
+            .k-icon{
+                font-size: $font-size-lg;
+            }
+        }
+    }
+    &.k-input-affix-wrapper-sm {
+        .k-input-prefix,
+        .k-input-suffix {
+            font-size: $font-size-sm;
+            .k-icon{
+                font-size: $font-size-sm;
+            }
+        }
+    }
+}

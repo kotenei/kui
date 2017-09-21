@@ -1,121 +1,119 @@
-.k-input-group{
+.k-input-group {
     position: relative;
     display: table;
-
-    .k-form-controln{
-        display: table-cell;   
+    .k-form-controln {
+        display: table-cell;
     }
-
-    &.k-input-group-lg{
+    &.k-input-group-lg {
         .k-input-group-addon,
         .k-form-control,
-        .k-input-group-btn .k-btn{
+        .k-input-group-btn .k-btn {
             @include form-control-lg();
         }
+        .k-input-group-addon .k-icon {
+            font-size: $font-size-lg;
+        }
     }
-    &.k-input-group-sm{
+    &.k-input-group-sm {
         .k-input-group-addon,
         .k-form-control,
-        .k-input-group-btn .k-btn{
+        .k-input-group-btn .k-btn {
             @include form-control-sm();
+        }
+        .k-input-group-addon .k-icon {
+            font-size: $font-size-sm;
         }
     }
 }
 
-.k-input-group-addon{
+.k-input-group-addon {
     display: table-cell;
     white-space: nowrap;
     vertical-align: middle;
     text-align: center;
-    line-height: $line-height;
+    line-height: 0;
     padding: $input-padding-y $input-padding-x;
     background-color: $input-group-addon-bg;
-    border:1px solid $input-border-color;
+    border: 1px solid $input-border-color;
     color: $input-color;
     width: 1%;
     height: $height-default;
-
     @include border-radius($input-border-radius);
-
     >input[type=checkbox],
-    >input[type=radio]{
+    >input[type=radio] {
         vertical-align: middle;
         margin-top: -1px;
     }
 }
 
-.k-input-group-btn ,
+.k-input-group-btn,
 .k-input-group-addon,
-.k-input-group .k-form-control{
-
-    &:first-child{
+.k-input-group .k-form-control {
+    &:first-child {
         @include border-right-radius(0);
     }
-
-    &:last-child{
+    &:last-child {
         @include border-left-radius(0);
-        
     }
-     &:not(:first-child):not(:last-child) {
+    &:not(:first-child):not(:last-child) {
         @include border-radius(0);
-    
+    }
+}
+
+.k-input-group .k-input-affix-wrapper {
+    .k-form-control {
+        @include border-radius(0);
     }
 }
 
 .k-input-group-addon:first-child {
-  border-right: 0;
-}
-.k-input-group-addon:last-child {
-  border-left: 0;
+    border-right: 0;
 }
 
-.k-input-group-btn{
+.k-input-group-addon:last-child {
+    border-left: 0;
+}
+
+.k-input-group-btn {
     display: table-cell;
     position: relative;
     font-size: 0;
     white-space: nowrap;
     vertical-align: middle;
     width: 1%;
-    >.k-btn{
+    >.k-btn {
         vertical-align: middle;
         box-shadow: none;
         font-size: $font-size-sm;
         padding: $input-padding-y $input-padding-x;
         height: $height-default;
-
         @include border-radius($input-border-radius);
-
-        &.k-btn-default{
+        &.k-btn-default {
             border-color: $input-border-color;
             color: $input-color;
-            &:hover{
+            &:hover {
                 background: $btn-default-bg;
                 border-color: $input-border-color;
             }
-            &:active{
-                background:darken($btn-default-bg, 10%);
+            &:active {
+                background: darken($btn-default-bg, 10%);
                 border-color: $input-border-color;
             }
         }
-
-        &:focus{
-            box-shadow:none;
+        &:focus {
+            box-shadow: none;
         }
     }
-
-    &:first-child{
-       >.k-btn{
+    &:first-child {
+        >.k-btn {
             @include border-right-radius(0);
             border-right: 0;
-       }
+        }
     }
-
-    &:last-child{
-       >.k-btn{
+    &:last-child {
+        >.k-btn {
             @include border-left-radius(0);
             border-left: 0;
-       }
-        
+        }
     }
-
 }

@@ -35,5 +35,7 @@ $RECYCLE.BIN/
 .Spotlight-V100
 .Trashes
 
-dist
+
 node_modules/*
+*.zip
+*.rar

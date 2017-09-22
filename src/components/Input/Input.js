@@ -7,6 +7,10 @@ import { kStyles, kClass, kSize, getClassSet } from '../../utils/kUtils';
 import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
 
 class Input extends Component {
+    constructor(props) {
+        super(props);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+    }
     static propTypes = {
         id: PropTypes.string,
         name: PropTypes.string,
@@ -22,13 +26,22 @@ class Input extends Component {
         suffix: PropTypes.node,
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
-        onChange: PropTypes.func,
+        onKeyDown: PropTypes.func,
         onClick: PropTypes.func,
         onPressEnter: PropTypes.func
     }
     static defaultProps = {
         type: 'text',
         disabled: false
+    }
+    handleKeyDown(e) {
+        const { onPressEnter, onKeyDown } = this.props;
+        if (e.keyCode == 13 && onPressEnter) {
+            onPressEnter(e);
+        }
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
     }
     renderLabeledInput(children) {
         const { props } = this;
@@ -90,7 +103,11 @@ class Input extends Component {
         ]);
         let classes = getClassSet(props);
         return this.renderLabeledIcon(
-            <input ref="input" className={classnames(classes)} {...otherProps} />
+            <input
+                ref="input"
+                {...otherProps}
+                className={classnames(classes)}
+                onKeyDown={this.handleKeyDown} />
         )
     }
     render() {

@@ -13,7 +13,7 @@ class RadioView extends Component {
                 <h1>Radio 单选框</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Radio mode="normal">normal</Radio>
+                    <Radio mode="none">none</Radio>
                     <Radio>material</Radio>
                 </div>
                 <h3>禁用状态</h3>
@@ -57,9 +57,9 @@ class RadioView extends Component {
                         </tr>
                         <tr>
                             <td>mode</td>
-                            <td>复选框风格，normal material </td>
+                            <td>单选框风格，none normal </td>
                             <td>string</td>
-                            <td>material</td>
+                            <td>normal</td>
                         </tr>
                         <tr>
                             <td>name</td>

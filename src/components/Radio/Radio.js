@@ -12,14 +12,14 @@ class Radio extends Component {
         disabled: PropTypes.bool,
         checked: PropTypes.bool,
         defaultChecked: PropTypes.bool,
-        mode: PropTypes.oneOf(['normal', 'material']),
+        mode: PropTypes.oneOf(['none', 'normal']),
         name: PropTypes.string,
         value: PropTypes.string,
         onChange: PropTypes.func
     }
     static defaultProps = {
         inline: false,
-        mode: 'material',
+        mode: 'normal',
         onChange: () => { }
     }
     static contextTypes = {
@@ -66,7 +66,7 @@ class Radio extends Component {
                         checked={checked}
                         value={value}
                         onChange={radioProps.onChange || this.handleChange} />
-                    {mode == 'material' ? this.renderMaterinal() : null}
+                    {mode == 'normal' ? this.renderMaterinal() : null}
                     <span>{children}</span>
                 </label>
             </div>

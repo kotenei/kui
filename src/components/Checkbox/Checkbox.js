@@ -17,14 +17,14 @@ class Checkbox extends Component {
         checked: PropTypes.bool,
         defaultChecked: PropTypes.bool,
         inline: PropTypes.bool,
-        mode: PropTypes.oneOf(['normal', 'material', 'toggle']),
+        mode: PropTypes.oneOf(['none', 'normal', 'toggle']),
         name: PropTypes.string,
         value: PropTypes.string,
         onChange: PropTypes.func
     }
     static defaultProps = {
         inline: false,
-        mode: 'material',
+        mode: 'normal',
         onChange: () => { }
     }
     static contextTypes = {
@@ -40,7 +40,7 @@ class Checkbox extends Component {
     renderMode() {
         const { mode } = this.props;
         switch (mode) {
-            case 'material':
+            case 'normal':
                 return this.renderMaterial();
             case 'toggle':
                 return this.renderToggle();

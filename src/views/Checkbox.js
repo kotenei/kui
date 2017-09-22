@@ -35,8 +35,8 @@ class CheckboxView extends Component {
                 <h1>Checkbox 多选框</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Checkbox mode="normal">normal</Checkbox>
-                    <Checkbox >material</Checkbox>
+                    <Checkbox mode="none">none</Checkbox>
+                    <Checkbox >normal</Checkbox>
                     <Checkbox mode="toggle">toggle</Checkbox>
                 </div>
                 <h3>禁用状态</h3>
@@ -85,9 +85,9 @@ class CheckboxView extends Component {
                         </tr>
                         <tr>
                             <td>mode</td>
-                            <td>复选框风格，normal material toggle</td>
+                            <td>复选框风格，none normal toggle</td>
                             <td>string</td>
-                            <td>material</td>
+                            <td>normal</td>
                         </tr>
                         <tr>
                             <td>name</td>

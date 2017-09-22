@@ -29,11 +29,6 @@ class InpurtView extends Component {
                 <h3>文本域</h3>
                 <div className="k-example">
                     <Input.TextArea ></Input.TextArea>
-                    <br/>
-                    <Input.Group>
-                        <Input/>
-                        <Input/>
-                    </Input.Group>
                 </div>
                 <h1>API</h1>
                 <h2>Input</h2>

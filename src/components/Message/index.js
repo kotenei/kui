@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { guid } from '../../utils/kUtils';
-import Messages from './Messages';
+import {Notification} from '../Notification';
+import Message from './Message';
 
 let defaultDuration = 1500;
 let messageInstance;
@@ -16,8 +17,10 @@ const notice = (state, content, duration = defaultDuration, onClose = () => { })
     }
 
     if (!messageInstance) {
-        messageInstance = Messages.newInstance({
-            getContainer
+        messageInstance = Notification.newInstance({
+            getContainer,
+            component:Message,
+            transitionName:'message'
         });
     }
 

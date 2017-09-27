@@ -15,7 +15,8 @@ module.exports = {
             'react-dom',
             'react-router',
             'react-router-dom',
-            'react-smooth',
+            'react-transition-group',
+            'react-motion',
             'shallowequal'
         ]
     },

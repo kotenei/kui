@@ -912,6 +912,18 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
 
+.fade-enter {
+  opacity: 0; }
+
+.fade-enter.fade-enter-active {
+  opacity: 1; }
+
+.fade-leave {
+  opacity: 1; }
+
+.fade-leave.fade-leave-active {
+  opacity: 0; }
+
 .k-alert {
   padding: .9375rem;
   padding-right: 2.1875rem;
@@ -921,7 +933,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
   border-radius: 0.3rem;
   display: table;
   width: 100%;
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+  transition: all ease .3s; }
   .k-alert .close {
     color: #fff;
     opacity: .5;
@@ -1637,6 +1650,45 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     font-size: 0.75rem; }
     .k-input-affix-wrapper.k-input-affix-wrapper-sm .k-input-prefix .k-icon, .k-input-affix-wrapper.k-input-affix-wrapper-sm .k-input-suffix .k-icon {
       font-size: 0.75rem; }
+
+.k-message {
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  background-color: #fff;
+  opacity: 1;
+  top: 1.25rem;
+  transition: all ease .5s; }
+  .k-message .k-icon {
+    margin-right: 0.625rem; }
+  .k-message.k-message-info .k-icon {
+    color: #03a9f4; }
+  .k-message.k-message-success .k-icon {
+    color: #4caf50; }
+  .k-message.k-message-error .k-icon {
+    color: #f44336; }
+  .k-message.k-message-warning .k-icon {
+    color: #ff5722; }
+
+.message-enter {
+  opacity: 0;
+  top: 0rem; }
+
+.message-enter.message-enter-active {
+  opacity: 1;
+  top: 1.25rem; }
+
+.message-leave {
+  opacity: 0;
+  top: 0rem; }
 
 .k-modal {
   border-radius: 0.25rem;

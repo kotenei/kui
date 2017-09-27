@@ -1,17 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import Animate from 'react-smooth';
 import Icon from '../Icon';
 import classnames from 'classnames';
-import { kStyles, kClass, kSize, prefix, getClassSet } from '../../utils/kUtils';
+import { kStyles, kClass, kSize, prefix, getClassSet, guid } from '../../utils/kUtils';
 import { State, DEFAULT, PRIMARY, Sizes } from '../../utils/styleMaps';
+import { CSSTransitionGroup } from 'react-transition-group';
+
 
 class Tag extends Component {
     constructor(props) {
         super(props);
         this.handleClose = this.handleClose.bind(this);
-        this.handleAnimateEnd = this.handleAnimateEnd.bind(this);
         this.state = {
-            closing: false,
             closed: false
         }
     }
@@ -30,15 +29,7 @@ class Tag extends Component {
         const { onClose } = this.props;
         if (onClose() == true) {
             this.setState({
-                closing: true
-            });
-        }
-    }
-    handleAnimateEnd() {
-        if (this.state.closing) {
-            this.setState({
-                closed: true,
-                closing: false
+                closed: true
             });
         }
     }
@@ -47,20 +38,31 @@ class Tag extends Component {
         const { closed } = this.state;
         let classString = getClassSet(this.props);
         const tag = closed ? null : (
-            <div className={classnames(classString)} style={{ background: color, color: color ? '#fff' : null }}>
+            <div
+                key={guid()}
+                className={classnames(classString)}
+                style={{ background: color, color: color ? '#fff' : null }}>
                 <span className="k-tag-text">{children}</span>
                 {closable ? <Icon type="close" onClick={this.handleClose} /> : null}
             </div>
         )
         return (
-            <Animate canBegin={this.state.closing} to={0} from={1}
-                attributeName="opacity"
-                onAnimationEnd={this.handleAnimateEnd}
-                duration={300}>
+            <CSSTransitionGroup
+                component={FirstChild}
+                transitionEnter={true}
+                transitionLeave={true}
+                transitionName='fade'
+                transitionEnterTimeout={300}
+                transitionLeaveTimeout={300}>
                 {tag}
-            </Animate>
+            </CSSTransitionGroup>
         )
     }
+}
+
+function FirstChild(props) {
+    const childrenArray = React.Children.toArray(props.children);
+    return childrenArray[0] || null;
 }
 
 const styles = State.values().concat(DEFAULT, PRIMARY);

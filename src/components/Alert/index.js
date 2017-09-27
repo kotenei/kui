@@ -1,16 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import Animate from 'react-smooth';
-import { kStyles, kClass, kSize, getClassSet } from '../../utils/kUtils';
+import { kStyles, kClass, kSize, getClassSet, guid } from '../../utils/kUtils';
 import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
 import Icon from '../Icon';
+import { CSSTransitionGroup } from 'react-transition-group';
 
 
 class Alert extends Component {
     constructor(props) {
         super(props);
         this.handleClose = this.handleClose.bind(this);
-        this.handleAnimateEnd = this.handleAnimateEnd.bind(this);
         this.state = {
             closing: false,
             closed: false
@@ -35,16 +34,8 @@ class Alert extends Component {
         const { onClose } = this.props;
         if (onClose() == true) {
             this.setState({
-                closing: true
+                closed: true
             })
-        }
-    }
-    handleAnimateEnd() {
-        if (this.state.closing) {
-            this.setState({
-                closed: true,
-                closing: false
-            });
         }
     }
     render() {
@@ -68,7 +59,7 @@ class Alert extends Component {
         }
 
         const alert = this.state.closed ? null : (
-            <div className={classnames(classes)}>
+            <div key={guid()} className={classnames(classes)}>
                 {
                     showIcon && iconType ? <Icon type={iconType} className={classnames({ "k-alert-icon": true, "lg": description != null })} /> : null
                 }
@@ -82,14 +73,22 @@ class Alert extends Component {
         );
 
         return (
-            <Animate canBegin={this.state.closing} to={0} from={1}
-                attributeName="opacity"
-                onAnimationEnd={this.handleAnimateEnd}
-                duration={300}>
+            <CSSTransitionGroup
+                component={FirstChild}
+                transitionEnter={true}
+                transitionLeave={true}
+                transitionName='fade'
+                transitionEnterTimeout={300}
+                transitionLeaveTimeout={300}>
                 {alert}
-            </Animate>
+            </CSSTransitionGroup>
         )
     }
+}
+
+function FirstChild(props) {
+    const childrenArray = React.Children.toArray(props.children);
+    return childrenArray[0] || null;
 }
 
 const styles = State.values();

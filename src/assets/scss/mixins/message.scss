@@ -1,0 +1,7 @@
+@mixin message-variant($state, $color) {
+    &.k-message-#{$state} {
+        .k-icon{
+            color:$color;
+        }
+    }
+}

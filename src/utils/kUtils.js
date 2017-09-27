@@ -11,7 +11,7 @@ export function prefix(props = {}, variant) {
     return props.kClass + (variant ? `-${variant}` : '');
 }
 
-export function kClass(defaultClass, Component){
+export function kClass(defaultClass, Component) {
     let propTypes = Component.propTypes || (Component.propTypes = {});
     let defaultProps = Component.defaultProps || (Component.defaultProps = {});
     propTypes.kClass = PropTypes.string;
@@ -64,7 +64,7 @@ export const kSize = (sizes, defaultSize, Component) => {
             existing.push(size);
         }
     });
-    
+
     const values = [];
     existing.forEach(size => {
         const mappedSize = styleMaps.SIZES[size];
@@ -94,7 +94,6 @@ export const kSize = (sizes, defaultSize, Component) => {
 
 };
 
-
 export function getClassSet(props) {
     const classes = {
         [prefix(props)]: true,
@@ -103,8 +102,15 @@ export function getClassSet(props) {
         classes[prefix(props, props.kStyle)] = true;
     }
     if (props.kSize) {
-        const kSize =styleMaps.SIZES[props.kSize] || props.kSize;
+        const kSize = styleMaps.SIZES[props.kSize] || props.kSize;
         classes[prefix(props, kSize)] = true;
     }
     return classes;
+}
+
+export function guid() {
+    function S4() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
+    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 }

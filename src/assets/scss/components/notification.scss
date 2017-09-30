@@ -2,7 +2,7 @@
 .k-notification {
     $num: torem(24px);
     $width: torem(324px);
-    position: absolute;
+    position: fixed;
     &.k-notification-topLeft {
         left: 0;
         top: $num;

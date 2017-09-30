@@ -1748,7 +1748,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     border-top: none; }
 
 .k-notification {
-  position: absolute; }
+  position: fixed; }
   .k-notification.k-notification-topLeft {
     left: 0;
     top: 1.5rem;

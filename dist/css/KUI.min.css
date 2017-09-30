@@ -935,7 +935,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
   display: table;
   width: 100%;
   margin-bottom: 1rem;
-  transition: all ease .3s; }
+  transition: all ease .3s;
+  background: #009688; }
   .k-alert .close {
     color: #fff;
     opacity: .5;

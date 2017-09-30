@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import omit from 'object.omit';
+import classnames from 'classnames';
 import { CSSTransitionGroup } from 'react-transition-group';
 
 class Notification extends Component {
@@ -14,7 +15,8 @@ class Notification extends Component {
     }
     static propTypes = {
         transitionName: PropTypes.string,
-        component: PropTypes.node
+        component: PropTypes.node,
+        style: PropTypes.object
     }
     static defaultProps = {
         transitionName: 'fade',
@@ -34,7 +36,6 @@ class Notification extends Component {
         })
     }
     remove(key) {
-
         this.setState(prevState => {
             return {
                 notices: prevState.notices.filter(notice => notice.key != key),
@@ -43,7 +44,7 @@ class Notification extends Component {
         });
     }
     render() {
-        const { transitionName, component: Component } = this.props;
+        const { transitionName, component: Component, className } = this.props;
         const { notices, duration, transitionLeave } = this.state;
 
         if (!Component) {
@@ -58,16 +59,18 @@ class Notification extends Component {
         });
 
         return (
-            <CSSTransitionGroup
-                component="div"
-                transitionEnter={true}
-                transitionLeave={transitionLeave}
-                transitionName={transitionName}
-                transitionEnterTimeout={duration}
-                transitionLeaveTimeout={duration}
-            >
-                {nodes}
-            </CSSTransitionGroup>
+            <div className={classnames('k-notification', className)} style={this.props.style}>
+                <CSSTransitionGroup
+                    component="div"
+                    transitionEnter={true}
+                    transitionLeave={transitionLeave}
+                    transitionName={transitionName}
+                    transitionEnterTimeout={duration}
+                    transitionLeaveTimeout={duration}
+                >
+                    {nodes}
+                </CSSTransitionGroup>
+            </div>
         )
     }
 }

@@ -25,11 +25,11 @@ class MessageView extends Component {
             <div>
                 <h1>Message 消息提示</h1>
                 <div className="k-example">
-                    <Button raised kStyle="primary" onClick={this.handleShowLoading}>loading</Button>&nbsp;&nbsp;
-                    <Button raised kStyle="info" onClick={this.handleShowInfo}>info</Button>&nbsp;&nbsp;
-                    <Button raised kStyle="success" onClick={this.handleShowSuccess}>success</Button>&nbsp;&nbsp;
-                    <Button raised kStyle="warning" onClick={this.handleShowWarning}>warning</Button>&nbsp;&nbsp;
-                    <Button raised kStyle="danger" onClick={this.handleShowError}>error</Button>&nbsp;&nbsp;
+                    <Button raised onClick={this.handleShowLoading}>加载</Button>&nbsp;&nbsp;
+                    <Button raised kStyle="info" onClick={this.handleShowInfo}>消息</Button>&nbsp;&nbsp;
+                    <Button raised kStyle="success" onClick={this.handleShowSuccess}>成功</Button>&nbsp;&nbsp;
+                    <Button raised kStyle="warning" onClick={this.handleShowWarning}>警告</Button>&nbsp;&nbsp;
+                    <Button raised kStyle="danger" onClick={this.handleShowError}>错误</Button>&nbsp;&nbsp;
                 </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">

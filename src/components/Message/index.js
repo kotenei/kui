@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { guid } from '../../utils/kUtils';
-import {Notification} from '../Notification';
+import { Notification } from '../Notification';
 import Message from './Message';
 
 let defaultDuration = 1500;
@@ -9,21 +9,21 @@ let messageInstance;
 let getContainer;
 
 const notice = (state, content, duration = defaultDuration, onClose = () => { }) => {
+    if(!content){
+        return;
+    }
     let key = guid();
-
     if (typeof duration === 'function') {
         onClose = duration;
         duration = defaultDuration;
     }
-
     if (!messageInstance) {
         messageInstance = Notification.newInstance({
             getContainer,
-            component:Message,
-            transitionName:'message'
+            component: Message,
+            transitionName: 'message'
         });
     }
-
     messageInstance.notice({
         key,
         state,
@@ -31,7 +31,6 @@ const notice = (state, content, duration = defaultDuration, onClose = () => { })
         duration,
         onClose
     });
-
     return {
         remove() {
             messageInstance.remove(key);

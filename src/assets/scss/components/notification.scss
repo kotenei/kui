@@ -1,0 +1,90 @@
+
+.k-notification {
+    $num: torem(24px);
+    $width: torem(324px);
+    position: absolute;
+    &.k-notification-topLeft {
+        left: 0;
+        top: $num;
+        margin-left: $num;
+        @include notification-left-effect($width);
+    }
+    &.k-notification-topRight {
+        right: 0;
+        top: $num;
+        margin-right: $num;
+        @include notification-right-effect($width);
+    }
+    &.k-notification-bottomLeft {
+        left: 0;
+        bottom: $num;
+        margin-left: $num;
+        @include notification-left-effect($width);
+    }
+    &.k-notification-bottomRight {
+        right: 0;
+        bottom: $num;
+        margin-right: $num;
+        @include notification-right-effect($width);
+    }
+    .k-notice {
+        margin-bottom: torem(10px);
+        padding: torem(16px);
+        display: flex;
+        background: $white;
+        position: relative;
+        line-height: $line-height;
+        overflow: hidden;
+        box-shadow: $box-shadow-base;
+        border-radius: $border-radius;
+        width: torem(300px);
+        transition: all ease .24s;
+
+        @include notification-notice-state('info',$info);
+        @include notification-notice-state('success',$success);
+        @include notification-notice-state('warning',$warning);
+        @include notification-notice-state('danger',$danger);
+        
+        .k-notice-content {
+            .k-notice-title {
+                padding-right: $num;
+                margin-bottom: torem(4px);
+                line-height: torem(20px);
+            }
+            .k-notice-description {
+                font-size: torem(12px);
+                color: $text-color-secondary;
+            }
+        }
+        .icon-close {
+            top: torem(10px);
+            right: torem(16px);
+            position: absolute;
+            cursor: pointer;
+            color: $text-color-secondary;
+            &:hover{
+                color:$font-color-base;
+            }
+        }
+    }
+}
+
+.notice-enter {
+    opacity: 0;
+}
+
+.notice-enter.notice-enter-active {
+    opacity: 1;
+}
+
+.notice-leave {
+    opacity: 1;
+}
+
+.notice-leave.notice-leave-active {
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 0;
+}

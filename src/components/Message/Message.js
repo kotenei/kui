@@ -11,15 +11,13 @@ const iconType = {
     loading: 'loading'
 }
 
-
-
 class Message extends Component {
     constructor(props) {
         super(props);
     }
     static propTypes = {
         state: PropTypes.arrayOf['info', 'success', 'warning', 'error', 'loading'],
-        content: PropTypes.string,
+        content: PropTypes.node.isRequired,
         duration: PropTypes.number,
         closable: PropTypes.bool,
         onClose: PropTypes.func
@@ -28,7 +26,7 @@ class Message extends Component {
         state: 'info',
         duration: 1500,
         onClose: () => { },
-        
+
     }
     clearCloseTimer = () => {
         if (this.timer) {

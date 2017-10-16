@@ -94,4 +94,8 @@
         background: $danger;
     }
 
+    &:last-child{
+        margin-bottom: 0;
+    }
+
 }

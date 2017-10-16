@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import { kStyles, kClass, kSize, getClassSet, guid } from '../../utils/kUtils';
+import { kStyles, kClass, kSize, getClassSet, guid, FirstChild } from '../../utils/kUtils';
 import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
 import Icon from '../Icon';
 import { CSSTransitionGroup } from 'react-transition-group';
@@ -37,6 +37,12 @@ class Alert extends Component {
                 closed: true
             })
         }
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.closed == nextState.closed) {
+            return false;
+        }
+        return true;
     }
     render() {
         const { title, description, showIcon, closable, closeText } = this.props;
@@ -86,10 +92,6 @@ class Alert extends Component {
     }
 }
 
-function FirstChild(props) {
-    const childrenArray = React.Children.toArray(props.children);
-    return childrenArray[0] || null;
-}
 
 const styles = State.values();
 

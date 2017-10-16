@@ -19,6 +19,7 @@ import Form from './views/Form';
 import Icon from './views/Icon';
 import Input from './views/Input';
 import Layout from './views/Layout';
+import Loading from './views/Loading';
 import Menu from './views/Menu';
 import Message from './views/Message';
 import Modal from './views/Modal';
@@ -105,7 +106,7 @@ ReactDOM.render(
                                 <li><NavLink to="/Notification" activeClassName="selected">Notification 通知提醒框</NavLink></li>
                                 <li><NavLink to="/Progress" activeClassName="selected">Progress 进度条</NavLink></li>
                                 <li><NavLink to="/PopConfirm" activeClassName="selected">PopConfirm 气泡确认框</NavLink></li>
-                                <li><NavLink to="/Spin" activeClassName="selected">Spin 加载中</NavLink></li>
+                                <li><NavLink to="/Loading" activeClassName="selected">Loading 加载中</NavLink></li>
                             </ul>
                         </li>
                     </ul>
@@ -128,6 +129,7 @@ ReactDOM.render(
                     <Route path="/Icon" exact component={Icon} />
                     <Route path="/Input" exact component={Input} />
                     <Route path="/Layout" exact component={Layout} />
+                    <Route path="/Loading" exact component={Loading} />
                     <Route path="/Menu" exact component={Menu} />
                     <Route path="/Message" exact component={Message} />
                     <Route path="/Modal" exact component={Modal} />

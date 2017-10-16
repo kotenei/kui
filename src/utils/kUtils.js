@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import React,{ PropTypes } from 'react';
 import invariant from 'invariant';
 import styleMaps from './styleMaps';
 
@@ -113,4 +113,9 @@ export function guid() {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+}
+
+export function FirstChild(props) {
+    const childrenArray = React.Children.toArray(props.children);
+    return childrenArray[0] || null;
 }

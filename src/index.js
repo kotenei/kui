@@ -18,6 +18,7 @@ export Form from './components/Form';
 export Icon from './components/Icon';
 export Input from './components/Input';
 export Layout from './components/Layout';
+export Loading from './components/Loading';
 export Menu from './components/Menu';
 export Message from './components/Message';
 export Modal from './components/Modal';

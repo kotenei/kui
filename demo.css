@@ -23,6 +23,11 @@ body {
     color: #4078c0;
 }
 
+.main-nav a.disabled{
+    color: #ccc;
+}
+
+
 .main-nav ul {
     list-style: none;
 }

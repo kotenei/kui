@@ -1,24 +1,231 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import { kStyles, kClass, kSize, getClassSet, guid, FirstChild } from '../../utils/kUtils';
 import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
+import domUtils from '../../utils/domUtils';
 
 class Tooltip extends Component {
+    constructor(props) {
+        super(props);
+        this.handleTriggerMouseEnter = this.handleTriggerMouseEnter.bind(this);
+        this.handleTriggerMouseLeave = this.handleTriggerMouseLeave.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleTooltipMouseEnter = this.handleTooltipMouseEnter.bind(this);
+        this.handleTooltipMouseLeave = this.handleTooltipMouseLeave.bind(this);
+        this.setPosition = this.setPosition.bind(this);
+        this.state = {
+            position: { top: -999, left: -999 },
+            hidden: false
+        }
+    }
     static propTypes = {
         title: PropTypes.node,
-        placement: PropTypes.oneOf(['top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom'])
-
+        placement: PropTypes.oneOf(['top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom']),
+        trigger: PropTypes.oneOf(['hover', 'click']),
+        delay: PropTypes.number
     }
     static defaultProps = {
-        placement: 'top'
+        placement: 'top',
+        trigger: 'hover',
+        delay: 100
+    }
+    handleTriggerMouseEnter() {
+        const { trigger } = this.props;
+        if (trigger != 'hover') {
+            return;
+        }
+        this.show();
+    }
+    handleTriggerMouseLeave() {
+        const { trigger } = this.props;
+        if (trigger != 'hover') {
+            return;
+        }
+        this.tm = setTimeout(() => {
+            this.hide();
+        }, 200);
+
+    }
+    handleTooltipMouseEnter() {
+        const { trigger } = this.props;
+        if (this.tm && trigger != 'click') {
+            clearTimeout(this.tm);
+        }
+    }
+    handleTooltipMouseLeave() {
+        const { trigger } = this.props;
+        if (trigger == 'click') {
+            return;
+        }
+        this.hide();
+    }
+    handleClick() {
+        const { trigger } = this.props;
+        const { show } = this.state;
+        if (trigger != 'click') {
+            return;
+        }
+        if (!show) {
+            this.show();
+        } else {
+            this.hide();
+        }
+    }
+    setPosition() {
+        let parent = this.refs.trigger,
+            ew = domUtils.outerWidth(parent),
+            eh = domUtils.outerHeight(parent),
+            tw = this.orgSize.w,
+            th = this.orgSize.h,
+            position = { left: 0, top: 0 },
+            pos = { left: 0, top: 0 };
+
+        const { placement } = this.props;
+
+        do {
+            position.left += parent.offsetLeft - parent.scrollLeft;
+            position.top += parent.offsetTop - parent.scrollTop;
+        } while ((parent = parent.offsetParent) && parent != document.body);
+
+        switch (placement) {
+            case 'left':
+                pos = { top: position.top + eh / 2 - th / 2, left: position.left - tw };
+                break;
+            case 'leftTop':
+                pos = { top: position.top, left: position.left - tw };
+                break;
+            case 'leftBottom':
+                pos = { top: position.top + eh - th, left: position.left - tw };
+                break;
+            case 'top':
+                pos = { top: position.top - th, left: position.left + ew / 2 - tw / 2 };
+                break;
+            case 'topLeft':
+                pos = { top: position.top - th, left: position.left };
+                break;
+            case 'topRight':
+                pos = { top: position.top - th, left: position.left + ew - tw };
+                break;
+            case 'right':
+                pos = { top: position.top + eh / 2 - th / 2, left: position.left + ew };
+                break;
+            case 'rightTop':
+                pos = { top: position.top, left: position.left + ew };
+                break;
+            case 'rightBottom':
+                pos = { top: position.top + eh - th, left: position.left + ew };
+                break;
+            case 'bottom':
+                pos = { top: position.top + eh, left: position.left + ew / 2 - tw / 2 };
+                break;
+            case 'bottomLeft':
+                pos = { top: position.top + eh, left: position.left };
+                break;
+            case 'bottomRight':
+                pos = { top: position.top + eh, left: position.left + ew - tw };
+                break;
+        }
+
+        this.setState({
+            position: pos
+        })
+
+    }
+    setOrgSize() {
+        this.orgSize = {
+            w: domUtils.outerWidth(this.refs.tooltip),
+            h: domUtils.outerHeight(this.refs.tooltip)
+        }
+    }
+    show() {
+        const { delay } = this.props;
+        this.setState({
+            hidden: false
+        });
+        setTimeout(() => {
+            this.setState({
+                show: true
+            });
+            this.setPosition();
+        }, delay);
+    }
+    hide() {
+        const { delay } = this.props;
+        this.setState({
+            show: false
+        });
+        setTimeout(() => {
+            this.setState({
+                hidden: true
+            });
+        }, delay);
+    }
+    componentDidMount() {
+        if (this.props.title && React.Children.toArray(this.props.children).length == 1) {
+            this.setOrgSize();
+            this.setPosition();
+            this.setState({
+                show: false,
+                hidden: true
+            })
+        }
+        window.addEventListener('resize', this.setPosition)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setPosition)
+    }
+    renderTooltip() {
+        const { title, placement, kClass } = this.props;
+        const { show, position, hidden } = this.state;
+        let classes = getClassSet(this.props);
+        let className = classnames(classes, {
+            [`${kClass}-hidden`]: hidden,
+            [placement]: true,
+            in: show
+        });
+
+        return (
+            ReactDOM.createPortal(
+                <div className={className}
+                    style={position}
+                    ref="tooltip"
+                    onMouseEnter={this.handleTooltipMouseEnter}
+                    onMouseLeave={this.handleTooltipMouseLeave}>
+                    <div className={`${kClass}-arrow`}></div>
+                    <div className={`${kClass}-inner`}>
+                        {title}
+                    </div>
+                </div>, document.body)
+        )
     }
     render() {
+        if (!this.props.children || React.Children.toArray(this.props.children).length > 1) {
+            return null;
+        }
+        if (!this.props.title) {
+            return this.props.children;
+        }
+        const children = React.Children.map(this.props.children, child => {
+            return React.cloneElement(child, {
+                ref: 'trigger',
+                onMouseEnter: this.handleTriggerMouseEnter,
+                onMouseLeave: this.handleTriggerMouseLeave,
+                onClick: this.handleClick
+            })
+        });
         return (
-            <div>
-
-            </div>
+            <span>
+                {children}
+                {this.renderTooltip()}
+            </span>
         )
     }
 }
 
-export default Tooltip;
+const styles = State.values().concat(PRIMARY);
+
+export default kStyles(styles,
+    kClass('k-tooltip', Tooltip)
+);

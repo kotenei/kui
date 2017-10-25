@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { kStyles, kClass, kSize, getClassSet, guid, FirstChild } from '../../utils/kUtils';
 import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
 import Icon from '../Icon';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { CSSTransition,  TransitionGroup } from 'react-transition-group';
 
 
 class Alert extends Component {
@@ -14,6 +15,8 @@ class Alert extends Component {
             closing: false,
             closed: false
         }
+
+
     }
     static propTypes = {
         showIcon: PropTypes.bool,
@@ -65,29 +68,31 @@ class Alert extends Component {
         }
 
         const alert = this.state.closed ? null : (
-            <div key={guid()} className={classnames(classes)}>
-                {
-                    showIcon && iconType ? <Icon type={iconType} className={classnames({ "k-alert-icon": true, "lg": description != null })} /> : null
-                }
-                <div className="k-alert-content">
-                    <span className="k-alert-title">{title}</span>
-                    {description ? <span className="k-alert-description">{description}</span> : null}
-                    {closable && !closeText ? <Icon type="close" className="k-alert-icon-close" onClick={this.handleClose} /> : null}
-                    {closeText ? <span className="k-alert-closetext" onClick={this.handleClose}>{closeText}</span> : null}
+            <CSSTransition
+                key={guid()}
+                timeout={300}
+                classNames='fade'>
+                <div  className={classnames(classes)}>
+                    {
+                        showIcon && iconType ? <Icon type={iconType}
+                            className={classnames({ "k-alert-icon": true, "lg": description != null })} /> : null
+                    }
+                    <div className="k-alert-content">
+                        <span className="k-alert-title">{title}</span>
+                        {description ? <span className="k-alert-description">{description}</span> : null}
+                        {
+                            closable && !closeText ? <Icon type="close" className="k-alert-icon-close" onClick={this.handleClose} /> : null
+                        }
+                        {closeText ? <span className="k-alert-closetext" onClick={this.handleClose}>{closeText}</span> : null}
+                    </div>
                 </div>
-            </div>
+            </CSSTransition>
         );
 
         return (
-            <CSSTransitionGroup
-                component={FirstChild}
-                transitionEnter={true}
-                transitionLeave={true}
-                transitionName='fade'
-                transitionEnterTimeout={300}
-                transitionLeaveTimeout={300}>
+            <TransitionGroup in={this.state.closed} component={FirstChild} >
                 {alert}
-            </CSSTransitionGroup>
+            </TransitionGroup>
         )
     }
 }

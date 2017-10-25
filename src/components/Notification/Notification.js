@@ -1,15 +1,16 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import omit from 'object.omit';
 import classnames from 'classnames';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { guid, FirstChild } from '../../utils/kUtils';
 
 class Notification extends Component {
     constructor(props) {
         super(props);
         this.state = {
             duration: props.duration,
-            transitionLeave: true,
             notices: []
         }
     }
@@ -29,8 +30,7 @@ class Notification extends Component {
                 notices.push(noticeProps);
                 return {
                     notices,
-                    duration: noticeProps.duration,
-                    transitionLeave: false
+                    duration: noticeProps.duration
                 }
             };
         })
@@ -38,42 +38,45 @@ class Notification extends Component {
     remove(key) {
         this.setState(prevState => {
             return {
-                notices: prevState.notices.filter(notice => notice.key != key),
-                transitionLeave: true
+                notices: prevState.notices.filter(notice => notice.key != key)
             }
         });
     }
     render() {
         const { transitionName, component: Component, className } = this.props;
-        const { notices, duration, transitionLeave } = this.state;
+        const { notices, duration } = this.state;
 
         if (!Component) {
             return null;
         }
-        let nodes = notices.map(notice => {
+        let nodes = notices.map((notice, i) => {
             const onClose = (key) => {
                 this.remove(key);
                 notice.onClose();
             };
-            return <Component {...notice} onClose={onClose.bind(this, notice.key)} />
+            return (
+                <CSSTransition
+                    timeout={duration}
+                    key={notice.key}
+                    classNames={transitionName}
+                    unmountOnExit={true}>
+                    <Component {...notice} onClose={onClose.bind(this, notice.key)} />
+                </CSSTransition>
+            )
         });
+
 
         return (
             <div className={classnames('k-notification', className)} style={this.props.style}>
-                <CSSTransitionGroup
-                    component="div"
-                    transitionEnter={true}
-                    transitionLeave={transitionLeave}
-                    transitionName={transitionName}
-                    transitionEnterTimeout={duration}
-                    transitionLeaveTimeout={duration}
-                >
+                <TransitionGroup >
                     {nodes}
-                </CSSTransitionGroup>
+                </TransitionGroup>
             </div>
         )
     }
 }
+
+
 
 Notification.newInstance = function (options = {}) {
     const { getContainer } = options;

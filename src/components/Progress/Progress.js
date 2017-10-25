@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ProgressLine from './ProgressLine';
 import ProgressCircle from './ProgressCircle';
 import classnames from 'classnames';

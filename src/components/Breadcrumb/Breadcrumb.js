@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { kStyles, kClass, kSize,getClassSet } from '../../utils/kUtils';
 import { State, DEFAULT, PRIMARY } from '../../utils/styleMaps';
 import classnames from 'classnames';

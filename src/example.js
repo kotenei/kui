@@ -91,7 +91,7 @@ ReactDOM.render(
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Carousel 走马灯</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Collapse 折叠面板</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Popover 弹出框</NavLink></li>
-                                <li><NavLink to="###" className="disabled" activeClassName="selected">Tooltip 文字提示</NavLink></li>
+                                <li><NavLink to="/Tooltip" activeClassName="selected">Tooltip 文字提示</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Table 表格</NavLink></li>
                                 <li><NavLink to="/Tag" activeClassName="selected">Tag 标签</NavLink></li>
                                 <li><NavLink to="/Timeline" activeClassName="selected">Timeline 时间轴</NavLink></li>

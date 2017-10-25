@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import classnames from 'classnames';
-import { kStyles, kClass, kSize, prefix, getClassSet, guid } from '../../utils/kUtils';
+import { kStyles, kClass, kSize, prefix, getClassSet, guid, FirstChild } from '../../utils/kUtils';
 import { State, DEFAULT, PRIMARY, Sizes } from '../../utils/styleMaps';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 
 class Tag extends Component {
@@ -38,32 +39,26 @@ class Tag extends Component {
         const { closed } = this.state;
         let classString = getClassSet(this.props);
         const tag = closed ? null : (
-            <div
+            <CSSTransition
                 key={guid()}
-                className={classnames(classString)}
-                style={{ background: color, color: color ? '#fff' : null }}>
-                <span className="k-tag-text">{children}</span>
-                {closable ? <Icon type="close" onClick={this.handleClose} /> : null}
-            </div>
+                timeout={300}
+                classNames='fade'>
+                <div
+                    className={classnames(classString)}
+                    style={{ background: color, color: color ? '#fff' : null }}>
+                    <span className="k-tag-text">{children}</span>
+                    {closable ? <Icon type="close" onClick={this.handleClose} /> : null}
+                </div>
+            </CSSTransition>
         )
         return (
-            <CSSTransitionGroup
-                component={FirstChild}
-                transitionEnter={true}
-                transitionLeave={true}
-                transitionName='fade'
-                transitionEnterTimeout={300}
-                transitionLeaveTimeout={300}>
+            <TransitionGroup component={FirstChild} in={closed}>
                 {tag}
-            </CSSTransitionGroup>
+            </TransitionGroup>
         )
     }
 }
 
-function FirstChild(props) {
-    const childrenArray = React.Children.toArray(props.children);
-    return childrenArray[0] || null;
-}
 
 const styles = State.values().concat(DEFAULT, PRIMARY);
 

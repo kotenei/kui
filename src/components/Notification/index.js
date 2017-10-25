@@ -45,14 +45,12 @@ const notice = (state, title, content, duration = defaultDuration, onClose = () 
 
 export default {
     open(title, content, duration, onClose) {
-        console.log('default')
         return notice(null, title, content, duration, onClose);
     },
     info(title, content, duration, onClose) {
         return notice('info', title, content, duration, onClose);
     },
     success(title, content, duration, onClose) {
-        console.log('success')
         return notice('success', title, content, duration, onClose);
     },
     waring(title, content, duration, onClose) {

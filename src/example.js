@@ -102,7 +102,7 @@ ReactDOM.render(
                             <ul>
                                 <li><NavLink to="/Alert" activeClassName="selected">Alert 警告提示</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Modal 对话框</NavLink></li>
-                                <li><NavLink to="/Message" activeClassName="selected">Message 全局提示</NavLink></li>
+                                <li><NavLink to="/Message" activeClassName="selected">Message 消息提示</NavLink></li>
                                 <li><NavLink to="/Notification" activeClassName="selected">Notification 通知提醒框</NavLink></li>
                                 <li><NavLink to="/Progress" activeClassName="selected">Progress 进度条</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">PopConfirm 气泡确认框</NavLink></li>

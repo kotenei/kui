@@ -73,6 +73,26 @@ class TooltipView extends Component {
                             <td>—</td>
                         </tr>
                         <tr>
+                            <td>kStyle</td>
+                            <td>风格，可选值 'primary' 'info' 'success' 'warning' 'danger'</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h1>公共API</h1>
+                <h3>以下API为Tooltip、Popover共享的API</h3>
+                <table className="k-table k-table-hover k-table-striped">
+                    <thead>
+                        <tr>
+                            <th>属性</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>默认值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
                             <td>placement</td>
                             <td>显示位置，可选 top left right bottom topLeft topRight bottomLeft bottomRight leftTop leftBottom rightTop rightBottom</td>
                             <td>string</td>
@@ -84,12 +104,7 @@ class TooltipView extends Component {
                             <td>string</td>
                             <td>hover</td>
                         </tr>
-                        <tr>
-                            <td>kStyle</td>
-                            <td>风格，可选值 'primary' 'info' 'success' 'warning' 'danger'</td>
-                            <td>string</td>
-                            <td>—</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>

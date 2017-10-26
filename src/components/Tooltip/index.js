@@ -6,19 +6,26 @@ import { kStyles, kClass, kSize, getClassSet, guid, FirstChild } from '../../uti
 import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
 import domUtils from '../../utils/domUtils';
 
+let seed = 1;
+let instances = {};
+
 class Tooltip extends Component {
     constructor(props) {
         super(props);
         this.handleTriggerMouseEnter = this.handleTriggerMouseEnter.bind(this);
         this.handleTriggerMouseLeave = this.handleTriggerMouseLeave.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleTriggerClick = this.handleTriggerClick.bind(this);
         this.handleTooltipMouseEnter = this.handleTooltipMouseEnter.bind(this);
         this.handleTooltipMouseLeave = this.handleTooltipMouseLeave.bind(this);
+        this.handleTooltipClick = this.handleTooltipClick.bind(this);
         this.setPosition = this.setPosition.bind(this);
+        this.hide = this.hide.bind(this);
+        this.id = `tooltip_${seed++}`;
         this.state = {
             position: { top: -999, left: -999 },
             hidden: false
         }
+        instances[this.id] = this;
     }
     static propTypes = {
         title: PropTypes.node,
@@ -61,7 +68,9 @@ class Tooltip extends Component {
         }
         this.hide();
     }
-    handleClick() {
+    handleTriggerClick(e) {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         const { trigger } = this.props;
         const { show } = this.state;
         if (trigger != 'click') {
@@ -72,9 +81,14 @@ class Tooltip extends Component {
         } else {
             this.hide();
         }
+        this.hideOther();
+    }
+    handleTooltipClick(e) {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
     }
     setPosition() {
-        let parent = this.refs.trigger,
+        let parent = ReactDOM.findDOMNode(this.refs.trigger),
             ew = domUtils.outerWidth(parent),
             eh = domUtils.outerHeight(parent),
             tw = this.orgSize.w,
@@ -162,6 +176,14 @@ class Tooltip extends Component {
             });
         }, delay);
     }
+    hideOther() {
+        for (var k in instances) {
+            if (k == this.id) {
+                continue;
+            }
+            instances[k].hide();
+        }
+    }
     componentDidMount() {
         if (this.props.title && React.Children.toArray(this.props.children).length == 1) {
             this.setOrgSize();
@@ -171,10 +193,13 @@ class Tooltip extends Component {
                 hidden: true
             })
         }
-        window.addEventListener('resize', this.setPosition)
+        window.addEventListener('resize', this.setPosition);
+        document.addEventListener('click', this.hide);
     }
     componentWillUnmount() {
-        window.removeEventListener('resize', this.setPosition)
+        window.removeEventListener('resize', this.setPosition);
+        document.removeEventListener('click', this.hide);
+        delete instances[this.id];
     }
     renderTooltip() {
         const { title, placement, kClass } = this.props;
@@ -192,7 +217,8 @@ class Tooltip extends Component {
                     style={position}
                     ref="tooltip"
                     onMouseEnter={this.handleTooltipMouseEnter}
-                    onMouseLeave={this.handleTooltipMouseLeave}>
+                    onMouseLeave={this.handleTooltipMouseLeave}
+                    onClick={this.handleTooltipClick}>
                     <div className={`${kClass}-arrow`}></div>
                     <div className={`${kClass}-inner`}>
                         {title}
@@ -212,11 +238,11 @@ class Tooltip extends Component {
                 ref: 'trigger',
                 onMouseEnter: this.handleTriggerMouseEnter,
                 onMouseLeave: this.handleTriggerMouseLeave,
-                onClick: this.handleClick
+                onClick: this.handleTriggerClick
             })
         });
         return (
-            <span>
+            <span id={this.id} ref={this.id}>
                 {children}
                 {this.renderTooltip()}
             </span>

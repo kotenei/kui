@@ -2261,7 +2261,6 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
       background: #e4e8f1;
       border-radius: 6.25rem; }
       .k-progress .k-progress-bar .k-progress-bar-outer .k-progress-bar-inner {
-        position: absolute;
         left: 0;
         top: 0;
         height: 100%;

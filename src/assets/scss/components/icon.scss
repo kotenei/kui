@@ -1,10 +1,19 @@
-.k-icon{
-    font-size:$font-size-base;
-    vertical-align: middle;
-    margin:0 .185rem;
-    //transition: all .3s;
+@mixin icon-color($state, $color) {
+    &.k-icon-#{$state} {
+        color: $color;
+    }
+}
 
-    &.k-spin{
+.k-icon {
+    font-size: $font-size-base;
+    vertical-align: middle;
+    margin: 0 .185rem; //transition: all .3s;
+    &.k-spin {
         animation: loadingCircle 1s infinite linear;
     }
+    @include icon-color('primary', $primary);
+    @include icon-color('info', $info);
+    @include icon-color('warning', $warning);
+    @include icon-color('success', $success);
+    @include icon-color('danger', $danger);
 }

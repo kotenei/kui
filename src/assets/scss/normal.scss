@@ -182,3 +182,22 @@ select:-webkit-autofill{
     box-shadow: 0 0 0 1000px transparent inset;
 }
 
+.text-primary{
+  color:$primary;
+}
+
+.text-info{
+  color: $info;
+}
+
+.text-success{
+  color: $success;
+}
+
+.text-warning{
+  color: $warning;
+}
+
+.text-danger{
+  color: $danger;
+}

@@ -31,7 +31,8 @@ class Tooltip extends Component {
         title: PropTypes.node,
         placement: PropTypes.oneOf(['top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom']),
         trigger: PropTypes.oneOf(['hover', 'click']),
-        delay: PropTypes.number
+        delay: PropTypes.number,
+        show: PropTypes.bool
     }
     static defaultProps = {
         placement: 'top',
@@ -196,16 +197,19 @@ class Tooltip extends Component {
         window.addEventListener('resize', this.setPosition);
         document.addEventListener('click', this.hide);
     }
+    componentWillReceiveProps(nextProps) {
+
+    }
     componentWillUnmount() {
         window.removeEventListener('resize', this.setPosition);
         document.removeEventListener('click', this.hide);
         delete instances[this.id];
     }
     renderTooltip() {
-        const { title, placement, kClass } = this.props;
+        const { title, placement, kClass, className } = this.props;
         const { show, position, hidden } = this.state;
         let classes = getClassSet(this.props);
-        let className = classnames(classes, {
+        let classString = classnames(classes, className, {
             [`${kClass}-hidden`]: hidden,
             [placement]: true,
             in: show
@@ -213,7 +217,7 @@ class Tooltip extends Component {
 
         return (
             ReactDOM.createPortal(
-                <div className={className}
+                <div className={classString}
                     style={position}
                     ref="tooltip"
                     onMouseEnter={this.handleTooltipMouseEnter}

@@ -10,16 +10,18 @@ class Popover extends Component {
         super(props);
     }
     static propTypes = {
-        title: PropTypes.node.isRequired,
+        title: PropTypes,
         content: PropTypes.node.isRequired
     }
     renderPopover() {
         const { title, content } = this.props;
         return (
             <div>
-                <div className={`${prefixCls}-title`}>
-                    {title}
-                </div>
+                {
+                    title ? <div className={`${prefixCls}-title`}>
+                        {title}
+                    </div> : null
+                }
                 <div className={`${prefixCls}-inner-content`}>
                     {content}
                 </div>
@@ -36,6 +38,7 @@ class Popover extends Component {
         ]);
         return (
             <Tooltip
+                ref="tooltip"
                 kClass={prefixCls}
                 title={popover}
                 {...otherProps}

@@ -182,4 +182,5 @@ pre code {
     margin-right: 1em;
     margin-bottom: 1em;
     border-radius: 6px;
+    cursor: pointer;
 }

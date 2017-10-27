@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-
+import { kStyles, kClass, getClassSet } from '../../utils/kUtils';
+import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
 
 class Icon extends Component {
     constructor(props) {
@@ -24,18 +25,22 @@ class Icon extends Component {
         onClick();
     }
     render() {
-        const { type, className = '', spin,fontSize } = this.props;
-        const classes = classnames(className, {
-            'k-icon': true,
+        const { type, className = '', spin, fontSize } = this.props;
+        let classes = getClassSet(this.props);
+        let classString = classnames(classes, className, {
             'icon': true,
             'anticon': true,
             'k-spin': !!spin || type == 'loading',
             [`icon-${type}`]: true
         });
         return (
-            <i className={classes} onClick={this.handleClick} style={{fontSize}}/>
+            <i className={classString} onClick={this.handleClick} style={{ fontSize }} />
         )
     }
 }
 
-export default Icon;
+const styles = State.values().concat(PRIMARY);
+
+export default kStyles(styles,
+    kClass('k-icon',Icon)
+);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Popover from '../components/Popover';
 import Button from '../components/Button';
-import {NavLink } from 'react-router-dom'
+import {NavLink } from 'react-router-dom';
 
 class PopoverView extends Component {
     render() {

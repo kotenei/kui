@@ -25,7 +25,7 @@ import Message from './views/Message';
 import Modal from './views/Modal';
 import Notification from './views/Notification';
 import Pagination from './views/Pagination';
-import PopConfirm from './views/PopConfirm';
+import Popconfirm from './views/Popconfirm';
 import Popover from './views/Popover';
 import Progress from './views/Progress';
 import Radio from './views/Radio';
@@ -51,7 +51,7 @@ ReactDOM.render(
                         <li>
                             Basic
                             <ul>
-                                <li><NavLink to="/Button"  activeClassName="selected">Button 按钮</NavLink></li>
+                                <li><NavLink to="/Button" activeClassName="selected">Button 按钮</NavLink></li>
                                 <li><NavLink to="/Icon" activeClassName="selected">Icon 图标</NavLink></li>
 
                             </ul>
@@ -90,7 +90,7 @@ ReactDOM.render(
                                 <li><NavLink to="/Card" activeClassName="selected">Card 卡片</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Carousel 走马灯</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Collapse 折叠面板</NavLink></li>
-                                <li><NavLink to="/Popover"  activeClassName="selected">Popover 弹出框</NavLink></li>
+                                <li><NavLink to="/Popover" activeClassName="selected">Popover 弹出框</NavLink></li>
                                 <li><NavLink to="/Tooltip" activeClassName="selected">Tooltip 文字提示</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Table 表格</NavLink></li>
                                 <li><NavLink to="/Tag" activeClassName="selected">Tag 标签</NavLink></li>
@@ -105,7 +105,7 @@ ReactDOM.render(
                                 <li><NavLink to="/Message" activeClassName="selected">Message 消息提示</NavLink></li>
                                 <li><NavLink to="/Notification" activeClassName="selected">Notification 通知提醒框</NavLink></li>
                                 <li><NavLink to="/Progress" activeClassName="selected">Progress 进度条</NavLink></li>
-                                <li><NavLink to="###" className="disabled" activeClassName="selected">PopConfirm 气泡确认框</NavLink></li>
+                                <li><NavLink to="/Popconfirm" activeClassName="selected">Popconfirm 气泡确认框</NavLink></li>
                                 <li><NavLink to="/Loading" activeClassName="selected">Loading 加载中</NavLink></li>
                             </ul>
                         </li>
@@ -135,7 +135,7 @@ ReactDOM.render(
                     <Route path="/Modal" exact component={Modal} />
                     <Route path="/Notification" exact component={Notification} />
                     <Route path="/Pagination" exact component={Pagination} />
-                    <Route path="/PopConfirm" exact component={PopConfirm} />
+                    <Route path="/Popconfirm" exact component={Popconfirm} />
                     <Route path="/Popover" exact component={Popover} />
                     <Route path="/Progress" exact component={Progress} />
                     <Route path="/Radio" exact component={Radio} />

@@ -24,7 +24,7 @@ export Message from './components/Message';
 export Modal from './components/Modal';
 export Notification from './components/Notification';
 export Pagination from './components/Pagination';
-export PopConfirm from './components/PopConfirm';
+export Popconfirm from './components/Popconfirm';
 export Popover from './components/Popover';
 export Progress from './components/Progress';
 export Radio from './components/Radio';

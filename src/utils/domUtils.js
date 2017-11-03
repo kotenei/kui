@@ -42,7 +42,6 @@ const domUtils = {
     },
     offsetParent(elem) {
         var offsetParent = elem.offsetParent;
-
         while (offsetParent && (!this.nodeName(offsetParent, 'html') &&
             this.css(offsetParent, 'position') === 'static')) {
             offsetParent = offsetParent.offsetParent;
@@ -66,14 +65,23 @@ const domUtils = {
         return val;
     },
     width(elem) {
+        if(!elem){
+            return 0;
+        }
         var ret = elem.offsetWidth;
         ret -= (this.css(elem, 'borderLeftWidth', true) + this.css(elem, 'paddingLeft', true) + this.css(elem, 'paddingRight', true) + this.css(elem, 'borderRightWidth', true));
         return ret;
     },
     innerWidth(elem) {
+        if (!elem) {
+            return 0;
+        }
         return elem.offsetWidth;
     },
     outerWidth(elem, extra) {
+        if (!elem) {
+            return 0;
+        }
         var ret = elem.offsetWidth;
         if (extra) {
             ret += (this.css(elem, 'marginLeft', true) + this.css(elem, 'marginRight', true));
@@ -81,14 +89,23 @@ const domUtils = {
         return ret;
     },
     height(elem) {
+        if (!elem) {
+            return 0;
+        }
         var ret = elem.offsetHeight;
         ret -= (this.css(elem, 'borderTopWidth', true) + this.css(elem, 'paddingTop', true) + this.css(elem, 'paddingBottom', true) + this.css(elem, 'borderBottomWidth', true));
         return ret;
     },
     innerHeight(elem) {
+        if (!elem) {
+            return 0;
+        }
         return elem.offsetHeight;
     },
     outerHeight(elem, extra) {
+        if (!elem) {
+            return 0;
+        }
         var ret = elem.offsetHeight;
         if (extra) {
             ret += (this.css(elem, 'marginTop', true) + this.css(elem, 'marginBottom', true));

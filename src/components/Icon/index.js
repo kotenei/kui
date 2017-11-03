@@ -20,9 +20,9 @@ class Icon extends Component {
         spin: false,
         onClick: () => { }
     }
-    handleClick() {
+    handleClick(e) {
         const { onClick } = this.props;
-        onClick();
+        onClick(e);
     }
     render() {
         const { type, className = '', spin, fontSize } = this.props;

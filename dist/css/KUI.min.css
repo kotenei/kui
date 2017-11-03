@@ -1456,6 +1456,29 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
 .toggleButton input[type="checkbox"] {
   display: none; }
 
+.k-confirm {
+  padding: 1.25rem 1.875rem; }
+  .k-confirm .k-confirm-body > .k-icon {
+    font-size: 1.625rem;
+    margin-right: 0.9375rem;
+    float: left; }
+  .k-confirm .k-confirm-body .k-confirm-title {
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.65);
+    display: inline-block;
+    margin-top: 0.5625rem; }
+  .k-confirm .k-confirm-body .k-confirm-content {
+    padding-top: 0.375rem;
+    font-size: 0.75rem;
+    margin-left: 2.625rem;
+    margin-top: 0.5rem; }
+  .k-confirm .k-confirm-btns {
+    text-align: right;
+    margin-top: 1.875rem; }
+    .k-confirm .k-confirm-btns .k-btn {
+      margin-left: 0.625rem; }
+
 .k-dropdown {
   position: relative;
   display: table;
@@ -1768,50 +1791,80 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
 .k-modal {
   border-radius: 0.25rem;
   border: 1px solid #ddd;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
   min-width: 400px;
   position: fixed;
   background: #fff;
   left: 50%;
-  top: 50%;
-  z-index: 1000; }
+  top: 0;
+  z-index: 1050;
+  opacity: 0;
+  -webkit-transform: translate(-50%, -100%);
+          transform: translate(-50%, -100%);
+  transition: top .4s, opacity .4s, -webkit-transform .4s;
+  transition: top .4s, opacity .4s, transform .4s;
+  transition: top .4s, opacity .4s, transform .4s, -webkit-transform .4s; }
+  .k-modal.in {
+    top: 50%;
+    opacity: 1;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); }
   .k-modal .k-modal-head {
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
     font-weight: bold;
     position: relative;
     border-bottom: 1px solid #e5e5e5;
-    padding: 1rem .625rem;
+    padding: 0.9375rem;
     font-size: 1.125rem; }
     .k-modal .k-modal-head .close {
       color: #000;
       opacity: .2;
       position: absolute;
-      right: 1.8rem;
+      right: 0.9375rem;
       font-size: 1.25rem;
-      cursor: pointer; }
+      cursor: pointer;
+      margin: 0; }
       .k-modal .k-modal-head .close:hover {
         opacity: .5; }
-  .k-modal .k-modal-container {
-    padding: .625rem;
+  .k-modal .k-modal-body {
+    padding: 0.9375rem;
     font-size: 1rem;
     color: rgba(0, 0, 0, 0.6);
     overflow-y: auto;
     overflow-x: hidden; }
   .k-modal .k-modal-foot {
-    padding: .625rem;
+    padding: 0.9375rem;
     text-align: right;
     border-top: 1px solid #e5e5e5; }
+    .k-modal .k-modal-foot .k-btn {
+      margin-left: 0.5rem; }
+      .k-modal .k-modal-foot .k-btn:first-child {
+        margin-left: 0; }
   .k-modal.k-modal-material .k-modal-head {
     border-bottom: none;
     padding: 1.5rem 1.5rem 1.25rem; }
     .k-modal.k-modal-material .k-modal-head .close {
       top: 1.25rem;
       right: 1.5rem; }
-  .k-modal.k-modal-material .k-modal-container {
+  .k-modal.k-modal-material .k-modal-body {
     padding: 0 1.5rem 1.5rem; }
   .k-modal.k-modal-material .k-modal-foot {
     border-top: none; }
+
+.k-modal-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: black;
+  opacity: 0;
+  display: none;
+  z-index: 1000; }
+  .k-modal-mask.in {
+    opacity: .5;
+    display: block; }
 
 .k-notification {
   position: fixed; }

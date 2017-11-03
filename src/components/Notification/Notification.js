@@ -58,8 +58,7 @@ class Notification extends Component {
                 <CSSTransition
                     timeout={duration}
                     key={notice.key}
-                    classNames={transitionName}
-                    unmountOnExit={true}>
+                    classNames={transitionName}>
                     <Component {...notice} onClose={onClose.bind(this, notice.key)} />
                 </CSSTransition>
             )

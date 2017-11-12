@@ -1,0 +1,73 @@
+.k-tabs {
+    .k-tabs-bar {
+        border-bottom: 1px solid #d9d9d9;
+        margin-bottom: torem(16px);
+        .k-tabs-nav-container {
+            overflow: hidden;
+            position: relative;
+            padding: 0 torem(32px);
+            white-space: nowrap;
+            box-sizing: border-box;
+            margin-bottom: -1px;
+            .k-tabs-tab-prev,
+            .k-tabs-tab-next {
+                width: torem(32px);
+                line-height: torem(32px);
+                height: 100%;
+                text-align: center;
+                position: absolute;
+                cursor: pointer;
+                color: #ccc;
+                .k-icon {
+                    margin: 0;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+            .k-tabs-tab-prev {
+                left: 0;
+            }
+            .k-tabs-tab-next {
+                right: 0;
+            }
+            .k-tabs-nav-scroll {
+                overflow: hidden;
+                margin-bottom: -1px;
+                .k-tabs-nav {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                    position: relative;
+                    transition: all .4s;
+                    li {
+                        &.tab-item {
+                            display: inline-block;
+                            padding: torem(8px) torem(20px);
+                            height: 100%;
+                            margin-right: torem(24px);
+                            text-align: center;
+                            cursor: pointer;
+                            &:last-child{
+                                margin-right: 0;
+                            }
+                            &:hover,
+                            &.active {
+                                color: $primary;
+                            }
+                        }
+                        &.k-tabs-ink-bar {
+                            position: absolute;
+                            bottom: 1px;
+                            height: 2px;
+                            background: $primary;
+                            z-index: 2;
+                        }
+                    }
+                }
+            }
+        }
+        .k-tabs-extra-content {}
+    }
+}

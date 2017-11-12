@@ -64,7 +64,6 @@ class Notification extends Component {
             )
         });
 
-
         return (
             <div className={classnames('k-notification', className)} style={this.props.style}>
                 <TransitionGroup >

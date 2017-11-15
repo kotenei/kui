@@ -7,7 +7,7 @@ class TabsView extends Component {
         return (
             <div>
                 <h1>Tabs 标签</h1>
-                <div className="k-example" style={{width:420}}>
+                <div className="k-example" >
                     <Tabs defaultActiveIndex={0}>
                         <TabPane tab="Tab 1">Tab 1</TabPane>
                         <TabPane tab="Tab 2">Tab 2</TabPane>

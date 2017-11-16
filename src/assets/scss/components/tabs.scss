@@ -5,15 +5,12 @@
         .k-tabs-nav-container {
             overflow: hidden;
             position: relative;
-            
             white-space: nowrap;
             box-sizing: border-box;
             margin-bottom: -1px;
-
-            &.scrolling{
+            &.scrolling {
                 padding: 0 torem(32px);
             }
-            
             .k-tabs-tab-prev,
             .k-tabs-tab-next {
                 width: torem(32px);
@@ -30,8 +27,7 @@
                     left: 50%;
                     transform: translate(-50%, -50%);
                 }
-
-                &.disabled{
+                &.disabled {
                     width: 0;
                     opacity: 0;
                 }
@@ -59,15 +55,14 @@
                             margin-right: torem(24px);
                             text-align: center;
                             cursor: pointer;
-                            &:last-child{
+                            &:last-child {
                                 margin-right: 0;
                             }
                             &:hover,
                             &.active {
                                 color: $primary;
                             }
-
-                            &.disabled{
+                            &.disabled {
                                 color: $disabled-color;
                                 cursor: $cursor-disabled;
                             }
@@ -79,12 +74,18 @@
                             background: $primary;
                             z-index: 2;
                             transition: all .3s;
-                            
                         }
                     }
                 }
             }
         }
         .k-tabs-extra-content {}
+    }
+    &.k-tabs-card {
+        .k-tabs-bar {
+            .tab-item {
+                margin-right: torem(2px);
+            }
+        }
     }
 }

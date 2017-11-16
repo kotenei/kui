@@ -2651,6 +2651,9 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
           z-index: 2;
           transition: all .3s; }
 
+.k-tabs.k-tabs-card .k-tabs-bar .tab-item {
+  margin-right: 0.125rem; }
+
 .k-tag {
   display: inline-block;
   padding: .25rem .4rem;

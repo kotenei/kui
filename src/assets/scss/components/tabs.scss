@@ -5,10 +5,15 @@
         .k-tabs-nav-container {
             overflow: hidden;
             position: relative;
-            padding: 0 torem(32px);
+            
             white-space: nowrap;
             box-sizing: border-box;
             margin-bottom: -1px;
+
+            &.scrolling{
+                padding: 0 torem(32px);
+            }
+            
             .k-tabs-tab-prev,
             .k-tabs-tab-next {
                 width: torem(32px);
@@ -25,6 +30,11 @@
                     left: 50%;
                     transform: translate(-50%, -50%);
                 }
+
+                &.disabled{
+                    width: 0;
+                    opacity: 0;
+                }
             }
             .k-tabs-tab-prev {
                 left: 0;
@@ -40,7 +50,7 @@
                     padding: 0;
                     list-style: none;
                     position: relative;
-                    transition: all .4s;
+                    transition: all .3s;
                     li {
                         &.tab-item {
                             display: inline-block;
@@ -56,6 +66,11 @@
                             &.active {
                                 color: $primary;
                             }
+
+                            &.disabled{
+                                color: $disabled-color;
+                                cursor: $cursor-disabled;
+                            }
                         }
                         &.k-tabs-ink-bar {
                             position: absolute;
@@ -63,6 +78,8 @@
                             height: 2px;
                             background: $primary;
                             z-index: 2;
+                            transition: all .3s;
+                            
                         }
                     }
                 }

@@ -2593,10 +2593,11 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
   .k-tabs .k-tabs-bar .k-tabs-nav-container {
     overflow: hidden;
     position: relative;
-    padding: 0 2rem;
     white-space: nowrap;
     box-sizing: border-box;
     margin-bottom: -1px; }
+    .k-tabs .k-tabs-bar .k-tabs-nav-container.scrolling {
+      padding: 0 2rem; }
     .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-tab-prev, .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-tab-next {
       width: 2rem;
       line-height: 2rem;
@@ -2612,6 +2613,9 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
         left: 50%;
         -webkit-transform: translate(-50%, -50%);
                 transform: translate(-50%, -50%); }
+      .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-tab-prev.disabled, .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-tab-next.disabled {
+        width: 0;
+        opacity: 0; }
     .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-tab-prev {
       left: 0; }
     .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-tab-next {
@@ -2624,7 +2628,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
         padding: 0;
         list-style: none;
         position: relative;
-        transition: all .4s; }
+        transition: all .3s; }
         .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-nav-scroll .k-tabs-nav li.tab-item {
           display: inline-block;
           padding: 0.5rem 1.25rem;
@@ -2636,12 +2640,16 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
             margin-right: 0; }
           .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-nav-scroll .k-tabs-nav li.tab-item:hover, .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-nav-scroll .k-tabs-nav li.tab-item.active {
             color: #2196f3; }
+          .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-nav-scroll .k-tabs-nav li.tab-item.disabled {
+            color: #bdbdbd;
+            cursor: not-allowed; }
         .k-tabs .k-tabs-bar .k-tabs-nav-container .k-tabs-nav-scroll .k-tabs-nav li.k-tabs-ink-bar {
           position: absolute;
           bottom: 1px;
           height: 2px;
           background: #2196f3;
-          z-index: 2; }
+          z-index: 2;
+          transition: all .3s; }
 
 .k-tag {
   display: inline-block;

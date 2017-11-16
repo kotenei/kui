@@ -10,7 +10,10 @@ class TabNav extends Component {
         super(props);
         this.state = {
             activeIndex: props.activeIndex || props.defaultActiveIndex || 0,
-            scrollLeft: 0
+            scrollLeft: 0,
+            inkWidth: 0,
+            inkLeft: 0,
+            scrolling: false
         }
     }
     handleTabClick = (e, index) => {
@@ -32,11 +35,11 @@ class TabNav extends Component {
     }
     handleNextClick = (e) => {
         let { scrollLeft } = this.state;
-        let maxLeft=0;
+        let maxLeft = 0;
         scrollLeft += this.tabsInfo.navWidth;
-        maxLeft=this.tabsInfo.totalWidth-this.tabsInfo.navWidth;
-        if(scrollLeft>=maxLeft){
-            scrollLeft=maxLeft;
+        maxLeft = this.tabsInfo.totalWidth - this.tabsInfo.navWidth;
+        if (scrollLeft >= maxLeft) {
+            scrollLeft = maxLeft;
         }
         this.setState({
             scrollLeft
@@ -68,7 +71,6 @@ class TabNav extends Component {
         this.tabsInfo.totalWidth = totalWidth;
         this.tabsInfo.navWidth = navWidth;
         this.tabsInfo.navOffset = domUtils.offset(this.refs.tabNav);
-        this.scrollTo();
     }
     getTabs() {
         const { panels, onTabClick } = this.props;
@@ -78,11 +80,12 @@ class TabNav extends Component {
             if (!child) {
                 return;
             }
-            const { tab } = child.props;
+            const { tab, disabled } = child.props;
             items.push(
                 <TabItem
                     key={index}
                     index={index}
+                    disabled={disabled}
                     isActive={activeIndex == index}
                     onClick={this.handleTabClick}>
                     {tab}
@@ -93,10 +96,10 @@ class TabNav extends Component {
     }
     scrollTo(index) {
         const { panels } = this.props;
-        const { scrollLeft } = this.state;
+        const { scrollLeft, activeIndex } = this.state;
         let max = panels.length - 1,
             left;
-        index = index != undefined ? index : this.state.activeIndex;
+        index = index != undefined ? index : activeIndex;
         if (index < 0) {
             index = 0;
         }
@@ -105,6 +108,8 @@ class TabNav extends Component {
         }
         let el = this.tabsInfo.tabs[index],
             offset = domUtils.offset(el),
+            position = domUtils.position(el),
+            ew = this.tabsInfo.arrWidth[index] - domUtils.css(el, 'marginRight', true),
             tw = offset.left + this.tabsInfo.arrWidth[index],
             nw = this.tabsInfo.navOffset.left + this.tabsInfo.navWidth;
         if (offset.left < this.tabsInfo.navOffset.left) {
@@ -118,6 +123,10 @@ class TabNav extends Component {
                 scrollLeft: left
             });
         }
+        this.setState({
+            inkLeft: position.left,
+            inkWidth: ew
+        });
     }
     setActiveIndex(index) {
         if (!('activeIndex' in this.props)) {
@@ -127,8 +136,37 @@ class TabNav extends Component {
             this.scrollTo(index);
         }
     }
+    componentWillMount() {
+        const { activeIndex } = this.state;
+        const { panels } = this.props;
+        let hasMap = false;
+        for (let i = 0; i < panels.length; i++) {
+            const child = panels[i];
+            const { disabled } = child.props;
+            if (disabled && i == activeIndex) {
+                hasMap = true;
+                break;
+            }
+        }
+        if (hasMap) {
+            this.setState({
+                activeIndex: 0
+            })
+        }
+    }
     componentDidMount() {
         this.setTabsInfo();
+        if (this.tabsInfo.totalWidth > this.tabsInfo.navWidth) {
+            this.setState({
+                scrolling: true
+            });
+            setTimeout(() => {
+                this.setTabsInfo();
+                this.scrollTo();
+            });
+        } else {
+            this.scrollTo();
+        }
     }
     componentWillReceiveProps(nextProps) {
         if ('activeIndex' in nextProps && nextProps.activeIndex != this.state.activeIndex) {
@@ -141,13 +179,15 @@ class TabNav extends Component {
     }
     renderTabsContainer() {
         const { prefixCls, type } = this.props;
-        const { inkWidth, scrollLeft } = this.state;
+        const { inkLeft, inkWidth, scrollLeft, scrolling } = this.state;
         return (
-            <div className={`${prefixCls}-nav-container`}>
-                <span className={`${prefixCls}-tab-prev`} onClick={this.handlePrevClick}>
+            <div className={classnames(`${prefixCls}-nav-container`, { 'scrolling': scrolling })}>
+                <span className={classnames(`${prefixCls}-tab-prev`, { 'disabled': !scrolling })}
+                    onClick={this.handlePrevClick}>
                     <Icon type="left" />
                 </span>
-                <span className={`${prefixCls}-tab-next`} onClick={this.handleNextClick}>
+                <span className={classnames(`${prefixCls}-tab-next`, { 'disabled': !scrolling })}
+                    onClick={this.handleNextClick}>
                     <Icon type="right" />
                 </span>
                 <div className={`${prefixCls}-nav-scroll`}>
@@ -155,7 +195,8 @@ class TabNav extends Component {
                         className={`${prefixCls}-nav`}
                         ref="tabNav"
                         style={{ transform: `translate3d(-${scrollLeft}px, 0px, 0px)` }}>
-                        {/* {type == 'line' ? <li className={`${prefixCls}-ink-bar`} style={{ width: inkWidth, left: inkLeft }}></li> : null} */}
+                        {type == 'line' ? <li className={`${prefixCls}-ink-bar`}
+                            style={{ width: inkWidth, transform: `translate3d(${inkLeft}px, 0px, 0px)` }}></li> : null}
                         {this.getTabs()}
                     </ul>
                 </div>

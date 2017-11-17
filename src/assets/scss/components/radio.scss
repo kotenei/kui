@@ -32,12 +32,12 @@
                 &::before{
                     content:'';
                     position: absolute;
-                    width: torem(9px);
-                    height:torem(9px);
+                    width: torem(8px);
+                    height:torem(8px);
                     border-radius: 50%;
                     background: $primary;
-                    left:torem(2.8px);
-                    top:torem(2.8px);
+                    left:torem(3px);
+                    top:torem(3px);
                     transform:scale(0);
                     transition: transform .3s;
                 }

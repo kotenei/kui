@@ -2441,12 +2441,12 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     .k-radio label .material .check::before {
       content: '';
       position: absolute;
-      width: 0.5625rem;
-      height: 0.5625rem;
+      width: 0.5rem;
+      height: 0.5rem;
       border-radius: 50%;
       background: #2196f3;
-      left: 0.175rem;
-      top: 0.175rem;
+      left: 0.1875rem;
+      top: 0.1875rem;
       -webkit-transform: scale(0);
               transform: scale(0);
       transition: -webkit-transform .3s;

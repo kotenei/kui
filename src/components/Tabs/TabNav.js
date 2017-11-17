@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import TabItem from './TabItem';
-import Icon from '../Icon';
 import domUtils from '../../utils/domUtils';
+import Icon from '../Icon';
 
 class TabNav extends Component {
     constructor(props) {
@@ -22,6 +22,9 @@ class TabNav extends Component {
         if (onTabClick) {
             onTabClick(e, index);
         }
+    }
+    handleTabClose = (e, index) => {
+        this.setTabsInfo();
     }
     handlePrevClick = (e) => {
         let { scrollLeft } = this.state;
@@ -73,7 +76,7 @@ class TabNav extends Component {
         this.tabsInfo.navOffset = domUtils.offset(this.refs.tabNav);
     }
     getTabs() {
-        const { panels, onTabClick } = this.props;
+        const { panels, onTabClick, editable } = this.props;
         const { activeIndex } = this.state;
         let items = [];
         panels.map((child, index) => {
@@ -86,8 +89,10 @@ class TabNav extends Component {
                     key={index}
                     index={index}
                     disabled={disabled}
+                    editable={editable}
                     isActive={activeIndex == index}
-                    onClick={this.handleTabClick}>
+                    onClick={this.handleTabClick}
+                    onClose={this.handleTabClose}>
                     {tab}
                 </TabItem>
             );

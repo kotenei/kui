@@ -22,7 +22,7 @@
             border:1px solid $pager-border-color;
             margin-left: -1px;
             float: left;
-            color: $default;
+            color: $teal;
             height: $height-default;
             transition: background .3s;
             min-width:2.5rem;
@@ -37,7 +37,7 @@
 
         &.active{
             a,span{
-                background: $default;
+                background: $teal;
                 color: white;
             }
         }

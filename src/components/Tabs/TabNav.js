@@ -23,8 +23,17 @@ class TabNav extends Component {
             onTabClick(e, index);
         }
     }
-    handleTabClose = (e, index) => {
-        this.setTabsInfo();
+    handleTabAdd = (e) => {
+        const { onEdit } = this.props;
+        if (onEdit) {
+            onEdit(e, 'add');
+        }
+    }
+    handleTabRemove = (e, index) => {
+        const { onEdit } = this.props;
+        if (onEdit) {
+            onEdit(e, 'remove', index);
+        }
     }
     handlePrevClick = (e) => {
         let { scrollLeft } = this.state;
@@ -92,7 +101,7 @@ class TabNav extends Component {
                     editable={editable}
                     isActive={activeIndex == index}
                     onClick={this.handleTabClick}
-                    onClose={this.handleTabClose}>
+                    onClose={this.handleTabRemove}>
                     {tab}
                 </TabItem>
             );
@@ -209,10 +218,11 @@ class TabNav extends Component {
         )
     }
     renderExtraContent() {
-        const { prefixCls } = this.props;
+        const { prefixCls, editable, extraContent, hideAdd } = this.props;
         return (
             <div className={`${prefixCls}-extra-content`}>
-
+                {editable && !hideAdd ? <Icon type="plussquareo" onClick={this.handleTabAdd} /> : null}
+                {extraContent}
             </div>
         )
     }
@@ -223,8 +233,8 @@ class TabNav extends Component {
         })
         return (
             <div className={classString}>
-                {this.renderTabsContainer()}
                 {this.renderExtraContent()}
+                {this.renderTabsContainer()}
             </div>
         )
     }

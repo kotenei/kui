@@ -1,13 +1,16 @@
 .k-tabs {
+    overflow: hidden;
     .k-tabs-bar {
         border-bottom: 1px solid #d9d9d9;
         margin-bottom: torem(16px);
+        height:torem(38px);
         .k-tabs-nav-container {
             overflow: hidden;
             position: relative;
             white-space: nowrap;
             box-sizing: border-box;
             margin-bottom: -1px;
+            height: torem(38px);
             &.scrolling {
                 padding: 0 torem(32px);
             }
@@ -51,12 +54,11 @@
                         &.tab-item {
                             display: inline-block;
                             padding: torem(8px) torem(20px);
-                            height: 100%;
+                            height: torem(38px);
                             margin-right: torem(24px);
                             text-align: center;
                             cursor: pointer;
                             position: relative;
-                            
                             &:last-child {
                                 margin-right: 0;
                             }
@@ -68,23 +70,22 @@
                                 color: $disabled-color;
                                 cursor: $cursor-disabled;
                             }
-                            .k-icon{
+                            .k-icon {
                                 position: absolute;
                                 font-size: $font-size-sm;
                                 margin: 0;
-                                right:torem(4px);
-                                top:50%;
+                                right: torem(4px);
+                                top: 50%;
                                 transform: translateY(-50%);
                                 opacity: 0;
                                 transition: all .5s;
                                 color: #ccc;
-                                &:hover{
-                                    color:$font-color-base;
+                                &:hover {
+                                    color: $font-color-base;
                                 }
                             }
-
-                            &:hover{
-                                .k-icon{
+                            &:hover {
+                                .k-icon {
                                     opacity: 1;
                                 }
                             }
@@ -101,30 +102,57 @@
                 }
             }
         }
-        .k-tabs-extra-content {}
+        .k-tabs-extra-content {
+            float: right;
+            height:torem(38px);
+            line-height: torem(38px);
+            >.k-icon:first-child{
+                cursor: pointer;
+                margin-right: torem(5px);
+                color:$font-color-base;
+                &:hover{
+                    color:$primary;
+                }
+            }
+        }
     }
+    .k-tabs-content{
+        overflow: hidden;
+    }
+
+
     &.k-tabs-card {
         .k-tabs-bar {
             .tab-item {
                 margin-right: 0!important;
-                background:#F5F7FA;
-                border:$border-width-base $border-style-base $border-color-base;
-                border-right:none;
-                border-bottom-width: 2px;
-
-                &.active{
-                    background: white!important;
-                    border-bottom-color: transparent;
+                background: #F5F7FA;
+                border: $border-width-base $border-style-base $border-color-base;
+                border-right: none; //border-bottom-width: 1px;
+               
+                &.active {
+                    background: white!important; // border-bottom-color: transparent;
+                    border-bottom: $border-width-base $border-style-base white;
                 }
-                &:first-child{
+                &:first-child {
                     border-top-left-radius: $border-radius;
-                    
                 }
-                &:last-child{
-                    border-right:$border-width-base $border-style-base $border-color-base;
+                &:last-child {
+                    border-right: $border-width-base $border-style-base $border-color-base;
                     border-top-right-radius: $border-radius;
                 }
             }
+        }
+    }
+
+    &.k-tabs-left{
+        .k-tabs-bar{
+            float:left;
+            .k-tabs-nav-scroll{
+                
+            }
+        }
+        .k-tabs-content{
+            
         }
     }
 }

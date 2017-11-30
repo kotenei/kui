@@ -18,7 +18,8 @@ class Tabs extends Component {
         hideAdd: PropTypes.bool,
         onTabClick: PropTypes.func,
         onPrevClick: PropTypes.func,
-        onNextClick: PropTypes.func
+        onNextClick: PropTypes.func,
+        onEdit: PropTypes.func
     }
     static defaultProps = {
         defaultActiveIndex: 0,
@@ -37,14 +38,11 @@ class Tabs extends Component {
 
     }
     renderTabNav() {
-        const { children, activeIndex, defaultActiveIndex, extraContent, type } = this.props;
-
+        const { children } = this.props;
         if (!children) {
             return null;
         }
-
         let props = omit(this.props, ['children'])
-
         return (
             <TabNav
                 prefixCls={prefixCls}
@@ -67,7 +65,7 @@ class Tabs extends Component {
         );
     }
     render() {
-        const { tabPosition, className, type } = this.props;
+        const { tabPosition, className, type,style } = this.props;
         let classString = classnames(className, {
             [prefixCls]: true,
             [`${prefixCls}-line`]: type == 'line',
@@ -83,7 +81,7 @@ class Tabs extends Component {
             content.push(this.renderTabContent());
         }
         return (
-            <div className={classString}>
+            <div className={classString} style={style}>
                 {content}
             </div>
         )

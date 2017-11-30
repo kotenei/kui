@@ -8,7 +8,7 @@ class TabsView extends Component {
             <div>
                 <h1>Tabs 标签</h1>
                 <div className="k-example" >
-                    <Tabs type="card" editable>
+                    <Tabs tabPosition="left" editable extraContent={<span>asdfasdf</span>} style={{ height: 200 }}>
                         <TabPane tab="Tab 1">Tab 1</TabPane>
                         <TabPane tab="Tab 2">Tab 2</TabPane>
                         <TabPane tab="Tab 3">Tab 3</TabPane>

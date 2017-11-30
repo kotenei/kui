@@ -1748,6 +1748,26 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     .k-loading .k-loading-container .k-loading-text {
       font-size: 1rem; }
 
+.k-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  .k-menu .k-menu-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    height: 2.625rem;
+    line-height: 2.625rem;
+    color: #333;
+    cursor: pointer; }
+    .k-menu .k-menu-item:hover {
+      color: #2196f3; }
+    .k-menu .k-menu-item.k-menu-active {
+      background: #ECF6FD; }
+    .k-menu .k-menu-item > .k-icon:first-child {
+      margin-right: 0.5rem; }
+
 .k-message {
   position: fixed;
   display: -webkit-box;

@@ -65,14 +65,16 @@ class Tabs extends Component {
         );
     }
     render() {
-        const { tabPosition, className, type,style } = this.props;
+        const { tabPosition, className, type, style } = this.props;
         let classString = classnames(className, {
             [prefixCls]: true,
             [`${prefixCls}-line`]: type == 'line',
             [`${prefixCls}-card`]: type == 'card',
-            [`${prefixCls}-${tabPosition}`]: true
+            [`${prefixCls}-${tabPosition}`]: true,
+            [`${prefixCls}-vertical`]: tabPosition == 'left' || tabPosition == 'right'
         });
         let content = [];
+
         if (tabPosition == 'bottom') {
             content.push(this.renderTabContent());
             content.push(this.renderTabNav());

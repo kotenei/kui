@@ -3,7 +3,7 @@
     .k-tabs-bar {
         border-bottom: 1px solid #d9d9d9;
         margin-bottom: torem(16px);
-        height:torem(38px);
+        height: torem(38px);
         .k-tabs-nav-container {
             overflow: hidden;
             position: relative;
@@ -23,6 +23,7 @@
                 position: absolute;
                 cursor: pointer;
                 color: #ccc;
+                z-index: 2;
                 .k-icon {
                     margin: 0;
                     position: absolute;
@@ -104,23 +105,21 @@
         }
         .k-tabs-extra-content {
             float: right;
-            height:torem(38px);
+            height: torem(38px);
             line-height: torem(38px);
-            >.k-icon:first-child{
+            >.k-icon:first-child {
                 cursor: pointer;
                 margin-right: torem(5px);
-                color:$font-color-base;
-                &:hover{
-                    color:$primary;
+                color: $font-color-base;
+                &:hover {
+                    color: $primary;
                 }
             }
         }
     }
-    .k-tabs-content{
+    .k-tabs-content {
         overflow: hidden;
     }
-
-
     &.k-tabs-card {
         .k-tabs-bar {
             .tab-item {
@@ -128,7 +127,6 @@
                 background: #F5F7FA;
                 border: $border-width-base $border-style-base $border-color-base;
                 border-right: none; //border-bottom-width: 1px;
-               
                 &.active {
                     background: white!important; // border-bottom-color: transparent;
                     border-bottom: $border-width-base $border-style-base white;
@@ -142,17 +140,138 @@
                 }
             }
         }
+    } //bottom
+    &.k-tabs-bottom {
+        .k-tabs-bar {
+            margin-bottom: 0;
+            margin-top: torem(16px);
+        }
     }
-
-    &.k-tabs-left{
-        .k-tabs-bar{
-            float:left;
-            .k-tabs-nav-scroll{
-                
+    &.k-tabs-vertical {
+        .k-tabs-bar {
+            border-right: 1px solid #d9d9d9;
+            border-bottom: none;
+            height: 100%;
+            margin-bottom: 0;
+            .k-tabs-nav-container {
+                margin-bottom: 0;
+                height: 100%;
+                &.scrolling {
+                    padding: torem(32px) 0;
+                }
+                .k-tabs-tab-prev,
+                .k-tabs-tab-next {
+                    width: 100%;
+                    top: 0;
+                    height: torem(32px);
+                    line-height: torem(32px);
+                }
+                .k-tabs-tab-next {
+                    top: auto;
+                    bottom: 0;
+                }
+                .k-tabs-nav-scroll {
+                    margin-bottom: 0;
+                    width: auto;
+                    height: 100%;
+                    .k-tabs-nav {
+                        li {
+                            &.tab-item {
+                                display: block;
+                                margin-right: 0;
+                                margin-bottom: torem(16px);
+                                &:last-child {
+                                    margin-bottom: 0;
+                                }
+                                .k-icon {
+                                    right: torem(6px);
+                                }
+                            }
+                            &.k-tabs-ink-bar {
+                                bottom: auto;
+                                height: auto;
+                                width: 2px;
+                                right: 0;
+                            }
+                        }
+                    }
+                }
+            }
+            .k-tabs-extra-content {
+                float: none;
+                display: block;
+                text-align: center;
             }
         }
-        .k-tabs-content{
-            
+
+        &.k-tabs-card{
+            .tab-item {
+                border-right:$border-width-base $border-style-base $border-color-base;
+                border-top-left-radius: $border-radius;
+                border-bottom-left-radius: $border-radius;
+                margin-bottom: torem(8px)!important;
+                &.active{
+                    border-bottom-color:$border-color-base;
+                    border-right-color: white;
+                }
+
+                &:last-child{
+                    border-top-right-radius:0;
+                }
+            }
+        }
+    } 
+    //left
+    &.k-tabs-left {
+        .k-tabs-bar {
+            float: left;
+            .k-tabs-nav-container {
+                margin-right: -1px;
+            }
+        }
+        .k-tabs-content {}
+    } 
+    //right
+    &.k-tabs-right {
+        .k-tabs-bar {
+            float: right;
+            border-left: 1px solid #d9d9d9;
+            border-right: 0;
+            .k-tabs-nav-container {
+                margin-left: -1px;
+                margin-right: 0;
+                .k-tabs-nav-scroll {
+                    .k-tabs-nav {
+                        li {
+                            &.k-tabs-ink-bar{
+                                right: auto;
+                                left:0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .k-tabs-content {}
+
+        &.k-tabs-card{
+            .tab-item {
+                border-radius: 0;
+                border-top-right-radius: $border-radius;
+                border-bottom-right-radius: $border-radius;
+                border-right:$border-width-base $border-style-base $border-color-base;
+
+                &:first-child{
+                    border-top-left-radius: 0;
+                }
+                &:last-child{
+                    border-top-right-radius: $border-radius;
+                }
+                &.active{
+                    border-left-color:white;
+                    border-right-color:  $border-color-base;
+                }
+            }
         }
     }
 }

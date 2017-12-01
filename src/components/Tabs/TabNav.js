@@ -267,7 +267,6 @@ class TabNav extends Component {
                 activeIndex: nextProps.activeIndex
             });
             this.scrollTo(nextProps.activeIndex);
-            this.tmpIndex = nextProps.activeIndex;
         }
         this.isVertical = nextProps.tabPosition == 'left' || nextProps.tabPosition == 'right';
     }

@@ -157,7 +157,6 @@ class TabNav extends Component {
         if (index > max) {
             index = max;
         }
-        console.log(index)
         if (this.isVertical) {
             this.verticalScroll(index);
         } else {

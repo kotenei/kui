@@ -8,6 +8,12 @@ import TabContent from './TabContent';
 const prefixCls = 'k-tabs';
 
 class Tabs extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeIndex: props.activeIndex || props.defaultActiveIndex || 0
+        }
+    }
     static propTypes = {
         activeIndex: PropTypes.number,
         defaultActiveIndex: PropTypes.number,
@@ -28,8 +34,22 @@ class Tabs extends Component {
         editable: false,
         hideAdd: false
     }
-    handleTabClick = () => {
-
+    handleEdit = (e, action, index) => {
+        const { onEdit } = this.props;
+        if (onEdit) {
+            onEdit(e, action, index);
+        }
+    }
+    handleTabClick = (e, index) => {
+        const { onTabClick } = this.props;
+        if (!'activeIndex' in this.props) {
+            this.setState({
+                activeIndex: index
+            })
+        }
+        if (onTabClick) {
+            onTabClick(e, index);
+        }
     }
     handlePrevClick = () => {
 
@@ -37,32 +57,78 @@ class Tabs extends Component {
     handleNextClick = () => {
 
     }
+    componentWillMount() {
+        const { activeIndex } = this.state;
+        const { children } = this.props;
+        let hasMatch = false;
+        for (let i = 0; i < children.length; i++) {
+            const child = children[i];
+            const { disabled } = child.props;
+            if (disabled && i == activeIndex) {
+                hasMatch = true;
+                break;
+            }
+        }
+        if (hasMatch) {
+            this.setState({
+                activeIndex: 0
+            })
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        if ('activeIndex' in nextProps) {
+            this.setState({
+                activeIndex: nextProps.activeIndex
+            })
+        }
+    }
     renderTabNav() {
         const { children } = this.props;
+        const { activeIndex } = this.state;
         if (!children) {
             return null;
         }
-        let props = omit(this.props, ['children'])
+        let props = omit(this.props, ['children']);
         return (
             <TabNav
                 prefixCls={prefixCls}
                 panels={children}
-                {...props} />
+                {...props}
+                activeIndex={activeIndex}
+                onEdit={this.handleEdit}
+                onTabClick={this.handleTabClick}
+                onPrevClick={this.handlePrevClick}
+                onNextClick={this.handleNextClick}
+            />
         );
     }
     renderTabContent() {
-        const { children, activeIndex, defaultActiveIndex } = this.props;
+        const { children, tabPosition } = this.props;
+        const { activeIndex } = this.state;
         if (!children) {
             return null;
         }
+        let props = omit(this.props, ['children']);
         return (
             <TabContent
                 prefixCls={prefixCls}
                 panels={children}
+                {...props}
                 activeIndex={activeIndex}
-                defaultActiveIndex={defaultActiveIndex}
             />
         );
+    }
+    renderContent() {
+        const { tabPosition } = this.props;
+        let items = [];
+        if (tabPosition == 'bottom') {
+            items.push(this.renderTabContent());
+            items.push(this.renderTabNav());
+        } else {
+            items.push(this.renderTabNav());
+            items.push(this.renderTabContent());
+        }
+        return items;
     }
     render() {
         const { tabPosition, className, type, style } = this.props;
@@ -73,18 +139,9 @@ class Tabs extends Component {
             [`${prefixCls}-${tabPosition}`]: true,
             [`${prefixCls}-vertical`]: tabPosition == 'left' || tabPosition == 'right'
         });
-        let content = [];
-
-        if (tabPosition == 'bottom') {
-            content.push(this.renderTabContent());
-            content.push(this.renderTabNav());
-        } else {
-            content.push(this.renderTabNav());
-            content.push(this.renderTabContent());
-        }
         return (
             <div className={classString} style={style}>
-                {content}
+                {this.renderContent()}
             </div>
         )
     }

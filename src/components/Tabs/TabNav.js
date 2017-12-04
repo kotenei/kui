@@ -9,7 +9,6 @@ class TabNav extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeIndex: props.activeIndex || props.defaultActiveIndex || 0,
             scrollTop: 0,
             scrollLeft: 0,
             inkWidth: 0,
@@ -23,7 +22,6 @@ class TabNav extends Component {
     }
     handleTabClick = (e, index) => {
         const { onTabClick } = this.props;
-        this.setActiveIndex(index);
         if (onTabClick) {
             onTabClick(e, index);
         }
@@ -86,8 +84,7 @@ class TabNav extends Component {
 
     }
     setTabsInfo() {
-        const { prefixCls } = this.props;
-        const { activeIndex } = this.state;
+        const { activeIndex } = this.props;
         this.tabsInfo = {
             arrHeight: [],
             arrWidth: [],
@@ -127,7 +124,7 @@ class TabNav extends Component {
     }
     getTabs() {
         const { panels, onTabClick, editable } = this.props;
-        const { activeIndex } = this.state;
+        const { activeIndex } = this.props;
         let items = [];
         panels.map((child, index) => {
             if (!child) {
@@ -139,7 +136,7 @@ class TabNav extends Component {
                     key={index}
                     index={index}
                     disabled={disabled}
-                    editable={editable}
+                    editable={editable && panels.length > 1}
                     isActive={activeIndex == index}
                     onClick={this.handleTabClick}
                     onClose={this.handleTabRemove}>
@@ -150,8 +147,8 @@ class TabNav extends Component {
         return items;
     }
     scrollTo(index) {
-        const { panels } = this.props;
-        const { activeIndex } = this.state;
+        const { panels, activeIndex } = this.props;
+        const { props } = this.state;
         let max = panels.length - 1;
         index = index != undefined ? index : activeIndex;
         if (index < 0) {
@@ -160,6 +157,7 @@ class TabNav extends Component {
         if (index > max) {
             index = max;
         }
+        console.log(index)
         if (this.isVertical) {
             this.verticalScroll(index);
         } else {
@@ -220,32 +218,6 @@ class TabNav extends Component {
             inkHeight: eh
         });
     }
-    setActiveIndex(index) {
-        if (!('activeIndex' in this.props)) {
-            this.setState({
-                activeIndex: index
-            });
-            this.scrollTo(index);
-        }
-    }
-    componentWillMount() {
-        const { activeIndex } = this.state;
-        const { panels } = this.props;
-        let hasMap = false;
-        for (let i = 0; i < panels.length; i++) {
-            const child = panels[i];
-            const { disabled } = child.props;
-            if (disabled && i == activeIndex) {
-                hasMap = true;
-                break;
-            }
-        }
-        if (hasMap) {
-            this.setState({
-                activeIndex: 0
-            })
-        }
-    }
     componentDidMount() {
         this.setTabsInfo();
         if ((!this.isVertical && this.tabsInfo.totalWidth > this.tabsInfo.scrollWidth) ||
@@ -262,13 +234,32 @@ class TabNav extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if ('activeIndex' in nextProps && nextProps.activeIndex != this.state.activeIndex) {
-            this.setState({
-                activeIndex: nextProps.activeIndex
-            });
+        this.isVertical = nextProps.tabPosition == 'left' || nextProps.tabPosition == 'right';
+
+        if (this.props.tabPosition != nextProps.tabPosition || (this.props.panels.length != nextProps.panels.length)) {
+            setTimeout(() => {
+                this.setTabsInfo();
+                if ((!this.isVertical && this.tabsInfo.totalWidth > this.tabsInfo.scrollWidth) ||
+                    (this.isVertical && this.tabsInfo.totalHeight > this.tabsInfo.scrollHeight)) {
+                    this.setState({
+                        scrolling: true,
+                    });
+                } else {
+                    this.setState({
+                        scrolling: false,
+                        scrollLeft: 0,
+                        scrollTop: 0
+                    });
+                }
+                setTimeout(() => {
+                    this.setTabsInfo();
+                    this.scrollTo(nextProps.activeIndex);
+                }, 100)
+            }, 100);
+        } else if (this.props.activeIndex != nextProps.activeIndex) {
             this.scrollTo(nextProps.activeIndex);
         }
-        this.isVertical = nextProps.tabPosition == 'left' || nextProps.tabPosition == 'right';
+
     }
     renderTabsContainer() {
         const { prefixCls, type } = this.props;

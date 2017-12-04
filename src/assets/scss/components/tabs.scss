@@ -34,6 +34,7 @@
                 &.disabled {
                     width: 0;
                     opacity: 0;
+                    z-index: 0;
                 }
             }
             .k-tabs-tab-prev {
@@ -71,7 +72,7 @@
                                 color: $disabled-color;
                                 cursor: $cursor-disabled;
                             }
-                            .k-icon {
+                            .icon-close {
                                 position: absolute;
                                 font-size: $font-size-sm;
                                 margin: 0;
@@ -86,7 +87,7 @@
                                 }
                             }
                             &:hover {
-                                .k-icon {
+                                .icon-close {
                                     opacity: 1;
                                 }
                             }
@@ -118,7 +119,19 @@
         }
     }
     .k-tabs-content {
-        overflow: hidden;
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        transition: all .3s;
+        .k-tabs-panel{
+            width: 100%;
+            flex-shrink:0;
+            opacity: 0;
+            transition: all .3s;
+            &.active{
+                opacity: 1;
+            }
+        }
     }
     &.k-tabs-card {
         .k-tabs-bar {
@@ -153,6 +166,7 @@
             border-bottom: none;
             height: 100%;
             margin-bottom: 0;
+           
             .k-tabs-nav-container {
                 margin-bottom: 0;
                 height: 100%;
@@ -201,6 +215,22 @@
                 float: none;
                 display: block;
                 text-align: center;
+                padding:0 torem(8px);
+            }
+        }
+
+        .k-tabs-content{
+            width: auto;
+            
+            flex-direction: column;
+            
+
+            .k-tabs-panel{
+                display: none;
+
+                &.active{
+                    display: block;
+                }
             }
         }
 
@@ -220,16 +250,21 @@
                 }
             }
         }
+
     } 
     //left
     &.k-tabs-left {
         .k-tabs-bar {
             float: left;
+            margin-right: -1px;
             .k-tabs-nav-container {
                 margin-right: -1px;
             }
         }
-        .k-tabs-content {}
+        .k-tabs-content {
+            padding-left: torem(24px);
+            border-left: $border-width-base $border-style-base $border-color-base;
+        }
     } 
     //right
     &.k-tabs-right {
@@ -237,6 +272,7 @@
             float: right;
             border-left: 1px solid #d9d9d9;
             border-right: 0;
+            margin-left: -1px;
             .k-tabs-nav-container {
                 margin-left: -1px;
                 margin-right: 0;
@@ -252,7 +288,10 @@
                 }
             }
         }
-        .k-tabs-content {}
+        .k-tabs-content {
+            border-right: $border-width-base $border-style-base $border-color-base;
+            padding-right: torem(24px);
+        }
 
         &.k-tabs-card{
             .tab-item {

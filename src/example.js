@@ -64,7 +64,7 @@ ReactDOM.render(
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Menu 菜单</NavLink></li>
                                 <li><NavLink to="/Pagination" activeClassName="selected">Pagination 分页</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Steps 步骤</NavLink></li>
-                                <li><NavLink to="###" className="disabled" activeClassName="selected">Tabs 标签</NavLink></li>
+                                <li><NavLink to="/Tabs"  activeClassName="selected">Tabs 标签</NavLink></li>
                             </ul>
                         </li>
                         <li>

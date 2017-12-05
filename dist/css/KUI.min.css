@@ -2696,7 +2696,8 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
       .k-tabs .k-tabs-bar .k-tabs-extra-content > .k-icon:first-child {
         cursor: pointer;
         margin-right: 0.3125rem;
-        color: #333; }
+        color: #333;
+        font-size: 1rem; }
         .k-tabs .k-tabs-bar .k-tabs-extra-content > .k-icon:first-child:hover {
           color: #2196f3; }
   .k-tabs .k-tabs-content {

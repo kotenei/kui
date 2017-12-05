@@ -111,7 +111,6 @@ class TabNav extends Component {
             left += w;
             top += h;
         }
-
         this.tabsInfo.tabs = tabs;
         this.tabsInfo.maxLeft = totalWidth - scrollWidth;
         this.tabsInfo.maxHeight = totalHeight - scrollHeight;
@@ -166,6 +165,7 @@ class TabNav extends Component {
     //水平滚动
     horizontalScroll(index) {
         const { scrollLeft } = this.state;
+        const { type } = this.props;
         let el = this.tabsInfo.tabs[index],
             offset = domUtils.offset(el),
             position = domUtils.position(el),
@@ -173,6 +173,7 @@ class TabNav extends Component {
             tw = offset.left + this.tabsInfo.arrWidth[index],
             nw = this.tabsInfo.scrollOffset.left + this.tabsInfo.scrollWidth,
             left;
+
         if (offset.left < this.tabsInfo.scrollOffset.left) {
             left = this.tabsInfo.arrLeft[index];
         }
@@ -233,10 +234,14 @@ class TabNav extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
         this.isVertical = nextProps.tabPosition == 'left' || nextProps.tabPosition == 'right';
-
         if (this.props.tabPosition != nextProps.tabPosition || (this.props.panels.length != nextProps.panels.length)) {
-            setTimeout(() => {
+            let { totalWidth, totalHeight, count } = this.tabsInfo;
+            const { scrollLeft, scrollTop } = this.state;
+            this.timeout = setTimeout(() => {
                 this.setTabsInfo();
                 if ((!this.isVertical && this.tabsInfo.totalWidth > this.tabsInfo.scrollWidth) ||
                     (this.isVertical && this.tabsInfo.totalHeight > this.tabsInfo.scrollHeight)) {
@@ -252,7 +257,34 @@ class TabNav extends Component {
                 }
                 setTimeout(() => {
                     this.setTabsInfo();
-                    this.scrollTo(nextProps.activeIndex);
+                    if (count > nextProps.panels.length) {
+                        let lastIndex = this.tabsInfo.count - 1,
+                            el = this.tabsInfo.tabs[lastIndex],
+                            offset = domUtils.offset(el),
+                            num;
+                        if (this.isVertical) {
+                            let th = offset.top + this.tabsInfo.arrHeight[lastIndex],
+                                nh = this.tabsInfo.scrollOffset.top + this.tabsInfo.scrollHeight;
+                            if (th < nh) {
+                                num = th - nh - domUtils.css(el, 'marginBottom', true) + scrollTop;
+                                this.setState({
+                                    scrollTop: num
+                                })
+                            }
+                        } else {
+                            let tw = offset.left + this.tabsInfo.arrWidth[lastIndex],
+                                nw = this.tabsInfo.scrollOffset.left + this.tabsInfo.scrollWidth;
+                            if (tw < nw) {
+                                num = tw - nw - domUtils.css(el, 'marginRight', true) + scrollLeft;
+                                this.setState({
+                                    scrollLeft: num
+                                })
+                            }
+
+                        }
+                    } else {
+                        this.scrollTo(nextProps.activeIndex);
+                    }
                 }, 100)
             }, 100);
         } else if (this.props.activeIndex != nextProps.activeIndex) {
@@ -264,12 +296,12 @@ class TabNav extends Component {
         const { prefixCls, type } = this.props;
         const { inkTop, inkLeft, inkWidth, inkHeight, scrollLeft, scrolling, scrollTop } = this.state;
         let navStyle, inkStyle;
-        if (!this.isVertical) {
-            navStyle = { transform: `translate3d(-${scrollLeft}px, 0px, 0px)` };
-            inkStyle = { width: inkWidth, transform: `translate3d(${inkLeft}px, 0px, 0px)` };
-        } else {
+        if (this.isVertical) {
             navStyle = { transform: `translate3d(0px, -${scrollTop}px, 0px)` };
             inkStyle = { height: inkHeight, transform: `translate3d(0px, ${inkTop}px, 0px)` };
+        } else {
+            navStyle = { transform: `translate3d(-${scrollLeft}px, 0px, 0px)` };
+            inkStyle = { width: inkWidth, transform: `translate3d(${inkLeft}px, 0px, 0px)` };
         }
         return (
             <div className={classnames(`${prefixCls}-nav-container`, { 'scrolling': scrolling })}>

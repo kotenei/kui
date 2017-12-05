@@ -42,7 +42,7 @@ class Tabs extends Component {
     }
     handleTabClick = (e, index) => {
         const { onTabClick } = this.props;
-        if (!'activeIndex' in this.props) {
+        if (!('activeIndex' in this.props)) {
             this.setState({
                 activeIndex: index
             })

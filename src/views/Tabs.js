@@ -33,8 +33,8 @@ class TabsView extends Component {
         let activeKey = 0, len = tabs.length;
         if (action == 'add') {
             tabs.push({
-                title: `new tab ${len + 1}`,
-                content: `new tab content ${len + 1}`
+                title: `new tab `,
+                content: `new tab content`
             });
             activeKey = tabs.length - 1;
         } else if (action == 'remove') {
@@ -123,6 +123,100 @@ class TabsView extends Component {
                         {this.renderTabs()}
                     </Tabs>
                 </div>
+                <h1>API</h1>
+                <h3>Tabs</h3>
+                <table className="k-table k-table-hover k-table-striped">
+                    <thead>
+                        <tr>
+                            <th>属性</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>默认值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>activeIndex</td>
+                            <td>当前激活面板</td>
+                            <td>number</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>defaultActiveIndex</td>
+                            <td>初始化时选中的面板</td>
+                            <td>number</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>extraContent</td>
+                            <td>tab bar 扩展内容</td>
+                            <td>ReactNode</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>tabPosition</td>
+                            <td>标签位置，可选top left right bottom</td>
+                            <td>string</td>
+                            <td>'top'</td>
+                        </tr>
+                        <tr>
+                            <td>type</td>
+                            <td>标签类型，可以line card</td>
+                            <td>string</td>
+                            <td>'line'</td>
+                        </tr>
+                        <tr>
+                            <td>editable</td>
+                            <td>是否可编辑</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                        </tr>
+                        <tr>
+                            <td>hideAdd</td>
+                            <td>是否隐藏添加图标，编辑状态有效</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                        </tr>
+                        <tr>
+                            <td>onTabClick</td>
+                            <td>点击标签的回调函数</td>
+                            <td>Function</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>onEdit</td>
+                            <td>新增或删除标签回调函数</td>
+                            <td>Function</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/><br/>
+                <h3>Tabs.TabPane</h3>
+                <table className="k-table k-table-hover k-table-striped">
+                    <thead>
+                        <tr>
+                            <th>属性</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>默认值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>tab</td>
+                            <td>选项卡头显示内容</td>
+                            <td>string|ReactNode</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>disabled</td>
+                            <td>是否禁用</td>
+                            <td>boolean</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         )
     }

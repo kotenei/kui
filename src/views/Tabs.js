@@ -155,13 +155,13 @@ class TabsView extends Component {
                         </tr>
                         <tr>
                             <td>tabPosition</td>
-                            <td>标签位置，可选top left right bottom</td>
+                            <td>标签位置，可选 'top' 'left' 'right' 'bottom'</td>
                             <td>string</td>
                             <td>'top'</td>
                         </tr>
                         <tr>
                             <td>type</td>
-                            <td>标签类型，可以line card</td>
+                            <td>标签类型，可选 'line' 'card'</td>
                             <td>string</td>
                             <td>'line'</td>
                         </tr>

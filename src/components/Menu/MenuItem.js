@@ -7,6 +7,7 @@ class MenuItem extends Component {
         super(props);
     }
     static propTypes = {
+        id: PropTypes.string,
         selected: PropTypes.bool,
         disabled: PropTypes.bool,
     }
@@ -15,14 +16,14 @@ class MenuItem extends Component {
         disabled: false
     }
     render() {
-        const { prefixCls, selected, selectable, disabled, children } = this.props;
+        const { prefixCls, selected, selectable, disabled, children, inlineIndent } = this.props;
         let classString = classnames({
             [`${prefixCls}-item`]: true,
             [`${prefixCls}-item-selected`]: selected && selectable,
             [`${prefixCls}-item-disabled`]: disabled
         });
         return (
-            <li className={classString} >
+            <li className={classString} style={{ paddingLeft: inlineIndent }}>
                 {children}
             </li>
         )

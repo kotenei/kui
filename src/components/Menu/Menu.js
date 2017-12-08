@@ -26,23 +26,22 @@ class Menu extends Component {
         selectable: true
     }
     render() {
-        const { className, mode, children, prefixCls } = this.props;
+        const { className, mode, children, prefixCls, style } = this.props;
         let classString = classnames(className, {
             [`${prefixCls}`]: true,
             [`${prefixCls}-${mode}`]: true,
             [`${prefixCls}-root`]: true,
         });
-        let props = omit(this.props, ['children']);
+        let props = omit(this.props, ['children', 'style']);
         return (
-            <ul className={classString}>
+            <ul className={classString} style={style}>
                 {
                     React.Children.map(children, (child, i, subIndex) => {
                         if (!child) {
                             return null;
                         }
-                        return React.cloneElement(child, { ...props });
+                        return React.cloneElement(child, { ...props, ...child.props });
                     })
-
                 }
             </ul>
         )

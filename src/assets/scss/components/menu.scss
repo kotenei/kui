@@ -2,23 +2,47 @@
     margin: 0;
     padding: 0;
     list-style: none;
+
+    &.k-menu-root{
+        border-right:1px solid #e8e8e8;
+    }
+
     .k-menu-item {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         position: relative;
-        height: torem(42px);
-        line-height: torem(42px);
+        height: torem(40px);
+        line-height: torem(40px);
         color: $font-color-base;
         cursor: pointer;
+        padding-right:torem(20px);
         &:hover {
             color: $primary;
         }
         &.k-menu-active {
             background: #ECF6FD;
         }
-        >.k-icon:first-child {
-            margin-right: torem(8px);
+    }
+    .k-menu-submenu {
+        .k-menu-submenu-title {
+            .direction {
+                position: absolute;
+                transform: translateY(-50%);
+                top: 50%;
+                right: torem(5px);
+            }
         }
+
+        .k-menu-sub{
+            transition: all .3s ease;
+            overflow: hidden;
+            &.hidden{
+              display: none; 
+            }
+        }
+    }
+    .k-icon {
+        margin-right: torem(5px);
     }
 }

@@ -8,30 +8,31 @@ class MenuItem extends Component {
     }
     static propTypes = {
         id: PropTypes.string.isRequired,
-        selected: PropTypes.bool,
         disabled: PropTypes.bool,
-        onClick: PropTypes.func
+        onItemClick: PropTypes.func
     }
     static defaultProps = {
-        selected: false,
         disabled: false
     }
     handleClick = (e) => {
-        const { onClick, id } = this.props;
-        if (onClick) {
-            onClick(e, id)
+        const { onItemClick, id } = this.props;
+        if (onItemClick) {
+            onItemClick(e, id)
         }
     }
     render() {
-        const { prefixCls, selected, selectable, disabled, children, inlineIndent, activeId } = this.props;
-        console.log(activeId)
+        const { prefixCls, disabled, children, inlineIndent, selectedIds, id } = this.props;
+        let isSelected = selectedIds.indexOf(id) != -1;
         let classString = classnames({
             [`${prefixCls}-item`]: true,
-            [`${prefixCls}-item-selected`]: selected && selectable,
+            [`${prefixCls}-item-active`]: isSelected,
             [`${prefixCls}-item-disabled`]: disabled
         });
         return (
-            <li className={classString} style={{ paddingLeft: inlineIndent }} onClick={this.handleClick}>
+            <li
+                className={classString}
+                style={{ paddingLeft: inlineIndent }}
+                onClick={this.handleClick}>
                 {children}
             </li>
         )

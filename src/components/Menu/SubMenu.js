@@ -6,47 +6,70 @@ import omit from 'object.omit';
 
 class SubMenu extends Component {
     static propTypes = {
+        id: PropTypes.string.isRequired,
         title: PropTypes.oneOfType[PropTypes.string, PropTypes.node],
-        open: PropTypes.bool,
         disabled: PropTypes.bool
     }
     static defaultProps = {
-        open: true,
         disabled: false
     }
+    handleItemClick = (e) => {
+        const { onItemClick, id } = this.props;
+        if (onItemClick) {
+            onItemClick(e, id, 'openChange');
+        }
+    }
+    renderIcon(isOpen) {
+        const { mode, children } = this.props;
+        if (!children) {
+            return null;
+        }
+        if (mode == 'inline') {
+            return <Icon className="direction" type={isOpen ? 'up' : 'down'} />;
+        }
+        return <Icon className="direction" type="right" />;
+    }
     render() {
-        const { prefixCls, mode, title, disabled, open, children, inlineIndent } = this.props;
+        const { prefixCls, mode, title, disabled, children, inlineIndent, openIds, id, level } = this.props;
+        let isOpen = openIds.indexOf(id) != -1;
         let classString = classnames({
             [`${prefixCls}-submenu`]: true,
             [`${prefixCls}-submenu-${mode}`]: true,
-            [`${prefixCls}-submenu-open`]: open,
+            [`${prefixCls}-submenu-open`]: isOpen,
             [`${prefixCls}-submenu-disabled`]: disabled,
         });
         let ulClassString = classnames({
             [`${prefixCls}`]: true,
             [`${prefixCls}-${mode}`]: true,
             [`${prefixCls}-sub`]: true,
-            'hidden': true
+            'hidden': !isOpen
         });
         let props = omit(this.props, ['children', 'style']);
+
         return (
-            <li className={classString} style={{ paddingLeft: inlineIndent }}>
+            <li className={classString} >
                 <div className={classnames({
                     [`${prefixCls}-submenu-title`]: true,
                     [`${prefixCls}-item`]: true
                 })}
-                    
+                    style={{ paddingLeft: inlineIndent }}
+                    onClick={this.handleItemClick}
                 >
                     {title}
-                    {children ? <Icon className="direction" type="down" /> : null}
-                </div>
-                <ul className={ulClassString}>
+                    {this.renderIcon(isOpen)}
+                </div >
+                <ul className={ulClassString} >
                     {
                         React.Children.map(children, (child, index) => {
                             if (!child) {
                                 return null;
                             }
-                            return React.cloneElement(child, { ...props });
+                            return React.cloneElement(child, {
+                                ...props,
+                                ...child.props,
+                                inlineIndent: inlineIndent * 2,
+                                level: level+1
+                            });
                         })
                     }
                 </ul>

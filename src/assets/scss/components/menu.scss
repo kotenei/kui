@@ -1,12 +1,11 @@
 .k-menu {
+    $activeBgColor: #ECF6FD;
     margin: 0;
     padding: 0;
     list-style: none;
-
-    &.k-menu-root{
-        border-right:1px solid #e8e8e8;
+    &.k-menu-root {
+        border-right: 1px solid #e8e8e8;
     }
-
     .k-menu-item {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -16,16 +15,27 @@
         line-height: torem(40px);
         color: $font-color-base;
         cursor: pointer;
-        padding-right:torem(20px);
+        padding-right: torem(20px);
         &:hover {
             color: $primary;
         }
-        &.k-menu-active {
-            background: #ECF6FD;
+        &.k-menu-item-active {
+            background: $activeBgColor;
+            color: $primary;
+            &:after {
+                content: ' ';
+                position: absolute;
+                height: 100%;
+                width: 3px;
+                background: $primary;
+                right: 0;
+            }
         }
     }
     .k-menu-submenu {
+        position: relative;
         .k-menu-submenu-title {
+            padding-right:0;
             .direction {
                 position: absolute;
                 transform: translateY(-50%);
@@ -33,16 +43,23 @@
                 right: torem(5px);
             }
         }
-
-        .k-menu-sub{
+        .k-menu-sub {
             transition: all .3s ease;
             overflow: hidden;
-            &.hidden{
-              display: none; 
+            &.hidden {
+                display: none;
             }
         }
     }
     .k-icon {
         margin-right: torem(5px);
     }
+
+    // &.k-menu-vertical{
+    //     .k-menu-sub{
+    //        position: absolute;
+    //        right:-100%;
+    //        top:0;
+    //     }
+    // }
 }

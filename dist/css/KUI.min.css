@@ -1761,7 +1761,8 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     line-height: 2.5rem;
     color: #333;
     cursor: pointer;
-    padding-right: 1.25rem; }
+    padding-right: 1.25rem;
+    min-width: 10rem; }
     .k-menu .k-menu-item:hover {
       color: #2196f3; }
     .k-menu .k-menu-item.k-menu-item-active {
@@ -1785,12 +1786,25 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
         top: 50%;
         right: 0.3125rem; }
     .k-menu .k-menu-submenu .k-menu-sub {
-      transition: all .3s ease;
-      overflow: hidden; }
+      transition: all .3s ease; }
       .k-menu .k-menu-submenu .k-menu-sub.hidden {
         display: none; }
   .k-menu .k-icon {
     margin-right: 0.3125rem; }
+
+.k-menu-vertical.k-menu-sub {
+  border-radius: 0.25rem;
+  background: white;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  margin-left: 0.1875rem;
+  min-width: 10rem; }
+  .k-menu-vertical.k-menu-sub .k-menu-item {
+    padding-left: 1rem !important; }
+    .k-menu-vertical.k-menu-sub .k-menu-item.k-menu-item-active:after {
+      width: 0; }
+  .k-menu-vertical.k-menu-sub.hidden {
+    display: none; }
 
 .k-message {
   position: fixed;

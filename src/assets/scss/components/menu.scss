@@ -16,6 +16,7 @@
         color: $font-color-base;
         cursor: pointer;
         padding-right: torem(20px);
+        min-width: torem(160px);
         &:hover {
             color: $primary;
         }
@@ -35,7 +36,7 @@
     .k-menu-submenu {
         position: relative;
         .k-menu-submenu-title {
-            padding-right:0;
+            padding-right: 0;
             .direction {
                 position: absolute;
                 transform: translateY(-50%);
@@ -45,7 +46,6 @@
         }
         .k-menu-sub {
             transition: all .3s ease;
-            overflow: hidden;
             &.hidden {
                 display: none;
             }
@@ -54,12 +54,27 @@
     .k-icon {
         margin-right: torem(5px);
     }
+   
+}
 
-    // &.k-menu-vertical{
-    //     .k-menu-sub{
-    //        position: absolute;
-    //        right:-100%;
-    //        top:0;
-    //     }
-    // }
+.k-menu-vertical {
+    &.k-menu-sub {
+        border-radius: $border-radius;
+        background: white;
+        box-shadow: $box-shadow-base;
+        position: absolute;
+        margin-left: torem(3px);
+        min-width: torem(160px);
+        .k-menu-item{
+            padding-left:torem(16px)!important;
+            &.k-menu-item-active {
+                &:after{
+                    width: 0;
+                }
+            }
+        }
+        &.hidden {
+            display: none;
+        }
+    }
 }

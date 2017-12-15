@@ -11,7 +11,9 @@ class SubMenu extends Component {
         super(props);
         this.state = {
             top: 0,
-            left: 0,
+            left: -999,
+            height: 0,
+            position: 'absolute',
             show: false
         }
     }
@@ -34,9 +36,10 @@ class SubMenu extends Component {
         if (mode == 'inline') {
             return;
         }
-        let width = domUtils.outerWidth(this.refs.subItem, true);
+        if (this.tm) {
+            clearTimeout(this.tm);
+        }
         this.setState({
-            left: width,
             show: true
         });
     }
@@ -45,19 +48,44 @@ class SubMenu extends Component {
         if (mode == 'inline') {
             return;
         }
-        setTimeout(() => {
+        this.tm = setTimeout(() => {
             this.setState({
                 show: false
             })
-        }, 200);
+        }, 300);
     }
     handleMenuOver = () => {
         if (this.tm) {
-            clearTimeout(tm)
+            clearTimeout(this.tm)
         }
         this.setState({
-            show:true
+            show: true
         })
+    }
+    setSubMenuInfo() {
+        let width = domUtils.outerWidth(this.refs.subMenu, true),
+            height = domUtils.outerHeight(this.refs.subMenu, true);
+        this.subMenuInfo = {
+            width,
+            height
+        }
+    }
+    componentDidMount() {
+        const { mode, level } = this.props;
+        this.setSubMenuInfo();
+        let left = domUtils.outerWidth(this.refs.subItem, true);
+        let top = domUtils.outerHeight(this.refs.subItem, true);
+        if (mode == 'vertical' || mode == 'horizontal' && level > 1) {
+            this.setState({
+                left
+            })
+        }
+        if (mode == 'horizontal' && level == 1) {
+            this.setState({
+                left: 0,
+                top
+            })
+        }
     }
     renderIcon(isOpen) {
         const { mode, children } = this.props;
@@ -79,10 +107,17 @@ class SubMenu extends Component {
             [`${prefixCls}-sub`]: true,
             'hidden': mode != 'inline' ? !show : !isOpen
         });
+        let style = {};
+        if (mode != 'inline') {
+            style = {
+                top,
+                left
+            }
+        }
         return (
             <ul
                 className={classString}
-                ref="submenu" style={{ left, top }}
+                ref="subMenu" style={style}
                 onMouseEnter={this.handleMenuOver}>
                 {
                     React.Children.map(children, (child, index) => {
@@ -92,7 +127,7 @@ class SubMenu extends Component {
                         return React.cloneElement(child, {
                             ...props,
                             ...child.props,
-                            inlineIndent: inlineIndent * 2,
+                            inlineIndent: mode == 'inline' ? inlineIndent * 2 : inlineIndent,
                             level: level + 1
                         });
                     })

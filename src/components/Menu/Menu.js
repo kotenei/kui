@@ -95,7 +95,13 @@ class Menu extends Component {
                         }
                         props.selectedIds = selectedIds;
                         props.openIds = openIds;
-                        return React.cloneElement(child, { ...props, ...child.props, level: this.level });
+                        return React.cloneElement(child, {
+                            ...props,
+                            ...child.props,
+                            level: this.level,
+                            rootId: child.props.id,
+                            parentId: 0
+                        });
                     })
                 }
             </ul>

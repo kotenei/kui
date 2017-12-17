@@ -15,13 +15,13 @@ class MenuItem extends Component {
         disabled: false
     }
     handleClick = (e) => {
-        const { onItemClick, id } = this.props;
+        const { onItemClick, id, rootId, parentId } = this.props;
         if (onItemClick) {
             onItemClick(e, id)
         }
     }
     render() {
-        const { prefixCls, disabled, children, inlineIndent, selectedIds, id } = this.props;
+        const { prefixCls, disabled, children, inlineIndent, selectedIds, id, rootId } = this.props;
         let isSelected = selectedIds.indexOf(id) != -1;
         let classString = classnames({
             [`${prefixCls}-item`]: true,

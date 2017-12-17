@@ -95,7 +95,7 @@ class SubMenu extends Component {
         return <Icon className="direction" type="right" />;
     }
     renderSub(props) {
-        const { prefixCls, children, inlineIndent, openIds, id, mode, level } = this.props;
+        const { prefixCls, children, inlineIndent, openIds, id, mode, level, rootId } = this.props;
         const { left, top, show } = this.state;
         let isOpen = openIds.indexOf(id) != -1;
         let classString = classnames({
@@ -135,7 +135,9 @@ class SubMenu extends Component {
                                 ...props,
                                 ...child.props,
                                 inlineIndent: mode == 'inline' ? inlineIndent * 2 : inlineIndent,
-                                level: level + 1
+                                level: level + 1,
+                                parentId: id,
+                                rootId
                             });
                         })
                     }

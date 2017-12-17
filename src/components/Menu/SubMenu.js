@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Icon from '../Icon';
 import omit from 'object.omit';
-import domUtils from '../../utils/domUtils'
+import domUtils from '../../utils/domUtils';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { guid, FirstChild } from '../../utils/kUtils';
 
 class SubMenu extends Component {
     constructor(props) {
@@ -52,9 +54,13 @@ class SubMenu extends Component {
             this.setState({
                 show: false
             })
-        }, 300);
+        }, 150);
     }
     handleMenuOver = () => {
+        const { mode } = this.props;
+        if (mode == 'inline') {
+            return;
+        }
         if (this.tm) {
             clearTimeout(this.tm)
         }
@@ -62,17 +68,8 @@ class SubMenu extends Component {
             show: true
         })
     }
-    setSubMenuInfo() {
-        let width = domUtils.outerWidth(this.refs.subMenu, true),
-            height = domUtils.outerHeight(this.refs.subMenu, true);
-        this.subMenuInfo = {
-            width,
-            height
-        }
-    }
     componentDidMount() {
         const { mode, level } = this.props;
-        this.setSubMenuInfo();
         let left = domUtils.outerWidth(this.refs.subItem, true);
         let top = domUtils.outerHeight(this.refs.subItem, true);
         if (mode == 'vertical' || mode == 'horizontal' && level > 1) {
@@ -88,11 +85,11 @@ class SubMenu extends Component {
         }
     }
     renderIcon(isOpen) {
-        const { mode, children } = this.props;
+        const { mode, children, level } = this.props;
         if (!children) {
             return null;
         }
-        if (mode == 'inline') {
+        if (mode == 'inline' || mode == 'horizontal' && level == 1) {
             return <Icon className="direction" type={isOpen ? 'up' : 'down'} />;
         }
         return <Icon className="direction" type="right" />;
@@ -105,8 +102,9 @@ class SubMenu extends Component {
             [`${prefixCls}`]: true,
             [`${prefixCls}-${mode}`]: true,
             [`${prefixCls}-sub`]: true,
-            'hidden': mode != 'inline' ? !show : !isOpen
+            [`${prefixCls}-pop-enter`]: mode == 'vertical' && show
         });
+        let isHide = mode != 'inline' ? !show : !isOpen;
         let style = {};
         if (mode != 'inline') {
             style = {
@@ -114,30 +112,47 @@ class SubMenu extends Component {
                 left
             }
         }
+        let animateName = 'slide';
+        if (mode == 'vertical') {
+            animateName = `${prefixCls}-pop`;
+        }
+
+        let menu = !isHide ? (
+            <CSSTransition
+                timeout={300}
+                classNames={animateName}>
+                <ul
+                    className={classString}
+                    ref="subMenu"
+                    style={style}
+                    onMouseEnter={this.handleMenuOver}>
+                    {
+                        React.Children.map(children, (child, index) => {
+                            if (!child) {
+                                return null;
+                            }
+                            return React.cloneElement(child, {
+                                ...props,
+                                ...child.props,
+                                inlineIndent: mode == 'inline' ? inlineIndent * 2 : inlineIndent,
+                                level: level + 1
+                            });
+                        })
+                    }
+                </ul>
+            </CSSTransition>
+        ) : null;
+
         return (
-            <ul
-                className={classString}
-                ref="subMenu" style={style}
-                onMouseEnter={this.handleMenuOver}>
-                {
-                    React.Children.map(children, (child, index) => {
-                        if (!child) {
-                            return null;
-                        }
-                        return React.cloneElement(child, {
-                            ...props,
-                            ...child.props,
-                            inlineIndent: mode == 'inline' ? inlineIndent * 2 : inlineIndent,
-                            level: level + 1
-                        });
-                    })
-                }
-            </ul>
+            <TransitionGroup component={FirstChild}  >
+                {menu}
+            </TransitionGroup>
         );
     }
     render() {
         const { prefixCls, mode, title, disabled, children, inlineIndent, openIds, id, level } = this.props;
-        let isOpen = openIds.indexOf(id) != -1;
+        const { show } = this.state;
+        let isOpen = openIds.indexOf(id) != -1 || show;
         let classString = classnames({
             [`${prefixCls}-submenu`]: true,
             [`${prefixCls}-submenu-${mode}`]: true,

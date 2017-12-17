@@ -24,3 +24,24 @@
 .fade-exit.fade-exit-active {
     opacity: 0;
 }
+
+
+.slide-enter {
+    max-height: torem(0px);
+    overflow: hidden;
+    transition-duration: 1s!important;
+}
+
+.slide-enter.slide-enter-active {
+    max-height: torem(1000px);
+}
+
+.slide-exit {
+    max-height: torem(1000px);
+    overflow: hidden;
+}
+
+.slide-exit.slide-exit-active {
+    max-height: torem(0px);
+}
+

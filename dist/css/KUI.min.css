@@ -1804,12 +1804,13 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     .k-menu .k-menu-submenu .k-menu-sub {
       transition: all .3s ease; }
   .k-menu .k-icon {
-    margin-right: 0.3125rem; }
+    margin-right: 0.3125rem;
+    vertical-align: baseline; }
 
-.k-menu-vertical.k-menu-root .k-menu-item.k-menu-item-active:after, .k-menu-inline-collapsed.k-menu-root .k-menu-item.k-menu-item-active:after {
+.k-menu-vertical.k-menu-root .k-menu-item.k-menu-item-active:after, .k-menu-inlineCollapsed.k-menu-root .k-menu-item.k-menu-item-active:after {
   width: 0; }
 
-.k-menu-vertical.k-menu-root .k-menu-sub, .k-menu-inline-collapsed.k-menu-root .k-menu-sub {
+.k-menu-vertical.k-menu-root .k-menu-sub, .k-menu-inlineCollapsed.k-menu-root .k-menu-sub {
   border-radius: 0.25rem;
   background: white;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
@@ -1818,16 +1819,18 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
   -webkit-transform: scale(1);
           transform: scale(1);
   -webkit-transform-origin: 0 0 0;
-          transform-origin: 0 0 0; }
+          transform-origin: 0 0 0;
+  z-index: 10; }
 
-.k-menu-inline-collapsed.k-menu-root {
+.k-menu-inlineCollapsed.k-menu-root {
   width: 80px !important; }
-  .k-menu-inline-collapsed.k-menu-root > li {
+  .k-menu-inlineCollapsed.k-menu-root > li {
     min-width: auto;
     padding: 0; }
-    .k-menu-inline-collapsed.k-menu-root > li > .k-menu-item {
-      min-width: auto; }
-    .k-menu-inline-collapsed.k-menu-root > li .k-menu-collapsed-item {
+    .k-menu-inlineCollapsed.k-menu-root > li > .k-menu-item {
+      min-width: auto;
+      padding: 0; }
+    .k-menu-inlineCollapsed.k-menu-root > li .k-menu-collapsed-item {
       text-align: center; }
 
 .k-menu-horizontal.k-menu-root {
@@ -1857,7 +1860,8 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
     border-radius: 0.25rem;
     position: absolute;
-    background: white; }
+    background: white;
+    z-index: 10; }
 
 .k-menu-pop-appear {
   -webkit-transform: scale(0) !important;

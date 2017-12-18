@@ -51,12 +51,13 @@
     }
     .k-icon {
         margin-right: torem(5px);
+        vertical-align: baseline;
     }
 }
 
 //垂直
 .k-menu-vertical.k-menu-root,
-.k-menu-inline-collapsed.k-menu-root {
+.k-menu-inlineCollapsed.k-menu-root {
     .k-menu-item {
         &.k-menu-item-active {
             &:after {
@@ -72,16 +73,18 @@
         margin-left: torem(3px);
         transform: scale(1);
         transform-origin: 0 0 0;
+        z-index: 10;
     }
 }
 
-.k-menu-inline-collapsed.k-menu-root {
+.k-menu-inlineCollapsed.k-menu-root {
     width: 80px!important;
     >li {
         min-width: auto;
         padding:0;
         >.k-menu-item {
             min-width: auto;
+            padding:0;
         }
 
         .k-menu-collapsed-item{
@@ -133,6 +136,7 @@
         border-radius: $border-radius;
         position: absolute;
         background: white;
+        z-index: 10;
     }
 }
 

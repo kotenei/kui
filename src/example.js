@@ -61,7 +61,7 @@ ReactDOM.render(
                             <ul>
                                 <li><NavLink to="/Breadcrumb" activeClassName="selected">Breadcrumb 面包屑</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Dropdown 下拉菜单</NavLink></li>
-                                <li><NavLink to="###" className="disabled" activeClassName="selected">Menu 菜单</NavLink></li>
+                                <li><NavLink to="/Menu" activeClassName="selected">Menu 菜单</NavLink></li>
                                 <li><NavLink to="/Pagination" activeClassName="selected">Pagination 分页</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Steps 步骤</NavLink></li>
                                 <li><NavLink to="/Tabs"  activeClassName="selected">Tabs 标签</NavLink></li>

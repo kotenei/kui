@@ -23,7 +23,7 @@ class MenuItem extends Component {
         }
     }
     render() {
-        const { prefixCls, disabled, children, inlineIndent, selectedIds, id, rootId, mode, inlineCollapsed, level } = this.props;
+        const { prefixCls, disabled, children, inlineIndent, selectedIds, id, rootId, mode, level } = this.props;
         let isSelected = selectedIds.indexOf(id) != -1;
         let classString = classnames({
             [`${prefixCls}-item`]: true,
@@ -46,7 +46,7 @@ class MenuItem extends Component {
         });
 
 
-        if (mode == 'inline' && inlineCollapsed && level == 1) {
+        if (mode=='inlineCollapsed' && level == 1) {
             item = (
                 <li
                     className={classString}
@@ -60,7 +60,7 @@ class MenuItem extends Component {
             item = (
                 <li
                     className={classString}
-                    style={{ paddingLeft: mode == 'inline' && !inlineCollapsed ? inlineIndent : null }}
+                    style={{ paddingLeft: mode == 'inline'  ? inlineIndent : null }}
                     onClick={this.handleClick}>
                     {children}
                 </li>

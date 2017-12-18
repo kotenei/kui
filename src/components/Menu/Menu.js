@@ -21,7 +21,7 @@ class Menu extends Component {
         defaultSelectedIds: PropTypes.array,
         inlineIndent: PropTypes.number,
         inlineCollapsed: PropTypes.bool,
-        mode: PropTypes.oneOf['vertical', 'inline', 'horizontal'],
+        mode: PropTypes.oneOf['vertical', 'inline', 'horizontal','inlineCollapsed'],
         selectable: PropTypes.bool,
         multiple: PropTypes.bool,
         onClick: PropTypes.func,
@@ -74,13 +74,12 @@ class Menu extends Component {
 
     }
     render() {
-        const { className, mode, children, prefixCls, style, inlineCollapsed } = this.props;
+        const { className, mode, children, prefixCls, style } = this.props;
         const { selectedIds, openIds, selectedSubmenuIds } = this.state;
         let classString = classnames(className, {
             [`${prefixCls}`]: true,
             [`${prefixCls}-${mode}`]: true,
-            [`${prefixCls}-root`]: true,
-            [`${prefixCls}-${mode}-collapsed`]: mode == 'inline' && inlineCollapsed
+            [`${prefixCls}-root`]: true
         });
         let props = omit(this.props, ['children', 'style']);
 

@@ -35,8 +35,8 @@ class SubMenu extends Component {
         }
     }
     handleItemEnter = (e) => {
-        const { level, mode, inlineCollapsed } = this.props;
-        if (mode == 'inline' && !inlineCollapsed) {
+        const { level, mode, } = this.props;
+        if (mode == 'inline') {
             return;
         }
         if (this.tm) {
@@ -47,8 +47,8 @@ class SubMenu extends Component {
         });
     }
     handleItemLeave = () => {
-        const { mode, inlineCollapsed } = this.props;
-        if (mode == 'inline' && !inlineCollapsed) {
+        const { mode } = this.props;
+        if (mode == 'inline') {
             return;
         }
         this.tm = setTimeout(() => {
@@ -58,8 +58,8 @@ class SubMenu extends Component {
         }, 150);
     }
     handleMenuOver = () => {
-        const { mode, inlineCollapsed } = this.props;
-        if (mode == 'inline' && !inlineCollapsed) {
+        const { mode } = this.props;
+        if (mode == 'inline') {
             return;
         }
         if (this.tm) {
@@ -70,10 +70,10 @@ class SubMenu extends Component {
         })
     }
     componentDidMount() {
-        const { mode, level, inlineCollapsed } = this.props;
+        const { mode, level } = this.props;
         let left = domUtils.outerWidth(this.refs.subItem, true);
         let top = domUtils.outerHeight(this.refs.subItem, true);
-        if (mode == 'vertical' || inlineCollapsed || mode == 'horizontal' && level > 1) {
+        if (mode == 'vertical' || mode == 'inlineCollapsed' || mode == 'horizontal' && level > 1) {
             this.setState({
                 left
             })
@@ -86,15 +86,30 @@ class SubMenu extends Component {
         }
     }
     renderTitle(isOpen) {
-        const { prefixCls, mode, inlineIndent, title, inlineCollapsed } = this.props;
-        // if (mode == 'inline' && inlineCollapsed) {
+        const { prefixCls, mode, inlineIndent, title, level } = this.props;
+        let tooltipTitle = [], icon;
 
-        //     return (
-        //         <div className="">
-
-        //         </div>
-        //     )
-        // }
+        if (mode == 'inlineCollapsed' && level == 1) {
+            React.Children.forEach(title, (child) => {
+                if (!child || !child.props.children) {
+                    return;
+                }
+                React.Children.forEach(child.props.children, (item, index) => {
+                    if (item.type == Icon && index == 0) {
+                        icon = item;
+                    } else {
+                        tooltipTitle.push(item);
+                    }
+                })
+            })
+            return (
+                <div className={classnames({
+                    [`${prefixCls}-submenu-title`]: true,
+                    [`${prefixCls}-item`]: true,
+                    [`${prefixCls}-collapsed-item`]: true
+                })}>{icon}</div>
+            )
+        }
         return (
             <div className={classnames({
                 [`${prefixCls}-submenu-title`]: true,
@@ -110,17 +125,17 @@ class SubMenu extends Component {
         )
     }
     renderIcon(isOpen) {
-        const { mode, children, level, inlineCollapsed } = this.props;
-        if (!children || mode == 'inline' && level == 1 && inlineCollapsed) {
+        const { mode, children, level } = this.props;
+        if (!children || mode == 'inlineCollapsed' && level == 1) {
             return null;
         }
-        if (mode == 'inline' && !inlineCollapsed || mode == 'horizontal' && level == 1) {
+        if (mode == 'inline' || mode == 'horizontal' && level == 1) {
             return <Icon className="direction" type={isOpen ? 'up' : 'down'} />;
         }
         return <Icon className="direction" type="right" />;
     }
     renderSub(props) {
-        const { prefixCls, children, inlineIndent, openIds, id, mode, level, parentIds, inlineCollapsed } = this.props;
+        const { prefixCls, children, inlineIndent, openIds, id, mode, level, parentIds } = this.props;
         const { left, top, show } = this.state;
         let newParentIds = [...parentIds];
         let isOpen = openIds.indexOf(id) != -1;
@@ -130,16 +145,16 @@ class SubMenu extends Component {
             [`${prefixCls}-sub`]: true,
             [`${prefixCls}-pop-enter`]: mode == 'vertical' && show
         });
-        let isHide = mode != 'inline' || inlineCollapsed ? !show : !isOpen;
+        let isHide = mode != 'inline' ? !show : !isOpen;
         let style = {};
-        if (mode != 'inline' || inlineCollapsed) {
+        if (mode != 'inline') {
             style = {
                 top,
                 left
             }
         }
         let animateName = 'slide';
-        if (mode == 'vertical' || inlineCollapsed) {
+        if (mode == 'vertical' || mode == 'inlineCollapsed') {
             animateName = `${prefixCls}-pop`;
         }
         if (parentIds.indexOf(id) == -1) {

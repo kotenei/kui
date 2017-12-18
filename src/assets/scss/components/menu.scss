@@ -85,6 +85,7 @@
     }
     >li {
         float: left;
+        height: torem(40px);
         &.k-menu-item-active {
             border-bottom: 2px solid $primary;
             background: none;
@@ -94,6 +95,9 @@
                 margin-left: torem(3px);
                 
             }
+        }
+        &.k-menu-submenu-selected{
+            border-bottom: 2px solid $primary;
         }
     }
     .k-menu-item {

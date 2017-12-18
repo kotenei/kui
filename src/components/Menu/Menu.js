@@ -10,7 +10,8 @@ class Menu extends Component {
         super(props);
         this.state = {
             selectedIds: props.defaultSelectedIds || [],
-            openIds: props.defaultOpenIds || []
+            openIds: props.defaultOpenIds || [],
+            selectedSubmenuIds: []
         }
         this.level = 1;
     }
@@ -35,8 +36,8 @@ class Menu extends Component {
         selectable: true,
         multiple: false
     }
-    handleItemClick = (e, id, action) => {
-        const { onOpen, onItemClick, multiple } = this.props;
+    handleItemClick = (e, id, parentIds, action) => {
+        const { onOpen, onItemClick, multiple, mode } = this.props;
         const { selectedIds, openIds } = this.state;
         let newSelectedIds = [...selectedIds];
         let newOpenIds = [...openIds];
@@ -66,16 +67,15 @@ class Menu extends Component {
                 newSelectedIds = [id];
             }
             this.setState({
-                selectedIds: newSelectedIds
+                selectedIds: newSelectedIds,
+                selectedSubmenuIds: parentIds
             })
         }
-    }
-    componentWillMount() {
 
     }
     render() {
         const { className, mode, children, prefixCls, style } = this.props;
-        const { selectedIds, openIds } = this.state;
+        const { selectedIds, openIds,selectedSubmenuIds } = this.state;
         let classString = classnames(className, {
             [`${prefixCls}`]: true,
             [`${prefixCls}-${mode}`]: true,
@@ -99,8 +99,9 @@ class Menu extends Component {
                             ...props,
                             ...child.props,
                             level: this.level,
-                            rootId: child.props.id,
-                            parentId: 0
+                            parentIds: [],
+                            parentId: 0,
+                            selectedSubmenuIds
                         });
                     })
                 }

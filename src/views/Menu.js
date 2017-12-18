@@ -9,7 +9,7 @@ class MenuView extends Component {
             <div>
                 <h1>Menu 菜单</h1>
                 <div className="k-example" >
-                    <Menu  mode="horizontal">
+                    <Menu style={{width:250}} mode="vertical">
                         <Menu.Item id="1">
                             <Icon type="areachart" />
                             菜单1

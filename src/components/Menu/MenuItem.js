@@ -15,9 +15,9 @@ class MenuItem extends Component {
         disabled: false
     }
     handleClick = (e) => {
-        const { onItemClick, id, rootId, parentId } = this.props;
+        const { onItemClick, id, parentIds } = this.props;
         if (onItemClick) {
-            onItemClick(e, id)
+            onItemClick(e, id, parentIds)
         }
     }
     render() {

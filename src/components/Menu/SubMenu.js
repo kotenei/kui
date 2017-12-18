@@ -28,9 +28,9 @@ class SubMenu extends Component {
         disabled: false
     }
     handleItemClick = (e) => {
-        const { onItemClick, id } = this.props;
+        const { onItemClick, id, parentIds, mode } = this.props;
         if (onItemClick) {
-            onItemClick(e, id, 'openChange');
+            onItemClick(e, id, parentIds, 'openChange');
         }
     }
     handleItemEnter = (e) => {
@@ -95,8 +95,9 @@ class SubMenu extends Component {
         return <Icon className="direction" type="right" />;
     }
     renderSub(props) {
-        const { prefixCls, children, inlineIndent, openIds, id, mode, level, rootId } = this.props;
+        const { prefixCls, children, inlineIndent, openIds, id, mode, level, parentIds } = this.props;
         const { left, top, show } = this.state;
+        let newParentIds = [...parentIds];
         let isOpen = openIds.indexOf(id) != -1;
         let classString = classnames({
             [`${prefixCls}`]: true,
@@ -116,7 +117,9 @@ class SubMenu extends Component {
         if (mode == 'vertical') {
             animateName = `${prefixCls}-pop`;
         }
-
+        if (parentIds.indexOf(id) == -1) {
+            newParentIds.push(id);
+        }
         let menu = !isHide ? (
             <CSSTransition
                 timeout={300}
@@ -136,8 +139,8 @@ class SubMenu extends Component {
                                 ...child.props,
                                 inlineIndent: mode == 'inline' ? inlineIndent * 2 : inlineIndent,
                                 level: level + 1,
-                                parentId: id,
-                                rootId
+                                parentIds: newParentIds,
+                                parentId: id
                             });
                         })
                     }
@@ -152,7 +155,7 @@ class SubMenu extends Component {
         );
     }
     render() {
-        const { prefixCls, mode, title, disabled, children, inlineIndent, openIds, id, level } = this.props;
+        const { prefixCls, mode, title, disabled, children, inlineIndent, openIds, id, level, selectedSubmenuIds } = this.props;
         const { show } = this.state;
         let isOpen = openIds.indexOf(id) != -1 || show;
         let classString = classnames({
@@ -160,6 +163,7 @@ class SubMenu extends Component {
             [`${prefixCls}-submenu-${mode}`]: true,
             [`${prefixCls}-submenu-open`]: isOpen,
             [`${prefixCls}-submenu-disabled`]: disabled,
+            [`${prefixCls}-submenu-selected`]: selectedSubmenuIds.indexOf(id) != -1
         });
         let props = omit(this.props, ['children', 'style']);
         return (

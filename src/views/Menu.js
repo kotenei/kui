@@ -9,10 +9,10 @@ class MenuView extends Component {
             <div>
                 <h1>Menu 菜单</h1>
                 <div className="k-example" >
-                    <Menu style={{width:250}} mode="vertical">
+                    <Menu style={{width:250}} mode="inline" inlineCollapsed >
                         <Menu.Item id="1">
                             <Icon type="areachart" />
-                            菜单1
+                            <span>菜单1</span>
                         </Menu.Item>
                         <Menu.SubMenu id="1-1" title={<span><Icon type="areachart" />菜单2</span>}>
                             <Menu.Item id="2">

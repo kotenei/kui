@@ -15,7 +15,7 @@
         line-height: torem(40px);
         color: $font-color-base;
         cursor: pointer;
-        padding-right: torem(20px);
+        padding: 0 torem(20px);
         min-width: torem(160px);
         &:hover {
             color: $primary;
@@ -35,14 +35,14 @@
     }
     .k-menu-submenu {
         position: relative;
-        min-width: torem(160px);
         .k-menu-submenu-title {
-            padding-right: 0;
+            padding-right: torem(20px);
             .direction {
                 position: absolute;
                 transform: translateY(-50%);
                 top: 50%;
-                right: torem(5px);
+                right: torem(4px);
+                margin: 0;
             }
         }
         .k-menu-sub {
@@ -55,7 +55,8 @@
 }
 
 //垂直
-.k-menu-vertical.k-menu-root {
+.k-menu-vertical.k-menu-root,
+.k-menu-inline-collapsed.k-menu-root {
     .k-menu-item {
         &.k-menu-item-active {
             &:after {
@@ -71,13 +72,30 @@
         margin-left: torem(3px);
         transform: scale(1);
         transform-origin: 0 0 0;
-        
+    }
+}
+
+.k-menu-inline-collapsed.k-menu-root {
+    width: 80px!important;
+    >li {
+        min-width: auto;
+        padding:0;
+        >.k-menu-item {
+            min-width: auto;
+        }
+
+        .k-menu-collapsed-item{
+            
+            text-align: center;
+        }
     }
 }
 
 //水平
 .k-menu-horizontal.k-menu-root {
     border-bottom: $border-width-base $border-style-base $border-color-base;
+    border-right: 0;
+    width: 100% !important;
     &:after {
         content: ' ';
         clear: both;
@@ -86,6 +104,7 @@
     >li {
         float: left;
         height: torem(40px);
+        min-width: auto;
         &.k-menu-item-active {
             border-bottom: 2px solid $primary;
             background: none;
@@ -93,11 +112,13 @@
         >.k-menu-sub {
             .k-menu-sub {
                 margin-left: torem(3px);
-                
             }
         }
-        &.k-menu-submenu-selected{
+        &.k-menu-submenu-selected {
             border-bottom: 2px solid $primary;
+        }
+        >.k-menu-item {
+            min-width: auto;
         }
     }
     .k-menu-item {
@@ -115,9 +136,8 @@
     }
 }
 
-.k-menu-pop-appear{
+.k-menu-pop-appear {
     transform: scale(0)!important;
-    
 }
 
 .k-menu-pop-appear.k-menu-pop-appear-active {

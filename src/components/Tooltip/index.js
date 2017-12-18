@@ -214,7 +214,7 @@ class Tooltip extends Component {
             [placement]: true,
             in: show
         });
-
+        
         return (
             ReactDOM.createPortal(
                 <div className={classString}
@@ -243,7 +243,7 @@ class Tooltip extends Component {
                 onMouseEnter: this.handleTriggerMouseEnter,
                 onMouseLeave: this.handleTriggerMouseLeave,
                 onClick: this.handleTriggerClick
-            })
+            }) 
         });
         return (
             <span id={this.id} ref={this.id}>

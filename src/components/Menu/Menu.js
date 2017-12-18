@@ -37,12 +37,12 @@ class Menu extends Component {
         multiple: false
     }
     handleItemClick = (e, id, parentIds, action) => {
-        const { onOpen, onItemClick, multiple, mode } = this.props;
+        const { onOpen, onItemClick, multiple, mode, selectable } = this.props;
         const { selectedIds, openIds } = this.state;
         let newSelectedIds = [...selectedIds];
         let newOpenIds = [...openIds];
         let index = -1;
-        if (!id) {
+        if (!id || !selectable) {
             return;
         }
         if (action == 'openChange') {
@@ -74,12 +74,13 @@ class Menu extends Component {
 
     }
     render() {
-        const { className, mode, children, prefixCls, style } = this.props;
-        const { selectedIds, openIds,selectedSubmenuIds } = this.state;
+        const { className, mode, children, prefixCls, style, inlineCollapsed } = this.props;
+        const { selectedIds, openIds, selectedSubmenuIds } = this.state;
         let classString = classnames(className, {
             [`${prefixCls}`]: true,
             [`${prefixCls}-${mode}`]: true,
             [`${prefixCls}-root`]: true,
+            [`${prefixCls}-${mode}-collapsed`]: mode == 'inline' && inlineCollapsed
         });
         let props = omit(this.props, ['children', 'style']);
 

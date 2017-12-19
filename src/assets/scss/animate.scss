@@ -28,8 +28,8 @@
 
 .slide-enter {
     max-height: torem(0px);
-    overflow: hidden;
     transition-duration: 1s!important;
+    overflow: hidden;
 }
 
 .slide-enter.slide-enter-active {

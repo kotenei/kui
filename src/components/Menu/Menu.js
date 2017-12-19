@@ -21,12 +21,13 @@ class Menu extends Component {
         defaultSelectedIds: PropTypes.array,
         inlineIndent: PropTypes.number,
         inlineCollapsed: PropTypes.bool,
-        mode: PropTypes.oneOf['vertical', 'inline', 'horizontal','inlineCollapsed'],
+        mode: PropTypes.oneOf['vertical', 'inline', 'horizontal', 'inlineCollapsed'],
         selectable: PropTypes.bool,
         multiple: PropTypes.bool,
         onClick: PropTypes.func,
         onOpen: PropTypes.func,
-        onSelect: PropTypes.func
+        onSelect: PropTypes.func,
+        onMouseEnter: PropTypes.func
     }
     static defaultProps = {
         prefixCls: 'k-menu',
@@ -37,7 +38,7 @@ class Menu extends Component {
         multiple: false
     }
     handleItemClick = (e, id, parentIds, action) => {
-        const { onOpen, onItemClick, multiple, mode, selectable } = this.props;
+        const { onOpen, onItemClick, multiple, mode, selectable, onSelect } = this.props;
         const { selectedIds, openIds } = this.state;
         let newSelectedIds = [...selectedIds];
         let newOpenIds = [...openIds];
@@ -54,7 +55,7 @@ class Menu extends Component {
             }
             this.setState({
                 openIds: newOpenIds
-            })
+            });
         } else {
             if (multiple) {
                 index = selectedIds.indexOf(id);
@@ -69,9 +70,24 @@ class Menu extends Component {
             this.setState({
                 selectedIds: newSelectedIds,
                 selectedSubmenuIds: parentIds
-            })
+            });
+            if (onSelect) {
+                onSelect(newSelectedIds)
+            }
         }
 
+    }
+    handleMouseEnter = (e) => {
+        const { onMouseEnter } = this.props;
+        if (onMouseEnter) {
+            onMouseEnter(e);
+        }
+    }
+    handleMouseLeave = (e) => {
+        const { onMouseLeave } = this.props;
+        if (onMouseLeave) {
+            onMouseLeave(e);
+        }
     }
     render() {
         const { className, mode, children, prefixCls, style } = this.props;
@@ -84,7 +100,11 @@ class Menu extends Component {
         let props = omit(this.props, ['children', 'style']);
 
         return (
-            <ul className={classString} style={style}>
+            <ul className={classString}
+                style={style}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+            >
                 {
                     React.Children.map(children, (child, i, subIndex) => {
                         if (!child) {

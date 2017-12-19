@@ -943,8 +943,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 .slide-enter {
   max-height: 0rem;
-  overflow: hidden;
-  transition-duration: 1s !important; }
+  transition-duration: 1s !important;
+  overflow: hidden; }
 
 .slide-enter.slide-enter-active {
   max-height: 62.5rem; }
@@ -1492,44 +1492,13 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
       margin-left: 0.625rem; }
 
 .k-dropdown {
-  position: relative;
-  display: table;
-  clear: both; }
-
-.k-dropdown-menu {
   position: absolute;
-  color: #333;
-  list-style: none;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  padding: 0.3125rem 0;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  min-width: 10rem;
-  overflow-y: auto; }
-  .k-dropdown-menu li {
-    overflow: hidden;
-    position: relative; }
-    .k-dropdown-menu li a {
-      display: block;
-      padding: 0.8125rem 1rem;
-      line-height: 1.5;
-      color: #333;
-      transition: background .3s; }
-      .k-dropdown-menu li a:hover {
-        background: #eee; }
-    .k-dropdown-menu li.disabled {
-      color: #bdbdbd; }
-      .k-dropdown-menu li.disabled a {
-        cursor: not-allowed;
-        color: #bdbdbd; }
-        .k-dropdown-menu li.disabled a:hover {
-          background: none; }
-
-.k-divider {
-  height: 0.0625rem;
-  margin: 0.625rem 0;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.12); }
+  border: none;
+  background: white;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  transition: all .3s ease; }
 
 .k-form-control {
   display: block;

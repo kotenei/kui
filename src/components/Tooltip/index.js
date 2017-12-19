@@ -32,7 +32,8 @@ class Tooltip extends Component {
         placement: PropTypes.oneOf(['top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom']),
         trigger: PropTypes.oneOf(['hover', 'click']),
         delay: PropTypes.number,
-        show: PropTypes.bool
+        show: PropTypes.bool,
+        onClick: PropTypes.func
     }
     static defaultProps = {
         placement: 'top',
@@ -72,8 +73,11 @@ class Tooltip extends Component {
     handleTriggerClick(e) {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        const { trigger } = this.props;
+        const { trigger, onClick } = this.props;
         const { show } = this.state;
+        if (onClick) {
+            onClick(e);
+        }
         if (trigger != 'click') {
             return;
         }
@@ -214,7 +218,7 @@ class Tooltip extends Component {
             [placement]: true,
             in: show
         });
-        
+
         return (
             ReactDOM.createPortal(
                 <div className={classString}
@@ -243,10 +247,10 @@ class Tooltip extends Component {
                 onMouseEnter: this.handleTriggerMouseEnter,
                 onMouseLeave: this.handleTriggerMouseLeave,
                 onClick: this.handleTriggerClick
-            }) 
+            })
         });
         return (
-            <span id={this.id} ref={this.id}>
+            <span id={this.id} ref={this.id} >
                 {children}
                 {this.renderTooltip()}
             </span>

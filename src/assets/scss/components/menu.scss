@@ -88,8 +88,15 @@
         }
 
         .k-menu-collapsed-item{
-            
             text-align: center;
+        }
+
+        &.k-menu-item-active{
+            background: none;
+        }
+
+        &.k-menu-submenu-selected>.k-menu-item{
+            color: $primary;
         }
     }
 }

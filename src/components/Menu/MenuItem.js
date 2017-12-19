@@ -45,13 +45,10 @@ class MenuItem extends Component {
             }
         });
 
-
-        if (mode=='inlineCollapsed' && level == 1) {
+        if (mode == 'inlineCollapsed' && level == 1) {
             item = (
-                <li
-                    className={classString}
-                    onClick={this.handleClick}>
-                    <Tooltip placement="right" title={tooltipTitle}>
+                <li className={classString}>
+                    <Tooltip placement="right" title={tooltipTitle} onClick={this.handleClick}>
                         <div className={`${prefixCls}-collapsed-item`}>{icon}</div>
                     </Tooltip>
                 </li>
@@ -60,7 +57,7 @@ class MenuItem extends Component {
             item = (
                 <li
                     className={classString}
-                    style={{ paddingLeft: mode == 'inline'  ? inlineIndent : null }}
+                    style={{ paddingLeft: mode == 'inline' ? inlineIndent : null }}
                     onClick={this.handleClick}>
                     {children}
                 </li>

@@ -1832,6 +1832,10 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
       padding: 0; }
     .k-menu-inlineCollapsed.k-menu-root > li .k-menu-collapsed-item {
       text-align: center; }
+    .k-menu-inlineCollapsed.k-menu-root > li.k-menu-item-active {
+      background: none; }
+    .k-menu-inlineCollapsed.k-menu-root > li.k-menu-submenu-selected > .k-menu-item {
+      color: #2196f3; }
 
 .k-menu-horizontal.k-menu-root {
   border-bottom: 1px solid #d9d9d9;

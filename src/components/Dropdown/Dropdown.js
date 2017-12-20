@@ -111,6 +111,10 @@ class Dropdown extends Component {
         this.setOrgSize();
         this.setPosition();
         this.hide();
+        document.addEventListener('click', this.hide);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('click', this.hide);
     }
     renderMenu() {
         const { menu, prefixCls } = this.props;

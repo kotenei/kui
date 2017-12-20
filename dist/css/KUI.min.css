@@ -1524,13 +1524,15 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
       margin-left: 0.625rem; }
 
 .k-dropdown {
-  position: absolute;
-  border: none;
-  background: white;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-  top: 0;
-  left: 0;
-  transition: all .3s ease; }
+  display: table;
+  position: relative; }
+  .k-dropdown .k-dropdown-menu {
+    position: absolute;
+    border: none;
+    background: white;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    transition: all .3s ease;
+    z-index: 10; }
 
 .k-form-control {
   display: block;

@@ -45,11 +45,14 @@
 //     background: rgba(0, 0, 0, 0.12);
 // }
 .k-dropdown {
-    position: absolute;
-    border: none;
-    background: white;
-    box-shadow: $box-shadow-base;
-    top: 0;
-    left: 0;
-    transition: all .3s ease;
+    display: table;
+    position: relative;
+    .k-dropdown-menu {
+        position: absolute;
+        border: none;
+        background: white;
+        box-shadow: $box-shadow-base;
+        transition: all .3s ease;
+        z-index: 10;
+    }
 }

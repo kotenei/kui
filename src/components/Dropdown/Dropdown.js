@@ -48,25 +48,25 @@ class Dropdown extends Component {
 
         switch (placement) {
             case 'topLeft':
-                position = { top: position.top - th, left: position.left };
+                position = { top:  - th, left: 0 };
                 break;
             case 'topCenter':
-                position = { top: position.top - th, left: position.left + ew / 2 - tw / 2 };
+                position = { top: - th, marginLeft: -(tw / 2), left: '50%' };
                 break;
             case 'topRight':
-                position = { top: position.top - th, left: position.left + ew - tw };
+                position = { top: - th, right: 0 };
                 break;
             case 'bottomLeft':
-                position = { top: position.top + eh, left: position.left };
+                position = { top: eh, left: 0 };
                 break;
             case 'bottomCenter':
-                position = { top: position.top + eh, left: position.left + ew / 2 - tw / 2 };
+                position = { top: eh, marginLeft: -(tw / 2), left: '50%' };
                 break;
             case 'bottomRight':
-                position = { top: position.top + eh, left: position.left + ew - tw };
+                position = { top: eh, right: 0 };
                 break;
             default:
-                position = { top: position.top + eh, left: position.left };
+                position = { top: eh, left: 0 };
                 break;
         }
         this.setState({
@@ -75,41 +75,42 @@ class Dropdown extends Component {
     }
     handleMouseEnter = (e) => {
         this.setPosition();
-        this.setState({
-            show: true
-        });
+        this.show();
     }
     handleMouseLeave = (e) => {
-        this.tm = setTimeout(() => {
-            this.setState({
-                show: false
-            });
-        }, 300);
+        this.hide();
     }
     handleMenuEnter = (e) => {
-        if (this.tm) {
-            clearTimeout(this.tm);
-        }
-        this.setState({
-            show: true
-        })
+        this.show();
     }
     handleMenuLeave = (e) => {
-        this.setState({
-            show: false
-        });
+        this.hide();
     }
     handleMenuSelect = (selectedIds) => {
         this.setState({
             selectedId: selectedIds[0]
         })
     }
+    show = () => {
+        if (this.tm) {
+            clearTimeout(this.tm)
+        }
+        this.setState({
+            show: true
+        })
+    }
+    hide = () => {
+        this.tm = setTimeout(() => {
+            this.setState({
+                show: false
+            });
+        }, 300);
+    }
     componentDidMount() {
         const { show } = this.props;
         this.setOrgSize();
-        this.setState({
-            show: false
-        })
+        this.setPosition();
+        this.hide();
     }
     renderMenu() {
         const { menu, prefixCls } = this.props;
@@ -128,8 +129,8 @@ class Dropdown extends Component {
                     ref: 'dropdownMenu',
                     mode: 'vertical',
                     className: classnames({
-                        [`${prefixCls}`]: true,
-                        'slide-bottom-enter':true
+                        [`${prefixCls}-menu`]: true,
+                        'slide-bottom-enter': true
                     }),
                     style: position,
                     onMouseEnter: this.handleMenuEnter,
@@ -139,11 +140,17 @@ class Dropdown extends Component {
             }
         </CSSTransition> : null;
 
-        return ReactDOM.createPortal(
+        // return ReactDOM.createPortal(
+        //     <TransitionGroup component={FirstChild}>
+        //         {newMenu}
+        //     </TransitionGroup>
+        //     , document.body);
+
+        return (
             <TransitionGroup component={FirstChild}>
                 {newMenu}
             </TransitionGroup>
-            , document.body);
+        );
     }
     renderChilren() {
         const { children } = this.props;
@@ -154,7 +161,6 @@ class Dropdown extends Component {
                 }
                 return React.cloneElement(child, {
                     ...child.props,
-                    ref: 'trigger',
                     onMouseEnter: this.handleMouseEnter,
                     onMouseLeave: this.handleMouseLeave
                 });
@@ -162,11 +168,15 @@ class Dropdown extends Component {
         )
     }
     render() {
+        const { prefixCls } = this.props;
+        let classString = classnames({
+            [`${prefixCls}`]: true
+        })
         return (
-            <span>
+            <div className={classString} ref='trigger'>
                 {this.renderChilren()}
                 {this.renderMenu()}
-            </span>
+            </div>
         )
     }
 }

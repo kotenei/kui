@@ -33,6 +33,16 @@ class MenuView extends Component {
                                 <Icon type="github" />
                                 <span>选项四</span>
                             </Menu.Item>
+                            <Menu.SubMenu id="1-2" title={<span><Icon type="setting" /><span>导航三</span></span>}>
+                                <Menu.Item id="6">
+                                    <Icon type="github" />
+                                    <span>选项五</span>
+                                </Menu.Item>
+                                <Menu.Item id="7">
+                                    <Icon type="github" />
+                                    <span>选项六</span>
+                                </Menu.Item>
+                            </Menu.SubMenu>
                         </Menu.SubMenu>
                     </Menu>
                 </div>

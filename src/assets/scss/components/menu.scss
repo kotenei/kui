@@ -120,7 +120,9 @@
             background: none;
         }
         >.k-menu-sub {
+            
             .k-menu-sub {
+                transform-origin: 0 0 0;
                 margin-left: torem(3px);
             }
         }

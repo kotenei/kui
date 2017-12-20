@@ -29,35 +29,24 @@ class SubMenu extends Component {
         disabled: false
     }
     handleItemClick = (e) => {
-        const { onItemClick, id, parentIds, mode } = this.props;
-        if (onItemClick) {
-            onItemClick(e, id, parentIds, 'openChange');
+        const { onItemTrigger, id, parentIds, mode } = this.props;
+        if (onItemTrigger) {
+            onItemTrigger(e, id, parentIds, 'openChange');
         }
+    }
+    handleSubItemClick = (e) => {
+        this.hide();
     }
     handleItemEnter = (e) => {
-        const { level, mode, } = this.props;
-        if (mode == 'inline') {
-            return;
-        }
-        if (this.tm) {
-            clearTimeout(this.tm);
-        }
-        this.setState({
-            show: true
-        });
+        this.show();
     }
     handleItemLeave = () => {
-        const { mode } = this.props;
-        if (mode == 'inline') {
-            return;
-        }
-        this.tm = setTimeout(() => {
-            this.setState({
-                show: false
-            })
-        }, 150);
+        this.hide();
     }
     handleMenuOver = () => {
+        this.show();
+    }
+    show = () => {
         const { mode } = this.props;
         if (mode == 'inline') {
             return;
@@ -68,6 +57,17 @@ class SubMenu extends Component {
         this.setState({
             show: true
         })
+    }
+    hide = () => {
+        const { mode } = this.props;
+        if (mode == 'inline') {
+            return;
+        }
+        this.tm = setTimeout(() => {
+            this.setState({
+                show: false
+            })
+        }, 150);
     }
     componentDidMount() {
         const { mode, level } = this.props;
@@ -84,6 +84,10 @@ class SubMenu extends Component {
                 top
             })
         }
+        document.addEventListener('click', this.hide);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('click', this.hide);
     }
     renderTitle(isOpen) {
         const { prefixCls, mode, inlineIndent, title, level } = this.props;
@@ -143,7 +147,8 @@ class SubMenu extends Component {
             [`${prefixCls}`]: true,
             [`${prefixCls}-${mode}`]: true,
             [`${prefixCls}-sub`]: true,
-            [`${prefixCls}-pop-enter`]: mode == 'vertical' && show
+            [`${prefixCls}-pop-enter`]: mode == 'vertical' && show,
+            'slide-bottom-enter': mode == 'horizontal' && show && level == 1
         });
         let isHide = mode != 'inline' ? !show : !isOpen;
         let style = {};
@@ -154,8 +159,11 @@ class SubMenu extends Component {
             }
         }
         let animateName = 'slide';
-        if (mode == 'vertical' || mode == 'inlineCollapsed') {
+        if (mode == 'vertical' || mode == 'inlineCollapsed' || mode == 'horizontal' ) {
             animateName = `${prefixCls}-pop`;
+        }
+        if (level == 1 && mode == 'horizontal') {
+            animateName = 'slide-bottom';
         }
         if (parentIds.indexOf(id) == -1) {
             newParentIds.push(id);
@@ -208,7 +216,8 @@ class SubMenu extends Component {
         let props = omit(this.props, ['children', 'style']);
         return (
             <li
-                className={classString} ref="subItem"
+                ref="subItem"
+                className={classString}
                 onMouseEnter={this.handleItemEnter}
                 onMouseLeave={this.handleItemLeave}
             >

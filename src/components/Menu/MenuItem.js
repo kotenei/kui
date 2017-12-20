@@ -10,16 +10,15 @@ class MenuItem extends Component {
     }
     static propTypes = {
         id: PropTypes.string.isRequired,
-        disabled: PropTypes.bool,
-        onItemClick: PropTypes.func
+        disabled: PropTypes.bool
     }
     static defaultProps = {
         disabled: false
     }
     handleClick = (e) => {
-        const { onItemClick, id, parentIds } = this.props;
-        if (onItemClick) {
-            onItemClick(e, id, parentIds)
+        const { onItemTrigger, id, parentIds } = this.props;
+        if (onItemTrigger) {
+            onItemTrigger(e, id, parentIds, 'click');
         }
     }
     render() {

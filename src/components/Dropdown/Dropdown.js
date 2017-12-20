@@ -119,7 +119,7 @@ class Dropdown extends Component {
         }
         let newMenu = show ? <CSSTransition
             timeout={300}
-            classNames="slide"
+            classNames="slide-bottom"
         >
             {
                 React.cloneElement(menu, {
@@ -128,7 +128,8 @@ class Dropdown extends Component {
                     ref: 'dropdownMenu',
                     mode: 'vertical',
                     className: classnames({
-                        [`${prefixCls}`]: true
+                        [`${prefixCls}`]: true,
+                        'slide-bottom-enter':true
                     }),
                     style: position,
                     onMouseEnter: this.handleMenuEnter,

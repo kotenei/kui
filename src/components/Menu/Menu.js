@@ -77,6 +77,50 @@ class Menu extends Component {
         }
 
     }
+    handleItemTrigger = (e, id, parentIds, trigger) => {
+        const { onOpen, multiple, mode, selectable, onSelect } = this.props;
+        const { selectedIds, openIds } = this.state;
+        let newSelectedIds = [...selectedIds];
+        let newOpenIds = [...openIds];
+        let index = -1;
+
+        switch (trigger) {
+            case 'click':
+                if (multiple) {
+                    index = selectedIds.indexOf(id);
+                    if (index == -1) {
+                        newSelectedIds.push(id);
+                    } else {
+                        newSelectedIds.splice(index, 1);
+                    }
+                } else {
+                    newSelectedIds = [id];
+                }
+                if (selectable) {
+                    this.setState({
+                        selectedIds: newSelectedIds,
+                        selectedSubmenuIds: parentIds
+                    });
+                }
+                if (onSelect) {
+                    onSelect(newSelectedIds)
+                }
+                break;
+            case 'openChange':
+                index = openIds.indexOf(id);
+                if (index == -1) {
+                    newOpenIds.push(id);
+                } else {
+                    newOpenIds.splice(index, 1);
+                }
+                this.setState({
+                    openIds: newOpenIds
+                });
+                break;
+            default:
+                break;
+        }
+    }
     handleMouseEnter = (e) => {
         const { onMouseEnter } = this.props;
         if (onMouseEnter) {
@@ -110,18 +154,16 @@ class Menu extends Component {
                         if (!child) {
                             return null;
                         }
-                        if (child.type == MenuItem) {
-                            props.onItemClick = this.handleItemClick
-                        }
-                        props.selectedIds = selectedIds;
-                        props.openIds = openIds;
                         return React.cloneElement(child, {
                             ...props,
                             ...child.props,
                             level: this.level,
                             parentIds: [],
                             parentId: 0,
-                            selectedSubmenuIds
+                            selectedSubmenuIds,
+                            openIds,
+                            selectedIds,
+                            onItemTrigger: this.handleItemTrigger
                         });
                     })
                 }

@@ -32,6 +32,11 @@
                 right: 0;
             }
         }
+
+        &.k-menu-item-disabled{
+            color:$disabled-color;
+            cursor: $cursor-disabled;
+        }
     }
     .k-menu-submenu {
         position: relative;
@@ -47,6 +52,13 @@
         }
         .k-menu-sub {
             transition: all .3s ease;
+            border-radius: $border-radius;
+        }
+        &.k-menu-submenu-disabled{
+            .k-menu-submenu-title{
+                color:$disabled-color;
+                cursor: $cursor-disabled;
+            }
         }
     }
     .k-icon {

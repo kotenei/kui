@@ -13,7 +13,7 @@ class Divider extends Component {
         const { component: Container } = this.props;
         return (
             <Container className={classnames({
-                'divider': true
+                'k-divider': true
             })} />
         )
     }

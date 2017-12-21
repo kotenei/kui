@@ -1,51 +1,6 @@
-// .k-dropdown{
-//     position:relative;
-//     display: table;
-//     clear: both; 
-// }
-// .k-dropdown-menu{
-//     position: absolute;
-//     color:$dropdown-link-color;
-//     list-style: none;
-//     box-shadow: 0 6px 12px rgba(0,0,0,.175);
-//     padding:0.3125rem 0;
-//     border:1px solid $dropdown-border-color;
-//     border-radius: $border-radius;
-//     min-width: 10rem;
-//     overflow-y: auto;
-//     li{
-//         overflow: hidden;
-//         position: relative;
-//         a{
-//             display: block;
-//             padding:0.8125rem 1rem;
-//             line-height: $line-height;
-//             color:$dropdown-link-color;
-//             transition: background .3s;
-//             &:hover{
-//                 background: $dropdown-hover-bgColor;
-//             }
-//         }
-//         &.disabled{
-//             color:$disabled-color;
-//             a{
-//                 cursor:$cursor-disabled;
-//                 color:$disabled-color;
-//                 &:hover{
-//                     background:none;
-//                 }
-//             }
-//         }
-//     }
-// }
-// .k-divider{
-//     height: 0.0625rem;
-//     margin:0.625rem 0;
-//     overflow: hidden;
-//     background: rgba(0, 0, 0, 0.12);
-// }
 .k-dropdown {
-    display: table;
+    display: inline-block;
+    vertical-align: middle;
     position: relative;
     .k-dropdown-menu {
         position: absolute;
@@ -54,5 +9,12 @@
         box-shadow: $box-shadow-base;
         transition: all .3s ease;
         z-index: 10;
+        border-radius: $border-radius;
+    }
+    &.k-btn-group {
+        >.k-btn.last-btn {
+            border-top-right-radius: $border-radius;
+            border-bottom-right-radius: $border-radius;
+        }
     }
 }

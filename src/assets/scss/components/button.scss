@@ -160,10 +160,14 @@ input[type="button"] {
 .k-btn-group {
     display: inline-block;
     position: relative;
-    vertical-align: middle;
     >.k-btn {
         margin: 0;
         box-shadow: none;
+        outline: none;
+        >.k-icon{
+            margin: 0;
+            vertical-align: baseline;
+        }
         &:focus{
             box-shadow: none;
         }
@@ -173,13 +177,13 @@ input[type="button"] {
         }
         &:not(:first-child):not(:last-child) {
             border-radius: 0;
-        }
+        } 
         &:last-child {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
         &.k-btn-raised.k-btn-default+.k-btn-raised.k-btn-default {
-            @include button-group-border($default);
+            border-left: none;
         }
         &.k-btn-raised.k-btn-primary+.k-btn-raised.k-btn-primary {
             @include button-group-border($primary);

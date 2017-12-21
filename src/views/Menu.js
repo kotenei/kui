@@ -29,12 +29,12 @@ class MenuView extends Component {
                                 <Icon type="windows" />
                                 <span>选项三</span>
                             </Menu.Item>
-                            <Menu.Item id="5">
+                            <Menu.Item id="5" >
                                 <Icon type="github" />
                                 <span>选项四</span>
                             </Menu.Item>
                             <Menu.SubMenu id="1-2" title={<span><Icon type="setting" /><span>导航三</span></span>}>
-                                <Menu.Item id="6">
+                                <Menu.Item id="6" >
                                     <Icon type="github" />
                                     <span>选项五</span>
                                 </Menu.Item>
@@ -53,7 +53,7 @@ class MenuView extends Component {
                             <Icon type="home" />
                             <span>导航一</span>
                         </Menu.Item>
-                        <Menu.SubMenu id="1-1" title={<span><Icon type="setting" /><span>导航二</span></span>}>
+                        <Menu.SubMenu  id="1-1" title={<span><Icon type="setting" /><span>导航二</span></span>}>
                             <Menu.Item id="2">
                                 <Icon type="android" />
                                 <span>选项一</span>
@@ -103,7 +103,7 @@ class MenuView extends Component {
                 <h3>折叠菜单</h3>
                 <div className="k-example" >
                     <Menu style={{ width: 250 }} mode="inlineCollapsed"  >
-                        <Menu.Item id="1">
+                        <Menu.Item  id="1">
                             <Icon type="home" />
                             <span>导航一</span>
                         </Menu.Item>

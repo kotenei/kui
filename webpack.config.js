@@ -64,7 +64,7 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
-        new webpack.NoEmitOnErrorsPlugin(),
+        //new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendors',
             minChunks: Infinity,

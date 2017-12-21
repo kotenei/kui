@@ -69,15 +69,15 @@ $box-shadow-base:           0 1px 6px $shadow-color;
 $text-color-secondary   : #8391a5;
 
 // 按钮
-$btn-padding-x:                  1.875rem;
+$btn-padding-x:                  torem(15px);
 $btn-padding-y:                  .5rem;
 $btn-font-weight:                normal !default;
 
 
-$btn-padding-x-sm:               1.25rem !default;
+$btn-padding-x-sm:               torem(12px) !default;
 $btn-padding-y-sm:               .3125rem !default;
 
-$btn-padding-x-xs:               .9375rem !default;
+$btn-padding-x-xs:               torem(10px) !default;
 $btn-padding-y-xs:               .25rem !default;
 
 $btn-border-radius:              $border-radius;

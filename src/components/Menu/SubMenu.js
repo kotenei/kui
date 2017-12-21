@@ -22,14 +22,17 @@ class SubMenu extends Component {
     }
     static propTypes = {
         id: PropTypes.string.isRequired,
-        title: PropTypes.oneOfType[PropTypes.string, PropTypes.node],
+        title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         disabled: PropTypes.bool
     }
     static defaultProps = {
         disabled: false
     }
     handleItemClick = (e) => {
-        const { onItemTrigger, id, parentIds, mode } = this.props;
+        const { onItemTrigger, id, parentIds, mode, disabled } = this.props;
+        if (disabled) {
+            return;
+        }
         if (onItemTrigger) {
             onItemTrigger(e, id, parentIds, 'openChange');
         }
@@ -47,8 +50,8 @@ class SubMenu extends Component {
         this.show();
     }
     show = () => {
-        const { mode } = this.props;
-        if (mode == 'inline') {
+        const { mode, disabled } = this.props;
+        if (mode == 'inline' || disabled) {
             return;
         }
         if (this.tm) {
@@ -159,7 +162,7 @@ class SubMenu extends Component {
             }
         }
         let animateName = 'slide';
-        if (mode == 'vertical' || mode == 'inlineCollapsed' || mode == 'horizontal' ) {
+        if (mode == 'vertical' || mode == 'inlineCollapsed' || mode == 'horizontal') {
             animateName = `${prefixCls}-pop`;
         }
         if (level == 1 && mode == 'horizontal') {

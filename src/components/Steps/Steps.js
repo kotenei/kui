@@ -39,15 +39,10 @@ class Steps extends Component {
             if (status && index == current) {
                 newStatus = status;
             }
-
             if (status == 'error' && current == index && index > 0) {
                 nextErrs.push(index - 1);
             }
-
             newStatus = childStatus ? childStatus : newStatus;
-
-
-
             items.push(
                 React.cloneElement(child, {
                     prefixCls,

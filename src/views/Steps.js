@@ -11,7 +11,7 @@ class StepsView extends Component {
             <div>
                 <h1>Steps 步骤</h1>
                 <div className="k-example">
-                    <Steps  >
+                    <Steps direction="vertical" >
                         <Step title="第一步" description="这里是描述" />
                         <Step title="第二步"  description="这里是描述"/>
                         <Step title="第三步" description="这里是描述"/>

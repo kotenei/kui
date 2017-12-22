@@ -27,23 +27,27 @@
         }
     }
 
-    &.rightTop{
-        .k-popover-arrow {
-            &::before{
-                border-left-color: transparent;
-                border-right-color: $white!important;
-            }
-        }
-    }
+    
 
     &.leftTop,
     &.rightTop {
         .k-popover-arrow {
             &::before {
                 border-left-color: $white!important;
+               
             }
         }
     }
+
+    &.rightTop{
+        .k-popover-arrow {
+            &::before{
+                border-left-color: transparent!important;
+                border-right-color: $white!important;
+            }
+        }
+    }
+
     &.bottom,
     &.bottomLeft,
     &.bottomRight {

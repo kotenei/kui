@@ -1,0 +1,135 @@
+$icon-color:rgba(0, 0, 0, 0.25);
+$title-color:rgba(0, 0, 0, 0.45);
+$desc-color:rgba(0, 0, 0, 0.45);
+$tail-color:#e8e8e8;
+.k-steps {
+    font-family: "Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    .k-steps-item {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline-block;
+        .k-steps-item-tail {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            top: torem(12px);
+            padding: 0 torem(10px);
+        }
+        .k-steps-item-icon {
+            display: inline-block;
+            vertical-align: top;
+            width: torem(32px);
+            height: torem(32px);
+            line-height: torem(32px);
+            text-align: center;
+            border-radius: 50%;
+            border: $border-width-base $border-style-base $icon-color;
+            color: $icon-color;
+            margin-right: torem(8px);
+            font-size: $font-size-root;
+            .k-icon {
+                font-size: $font-size-root;
+                margin: 0;
+                vertical-align: baseline;
+            }
+        }
+        .k-steps-item-content {
+            display: inline-block;
+            vertical-align: top;
+            .k-steps-item-title {
+                line-height: torem(32px);
+                padding-right: torem(16px);
+                position: relative;
+                font-size: $font-size-root;
+                color: $title-color;
+            }
+            .k-steps-item-description {
+                max-width: torem(140px);
+                color: $desc-color;
+            }
+        }
+    }
+    &.k-steps-horizontal {
+        display: flex;
+        .k-steps-item {
+            margin-right: torem(16px);
+            .k-steps-item-content {
+                .k-steps-item-title {
+                    &:after {
+                        content: '';
+                        height: 1px;
+                        width: torem(9999px);
+                        background: $tail-color;
+                        display: block;
+                        position: absolute;
+                        top: torem(16px);
+                        left: 100%;
+                    }
+                }
+            }
+            &:last-child {
+                flex: none;
+                .k-steps-item-content {
+                    .k-steps-item-title {
+                        &:after {
+                            content: none;
+                        }
+                    }
+                }
+            }
+
+            &.k-steps-item-next-error{
+                .k-steps-item-content{
+                    .k-steps-item-title{
+                        &:after{
+                            background: $danger!important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.k-steps-vertical {}
+}
+
+.k-steps-item-finish {
+    .k-steps-item-icon {
+        border-color: $primary!important;
+        color: $primary!important;
+    }
+    .k-steps-item-title{
+        color:rgba(0, 0, 0, 0.65)!important;
+        &:after{
+            background: $primary!important;
+        }
+    }
+}
+
+.k-steps-item-process {
+    .k-steps-item-icon {
+        border-color: $primary!important;
+        color: white!important;
+        background:$primary;
+    }
+    .k-steps-item-title{
+        color:rgba(0, 0, 0, 0.85)!important;
+    }
+    .k-steps-item-description{
+        color: rgba(0, 0, 0, 0.65)!important;
+    }
+}
+
+.k-steps-item-error {
+    .k-steps-item-icon {
+        border-color: $danger!important;
+        color: $danger!important;
+    }
+    .k-steps-item-title{
+        color:$danger!important;
+    }
+    .k-steps-item-description{
+        color: $danger!important;
+    }
+}

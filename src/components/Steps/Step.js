@@ -12,12 +12,12 @@ class Step extends Component {
         description: PropTypes.node,
         status: PropTypes.oneOf(['wait', 'process', 'finish', 'error'])
     }
-    static defaultProps = {
-
-    }
     renderIcon() {
         const { icon, status, index } = this.props;
         if (icon) {
+            if (typeof icon == 'string') {
+                return <Icon type={icon} />
+            }
             return icon;
         }
         if (status == 'finish') {
@@ -29,17 +29,21 @@ class Step extends Component {
         return index + 1;
     }
     render() {
-        const { title, icon, description, status, prefixCls, index, current,isNextError } = this.props;
+        const { title, icon, description, status, prefixCls, index, current, isNextError } = this.props;
         let prefix = `${prefixCls}-item`;
         let classString = classnames({
             [`${prefix}`]: true,
             [`${prefix}-${status}`]: true,
-            [`${prefix}-next-error`]:isNextError
+            [`${prefix}-next-error`]: isNextError
         });
         return (
             <div className={classString}>
                 <div className={`${prefix}-tail`}></div>
-                <div className={`${prefix}-icon`}>
+                <div className={classnames({
+                    [`${prefix}-icon`]: true,
+                    'custom-icon': icon != null
+                })
+                }>
                     <span className={`${prefixCls}-icon`}>
                         {this.renderIcon()}
                     </span>

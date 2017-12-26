@@ -13,9 +13,16 @@ $tail-color:#e8e8e8;
         .k-steps-item-tail {
             position: absolute;
             left: 0;
-            width: 100%;
-            top: torem(12px);
-            padding: 0 torem(10px);
+            top: 0;
+            &:after{
+                content: ' ';
+                display: inline-block;
+                width: 100%;
+                border-radius: 1px;
+                height: 1px;
+                transition: background .3s;
+                background: $tail-color;
+            }
         }
         .k-steps-item-icon {
             display: inline-block;
@@ -34,6 +41,15 @@ $tail-color:#e8e8e8;
                 margin: 0;
                 vertical-align: baseline;
             }
+            &.custom-icon{
+                background: none;
+                width: auto;
+                height: auto;
+                border:0;
+                .k-icon{
+                    font-size: torem(32px);
+                }
+            }
         }
         .k-steps-item-content {
             display: inline-block;
@@ -44,6 +60,7 @@ $tail-color:#e8e8e8;
                 position: relative;
                 font-size: $font-size-root;
                 color: $title-color;
+                display: inline-block;
             }
             .k-steps-item-description {
                 max-width: torem(140px);
@@ -93,29 +110,136 @@ $tail-color:#e8e8e8;
     &.k-steps-vertical {
         .k-steps-item {
             display: block;
+            white-space: normal;
+            &:last-child .k-steps-item-tail {
+                display: none;
+            }
             .k-steps-item-tail {
                 position: absolute;
-                left: torem(12px);
-                top: 0;
-                padding: torem(30px) 0 torem(6px);
+                left: torem(16px);
+                padding: torem(38px) 0 torem(6px);
                 width: 1px;
                 height: 100%;
                 &:after {
                     content: '';
                     display: inline-block;
                     background: $tail-color;
-                    height: 1px;
+                    height: 100%;
                     border-radius: 1px;
-                    width: 100%;
+                    width: 1px;
                     transition: background .3s;
+                    color: $tail-color;
                 }
             }
             .k-steps-item-icon {
                 margin-right: torem(16px);
+                float: left;
             }
             .k-steps-item-content {
+                overflow: hidden;
+                display: block;
                 .k-steps-item-description {
                     padding-bottom: torem(16px);
+                    max-width: none;
+                }
+            }
+            &.k-steps-item-next-error {
+                .k-steps-item-tail {
+                    &:after {
+                        background: $danger!important;
+                    }
+                }
+            }
+        }
+    }
+    &.k-steps-sm {
+        .k-steps-item {
+            .k-steps-item-tail {
+                position: absolute;
+                left: torem(12px);
+                top: 0;
+                padding: torem(30px) 0 torem(6px);
+            }
+            .k-steps-item-icon {
+                width: torem(24px);
+                height: torem(24px);
+                line-height: torem(24px);
+                font-size: $font-size-base;
+                .k-icon {
+                    font-size: $font-size-base;
+                }
+                &.custom-icon{
+                    .k-icon{
+                        font-size: torem(24px);
+                    }
+                }
+            }
+            .k-steps-item-content {
+                .k-steps-item-title {
+                    line-height: torem(24px);
+                    font-size: $font-size-base;
+                    &:after {
+                        top: torem(12px);
+                    }
+                }
+            }
+        }
+        
+        &.k-steps-center{
+            .k-steps-item{
+                .k-steps-item-tail {
+                    margin-left:torem(82px);
+                    top:torem(-2px);
+                    &:after{
+                        margin-left: torem(2px);
+                    }
+                }
+                .k-steps-item-icon {
+                    margin-left: torem(58px);
+                }
+            }
+        }
+    }
+    &.k-steps-center {
+        .k-steps-item {
+            white-space: normal;
+            margin-right: 0;
+            overflow: visible;
+            .k-steps-item-tail {
+                width: 100%;
+                top: torem(2px);
+                margin-left: torem(86px);
+                padding: 0;
+                &:after{
+                    height: 3px;
+                    width: calc(100% - 55px);
+                    margin-left: 12px;
+                }
+            }
+            .k-steps-item-icon {
+                text-align: center;
+                margin: 0;
+                margin-left: torem(54px);
+            }
+            .k-steps-item-content {
+                display: block;
+                text-align: center;
+                width: torem(140px);
+                .k-steps-item-title {
+                    padding-right: 0;
+                    &:after {
+                        content: none;
+                    }
+                }
+                .k-steps-item-description {
+                    max-width: none;
+                    text-align: left;
+                }
+            }
+
+            &:last-child{
+                .k-steps-item-tail {
+                    display: none;
                 }
             }
         }
@@ -123,9 +247,13 @@ $tail-color:#e8e8e8;
 }
 
 .k-steps-item-finish {
+    .k-steps-item-tail:after {
+        background: $primary!important;
+    }
     .k-steps-item-icon {
         border-color: $primary!important;
         color: $primary!important;
+        
     }
     .k-steps-item-title {
         color: rgba(0, 0, 0, 0.65)!important;
@@ -140,6 +268,9 @@ $tail-color:#e8e8e8;
         border-color: $primary!important;
         color: white!important;
         background: $primary;
+        &.custom-icon{
+            color:$primary!important;
+        }
     }
     .k-steps-item-title {
         color: rgba(0, 0, 0, 0.85)!important;
@@ -153,6 +284,9 @@ $tail-color:#e8e8e8;
     .k-steps-item-icon {
         border-color: $danger!important;
         color: $danger!important;
+        &.custom-icon{
+            color:$danger!important;
+        }
     }
     .k-steps-item-title {
         color: $danger!important;

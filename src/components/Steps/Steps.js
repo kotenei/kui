@@ -13,11 +13,13 @@ class Steps extends Component {
     }
     static propTypes = {
         current: PropTypes.number,
+        alignCenter: PropTypes.bool,
         direction: PropTypes.oneOf(['horizontal', 'vertical']),
         status: PropTypes.oneOf(['wait', 'process', 'finish', 'error'])
     }
     static defaultProps = {
         current: 0,
+        alignCenter: false,
         direction: 'horizontal',
     }
     renderSteps() {
@@ -68,10 +70,11 @@ class Steps extends Component {
 
     }
     render() {
-        const { direction } = this.props;
+        const { direction, alignCenter } = this.props;
         let classString = getClassSet(this.props);
         classString = classnames(classString, {
             [`${prefixCls}-${direction}`]: true,
+            [`${prefixCls}-center`]: alignCenter && direction != 'vertical'
         });
         return (
             <div className={classString}>

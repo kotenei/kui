@@ -1,3 +1,55 @@
-.k-collapse{
-    
+.k-collapse {
+    border-radius: $border-radius;
+    border: $border-width-base $border-style-base $border-color-base;
+    .k-collapse-item {
+        border-top: $border-width-base $border-style-base $border-color-base;
+        .k-collapse-head {
+            padding: torem(10px) torem(15px);
+            position: relative;
+            cursor: pointer;
+            background: #F5F5F5;
+            .k-collapse-icon {
+                position: absolute;
+                right: torem(5px);
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            &.disabled {
+                cursor: $cursor-disabled;
+                background: $disabled-bgColor;
+                color: $disabled-color;
+            }
+        }
+        .k-collapse-body {
+            border-top: $border-width-base $border-style-base $border-color-base; 
+            padding: torem(10px) torem(15px);
+            transition: all .3s ease;
+        }
+        &:first-child {
+            border-top: none;
+        }
+    }
+}
+
+.collapse-enter {
+    max-height: torem(0px);
+    transition-duration: 1s!important;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.collapse-enter.collapse-enter-active {
+    max-height: torem(1000px);
+    opacity: 1;
+}
+
+.collapse-exit {
+    max-height: torem(1000px);
+    overflow: hidden;
+    opacity: 1;
+}
+
+.collapse-exit.collapse-exit-active {
+    max-height: torem(0px);
+    opacity: 0;
 }

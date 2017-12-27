@@ -13,16 +13,32 @@ class Collapse extends Component {
         prefixCls: PropTypes.string,
         activeIds: PropTypes.array,
         defaultActiveIds: PropTypes.array,
+        accordion: PropTypes.bool,
         onChange: PropTypes.func
     }
     static defaultProps = {
         prefixCls: 'k-collapse',
-        defaultActiveIds: []
+        defaultActiveIds: [],
+        accordion: false
     }
-    handleChange = (e) => {
-        const { onChange } = this.props;
+    handleChange = (e, id) => {
+        const { onChange, accordion } = this.props;
+        const { activeIds } = this.state;
+        let newActiveIds = accordion ? [] : [...activeIds];
         if (onChange) {
-            onChange();
+            onChange(e, id);
+        }
+        if (!('activeIds' in this.props)) {
+            let index = activeIds.indexOf(id);
+
+            if (index == -1) {
+                newActiveIds.push(id);
+            } else {
+                newActiveIds.splice(index, 1);
+            }
+            this.setState({
+                activeIds: newActiveIds
+            })
         }
     }
     componentWillReceiveProps(nextProps) {

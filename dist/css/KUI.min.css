@@ -1373,6 +1373,62 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
       width: 100%;
       height: 100%;
       display: inline-block; }
+  .k-carousel .k-carousel-dots {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%; }
+    .k-carousel .k-carousel-dots .k-carousel-dot {
+      display: inline-block;
+      margin: 0 0.25rem;
+      background: white;
+      width: 1.125rem;
+      height: 0.1875rem;
+      cursor: pointer;
+      opacity: .5;
+      transition: all .3s ease; }
+      .k-carousel .k-carousel-dots .k-carousel-dot.active {
+        opacity: 1; }
+  .k-carousel .k-carousel-control {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    background: black;
+    color: white;
+    text-align: center;
+    transition: all .3s ease;
+    opacity: 0;
+    cursor: pointer; }
+    .k-carousel .k-carousel-control.k-carousel-control-left {
+      left: 0; }
+    .k-carousel .k-carousel-control.k-carousel-control-right {
+      right: 0; }
+  .k-carousel:hover .k-carousel-control {
+    opacity: .8; }
+    .k-carousel:hover .k-carousel-control.k-carousel-control-left {
+      left: 0.5rem; }
+    .k-carousel:hover .k-carousel-control.k-carousel-control-right {
+      right: 0.5rem; }
+  .k-carousel.k-carousel-vertical .k-carousel-control {
+    display: none; }
+  .k-carousel.k-carousel-vertical .k-carousel-dots {
+    top: 50%;
+    bottom: auto;
+    right: 1.125rem;
+    height: auto;
+    width: 0.1875rem;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
+    .k-carousel.k-carousel-vertical .k-carousel-dots .k-carousel-dot {
+      display: block;
+      margin: 0.25rem 0;
+      width: 0.1875rem;
+      height: 1.125rem; }
 
 .k-checkbox.k-checkbox-inline.toggleButton {
   margin-right: .625rem; }

@@ -1,0 +1,38 @@
+.k-switch {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    min-width: torem(44px);
+    height: torem(22px);
+    line-height: torem(22px);
+    border-radius: torem(100px);
+    border: 1px solid transparent;
+    background: rgba(0, 0, 0, 0.25);
+    transition: all .3s ease;
+    cursor: pointer;
+    .k-switch-inner {
+        color: #fff;
+        font-size: torem(12px);
+        display: block;
+        &:after {
+            content: ' ';
+            position: absolute;
+            width: torem(18px);
+            height: torem(18px);
+            border-radius: 50%;
+            left: 1px;
+            top: 1px;
+            background: #fff;
+            transition: all .3s ease;
+        }
+    }
+    &.k-switch-checked {
+        background: $primary;
+        .k-switch-inner {
+            &:after {
+                left: 100%;
+                margin-left: torem(-19px);
+            }
+        }
+    }
+}

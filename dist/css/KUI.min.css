@@ -2976,6 +2976,38 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
 .k-steps-item-error .k-steps-item-description {
   color: #f44336 !important; }
 
+.k-switch {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  min-width: 2.75rem;
+  height: 1.375rem;
+  line-height: 1.375rem;
+  border-radius: 6.25rem;
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.25);
+  transition: all .3s ease;
+  cursor: pointer; }
+  .k-switch .k-switch-inner {
+    color: #fff;
+    font-size: 0.75rem;
+    display: block; }
+    .k-switch .k-switch-inner:after {
+      content: ' ';
+      position: absolute;
+      width: 1.125rem;
+      height: 1.125rem;
+      border-radius: 50%;
+      left: 1px;
+      top: 1px;
+      background: #fff;
+      transition: all .3s ease; }
+  .k-switch.k-switch-checked {
+    background: #2196f3; }
+    .k-switch.k-switch-checked .k-switch-inner:after {
+      left: 100%;
+      margin-left: -1.1875rem; }
+
 .k-table {
   width: 100%;
   max-width: 100%;

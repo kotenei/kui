@@ -180,13 +180,13 @@ class TabsView extends Component {
                         <tr>
                             <td>onTabClick</td>
                             <td>点击标签的回调函数</td>
-                            <td>Function</td>
+                            <td>Function(e:eventObject,index:number)</td>
                             <td>—</td>
                         </tr>
                         <tr>
                             <td>onEdit</td>
                             <td>新增或删除标签回调函数</td>
-                            <td>Function</td>
+                            <td>Function(e:eventObject,action:string,index:number)</td>
                             <td>—</td>
                         </tr>
                     </tbody>

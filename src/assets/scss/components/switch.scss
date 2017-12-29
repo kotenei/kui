@@ -4,7 +4,7 @@
     position: relative;
     min-width: torem(44px);
     height: torem(22px);
-    line-height: torem(22px);
+    line-height: torem(20px);
     border-radius: torem(100px);
     border: 1px solid transparent;
     background: rgba(0, 0, 0, 0.25);
@@ -14,6 +14,8 @@
         color: #fff;
         font-size: torem(12px);
         display: block;
+        margin-left:torem(24px);
+        margin-right:torem(6px);
         &:after {
             content: ' ';
             position: absolute;
@@ -29,10 +31,46 @@
     &.k-switch-checked {
         background: $primary;
         .k-switch-inner {
+            margin-left:torem(6px);
+            margin-right:torem(24px);
             &:after {
                 left: 100%;
                 margin-left: torem(-19px);
             }
         }
+
+        &:before{
+            left:100%;
+            margin-left: torem(-19px);
+        }
+    }
+
+    &.disabled,
+    &.loading{
+        cursor: $cursor-disabled;
+        opacity:.4;
+        pointer-events: none;
+    }
+
+    &.loading:before{
+        content:'\e64d';
+        display: inline-block;
+    }
+
+    &:before{
+        display: none;
+        content:'';
+        font-family:"anticon" !important;
+        
+        animation: loadingCircle 1s infinite linear;
+        font-size: torem(12px);
+        text-align: center;
+        z-index: 1;
+        color:$primary;
+        left: 1px;
+        top: 1px;
+        width: torem(18px);
+        height:18px;
+        position: absolute;
     }
 }

@@ -69,13 +69,13 @@ class CollapseView extends Component {
                         <tr>
                             <td>accordion</td>
                             <td>是否手风琴</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                         <tr>
                             <td>onChange</td>
                             <td>切换面板的回调</td>
-                            <td>Function</td>
+                            <td>Function(id:string)</td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -107,7 +107,7 @@ class CollapseView extends Component {
                         <tr>
                             <td>disabled</td>
                             <td>是否禁用</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                     </tbody>

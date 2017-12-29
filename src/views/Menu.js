@@ -166,13 +166,13 @@ class MenuView extends Component {
                         <tr>
                             <td>selectable</td>
                             <td>菜单是否可选中</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>true</td>
                         </tr>
                         <tr>
                             <td>multiple</td>
                             <td>是否可多选</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                     </tbody>
@@ -198,7 +198,7 @@ class MenuView extends Component {
                         <tr>
                             <td>disabled</td>
                             <td>是否禁用</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                     </tbody>
@@ -236,7 +236,7 @@ class MenuView extends Component {
                         <tr>
                             <td>disabled</td>
                             <td>是否禁用</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                     </tbody>

@@ -59,12 +59,13 @@ class Switch extends Component {
         }
     }
     render() {
-        const { disabled } = this.props;
+        const { disabled, loading } = this.props;
         const { checked } = this.state;
         let classString = classnames({
             [`${prefixCls}`]: true,
             [`${prefixCls}-checked`]: checked,
-            'disabled': disabled
+            'disabled': disabled,
+            'loading': loading
         })
         return (
             <div className={classString} onClick={this.handleChange}>

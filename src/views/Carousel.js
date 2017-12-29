@@ -41,7 +41,6 @@ class CarouselView extends Component {
                     </Carousel>
                 </div>
                 <h1>API</h1>
-                <h3>Carousel</h3>
                 <table className="k-table k-table-hover k-table-striped">
                     <thead>
                         <tr>
@@ -67,13 +66,13 @@ class CarouselView extends Component {
                         <tr>
                             <td>autoplay</td>
                             <td>是否自动切换</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                         <tr>
                             <td>vertical</td>
                             <td>是否垂直</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                     </tbody>

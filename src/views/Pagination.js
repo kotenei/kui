@@ -63,7 +63,7 @@ class PaginationView extends Component {
                         <tr>
                             <td>onChange</td>
                             <td>改变页码时的回调函数</td>
-                            <td>function</td>
+                            <td>Function(pageIndex:number)</td>
                             <td>()=>{}</td>
                         </tr>
                     </tbody>

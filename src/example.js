@@ -80,7 +80,7 @@ ReactDOM.render(
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Rate 评分</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Select 选择器</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Slider 滑动条</NavLink></li>
-                                <li><NavLink to="###" className="disabled" activeClassName="selected">Switch 开关</NavLink></li>
+                                <li><NavLink to="/Switch"  activeClassName="selected">Switch 开关</NavLink></li>
                                 <li><NavLink to="###" className="disabled" activeClassName="selected">Upload 上传</NavLink></li>
                             </ul>
                         </li>

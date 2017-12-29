@@ -112,7 +112,7 @@ class InpurtView extends Component {
                         <tr>
                             <td>onPressEnter</td>
                             <td>按下回车回调</td>
-                            <td>function</td>
+                            <td>Function</td>
                             <td>—</td>
                         </tr>
                     </tbody>
@@ -144,7 +144,7 @@ class InpurtView extends Component {
                         <tr>
                             <td>onPressEnter</td>
                             <td>按下回车回调</td>
-                            <td>function</td>
+                            <td>Function</td>
                             <td>—</td>
                         </tr>
                     </tbody>

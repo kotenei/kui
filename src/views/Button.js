@@ -92,19 +92,19 @@ class ButtonView extends React.Component {
                         <tr>
                             <td>raised</td>
                             <td>是否raised按钮</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>—</td>
                         </tr>
                         <tr>
                             <td>fab</td>
                             <td>是否fab按钮</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>—</td>
                         </tr>
                         <tr>
                             <td>disabled</td>
                             <td>是否禁用</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                     </tbody>

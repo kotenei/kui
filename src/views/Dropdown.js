@@ -102,7 +102,7 @@ class DropdownView extends Component {
                         <tr>
                             <td>disabled</td>
                             <td>是否禁用</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                     </tbody>
@@ -140,13 +140,13 @@ class DropdownView extends Component {
                         <tr>
                             <td>disabled</td>
                             <td>是否禁用</td>
-                            <td>bool</td>
+                            <td>boolean</td>
                             <td>false</td>
                         </tr>
                         <tr>
                             <td>onClick</td>
                             <td>点击左侧按钮回调函数</td>
-                            <td>function</td>
+                            <td>Function</td>
                             <td></td>
                         </tr>
                     </tbody>

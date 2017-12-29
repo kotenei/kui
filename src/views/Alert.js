@@ -65,7 +65,7 @@ class AlertView extends Component {
                         <tr>
                             <td>onClose</td>
                             <td>关闭回调函数,返回true则关闭</td>
-                            <td>function</td>
+                            <td>Function</td>
                             <td>{'()=>{ return true; }'}</td>
                         </tr>
                     </tbody>

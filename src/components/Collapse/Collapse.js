@@ -26,7 +26,7 @@ class Collapse extends Component {
         const { activeIds } = this.state;
         let newActiveIds = accordion ? [] : [...activeIds];
         if (onChange) {
-            onChange(e, id);
+            onChange(id);
         }
         if (!('activeIds' in this.props)) {
             let index = activeIds.indexOf(id);

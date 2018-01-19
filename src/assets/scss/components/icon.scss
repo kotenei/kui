@@ -5,7 +5,7 @@
 }
 
 .k-icon {
-    font-size: $font-size-base;
+    font-size: inherit;
     vertical-align: middle;
     margin: 0 .185rem; //transition: all .3s;
     &.k-spin {

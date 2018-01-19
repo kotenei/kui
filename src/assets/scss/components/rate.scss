@@ -1,34 +1,54 @@
-.k-rate{
-    overflow: hidden;
-    cursor:pointer;
-    .k-star{
-        display: inline-block;
-        background:url(../images/star/star-off.png);     
-        width:16px;
-        height:16px;
-        vertical-align: middle;
+.k-rate {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: torem(20px);
+    color:#e8e8e8;
+    display: inline-block;
 
-        &.half{
-            background: url(../images/star/star-half.png);
-        }
-
-        &.full{
-            background: url(../images/star/star-on.png);
+    &.disabled{ 
+        >.k-rate-star{
+            cursor:$cursor-disabled;
+            &:hover{
+                transform: scale(1);
+            }
         }
     }
 
-    &.k-rate-big{
-        .k-star{
-            background:url(../images/star/star-off-big.png);
-            width: 24px;
-            height:24px;
+    > .k-rate-star {
+        margin-right: torem(4px);
+        display: inline-block;
+        position: relative;
+        transition: all 0.3s;
+        cursor: pointer;
+        &:hover{
+            transform-origin: 50% 50%;
+            transform: scale(1.2);
+        }
 
-            &.half{
-                background: url(../images/star/star-half-big.png);
+        &.k-rate-star-half {
+            .k-rate-star-first{
+                color:#fadb14;
+                opacity: 1;
             }
-            &.full{
-                background: url(../images/star/star-on-big.png);
-            }
-        }  
+        }
+
+        &.k-rate-star-full {
+            color:#fadb14;
+        }
+
+        .k-rate-star-first {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 0;
+            user-select: none;
+        }
+        .k-rate-star-second {
+           
+        }
     }
 }

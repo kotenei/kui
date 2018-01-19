@@ -142,6 +142,7 @@ ReactDOM.render(
                     <Route path="/Progress" exact component={Progress} />
                     <Route path="/Radio" exact component={Radio} />
                     <Route path="/Rate" exact component={Rate} />
+                    <Route path="/Select" exact component={Select} />
                     <Route path="/Slider" exact component={Slider} />
                     <Route path="/Steps" exact component={Steps} />
                     <Route path="/Switch" exact component={Switch} />

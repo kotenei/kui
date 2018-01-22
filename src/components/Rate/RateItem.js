@@ -39,7 +39,7 @@ class RateItem extends Component {
                 <div
                     className={`${prefixCls}-star-first`}
                     onMouseOver={this.handleTrigger.bind(this, allowHalf ? value - 0.5 : value, "hover")}
-                    onClick={this.handleTrigger.bind(this, value)}
+                    onClick={this.handleTrigger.bind(this, allowHalf ? value - 0.5 : value)}
                 >
                     {character}
                 </div>

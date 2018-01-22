@@ -1,0 +1,58 @@
+.k-select {
+    display: inline-block;
+    position: relative;
+    border: $border-width-base $border-style-base $border-color-base;
+    border-radius: $border-radius;
+    width: 100%;
+    padding-left: $input-padding-x;
+    height: $height-default;
+    cursor: pointer;
+
+    .k-select-selection {
+        .k-select-choice-list {
+            position: relative;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            vertical-align: middle;
+            height: 100%;
+            > li {
+                position: relative;
+                display: inline-block;
+                vertical-align: middle;
+                margin-top: torem(5px);
+                margin-bottom: torem(5px);
+                border: $border-width-base $border-style-base $border-color-base;
+                border-radius: $border-radius;
+                padding: 0 torem(20px) 0 torem(10px);
+                background: #F3F3F3;
+                height: 28px;
+                line-height: 26px;
+                cursor: default;
+                .k-icon{
+                    position: absolute;
+                    right:0px;
+                    top:50%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    &.k-select-single {
+        padding-right: $input-padding-x;
+        .k-select-selection {
+            .k-select-choice-list {
+                > li {
+                    border-color: transparent;
+                    width: 100%;
+                    background: white;
+                    padding: 0;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

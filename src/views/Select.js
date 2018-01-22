@@ -9,7 +9,7 @@ class SelectView extends Component {
             <div>
                 <h1>Select 选择器</h1>
                 <div className="k-example">
-                    <Select>
+                    <Select mode="multiple" defaultValue={['选项一']}>
                         <Option value="选项一">选项一</Option>
                     </Select>
                 </div>

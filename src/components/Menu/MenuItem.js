@@ -25,7 +25,7 @@ class MenuItem extends Component {
         }
     }
     render() {
-        const { prefixCls, disabled, children, inlineIndent, selectedIds, id, rootId, mode, level } = this.props;
+        const { prefixCls, disabled,title, children, inlineIndent, selectedIds, id, rootId, mode, level } = this.props;
         let isSelected = selectedIds.indexOf(id) != -1;
         let classString = classnames({
             [`${prefixCls}-item`]: true,
@@ -60,6 +60,7 @@ class MenuItem extends Component {
                 <li
                     className={classString}
                     style={{ paddingLeft: mode == 'inline' ? inlineIndent : null }}
+                    title={title}
                     onClick={this.handleClick}>
                     {children}
                 </li>

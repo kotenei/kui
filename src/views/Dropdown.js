@@ -32,7 +32,7 @@ class DropdownView extends Component {
                     <Dropdown menu={menu} style={{ marginRight: 50 }}>
                         <a href="javascript:void(0);">Hover me!</a>
                     </Dropdown>
-                    <Dropdown menu={menu} trigger="click" >
+                    <Dropdown menu={menu} trigger="click"  >
                         <a href="javascript:void(0);">Click me!</a>
                     </Dropdown>
                 </div>

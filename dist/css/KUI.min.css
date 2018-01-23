@@ -2791,6 +2791,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
 
 .k-select {
   display: inline-block;
+  vertical-align: middle;
   position: relative;
   border: 1px solid #d9d9d9;
   border-radius: 0.25rem;
@@ -2803,9 +2804,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    vertical-align: middle;
-    height: 100%; }
+    vertical-align: middle; }
     .k-select .k-select-selection .k-select-choice-list > li {
       position: relative;
       display: inline-block;
@@ -2818,6 +2817,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
       background: #F3F3F3;
       height: 28px;
       line-height: 26px;
+      transition: all .3s;
       cursor: default; }
       .k-select .k-select-selection .k-select-choice-list > li .k-icon {
         position: absolute;

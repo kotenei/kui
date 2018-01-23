@@ -1,5 +1,6 @@
 .k-select {
     display: inline-block;
+    vertical-align: middle;
     position: relative;
     border: $border-width-base $border-style-base $border-color-base;
     border-radius: $border-radius;
@@ -14,9 +15,8 @@
             list-style: none;
             margin: 0;
             padding: 0;
-            overflow: hidden;
             vertical-align: middle;
-            height: 100%;
+
             > li {
                 position: relative;
                 display: inline-block;
@@ -29,6 +29,7 @@
                 background: #F3F3F3;
                 height: 28px;
                 line-height: 26px;
+                transition: all .3s;
                 cursor: default;
                 .k-icon{
                     position: absolute;

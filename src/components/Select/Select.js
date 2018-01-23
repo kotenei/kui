@@ -3,9 +3,21 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { guid, FirstChild } from "../../utils/kUtils";
 import Icon from "../Icon";
+import Dropdown from "../Dropdown";
+import Menu from "../Menu";
+import Button from "../Button";
 
 const prefixCls = "k-select";
+
+class SelectContainer extends Component {
+    render() {
+        return (
+            <div className={this.props.className}>{this.props.children}</div>
+        );
+    }
+}
 
 class Select extends Component {
     constructor(props) {
@@ -51,6 +63,13 @@ class Select extends Component {
             onSelect(newValue);
         }
     };
+    handleOptionSelect = selectedIds => {
+        const { onSelect, mode } = this.props;
+        const { value } = this.state;
+        this.setState({
+            value:selectedIds
+        })
+    };
     handleRemoveIcon = removeValue => {
         const { mode, onRemove } = this.props;
         const { value } = this.state;
@@ -88,55 +107,76 @@ class Select extends Component {
             }
             if (value.indexOf(child.props.value) != -1) {
                 items.push(
-                    <li>
-                        <div className={`${prefixCls}-choice-content`}>
-                            {child.props.children}
-                        </div>
-                        {mode == "single" ? (
-                            <Icon type="caretdown" />
-                        ) : (
-                            <Icon
-                                type="close"
-                                onClick={this.handleRemoveIcon.bind(
-                                    this,
-                                    child.props.value
-                                )}
-                            />
-                        )}
-                    </li>
+                    <CSSTransition key={guid()} timeout={300} classNames="fade">
+                        <li>
+                            <div className={`${prefixCls}-choice-content`}>
+                                {child.props.children}
+                            </div>
+                            {mode == "single" ? (
+                                <Icon type="caretdown" />
+                            ) : (
+                                <Icon
+                                    type="close"
+                                    onClick={this.handleRemoveIcon.bind(
+                                        this,
+                                        child.props.value
+                                    )}
+                                />
+                            )}
+                        </li>
+                    </CSSTransition>
                 );
             }
         });
-        return items.length > 0 ? (
-            <ul className={`${prefixCls}-choice-list`}>{items}</ul>
-        ) : null;
+
+        return (
+            <ul className={`${prefixCls}-choice-list`}>
+                <TransitionGroup component={FirstChild}>
+                    {items}
+                </TransitionGroup>
+            </ul>
+        );
     }
     renderOptions() {
         const { children } = this.props;
         let items = [];
         React.Children.forEach(children, (child, index) => {
+            if (!child) {
+                return false;
+            }
             items.push(
                 React.cloneElement(child, {
+                    index,
                     ...child.props,
                     onClick: this.handleOptionClick
                 })
             );
         });
+
+        return <Menu multiple>{items}</Menu>;
     }
     render() {
         const { placeholder, mode } = this.props;
+        const { value } = this.state;
         let classString = classnames({
             [`${prefixCls}`]: true,
             [`${prefixCls}-${mode}`]: true
         });
+
         return (
-            <div className={classString}>
-                <div className={`${prefixCls}-selection`}>
+            <Dropdown
+                menu={this.renderOptions()}
+                component={SelectContainer}
+                className={classString}
+                trigger="click"
+                onSelect={this.handleOptionSelect}
+                selectedIds={value}
+            >
+                <div className={`${prefixCls}-selection`} trigger="dropdown">
                     {this.renderSelected()}
                 </div>
                 <div className={`${prefixCls}-placeholder`}>{placeholder}</div>
-                {this.renderOptions()}
-            </div>
+            </Dropdown>
         );
     }
 }

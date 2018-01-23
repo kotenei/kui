@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import domUtils from '../../utils/domUtils';
-import classnames from 'classnames';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { guid, FirstChild } from '../../utils/kUtils';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import domUtils from "../../utils/domUtils";
+import classnames from "classnames";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { guid, FirstChild } from "../../utils/kUtils";
 
 let seed = 1;
 let instances = {};
@@ -14,9 +14,8 @@ class Dropdown extends Component {
         super(props);
         this.state = {
             position: { top: -999, left: -999 },
-            selectedId: '-1',
             show: true
-        }
+        };
         this.id = `dropdown_${seed++}`;
         instances[this.id] = this;
     }
@@ -24,24 +23,36 @@ class Dropdown extends Component {
         prefixCls: PropTypes.string,
         component: PropTypes.oneOfType(PropTypes.string, PropTypes.element),
         menu: PropTypes.element,
-        trigger: PropTypes.oneOf['click', 'hover'],
-        placement: PropTypes.oneOf['topLeft', 'topCenter', 'topRight', 'bottomLeft', 'bottomCenter', 'bottomRight'],
+        selectedIds: PropTypes.array,
+        trigger: PropTypes.oneOf[("click", "hover")],
+        placement:
+            PropTypes.oneOf[
+                ("topLeft",
+                "topCenter",
+                "topRight",
+                "bottomLeft",
+                "bottomCenter",
+                "bottomRight")
+            ],
         disabled: PropTypes.bool,
+        multiple: PropTypes.bool,
         onSelect: PropTypes.func
-    }
+    };
     static defaultProps = {
-        prefixCls: 'k-dropdown',
-        component: 'div',
-        placement: 'bottomLeft',
-        trigger: 'hover',
-        disabled: false
-    }
+        prefixCls: "k-dropdown",
+        component: "div",
+        selectedIds: [],
+        placement: "bottomLeft",
+        trigger: "hover",
+        disabled: false,
+        multiple: false
+    };
     setOrgSize() {
         let dom = ReactDOM.findDOMNode(this.refs.dropdownMenu);
         this.orgSize = {
             w: domUtils.outerWidth(dom),
             h: domUtils.outerHeight(dom)
-        }
+        };
     }
     setPosition() {
         const { placement } = this.props;
@@ -51,26 +62,27 @@ class Dropdown extends Component {
             tw = this.orgSize.w,
             th = this.orgSize.h,
             n = 4,
-            position, top, left;
-
+            position,
+            top,
+            left;
 
         switch (placement) {
-            case 'topLeft':
-                position = { top: - th - n, left: 0 };
+            case "topLeft":
+                position = { top: -th - n, left: 0 };
                 break;
-            case 'topCenter':
-                position = { top: - th - n, marginLeft: -(tw / 2), left: '50%' };
+            case "topCenter":
+                position = { top: -th - n, marginLeft: -(tw / 2), left: "50%" };
                 break;
-            case 'topRight':
-                position = { top: - th - n, right: 0 };
+            case "topRight":
+                position = { top: -th - n, right: 0 };
                 break;
-            case 'bottomLeft':
+            case "bottomLeft":
                 position = { top: eh + n, left: 0 };
                 break;
-            case 'bottomCenter':
-                position = { top: eh + n, marginLeft: -(tw / 2), left: '50%' };
+            case "bottomCenter":
+                position = { top: eh + n, marginLeft: -(tw / 2), left: "50%" };
                 break;
-            case 'bottomRight':
+            case "bottomRight":
                 position = { top: eh + n, right: 0 };
                 break;
             default:
@@ -79,29 +91,29 @@ class Dropdown extends Component {
         }
         this.setState({
             position
-        })
+        });
     }
-    handleMouseEnter = (e) => {
+    handleMouseEnter = e => {
         const { trigger } = this.props;
-        if (trigger == 'click') {
+        if (trigger == "click") {
             return;
         }
         this.setPosition();
         this.show();
-    }
-    handleMouseLeave = (e) => {
+    };
+    handleMouseLeave = e => {
         const { trigger } = this.props;
-        if (trigger == 'click') {
+        if (trigger == "click") {
             return;
         }
         this.hide();
-    }
-    handleClick = (e) => {
+    };
+    handleClick = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
         const { show } = this.state;
         const { trigger } = this.props;
-        if (trigger == 'hover') {
+        if (trigger == "hover") {
             return;
         }
         if (show) {
@@ -111,48 +123,48 @@ class Dropdown extends Component {
             this.show();
         }
         this.hideOther();
-    }
-    handleMenuEnter = (e) => {
+    };
+    handleMenuEnter = e => {
         const { trigger } = this.props;
-        if (trigger == 'click') {
+        if (trigger == "click") {
             return;
         }
         this.show();
-    }
-    handleMenuLeave = (e) => {
+    };
+    handleMenuLeave = e => {
         const { trigger } = this.props;
-        if (trigger == 'click') {
+        if (trigger == "click") {
             return;
         }
         this.hide();
-    }
-    handleMenuSelect = (selectedIds) => {
+    };
+    handleMenuSelect = selectedIds => {
         const { onSelect } = this.props;
         if (onSelect) {
-            onSelect(selectedIds[0]);
+            onSelect(selectedIds);
         }
-    }
+    };
     show = () => {
         const { disabled } = this.props;
         if (disabled) {
             return;
         }
         if (this.tm) {
-            clearTimeout(this.tm)
+            clearTimeout(this.tm);
         }
         setTimeout(() => {
             this.setState({
                 show: true
-            })
+            });
         }, 100);
-    }
+    };
     hide = () => {
         this.tm = setTimeout(() => {
             this.setState({
                 show: false
             });
         }, 300);
-    }
+    };
     hideOther() {
         for (var k in instances) {
             if (k == this.id) {
@@ -165,80 +177,81 @@ class Dropdown extends Component {
         const { show } = this.props;
         this.setOrgSize();
         this.hide();
-        document.addEventListener('click', this.hide);
+        document.addEventListener("click", this.hide);
     }
     componentWillUnmount() {
-        document.removeEventListener('click', this.hide);
+        document.removeEventListener("click", this.hide);
         delete instances[this.id];
     }
     renderMenu() {
-        const { menu, prefixCls } = this.props;
-        const { position, show, selectedId } = this.state;
+        const { menu, prefixCls, multiple,selectedIds } = this.props;
+        const { position, show } = this.state;
         if (!menu) {
             return null;
         }
-        let newMenu = show ? <CSSTransition
-            timeout={300}
-            classNames="slide-bottom"
-        >
-            {
-                React.cloneElement(menu, {
+        let newMenu = show ? (
+            <CSSTransition timeout={300} classNames="slide-bottom">
+                {React.cloneElement(menu, {
                     ...menu.props,
-                    defaultSelectedIds: [selectedId],
-                    ref: 'dropdownMenu',
-                    mode: 'vertical',
+                    multiple,
+                    defaultSelectedIds: selectedIds,
+                    ref: "dropdownMenu",
+                    mode: "vertical",
                     className: classnames({
                         [`${prefixCls}-menu`]: true,
-                        'slide-bottom-enter': true
+                        "slide-bottom-enter": true
                     }),
                     style: position,
                     onMouseEnter: this.handleMenuEnter,
                     onMouseLeave: this.handleMenuLeave,
                     onSelect: this.handleMenuSelect
-                })
-            }
-        </CSSTransition> : null;
+                })}
+            </CSSTransition>
+        ) : null;
 
         return (
-            <TransitionGroup component={FirstChild}>
-                {newMenu}
-            </TransitionGroup>
+            <TransitionGroup component={FirstChild}>{newMenu}</TransitionGroup>
         );
     }
     renderChilren() {
         const { children } = this.props;
-        return (
-            React.Children.map(children, child => {
-                if (!child) {
-                    return null;
-                }
-                let handle = {};
-                if ((child.props.trigger && child.props.trigger == 'dropdown') || !Array.isArray(children)) {
-                    handle = {
-                        onMouseEnter: this.handleMouseEnter,
-                        onMouseLeave: this.handleMouseLeave,
-                        onClick: this.handleClick
-                    }
-                }
-                return React.cloneElement(child, {
-                    ...child.props,
-                    ...handle
-                });
-            })
-        )
+        return React.Children.map(children, child => {
+            if (!child) {
+                return null;
+            }
+            let handle = {};
+            if (
+                (child.props.trigger && child.props.trigger == "dropdown") ||
+                !Array.isArray(children)
+            ) {
+                handle = {
+                    onMouseEnter: this.handleMouseEnter,
+                    onMouseLeave: this.handleMouseLeave,
+                    onClick: this.handleClick
+                };
+            }
+            return React.cloneElement(child, {
+                ...child.props,
+                ...handle
+            });
+        });
     }
     render() {
-        const { prefixCls, style, component: Container } = this.props;
-        let classString = classnames({
+        const {
+            prefixCls,
+            className,
+            style,
+            component: Container
+        } = this.props;
+        let classString = classnames(className, {
             [`${prefixCls}`]: true
-        })
+        });
         return (
-            <Container className={classString} ref='trigger' style={style}>
+            <Container className={classString} ref="trigger" style={style}>
                 {this.renderChilren()}
                 {this.renderMenu()}
             </Container>
-
-        )
+        );
     }
 }
 

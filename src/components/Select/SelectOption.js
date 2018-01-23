@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import omit from "object.omit";
+import Menu from "../Menu";
+
+const MenuItem = Menu.Item;
 
 class SelectOption extends Component {
     static propTypes = {
@@ -22,8 +26,18 @@ class SelectOption extends Component {
         }
     };
     render() {
-        const { title } = this.props;
-        return <li title={title}>{this.props.children}</li>;
+        const { title, value, index } = this.props;
+        const menuProps = omit(this.props, [
+            "children",
+            "index",
+            "selected",
+            "value"
+        ]);
+        return (
+            <MenuItem id={value} {...menuProps}>
+                {this.props.children}
+            </MenuItem>
+        );
     }
 }
 

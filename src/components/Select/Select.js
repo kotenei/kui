@@ -3,7 +3,14 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { guid, FirstChild } from "../../utils/kUtils";
+import {
+    guid,
+    FirstChild,
+    getClassSet,
+    kClass,
+    kSize
+} from "../../utils/kUtils";
+import { Sizes } from "../../utils/styleMaps";
 import Icon from "../Icon";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";
@@ -22,8 +29,10 @@ class SelectContainer extends Component {
 class Select extends Component {
     constructor(props) {
         super(props);
+        const value = props.value || props.defaultValue;
         this.state = {
-            value: props.value || props.defaultValue
+            value:
+                props.mode == "single" && value.length > 1 ? [value[0]] : value
         };
     }
     static propTypes = {
@@ -48,7 +57,7 @@ class Select extends Component {
         if (mode == "single") {
             newValue = [].push(item.value);
         } else {
-            if (newValue == -1) {
+            if (index == -1) {
                 newValue.push(item.value);
             } else {
                 newValue.splice(index, 1);
@@ -63,14 +72,20 @@ class Select extends Component {
             onSelect(newValue);
         }
     };
-    handleOptionSelect = selectedIds => {
+    handleOptionSelect = (e, selectedIds) => {
         const { onSelect, mode } = this.props;
         const { value } = this.state;
+        if (mode == "multiple") {
+            e.stopPropagation();
+            e.nativeEvent.stopImmediatePropagation();
+        }
         this.setState({
-            value:selectedIds
-        })
+            value: selectedIds
+        });
     };
-    handleRemoveIcon = removeValue => {
+    handleRemoveItem = (removeValue, e) => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         const { mode, onRemove } = this.props;
         const { value } = this.state;
         let newValue = [...value];
@@ -101,40 +116,42 @@ class Select extends Component {
         const { value } = this.state;
         const { children, mode } = this.props;
         let items = [];
-        React.Children.forEach(children, (child, index) => {
-            if (!child) {
-                return false;
-            }
-            if (value.indexOf(child.props.value) != -1) {
-                items.push(
-                    <CSSTransition key={guid()} timeout={300} classNames="fade">
-                        <li>
-                            <div className={`${prefixCls}-choice-content`}>
-                                {child.props.children}
-                            </div>
-                            {mode == "single" ? (
-                                <Icon type="caretdown" />
-                            ) : (
-                                <Icon
-                                    type="close"
-                                    onClick={this.handleRemoveIcon.bind(
-                                        this,
-                                        child.props.value
-                                    )}
-                                />
-                            )}
-                        </li>
-                    </CSSTransition>
-                );
-            }
+        value.forEach((v, i) => {
+            items.push(
+                <CSSTransition timeout={300} classNames="fade">
+                    <li>
+                        <div className={`${prefixCls}-choice-content`}>{v}</div>
+                        {mode == "single" ? (
+                            <Icon type="caretdown" />
+                        ) : (
+                            <Icon
+                                type="close"
+                                onClick={this.handleRemoveItem.bind(this, v)}
+                            />
+                        )}
+                    </li>
+                </CSSTransition>
+            );
         });
 
+        if(mode=='single'&&items.length==0){
+            items.push(
+                <CSSTransition timeout={300} classNames="fade">
+                    <li>
+                        <div className={`${prefixCls}-choice-content`}></div>
+                        <Icon type="caretdown" />
+                    </li>
+                </CSSTransition>
+            )
+        }
+
         return (
-            <ul className={`${prefixCls}-choice-list`}>
-                <TransitionGroup component={FirstChild}>
-                    {items}
-                </TransitionGroup>
-            </ul>
+            <TransitionGroup
+                component="ul"
+                className={`${prefixCls}-choice-list`}
+            >
+                {items}
+            </TransitionGroup>
         );
     }
     renderOptions() {
@@ -158,8 +175,8 @@ class Select extends Component {
     render() {
         const { placeholder, mode } = this.props;
         const { value } = this.state;
-        let classString = classnames({
-            [`${prefixCls}`]: true,
+        let classes = getClassSet(this.props);
+        let classString = classnames(classes, {
             [`${prefixCls}-${mode}`]: true
         });
 
@@ -171,6 +188,7 @@ class Select extends Component {
                 trigger="click"
                 onSelect={this.handleOptionSelect}
                 selectedIds={value}
+                multiple={mode == "multiple"}
             >
                 <div className={`${prefixCls}-selection`} trigger="dropdown">
                     {this.renderSelected()}
@@ -181,4 +199,4 @@ class Select extends Component {
     }
 }
 
-export default Select;
+export default kSize([Sizes.LARGE, Sizes.SMALL], kClass(prefixCls, Select));

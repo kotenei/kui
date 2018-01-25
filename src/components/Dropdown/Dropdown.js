@@ -138,10 +138,11 @@ class Dropdown extends Component {
         }
         this.hide();
     };
-    handleMenuSelect = selectedIds => {
+    handleMenuSelect = (e, selectedIds) => {
+        const { show } = this.state;
         const { onSelect } = this.props;
         if (onSelect) {
-            onSelect(selectedIds);
+            onSelect(e,selectedIds);
         }
     };
     show = () => {
@@ -184,7 +185,7 @@ class Dropdown extends Component {
         delete instances[this.id];
     }
     renderMenu() {
-        const { menu, prefixCls, multiple,selectedIds } = this.props;
+        const { menu, prefixCls, multiple, selectedIds } = this.props;
         const { position, show } = this.state;
         if (!menu) {
             return null;

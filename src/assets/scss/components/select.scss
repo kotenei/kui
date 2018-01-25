@@ -5,8 +5,6 @@
     border: $border-width-base $border-style-base $border-color-base;
     border-radius: $border-radius;
     width: 100%;
-    padding-left: $input-padding-x;
-    height: $height-default;
     cursor: pointer;
 
     .k-select-selection {
@@ -15,26 +13,31 @@
             list-style: none;
             margin: 0;
             padding: 0;
+            padding-left: torem(5px);
+            padding-top:torem(5px);
             vertical-align: middle;
+            min-height: torem(40px);
+            font-size: torem(12px);
 
             > li {
                 position: relative;
                 display: inline-block;
                 vertical-align: middle;
-                margin-top: torem(5px);
                 margin-bottom: torem(5px);
                 border: $border-width-base $border-style-base $border-color-base;
                 border-radius: $border-radius;
                 padding: 0 torem(20px) 0 torem(10px);
-                background: #F3F3F3;
-                height: 28px;
-                line-height: 26px;
-                transition: all .3s;
+                background: #f3f3f3;
+                height: torem(30px);
+                line-height: torem(28px);
+                transition: all 0.3s;
+                margin-right: torem(5px);
+
                 cursor: default;
-                .k-icon{
+                .k-icon {
                     position: absolute;
-                    right:0px;
-                    top:50%;
+                    right: 0px;
+                    top: 50%;
                     transform: translateY(-50%);
                     cursor: pointer;
                 }
@@ -43,16 +46,68 @@
     }
 
     &.k-select-single {
-        padding-right: $input-padding-x;
+        
         .k-select-selection {
             .k-select-choice-list {
+                padding-right:torem(12px);
+                padding-left:torem(12px);
                 > li {
                     border-color: transparent;
-                    width: 100%;
+                    display: inline-block;
                     background: white;
                     padding: 0;
                     cursor: pointer;
+                    width: 100%;
+                    margin-right:0;
                 }
+            }
+        }
+    }
+
+    &.k-select-lg {       
+        .k-select-selection {
+            .k-select-choice-list {
+                padding-left: torem(8px);
+                padding-top:torem(8px);
+                font-size: torem(16px);
+                min-height: torem(52px);
+                > li {
+                    margin-bottom: torem(8px);
+                    margin-right: torem(8px);
+                    height: torem(36px);
+                    line-height: torem(34px);
+                }
+            }
+        }
+
+        &.k-select-single{
+            .k-select-choice-list{
+                padding-left:torem(16px);
+                padding-right:torem(16px);
+            }
+        }
+    }
+
+    &.k-select-sm {       
+        .k-select-selection {
+            .k-select-choice-list {
+                padding-left: torem(3px);
+                padding-top:torem(3px);
+                font-size: torem(10px);
+                min-height: torem(34px);
+                > li {
+                    margin-bottom: torem(3px);
+                    margin-right: torem(3px);
+                    height: torem(28px);
+                    line-height: torem(26px);
+                }
+            }
+        }
+
+        &.k-select-single{
+            .k-select-choice-list{
+                padding-left:torem(10px);
+                padding-right:torem(10px);
             }
         }
     }

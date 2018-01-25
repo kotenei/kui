@@ -8,8 +8,9 @@ class SelectView extends Component {
         return (
             <div>
                 <h1>Select 选择器</h1>
+                <h3>基本用法</h3>
                 <div className="k-example">
-                    <Select mode="multiple" defaultValue={['选项一']}>
+                    <Select mode="multiple">
                         <Option title="选项一" value="选项一">选项一</Option>
                         <Option title="选项二" value="选项二">选项二</Option>
                         <Option title="选项三" value="选项三">选项三</Option>

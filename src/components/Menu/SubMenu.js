@@ -34,7 +34,7 @@ class SubMenu extends Component {
             return;
         }
         if (onItemTrigger) {
-            onItemTrigger(e, id, parentIds, 'openChange');
+            onItemTrigger(e, {id, parentIds}, 'openChange');
         }
     }
     handleSubItemClick = (e) => {

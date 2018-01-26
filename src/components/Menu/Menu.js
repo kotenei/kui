@@ -40,9 +40,10 @@ class Menu extends Component {
         selectable: true,
         multiple: false
     };
-    handleItemTrigger = (e, id, parentIds, trigger) => {
+    handleItemTrigger = (e, info, trigger) => {
         const { onOpen, multiple, mode, selectable, onSelect } = this.props;
         const { selectedIds, openIds } = this.state;
+        let { id, parentIds } = info;
         let newSelectedIds = [...selectedIds];
         let newOpenIds = [...openIds];
         let index = -1;
@@ -66,7 +67,7 @@ class Menu extends Component {
                     });
                 }
                 if (onSelect) {
-                    onSelect(e, newSelectedIds);
+                    onSelect(e, newSelectedIds,info);
                 }
                 break;
             case "openChange":

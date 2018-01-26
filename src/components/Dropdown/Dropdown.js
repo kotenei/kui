@@ -136,11 +136,11 @@ class Dropdown extends Component {
         }
         this.hide();
     };
-    handleMenuSelect = (e, selectedIds) => {
+    handleMenuSelect = (e, selectedIds,info) => {
         const { show } = this.state;
         const { onSelect } = this.props;
         if (onSelect) {
-            onSelect(e,selectedIds);
+            onSelect(e,selectedIds,info);
         }
     };
     show = () => {

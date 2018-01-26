@@ -48,7 +48,7 @@ class Select extends Component {
         disabled: false,
         defaultValue: []
     };
-    handleOptionSelect = (e, selectedIds) => {
+    handleOptionSelect = (e, selectedIds, info) => {
         const { onSelect, mode } = this.props;
         const { value } = this.state;
         if (mode == "multiple") {
@@ -60,7 +60,6 @@ class Select extends Component {
                 value: selectedIds
             });
         }
-
         if (onSelect) {
             onSelect(selectedIds);
         }
@@ -97,6 +96,19 @@ class Select extends Component {
         }
         this.refs.dropdown.show();
     };
+    componentWillMount() {
+        const { children } = this.props;
+        this.optionsMap = {};
+        React.Children.forEach(children, child => {
+            if (!child) {
+                return false;
+            }
+            this.optionsMap[child.props.value] = {
+                title: child.props.title || child.props.value,
+                children: child.props.chidlren
+            };
+        });
+    }
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
             this.setState({
@@ -111,7 +123,7 @@ class Select extends Component {
         value.forEach((v, i) => {
             items.push(
                 <CSSTransition timeout={300} classNames="fade">
-                    <li>
+                    <li title={this.optionsMap[v].title}>
                         <div className={`${prefixCls}-choice-content`}>{v}</div>
                         {mode == "single" ? (
                             <Icon type="caretdown" />
@@ -190,6 +202,7 @@ class Select extends Component {
                 </div>
                 {value.length == 0 ? (
                     <div
+                        title={placeholder}
                         className={`${prefixCls}-placeholder`}
                         onClick={this.handlePlaceholderClick}
                     >

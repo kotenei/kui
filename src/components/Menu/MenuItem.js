@@ -16,12 +16,12 @@ class MenuItem extends Component {
         disabled: false
     }
     handleClick = (e) => {
-        const { onItemTrigger, id, parentIds,disabled } = this.props;
+        const { onItemTrigger, id, parentIds,disabled,title } = this.props;
         if(disabled){
             return;
         }
         if (onItemTrigger) {
-            onItemTrigger(e, id, parentIds, 'click');
+            onItemTrigger(e, {id, parentIds,title}, 'click');
         }
     }
     render() {

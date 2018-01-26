@@ -41,36 +41,12 @@ class Select extends Component {
         disabled: PropTypes.bool,
         defaultValue: PropTypes.array,
         value: PropTypes.array,
-        onSelect: PropTypes.func,
-        onRemove: PropTypes.func
+        onSelect: PropTypes.func
     };
     static defaultProps = {
         mode: "single",
         disabled: false,
         defaultValue: []
-    };
-    handleOptionClick = item => {
-        const { onSelect, mode } = this.props;
-        const { value } = this.state;
-        let newValue = [...value];
-        let index = newValue.indexOf(item.vlaue);
-        if (mode == "single") {
-            newValue = [].push(item.value);
-        } else {
-            if (index == -1) {
-                newValue.push(item.value);
-            } else {
-                newValue.splice(index, 1);
-            }
-        }
-        if (!("value" in this.props)) {
-            this.setState({
-                value: newValue
-            });
-        }
-        if (onselect) {
-            onSelect(newValue);
-        }
     };
     handleOptionSelect = (e, selectedIds) => {
         const { onSelect, mode } = this.props;
@@ -79,17 +55,27 @@ class Select extends Component {
             e.stopPropagation();
             e.nativeEvent.stopImmediatePropagation();
         }
-        this.setState({
-            value: selectedIds
-        });
+        if (!("value" in this.props)) {
+            this.setState({
+                value: selectedIds
+            });
+        }
+
+        if (onSelect) {
+            onSelect(selectedIds);
+        }
     };
     handleRemoveItem = (removeValue, e) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        const { mode, onRemove } = this.props;
+        const { mode, disabled } = this.props;
         const { value } = this.state;
+        if (disabled) {
+            return;
+        }
         let newValue = [...value];
         let index = value.indexOf(removeValue);
+        this.refs.dropdown.hide();
         if (mode == "single") {
             return;
         }
@@ -100,10 +86,16 @@ class Select extends Component {
                     value: newValue
                 });
             }
-            if (onRemove) {
-                onRemove(newValue);
-            }
         }
+    };
+    handlePlaceholderClick = e => {
+        const { disabled } = this.props;
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        if (disabled) {
+            return;
+        }
+        this.refs.dropdown.show();
     };
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
@@ -134,15 +126,15 @@ class Select extends Component {
             );
         });
 
-        if(mode=='single'&&items.length==0){
+        if (mode == "single" && items.length == 0) {
             items.push(
                 <CSSTransition timeout={300} classNames="fade">
                     <li>
-                        <div className={`${prefixCls}-choice-content`}></div>
+                        <div className={`${prefixCls}-choice-content`} />
                         <Icon type="caretdown" />
                     </li>
                 </CSSTransition>
-            )
+            );
         }
 
         return (
@@ -173,15 +165,17 @@ class Select extends Component {
         return <Menu multiple>{items}</Menu>;
     }
     render() {
-        const { placeholder, mode } = this.props;
+        const { placeholder, mode, disabled } = this.props;
         const { value } = this.state;
         let classes = getClassSet(this.props);
         let classString = classnames(classes, {
-            [`${prefixCls}-${mode}`]: true
+            [`${prefixCls}-${mode}`]: true,
+            disabled: disabled
         });
 
         return (
             <Dropdown
+                ref="dropdown"
                 menu={this.renderOptions()}
                 component={SelectContainer}
                 className={classString}
@@ -189,11 +183,19 @@ class Select extends Component {
                 onSelect={this.handleOptionSelect}
                 selectedIds={value}
                 multiple={mode == "multiple"}
+                disabled={disabled}
             >
                 <div className={`${prefixCls}-selection`} trigger="dropdown">
                     {this.renderSelected()}
                 </div>
-                <div className={`${prefixCls}-placeholder`}>{placeholder}</div>
+                {value.length == 0 ? (
+                    <div
+                        className={`${prefixCls}-placeholder`}
+                        onClick={this.handlePlaceholderClick}
+                    >
+                        {placeholder}
+                    </div>
+                ) : null}
             </Dropdown>
         );
     }

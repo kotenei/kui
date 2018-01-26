@@ -98,7 +98,6 @@ class Dropdown extends Component {
         if (trigger == "click") {
             return;
         }
-        this.setPosition();
         this.show();
     };
     handleMouseLeave = e => {
@@ -119,7 +118,6 @@ class Dropdown extends Component {
         if (show) {
             this.hide();
         } else {
-            this.setPosition();
             this.show();
         }
         this.hideOther();
@@ -146,6 +144,7 @@ class Dropdown extends Component {
         }
     };
     show = () => {
+        this.setPosition();
         const { disabled } = this.props;
         if (disabled) {
             return;

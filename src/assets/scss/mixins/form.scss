@@ -15,6 +15,6 @@
 
 @mixin form-control-sm(){
     padding:$input-padding-y-sm $input-padding-x-sm;
-    font-size: $font-size-xs;
+    font-size: $font-size-sm;
     height: $height-sm;
 }

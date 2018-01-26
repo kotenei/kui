@@ -1660,7 +1660,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
 .k-form-control {
   display: block;
   width: 100%;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   background: white;
   color: #55595c;
@@ -1683,7 +1683,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     height: 3.25rem; }
   .k-form-control.k-form-control-sm {
     padding: 0.312rem 0.625rem;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     height: 2.125rem; }
 
 .k-checkbox, .k-radio {
@@ -1749,7 +1749,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     font-size: 1rem; }
   .k-input-group.k-input-group-sm .k-input-group-addon, .k-input-group.k-input-group-sm .k-form-control, .k-input-group.k-input-group-sm .k-input-group-btn .k-btn {
     padding: 0.312rem 0.625rem;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     height: 2.125rem; }
   .k-input-group.k-input-group-sm .k-input-group-addon .k-icon {
     font-size: 0.75rem; }
@@ -2797,6 +2797,24 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
   border-radius: 0.25rem;
   width: 100%;
   cursor: pointer; }
+  .k-select.disabled {
+    cursor: not-allowed;
+    background: #f7f7f7;
+    color: #bdbdbd; }
+    .k-select.disabled .k-select-selection .k-select-choice-list > li {
+      cursor: not-allowed;
+      background: #f7f7f7;
+      color: #bdbdbd; }
+      .k-select.disabled .k-select-selection .k-select-choice-list > li .k-select-choice-content {
+        cursor: not-allowed;
+        background: #f7f7f7;
+        color: #bdbdbd; }
+      .k-select.disabled .k-select-selection .k-select-choice-list > li .k-icon {
+        cursor: not-allowed; }
+    .k-select.disabled .k-select-placeholder {
+      background: #f7f7f7; }
+    .k-select.disabled.k-select-single li {
+      border-color: #f7f7f7 !important; }
   .k-select .k-select-selection .k-select-choice-list {
     position: relative;
     list-style: none;
@@ -2806,7 +2824,7 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     padding-top: 0.3125rem;
     vertical-align: middle;
     min-height: 2.5rem;
-    font-size: 0.75rem; }
+    font-size: 0.875rem; }
     .k-select .k-select-selection .k-select-choice-list > li {
       position: relative;
       display: inline-block;
@@ -2827,7 +2845,20 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
         top: 50%;
         -webkit-transform: translateY(-50%);
                 transform: translateY(-50%);
-        cursor: pointer; }
+        cursor: pointer;
+        z-index: 1; }
+        .k-select .k-select-selection .k-select-choice-list > li .k-icon.icon-caretdown {
+          color: #bfbfbf; }
+  .k-select .k-select-placeholder {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    line-height: 2.5rem;
+    padding-left: 0.75rem;
+    color: #bfbfbf;
+    border-radius: 0.25rem; }
   .k-select.k-select-single .k-select-selection .k-select-choice-list {
     padding-right: 0.75rem;
     padding-left: 0.75rem; }
@@ -2852,10 +2883,14 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
   .k-select.k-select-lg.k-select-single .k-select-choice-list {
     padding-left: 1rem;
     padding-right: 1rem; }
+  .k-select.k-select-lg .k-select-placeholder {
+    line-height: 3.25rem;
+    padding-left: 1rem;
+    font-size: 1rem; }
   .k-select.k-select-sm .k-select-selection .k-select-choice-list {
     padding-left: 0.1875rem;
     padding-top: 0.1875rem;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     min-height: 2.125rem; }
     .k-select.k-select-sm .k-select-selection .k-select-choice-list > li {
       margin-bottom: 0.1875rem;
@@ -2865,6 +2900,10 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
   .k-select.k-select-sm.k-select-single .k-select-choice-list {
     padding-left: 0.625rem;
     padding-right: 0.625rem; }
+  .k-select.k-select-sm .k-select-placeholder {
+    line-height: 2.125rem;
+    padding-left: 0.625rem;
+    font-size: font-size-sm; }
 
 .k-steps {
   font-family: "Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif; }

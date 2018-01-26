@@ -36,7 +36,7 @@ class Select extends Component {
         };
     }
     static propTypes = {
-        mode: PropTypes.oneOf[("single", "multiple")],
+        mode: PropTypes.oneOf(["single", "multiple"]),
         placeholder: PropTypes.string,
         disabled: PropTypes.bool,
         defaultValue: PropTypes.array,

@@ -1,0 +1,136 @@
+.k-multiple-list {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    border: $border-width-base $border-style-base $border-color-base;
+    border-radius: $border-radius;
+    width: 100%;
+    cursor: pointer;
+
+    .k-multiple-selection {
+        .k-multiple-choice-list {
+            position: relative;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            padding-left: torem(5px);
+            padding-top: torem(5px);
+            vertical-align: middle;
+            min-height: torem(40px);
+            font-size: $font-size-base;
+            .li {
+                &.item {
+                    position: relative;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-bottom: torem(5px);
+                    border: $border-width-base $border-style-base
+                        $border-color-base;
+                    border-radius: $border-radius;
+                    padding: 0 torem(20px) 0 torem(10px);
+                    background: #f3f3f3;
+                    height: torem(30px);
+                    line-height: torem(28px);
+                    transition: all 0.3s;
+                    margin-right: torem(5px);
+                    cursor: default;
+
+                    .k-icon {
+                        position: absolute;
+                        right: 0px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        cursor: pointer;
+                        z-index: 1;
+                        &.icon-caretdown {
+                            color: #bfbfbf;
+                        }
+                    }
+                }
+
+                .k-multiple-input {
+                    border: none;
+                }
+            }
+        }
+    }
+
+    .k-multiple-placeholder {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+        line-height: torem(40px);
+        padding-left: torem(12px);
+        color: #bfbfbf;
+        border-radius: $border-radius;
+    }
+
+    &.disabled {
+        cursor: $cursor-disabled;
+        background: $disabled-bgColor;
+        color: $disabled-color;
+        .k-multiple-selection {
+            .k-multiple-choice-list {
+                li {
+                    cursor: $cursor-disabled;
+                    background: $disabled-bgColor;
+                    color: $disabled-color;
+                    .k-multiple-choice-content {
+                        cursor: $cursor-disabled;
+                        background: $disabled-bgColor;
+                        color: $disabled-color;
+                    }
+                    .k-icon {
+                        cursor: $cursor-disabled;
+                    }
+                }
+            }
+        }
+    }
+
+    &.k-multiple-list-sm {
+        .k-multiple-selection {
+            .k-multiple-choice-list {
+                padding-left: torem(3px);
+                padding-top: torem(3px);
+                font-size: $font-size-sm;
+                min-height: torem(34px);
+                li {
+                    margin-bottom: torem(3px);
+                    margin-right: torem(3px);
+                    height: torem(28px);
+                    line-height: torem(26px);
+                }
+            }
+        }
+        .k-multiple-placeholder {
+            line-height: torem(34px);
+            padding-left: torem(10px);
+            font-size: font-size-sm;
+        }
+    }
+
+    &.k-multiple-list-lg {
+        .k-multiple-selection {
+            .k-multiple-choice-list {
+                padding-left: torem(8px);
+                padding-top: torem(8px);
+                font-size: $font-size-lg;
+                min-height: torem(52px);
+                li {
+                    margin-bottom: torem(8px);
+                    margin-right: torem(8px);
+                    height: torem(36px);
+                    line-height: torem(34px);
+                }
+            }
+        }
+        .k-multiple-placeholder {
+            line-height: torem(52px);
+            padding-left: torem(16px);
+            font-size: $font-size-lg;
+        }
+    }
+}

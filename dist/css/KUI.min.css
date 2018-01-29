@@ -1049,6 +1049,39 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
   .k-alert:last-child {
     margin-bottom: 0; }
 
+.k-autocomplete {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  width: 100%; }
+  .k-autocomplete.k-autocomplete-multiple {
+    border: 1px solid #d9d9d9;
+    border-radius: 0.25rem; }
+    .k-autocomplete.k-autocomplete-multiple .k-autocomplete-choice-list {
+      position: relative;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      padding-left: 0.3125rem;
+      padding-top: 0.3125rem;
+      vertical-align: middle;
+      min-height: 2.5rem;
+      font-size: 0.875rem; }
+      .k-autocomplete.k-autocomplete-multiple .k-autocomplete-choice-list > li.item {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0.3125rem;
+        border: 1px solid #d9d9d9;
+        border-radius: 0.25rem;
+        padding: 0 1.25rem 0 0.625rem;
+        background: #f3f3f3;
+        height: 1.875rem;
+        line-height: 1.75rem;
+        transition: all 0.3s;
+        margin-right: 0.3125rem;
+        cursor: default; }
+
 .k-badge {
   position: relative;
   display: inline-block;
@@ -3712,3 +3745,100 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
   margin: 0.625rem 0;
   overflow: hidden;
   background: #e8e8e8; }
+
+.k-multiple-list {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.25rem;
+  width: 100%;
+  cursor: pointer; }
+  .k-multiple-list .k-multiple-selection .k-multiple-choice-list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 0.3125rem;
+    padding-top: 0.3125rem;
+    vertical-align: middle;
+    min-height: 2.5rem;
+    font-size: 0.875rem; }
+    .k-multiple-list .k-multiple-selection .k-multiple-choice-list .li.item {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      margin-bottom: 0.3125rem;
+      border: 1px solid #d9d9d9;
+      border-radius: 0.25rem;
+      padding: 0 1.25rem 0 0.625rem;
+      background: #f3f3f3;
+      height: 1.875rem;
+      line-height: 1.75rem;
+      transition: all 0.3s;
+      margin-right: 0.3125rem;
+      cursor: default; }
+      .k-multiple-list .k-multiple-selection .k-multiple-choice-list .li.item .k-icon {
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+        cursor: pointer;
+        z-index: 1; }
+        .k-multiple-list .k-multiple-selection .k-multiple-choice-list .li.item .k-icon.icon-caretdown {
+          color: #bfbfbf; }
+    .k-multiple-list .k-multiple-selection .k-multiple-choice-list .li .k-multiple-input {
+      border: none; }
+  .k-multiple-list .k-multiple-placeholder {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    line-height: 2.5rem;
+    padding-left: 0.75rem;
+    color: #bfbfbf;
+    border-radius: 0.25rem; }
+  .k-multiple-list.disabled {
+    cursor: not-allowed;
+    background: #f7f7f7;
+    color: #bdbdbd; }
+    .k-multiple-list.disabled .k-multiple-selection .k-multiple-choice-list li {
+      cursor: not-allowed;
+      background: #f7f7f7;
+      color: #bdbdbd; }
+      .k-multiple-list.disabled .k-multiple-selection .k-multiple-choice-list li .k-multiple-choice-content {
+        cursor: not-allowed;
+        background: #f7f7f7;
+        color: #bdbdbd; }
+      .k-multiple-list.disabled .k-multiple-selection .k-multiple-choice-list li .k-icon {
+        cursor: not-allowed; }
+  .k-multiple-list.k-multiple-list-sm .k-multiple-selection .k-multiple-choice-list {
+    padding-left: 0.1875rem;
+    padding-top: 0.1875rem;
+    font-size: 0.75rem;
+    min-height: 2.125rem; }
+    .k-multiple-list.k-multiple-list-sm .k-multiple-selection .k-multiple-choice-list li {
+      margin-bottom: 0.1875rem;
+      margin-right: 0.1875rem;
+      height: 1.75rem;
+      line-height: 1.625rem; }
+  .k-multiple-list.k-multiple-list-sm .k-multiple-placeholder {
+    line-height: 2.125rem;
+    padding-left: 0.625rem;
+    font-size: font-size-sm; }
+  .k-multiple-list.k-multiple-list-lg .k-multiple-selection .k-multiple-choice-list {
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
+    font-size: 1rem;
+    min-height: 3.25rem; }
+    .k-multiple-list.k-multiple-list-lg .k-multiple-selection .k-multiple-choice-list li {
+      margin-bottom: 0.5rem;
+      margin-right: 0.5rem;
+      height: 2.25rem;
+      line-height: 2.125rem; }
+  .k-multiple-list.k-multiple-list-lg .k-multiple-placeholder {
+    line-height: 3.25rem;
+    padding-left: 1rem;
+    font-size: 1rem; }

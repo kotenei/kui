@@ -1,0 +1,46 @@
+.k-autocomplete {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 100%;
+
+    &.k-autocomplete-multiple {
+        border: $border-width-base $border-style-base $border-color-base;
+        border-radius: $border-radius;
+
+        .k-autocomplete-choice-list {
+            position: relative;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            padding-left: torem(5px);
+            padding-top: torem(5px);
+            vertical-align: middle;
+            min-height: torem(40px);
+            font-size: $font-size-base;
+
+            > li {
+                &.item {
+                    position: relative;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-bottom: torem(5px);
+                    border: $border-width-base $border-style-base
+                        $border-color-base;
+                    border-radius: $border-radius;
+                    padding: 0 torem(20px) 0 torem(10px);
+                    background: #f3f3f3;
+                    height: torem(30px);
+                    line-height: torem(28px);
+                    transition: all 0.3s;
+                    margin-right: torem(5px);
+                    cursor: default;
+                }
+
+                .k-autocomplete-input {
+                    
+                }
+            }
+        }
+    }
+}

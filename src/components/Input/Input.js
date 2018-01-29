@@ -100,14 +100,15 @@ class Input extends Component {
             'addonAfter',
             'prefix',
             'suffix',
-            'onPressEnter'
+            'onPressEnter',
+            'className'
         ]);
         let classes = getClassSet(props);
         return this.renderLabeledIcon(
             <input
                 ref="input"
                 {...otherProps}
-                className={classnames(classes)}
+                className={classnames(classes,props.className)}
                 onKeyDown={this.handleKeyDown} />
         )
     }

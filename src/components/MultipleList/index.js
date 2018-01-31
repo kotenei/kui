@@ -67,14 +67,20 @@ class MultipleList extends Component {
 
         if (showInput) {
             items.push(
-                <li>
+                <li style={{width:'100%',flex:1}} >
                     <Input
+                        className={`${prefixCls}-input`}
                         type="text"
                         kSize={kSize}
                         placeholder={placeholder}
                     />
                 </li>
             );
+        }
+
+        let style;
+        if(items.length==0){
+
         }
 
         return (

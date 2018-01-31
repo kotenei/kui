@@ -6,7 +6,7 @@
     background: $input-bgColor;
     color:$input-color;
     padding:$input-padding-y $input-padding-x;
-    border:1px solid $input-border-color;
+    border:$border-width-base $border-style-base $border-color-base;
     border-radius: $input-border-radius;
     height: $height-default;
 

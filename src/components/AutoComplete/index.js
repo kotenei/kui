@@ -5,6 +5,7 @@ import Input from "../Input";
 import { kClass, kSize, getClassSet } from "../../utils/kUtils";
 import { Sizes } from "../../utils/styleMaps";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import MultipleList from '../MultipleList';
 
 const prefixCls = "k-autocomplete";
 
@@ -66,27 +67,7 @@ class AutoComplete extends Component {
                 <Input type="text" kSize={kSize} placeholder={placeholder} />
             );
         } else {
-            let style;
-            if (value.length == 0) {
-                style={padding:0}
-            }
-            return (
-                <TransitionGroup
-                    component="ul"
-                    className={`${prefixCls}-choice-list`}
-                    style={style}
-                >
-                    {this.getSelectedList()}
-                    <li>
-                        <Input
-                            type="text"
-                            kSize={kSize}
-                            className={`${prefixCls}-input`}
-                            placeholder={placeholder}
-                        />
-                    </li>
-                </TransitionGroup>
-            );
+            return <MultipleList  kSize={kSize} showInput={true} placeholder={placeholder} />
         }
     }
     render() {

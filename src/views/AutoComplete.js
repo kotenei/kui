@@ -10,8 +10,8 @@ class AutoCompleteView extends Component {
             <div>
                 <h1>AutoComplete 自动完成</h1>
                 <div className="k-example">
-                    <AutoComplete  data={data} /><br/><br/>
-                    <AutoComplete mode="multiple" data={data} />
+                    <AutoComplete kSize="lg" data={data} /><br/><br/>
+                    <AutoComplete kSize="lg" mode="multiple" data={data} />
                 </div>
             </div>
         );

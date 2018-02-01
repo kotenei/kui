@@ -13,6 +13,7 @@ class MultipleList extends Component {
     static propTypes = {
         ref: PropTypes.string,
         value: PropTypes.array,
+        disabled: PropTypes.bool,
         showInput: PropTypes.bool,
         onClick: PropTypes.func,
         onFocus: PropTypes.func,
@@ -21,6 +22,7 @@ class MultipleList extends Component {
     };
     static defaultProps = {
         value: [],
+        disabled: false,
         showInput: false
     };
     handleClick = e => {
@@ -67,7 +69,7 @@ class MultipleList extends Component {
 
         if (showInput) {
             items.push(
-                <li style={{width:'100%',flex:1}} >
+                <li style={{ width: "100%", flex: 1 }}>
                     <Input
                         className={`${prefixCls}-input`}
                         type="text"
@@ -76,11 +78,6 @@ class MultipleList extends Component {
                     />
                 </li>
             );
-        }
-
-        let style;
-        if(items.length==0){
-
         }
 
         return (
@@ -93,14 +90,31 @@ class MultipleList extends Component {
         );
     }
     render() {
-        const { trigger, className, showInput } = this.props;
+        const {
+            trigger,
+            className,
+            showInput,
+            value,
+            placeholder,
+            disabled
+        } = this.props;
         let classes = getClassSet(this.props);
-        let classString = classnames(classes, className);
+        let classString = classnames(classes, className, {
+            disabled: disabled
+        });
         return (
-            <div className={classString}>
+            <div className={classString} onClick={this.handleClick}>
                 <div className={`${prefixCls}-selection`} trigger={trigger}>
                     {this.renderList()}
                 </div>
+                {value.length == 0 && !showInput && placeholder ? (
+                    <div
+                        title={placeholder}
+                        className={`${prefixCls}-placeholder`}
+                    >
+                        {placeholder}
+                    </div>
+                ) : null}
             </div>
         );
     }

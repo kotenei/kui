@@ -2,176 +2,62 @@
     display: inline-block;
     vertical-align: middle;
     position: relative;
-    border: $border-width-base $border-style-base $border-color-base;
-    border-radius: $border-radius;
     width: 100%;
-    cursor: pointer;
 
-    &.disabled {
+    .k-select-single {
+        border: $border-width-base $border-style-base $border-color-base;
+        border-radius: $border-radius;
+        width: 100%;
+        cursor: pointer;
+        height: torem(40px);
+        line-height: torem(40px);
+        padding-left: torem(12px);
+        padding-right: torem(12px);
+        font-size: $font-size-base;
+
+        .k-icon {
+            position: absolute;
+            right: torem(5px);
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            z-index: 1;
+            &.icon-caretdown {
+                color: #bfbfbf;
+            }
+        }
+
+    }
+
+    .k-select-placeholder {
+        color: #bfbfbf;
+    }
+
+    &.k-select-sm{
+        .k-select-single {
+            height: torem(34px);
+            line-height: torem(34px);
+            font-size: $font-size-sm;
+            padding:0 torem(10px);
+        }
+    }
+
+    &.k-select-lg{
+        .k-select-single {
+            height: torem(52px);
+            line-height: torem(52px);
+            font-size: $font-size-lg;
+            padding:0 torem(16px);
+        }
+    }
+
+    &.disabled .k-select-single{
         cursor: $cursor-disabled;
         background: $disabled-bgColor;
         color: $disabled-color;
 
-        .k-select-selection {
-            
-            .k-select-choice-list {
-                > li {
-                    cursor: $cursor-disabled;
-                    background: $disabled-bgColor;
-                    color: $disabled-color;
-                    .k-select-choice-content {
-                        cursor: $cursor-disabled;
-                        background: $disabled-bgColor;
-                        color: $disabled-color;
-                    }
-
-                    .k-icon{
-                        cursor: $cursor-disabled;
-                    }
-                }
-            }
-        }
-
-        .k-select-placeholder {
-            background: $disabled-bgColor;
-        }
-
-        &.k-select-single{
-            li{
-                border-color: $disabled-bgColor !important;
-            }
-        }
-    }
-
-    .k-select-selection {
-        .k-select-choice-list {
-            position: relative;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            padding-left: torem(5px);
-            padding-top: torem(5px);
-            vertical-align: middle;
-            min-height: torem(40px);
-            font-size: $font-size-base;
-
-            > li {
-                position: relative;
-                display: inline-block;
-                vertical-align: middle;
-                margin-bottom: torem(5px);
-                border: $border-width-base $border-style-base $border-color-base;
-                border-radius: $border-radius;
-                padding: 0 torem(20px) 0 torem(10px);
-                background: #f3f3f3;
-                height: torem(30px);
-                line-height: torem(28px);
-                transition: all 0.3s;
-                margin-right: torem(5px);
-                cursor: default;
-                
-                .k-icon {
-                    position: absolute;
-                    right: 0px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    cursor: pointer;
-                    z-index: 1;
-                    &.icon-caretdown {
-                        color: #bfbfbf;
-                    }
-                }
-            }
-        }
-    }
-
-    .k-select-placeholder {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        top: 0;
-        line-height: torem(40px);
-        padding-left: torem(12px);
-        color: #bfbfbf;
-        border-radius: $border-radius;
-    }
-
-    &.k-select-single {
-        .k-select-selection {
-            .k-select-choice-list {
-                padding-right: torem(12px);
-                padding-left: torem(12px);
-                > li {
-                    border-color: transparent;
-                    display: inline-block;
-                    background: white;
-                    padding: 0;
-                    cursor: pointer;
-                    width: 100%;
-                    margin-right: 0;
-                }
-            }
-        }
-    }
-
-    &.k-select-lg {
-        .k-select-selection {
-            .k-select-choice-list {
-                padding-left: torem(8px);
-                padding-top: torem(8px);
-                font-size: $font-size-lg;
-                min-height: torem(52px);
-                > li {
-                    margin-bottom: torem(8px);
-                    margin-right: torem(8px);
-                    height: torem(36px);
-                    line-height: torem(34px);
-                }
-            }
-        }
-
-        &.k-select-single {
-            .k-select-choice-list {
-                padding-left: torem(16px);
-                padding-right: torem(16px);
-            }
-        }
-
-        .k-select-placeholder {
-            line-height: torem(52px);
-            padding-left: torem(16px);
-            font-size: $font-size-lg;
-        }
-    }
-
-    &.k-select-sm {
-        .k-select-selection {
-            .k-select-choice-list {
-                padding-left: torem(3px);
-                padding-top: torem(3px);
-                font-size: $font-size-sm;
-                min-height: torem(34px);
-                > li {
-                    margin-bottom: torem(3px);
-                    margin-right: torem(3px);
-                    height: torem(28px);
-                    line-height: torem(26px);
-                }
-            }
-        }
-
-        &.k-select-single {
-            .k-select-choice-list {
-                padding-left: torem(10px);
-                padding-right: torem(10px);
-            }
-        }
-
-        .k-select-placeholder {
-            line-height: torem(34px);
-            padding-left: torem(10px);
-            font-size: font-size-sm;
+        .k-icon {
+            cursor: $cursor-disabled;
         }
     }
 }

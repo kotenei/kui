@@ -122,10 +122,10 @@
                 }
             }
         }
-        .k-multiple-placeholder {
+        .k-multiple-list-placeholder {
             line-height: torem(34px);
-            padding-left: torem(10px);
-            font-size: font-size-sm;
+            padding:0 torem(10px);
+            font-size: $font-size-sm;
         }
     }
 
@@ -149,9 +149,9 @@
                 }
             }
         }
-        .k-multiple-placeholder {
+        .k-multiple-list-placeholder {
             line-height: torem(52px);
-            padding-left: torem(16px);
+            padding:0 torem(16px);
             font-size: $font-size-lg;
         }
     }

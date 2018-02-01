@@ -9,6 +9,7 @@ import Icon from "../Icon";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";
 import Button from "../Button";
+import MultipleList from "../MultipleList";
 
 const prefixCls = "k-select";
 
@@ -58,7 +59,7 @@ class Select extends Component {
             onSelect(selectedIds);
         }
     };
-    handleRemoveItem = (removeValue, e) => {
+    handleItemRemove = (e, item) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
         const { mode, disabled } = this.props;
@@ -67,7 +68,7 @@ class Select extends Component {
             return;
         }
         let newValue = [...value];
-        let index = value.indexOf(removeValue);
+        let index = value.indexOf(item.value);
         this.refs.dropdown.hide();
         if (mode == "single") {
             return;
@@ -98,8 +99,9 @@ class Select extends Component {
                 return false;
             }
             this.optionsMap[child.props.value] = {
-                title: child.props.title || child.props.value,
-                children: child.props.chidlren
+                children: child.props.chidlren,
+                text: child.props.title || child.props.value,
+                value: child.props.value
             };
         });
     }
@@ -109,48 +111,6 @@ class Select extends Component {
                 value: nextProps.value
             });
         }
-    }
-    renderSelected() {
-        const { value } = this.state;
-        const { children, mode } = this.props;
-        let items = [];
-        value.forEach((v, i) => {
-            items.push(
-                <CSSTransition timeout={300} classNames="fade">
-                    <li title={this.optionsMap[v].title}>
-                        <div className={`${prefixCls}-choice-content`}>{v}</div>
-                        {mode == "single" ? (
-                            <Icon type="caretdown" />
-                        ) : (
-                            <Icon
-                                type="close"
-                                onClick={this.handleRemoveItem.bind(this, v)}
-                            />
-                        )}
-                    </li>
-                </CSSTransition>
-            );
-        });
-
-        if (mode == "single" && items.length == 0) {
-            items.push(
-                <CSSTransition timeout={300} classNames="fade">
-                    <li>
-                        <div className={`${prefixCls}-choice-content`} />
-                        <Icon type="caretdown" />
-                    </li>
-                </CSSTransition>
-            );
-        }
-
-        return (
-            <TransitionGroup
-                component="ul"
-                className={`${prefixCls}-choice-list`}
-            >
-                {items}
-            </TransitionGroup>
-        );
     }
     renderOptions() {
         const { children } = this.props;
@@ -170,12 +130,50 @@ class Select extends Component {
 
         return <Menu multiple>{items}</Menu>;
     }
+    renderContainer() {
+        const { mode, placeholder,disabled,kSize } = this.props;
+        const { value } = this.state;
+        let valList = [];
+
+        value.forEach(v => {
+            valList.push({
+                text: this.optionsMap[v].text,
+                value: v
+            });
+        });
+
+        if (mode == "single") {
+            return (
+                <div>
+                    <div className={`${prefixCls}-${mode}`}>
+                        {value.length == 0 ? (
+                            <span className={`${prefixCls}-placeholder`}>
+                                {placeholder}
+                            </span>
+                        ) : (
+                            valList[0].text
+                        )}
+                        <Icon type="caretdown" />
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <MultipleList
+                    value={valList}
+                    placeholder={placeholder}
+                    onItemRemove={this.handleItemRemove}
+                    disabled={disabled}
+                    kSize={kSize}
+                />
+            );
+        }
+    }
     render() {
         const { placeholder, mode, disabled } = this.props;
         const { value } = this.state;
         let classes = getClassSet(this.props);
         let classString = classnames(classes, {
-            [`${prefixCls}-${mode}`]: true,
             disabled: disabled
         });
 
@@ -183,7 +181,6 @@ class Select extends Component {
             <Dropdown
                 ref="dropdown"
                 menu={this.renderOptions()}
-                component={SelectContainer}
                 className={classString}
                 trigger="click"
                 onSelect={this.handleOptionSelect}
@@ -191,18 +188,7 @@ class Select extends Component {
                 multiple={mode == "multiple"}
                 disabled={disabled}
             >
-                <div className={`${prefixCls}-selection`} trigger="dropdown">
-                    {this.renderSelected()}
-                </div>
-                {value.length == 0 ? (
-                    <div
-                        title={placeholder}
-                        className={`${prefixCls}-placeholder`}
-                        onClick={this.handlePlaceholderClick}
-                    >
-                        {placeholder}
-                    </div>
-                ) : null}
+                {this.renderContainer()}
             </Dropdown>
         );
     }

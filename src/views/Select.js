@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Select from "../components/Select";
+import Input from "../components/Input";
 
 const Option = Select.Option;
 
@@ -19,7 +20,7 @@ class SelectView extends Component {
     render() {
         return (
             <div>
-                <h1>Select 选择器</h1>
+                <h1>Select 选择器</h1> 
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Select placeholder="请选择" >{options}</Select><br/><br/>

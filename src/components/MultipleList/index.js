@@ -75,6 +75,8 @@ class MultipleList extends Component {
                         type="text"
                         kSize={kSize}
                         placeholder={placeholder}
+                        onFocus={this.handleFocus}
+                        onBlur={this.handleBlur}
                     />
                 </li>
             );

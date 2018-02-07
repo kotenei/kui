@@ -82,7 +82,8 @@ class Select extends Component {
             }
         }
     };
-    handlePlaceholderClick = e => {
+    handleMultipleListClick = e => {
+        console.log(e)
         const { disabled } = this.props;
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();

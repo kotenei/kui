@@ -10,7 +10,6 @@ class DropdownView extends Component {
         Message.info('点击了下拉菜单左侧按钮！')
     }
     render() {
-
         let menu = (
             <Menu>
                 <Menu.Item id="1">选项1</Menu.Item>

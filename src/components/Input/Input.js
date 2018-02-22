@@ -44,6 +44,9 @@ class Input extends Component {
             onKeyDown(e)
         }
     }
+    shouldComponentUpdate(nextProps,nextState){
+        return true;
+    }
     renderLabeledInput(children) {
         const { props } = this;
         if (!props.addonBefore && !props.addonAfter) {

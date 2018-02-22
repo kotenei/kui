@@ -9,7 +9,7 @@ class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedIds: props.defaultSelectedIds || [],
+            selectedIds: props.selectedIds || props.defaultSelectedIds || [],
             openIds: props.defaultOpenIds || [],
             selectedSubmenuIds: []
         };
@@ -19,6 +19,7 @@ class Menu extends Component {
         prefixCls: PropTypes.string,
         defaultOpenIds: PropTypes.array,
         defaultSelectedIds: PropTypes.array,
+        selectedIds: PropTypes.array,
         inlineIndent: PropTypes.number,
         inlineCollapsed: PropTypes.bool,
         mode:
@@ -67,7 +68,7 @@ class Menu extends Component {
                     });
                 }
                 if (onSelect) {
-                    onSelect(e, newSelectedIds,info);
+                    onSelect(e, newSelectedIds, info);
                 }
                 break;
             case "openChange":
@@ -97,6 +98,13 @@ class Menu extends Component {
             onMouseLeave(e);
         }
     };
+    componentWillReceiveProps(nextProps) {
+        if ("selectedIds" in nextProps) {
+            this.setState({
+                selectedIds: nextProps.selectedIds
+            });
+        }
+    }
     render() {
         const { className, mode, children, prefixCls, style } = this.props;
         const { selectedIds, openIds, selectedSubmenuIds } = this.state;

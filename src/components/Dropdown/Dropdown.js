@@ -24,7 +24,7 @@ class Dropdown extends Component {
         component: PropTypes.oneOfType(PropTypes.string, PropTypes.element),
         menu: PropTypes.element,
         selectedIds: PropTypes.array,
-        trigger: PropTypes.oneOf[("click", "hover")],
+        trigger: PropTypes.oneOf[("click", "hover", "manual")],
         placement:
             PropTypes.oneOf[
                 ("topLeft",
@@ -36,6 +36,7 @@ class Dropdown extends Component {
             ],
         disabled: PropTypes.bool,
         multiple: PropTypes.bool,
+        show: PropTypes.bool,
         onSelect: PropTypes.func
     };
     static defaultProps = {
@@ -95,14 +96,14 @@ class Dropdown extends Component {
     }
     handleMouseEnter = e => {
         const { trigger } = this.props;
-        if (trigger == "click") {
+        if (trigger == "click" || trigger == "manual") {
             return;
         }
         this.show();
     };
     handleMouseLeave = e => {
         const { trigger } = this.props;
-        if (trigger == "click") {
+        if (trigger == "click" || trigger == "manual") {
             return;
         }
         this.hide();
@@ -112,7 +113,7 @@ class Dropdown extends Component {
         e.nativeEvent.stopImmediatePropagation();
         const { show } = this.state;
         const { trigger } = this.props;
-        if (trigger == "hover") {
+        if (trigger == "hover" || trigger == "manual") {
             return;
         }
         if (show) {
@@ -131,16 +132,15 @@ class Dropdown extends Component {
     };
     handleMenuLeave = e => {
         const { trigger } = this.props;
-        if (trigger == "click") {
+        if (trigger == "click" || trigger == "manual") {
             return;
         }
         this.hide();
     };
-    handleMenuSelect = (e, selectedIds,info) => {
-        const { show } = this.state;
+    handleMenuSelect = (e, selectedIds, info) => {
         const { onSelect } = this.props;
         if (onSelect) {
-            onSelect(e,selectedIds,info);
+            onSelect(e, selectedIds, info);
         }
     };
     show = () => {
@@ -174,10 +174,16 @@ class Dropdown extends Component {
         }
     }
     componentDidMount() {
-        const { show } = this.props;
         this.setOrgSize();
         this.hide();
         document.addEventListener("click", this.hide);
+    }
+    componentWillReceiveProps(nextProps) {
+        if ("show" in this.props && this.props.show != nextProps.show) {
+            this.setState({
+                show: nextProps.show
+            });
+        }
     }
     componentWillUnmount() {
         document.removeEventListener("click", this.hide);
@@ -194,7 +200,7 @@ class Dropdown extends Component {
                 {React.cloneElement(menu, {
                     ...menu.props,
                     multiple,
-                    defaultSelectedIds: selectedIds,
+                    selectedIds,
                     ref: "dropdownMenu",
                     mode: "vertical",
                     className: classnames({

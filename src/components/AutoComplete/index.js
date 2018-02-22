@@ -6,6 +6,8 @@ import { kClass, kSize, getClassSet } from "../../utils/kUtils";
 import { Sizes } from "../../utils/styleMaps";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import MultipleList from "../MultipleList";
+import Dropdown from "../Dropdown";
+import Menu from "../Menu";
 
 const prefixCls = "k-autocomplete";
 
@@ -22,8 +24,12 @@ class AutoComplete extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: props.value || props.defaultValue
+            value: props.value || props.defaultValue,
+            inputValue: "",
+            dropdownData: [],
+            selectedIds: []
         };
+        this.active = 0;
     }
     static propTypes = {
         url: PropTypes.string,
@@ -36,7 +42,7 @@ class AutoComplete extends Component {
         defaultValue: PropTypes.array,
         formatItem: PropTypes.func,
         formatResult: PropTypes.func,
-        onSelected: PropTypes.func
+        onSelect: PropTypes.func
     };
     static defaultProps = {
         data: [],
@@ -54,6 +60,12 @@ class AutoComplete extends Component {
             return item;
         }
     };
+    handleChange = e => {
+        const { target, keyCode } = e;
+        this.setState({
+            inputValue: target.value
+        });
+    };
     handleKeyUp = e => {
         const { target, keyCode } = e;
         const { url, data } = this.props;
@@ -68,9 +80,11 @@ class AutoComplete extends Component {
         switch (keyCode) {
             case KEY.UP:
             case KEY.LEFT:
+                this.move(-1);
                 break;
             case KEY.DOWN:
             case KEY.RIGHT:
+                this.move(1);
                 break;
             case KEY.ENTER:
             case KEY.TAB:
@@ -80,22 +94,110 @@ class AutoComplete extends Component {
                 break;
         }
     };
-    //上一条
-    prev() {}
-    //下一条
-    next() {}
+    //选择项
+    handleSelect = (e, ids) => {
+        const { onSelect, formatResult, mode } = this.props;
+        const { dropdownData } = this.state;
+        for (let i = 0; i < dropdownData.length; i++) {
+            const item = dropdownData[i];
+            if (item.value == ids[0]) {
+                let result = formatResult(item);
+                if (onSelect) {
+                    onSelect(result);
+                }
+                this.setValue(item);
+                break;
+            }
+        }
+    };
+    //移动
+    move(step) {
+        const { dropdownData } = this.state;
+        if (dropdownData.length == 0) {
+            return;
+        }
+        this.active += step;
+        if (this.active < 0) {
+            this.active = dropdownData.length - 1;
+        } else if (this.active > dropdownData.length - 1) {
+            this.active = 0;
+        }
+        let selectedIds = [dropdownData[this.active].value];
+        this.setState({
+            selectedIds
+        });
+    }
     //选中
-    select() {}
-    //查询
+    select() {
+        const { onSelect, formatResult } = this.props;
+        const { dropdownData } = this.state;
+        let selected = dropdownData[this.active];
+        let result = formatResult(selected);
+        if (onSelect) {
+            onSelect(result);
+        }
+        this.refs.dropdown.hide();
+        this.setValue(selected);
+    }
+    //设置值
+    setValue(selected) {
+        const { mode } = this.props;
+        const { value } = this.state;
+        let inputValue = "";
+        if (!("value" in this.props)) {
+            if (mode == "single") {
+                this.setState({
+                    value: [selected],
+                    inputValue: selected.value
+                });
+            } else {
+                let newValue = [...value];
+                let hasItem = false;
+                for (let i = 0; i < value.length; i++) {
+                    const item = value[i];
+                    if (item.value == selected.value) {
+                        hasItem = true;
+                        break;
+                    }
+                }
+                if (!hasItem) {
+                    newValue.push(selected);
+                    this.setState({
+                        value: newValue
+                    });
+                }
+            }
+        }
+    }
+    //搜索
     search(val) {
         const { url } = this.props;
         if (val.length == 0) {
+            this.refs.dropdown.hide();
             return;
         }
         if (url) {
+            //远程取数
         } else {
+            //从已有数据匹配
             let data = this.getData(val);
-            
+            let selectedIds = [];
+            if (data.length > 0) {
+                selectedIds = [data[this.active].value];
+            }
+            this.setState(
+                {
+                    dropdownData: data,
+                    selectedIds
+                },
+                () => {
+                    if (data.length > 0) {
+                        this.refs.dropdown.show();
+                    } else {
+                        this.refs.dropdown.hide();
+                    }
+                }
+            );
         }
     }
     //取数据
@@ -110,15 +212,25 @@ class AutoComplete extends Component {
         for (let i = 0; i < data.length; i++) {
             const item = data[i];
             let formatted = formatItem(item),
-                text;
+                text,
+                value;
             if (typeof formatted !== "object") {
-                text = formatted.toString().toLowerCase();
+                text = value = formatted;
             } else {
-                text = formatted.text.toLowerCase();
+                text = formatted.text;
+                value = formatted.value;
             }
-            if (text.indexOf(val.toLowerCase()) >= 0) {
+            if (
+                text
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(val.toLowerCase()) >= 0
+            ) {
                 this.cacheData.push(item);
-                ret.push(item);
+                ret.push({
+                    text,
+                    value
+                });
                 if (flag == max - 1) {
                     break;
                 }
@@ -136,20 +248,33 @@ class AutoComplete extends Component {
         }
         return str;
     }
-    //显示
-    show() {}
-    //隐藏
-    hide() {}
+    //取菜单
+    getMenus() {
+        const { dropdownData } = this.state;
+        let menus = [];
+        for (let i = 0; i < dropdownData.length; i++) {
+            const item = dropdownData[i];
+            menus.push(<Menu.Item id={item.value}>{item.text}</Menu.Item>);
+        }
+        if (menus.length == 0) {
+            return null;
+        }
+        return <Menu>{menus}</Menu>;
+    }
     renderContainer() {
         const { mode, placeholder, kSize } = this.props;
-        const { value } = this.state;
+        const { value, inputValue } = this.state;
+
         if (mode == "single") {
             return (
                 <Input
+                    trigger="dropdown"
                     type="text"
                     kSize={kSize}
                     placeholder={placeholder}
                     onKeyUp={this.handleKeyUp}
+                    onChange={this.handleChange}
+                    value={inputValue}
                 />
             );
         } else {
@@ -165,11 +290,24 @@ class AutoComplete extends Component {
     }
     render() {
         const { mode } = this.props;
+        const { selectedIds } = this.state;
         let classes = getClassSet(this.props);
         let classString = classnames(classes, {
             [`${prefixCls}-${mode}`]: true
         });
-        return <div className={classString}>{this.renderContainer()}</div>;
+        let menu = this.getMenus();
+        return (
+            <Dropdown
+                menu={menu}
+                className={classString}
+                ref="dropdown"
+                trigger="manual"
+                selectedIds={selectedIds}
+                onSelect={this.handleSelect}
+            >
+                {this.renderContainer()}
+            </Dropdown>
+        );
     }
 }
 

@@ -6,7 +6,7 @@ class RateView extends Component {
         return (
             <div>
                 <h1>Rate 评分</h1>
-                <h3>基本使用</h3>
+                <h3>基本用法</h3>
                 <div className="k-example">
                     <Rate />
                 </div>

@@ -26,7 +26,7 @@ class DropdownView extends Component {
         return (
             <div>
                 <h1>Dropdown 下拉菜单</h1>
-                <h3>基本使用</h3>
+                <h3>基本用法</h3>
                 <div className="k-example">
                     <Dropdown menu={menu} style={{ marginRight: 50 }}>
                         <a href="javascript:void(0);">Hover me!</a>

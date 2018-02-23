@@ -35,7 +35,6 @@ class AutoComplete extends Component {
         this.active = 0;
     }
     static propTypes = {
-        url: PropTypes.string,
         data: PropTypes.array,
         mode: PropTypes.oneOf(["single", "multiple"]),
         highlight: PropTypes.bool,
@@ -45,6 +44,8 @@ class AutoComplete extends Component {
         defaultValue: PropTypes.array,
         formatItem: PropTypes.func,
         formatResult: PropTypes.func,
+        onChange: PropTypes.func,
+        onSearch: PropTypes.func,
         onSelect: PropTypes.func
     };
     static defaultProps = {
@@ -64,14 +65,20 @@ class AutoComplete extends Component {
         }
     };
     handleChange = e => {
+        const { mode, onChange } = this.props;
         const { target, keyCode } = e;
+        if (onChange) {
+            onChange(e);
+        }
+        if ("value" in this.props && mode == "single") {
+            return;
+        }
         this.setState({
             inputValue: target.value
         });
     };
     handleKeyUp = e => {
         const { target, keyCode } = e;
-        const { url, data } = this.props;
         let val = target.value.trim();
 
         if (!this.cache || this.cache != val) {
@@ -209,38 +216,32 @@ class AutoComplete extends Component {
     }
     //搜索
     search(val) {
-        const { url } = this.props;
-        if (val.length == 0) {
+        const { data, onSearch } = this.props;
+
+        if (val.length == 0 || data.length == 0) {
             this.refs.dropdown.hide();
             return;
         }
-        if (url) {
-            //远程取数
-        } else {
-            //从已有数据匹配
-            let data = this.getData(val);
-            let selectedIds = [];
-            if (data.length > 0) {
-                selectedIds = [data[this.active].value];
-            }
-            this.setState(
-                {
-                    dropdownData: data,
-                    selectedIds
-                },
-                () => {
-                    if (data.length > 0) {
-                        this.refs.dropdown.show();
-                        this.elmDropdown = ReactDOM.findDOMNode(
-                            this.refs.dropdown
-                        );
-                        this.elmDropdownMenu=null;
-                    } else {
-                        this.refs.dropdown.hide();
-                    }
-                }
-            );
+        let searchData = this.getData(val);
+        let selectedIds = [];
+        if (searchData.length > 0) {
+            selectedIds = [searchData[this.active].value];
         }
+        this.setState(
+            {
+                dropdownData: searchData,
+                selectedIds
+            },
+            () => {
+                if (searchData.length > 0) {
+                    this.refs.dropdown.show();
+                    this.elmDropdown = ReactDOM.findDOMNode(this.refs.dropdown);
+                    this.elmDropdownMenu = null;
+                } else {
+                    this.refs.dropdown.hide();
+                }
+            }
+        );
     }
     //取数据
     getData(val) {
@@ -302,6 +303,41 @@ class AutoComplete extends Component {
             return null;
         }
         return <Menu>{menus}</Menu>;
+    }
+    componentWillMount() {
+        const { defaultValue, value, formatItem, mode } = this.props;
+        let tmpValue = value || defaultValue || [];
+        let newValue = [],
+            inputValue;
+        tmpValue.forEach(item => {
+            if (typeof item === "object") {
+                newValue.push(item);
+            } else {
+                newValue.push({
+                    text: item,
+                    value: item
+                });
+            }
+        });
+
+        if (newValue.length > 0) {
+            inputValue = newValue[0].text;
+        }
+
+        if (mode == "single") {
+            this.setState({
+                inputValue
+            });
+        }
+
+        this.setState({
+            value: newValue
+        });
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            data: nextProps.data
+        });
     }
     renderContainer() {
         const { mode, placeholder, kSize } = this.props;

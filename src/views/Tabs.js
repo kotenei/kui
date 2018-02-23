@@ -68,7 +68,7 @@ class TabsView extends Component {
         return (
             <div>
                 <h1>Tabs 标签</h1>
-                <h3>基本使用</h3>
+                <h3>基本用法</h3>
                 <div className="k-example" >
                     <Tabs>
                         <TabPane tab="Tab 1">Tab 1</TabPane>

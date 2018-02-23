@@ -10,7 +10,7 @@ import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
 class Input extends Component {
     constructor(props) {
         super(props);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
     }
     static propTypes = {
         id: PropTypes.string,
@@ -28,7 +28,7 @@ class Input extends Component {
         suffix: PropTypes.node,
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
-        onKeyDown: PropTypes.func,
+        onKeyUp: PropTypes.func,
         onClick: PropTypes.func,
         onPressEnter: PropTypes.func
     }
@@ -36,13 +36,13 @@ class Input extends Component {
         type: 'text',
         disabled: false
     }
-    handleKeyDown(e) {
-        const { onPressEnter, onKeyDown } = this.props;
+    handleKeyUp(e) {
+        const { onPressEnter, onKeyUp } = this.props;
         if (e.keyCode == 13 && onPressEnter) {
             onPressEnter(e);
         }
-        if (onKeyDown) {
-            onKeyDown(e)
+        if (onKeyUp) {
+            onKeyUp(e)
         }
     }
     shouldComponentUpdate(nextProps,nextState){
@@ -113,7 +113,7 @@ class Input extends Component {
                 ref="input"
                 {...otherProps}
                 className={classnames(classes,props.className)}
-                onKeyDown={this.handleKeyDown} />
+                onKeyUp={this.handleKeyUp} />
         )
     }
     render() {

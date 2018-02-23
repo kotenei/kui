@@ -16,7 +16,7 @@ class CarouselView extends Component {
         return (
             <div>
                 <h1>Carousel 走马灯</h1>
-                <h3>基本使用</h3>
+                <h3>基本用法</h3>
                 <div className="k-example">
                     <Carousel >
                         <div style={style}>1</div>

@@ -9,7 +9,7 @@ class PopoverView extends Component {
         return (
             <div>
                 <h1>Popover 弹出框</h1>
-                <h3>基本使用</h3>
+                <h3>基本用法</h3>
                 <div className="k-example">
                     <Popover title="弹出框" content="这里是内容" >
                         <Button raised>Hover</Button>

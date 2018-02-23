@@ -99,7 +99,7 @@ class ModalView extends Component {
         return (
             <div>
                 <h1>Modal 对话框</h1>
-                <h3>基本使用</h3>
+                <h3>基本用法</h3>
                 <div className="k-example">
                     <Button raised kStyle="primary" onClick={this.showModal}>点击打开</Button>
                     <Modal

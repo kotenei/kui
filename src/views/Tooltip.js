@@ -20,7 +20,7 @@ class TooltipView extends Component {
         return (
             <div>
                 <h1>Tooltip 文字提示</h1>
-                <h3>基本使用</h3>
+                <h3>基本用法</h3>
                 <div className="k-example">
                     <Tooltip title="tooltip text" ><a style={style}>default</a></Tooltip>
                     <Tooltip title="tooltip text" kStyle="primary"><a style={style}>primary</a></Tooltip>

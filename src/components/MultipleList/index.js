@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Input from "../Input";
-import { getClassSet, kClass, kSize } from "../../utils/kUtils";
+import { getClassSet, kClass, kSize, guid } from "../../utils/kUtils";
 import { Sizes } from "../../utils/styleMaps";
 import Icon from "../Icon";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
+let seed = 1;
 const prefixCls = "k-multiple-list";
 
 class MultipleList extends Component {
@@ -15,6 +16,7 @@ class MultipleList extends Component {
         this.state = {
             inputValue: PropTypes.inputValue
         };
+        this.id = `multiplelist_${seed++}`;
     }
     static propTypes = {
         ref: PropTypes.string,
@@ -104,7 +106,7 @@ class MultipleList extends Component {
 
         if (showInput) {
             items.push(
-                <li style={{ width: "100%", flex: 1 }}>
+                <li key={`li-${this.id}`} style={{ width: "100%", flex: 1 }}>
                     <Input
                         className={`${prefixCls}-input`}
                         type="text"

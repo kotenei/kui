@@ -3,5 +3,8 @@
     vertical-align: middle;
     position: relative;
     width: 100%;
-
+    .k-dropdown-menu{
+        max-height: torem(200px);
+        width: 100%;
+    }
 }

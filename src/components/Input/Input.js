@@ -19,6 +19,7 @@ class Input extends Component {
         value: PropTypes.string,
         defaultValue: PropTypes.string,
         placeholder: PropTypes.string,
+        autoFocus:PropTypes.bool,
         readOnly: PropTypes.bool,
         disabled: PropTypes.bool,
         addonBefore: PropTypes.node,

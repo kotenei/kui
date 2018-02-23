@@ -1656,9 +1656,11 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     border: none;
     background: white;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-    transition: all .3s ease;
+    transition: all 0.3s ease;
     z-index: 10;
-    border-radius: 0.25rem; }
+    border-radius: 0.25rem;
+    max-height: 12.5rem;
+    overflow-y: auto; }
   .k-dropdown.k-btn-group > .k-btn.last-btn {
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem; }

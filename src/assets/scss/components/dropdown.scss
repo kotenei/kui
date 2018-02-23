@@ -2,17 +2,20 @@
     display: inline-block;
     vertical-align: middle;
     position: relative;
+
     .k-dropdown-menu {
         position: absolute;
         border: none;
         background: white;
         box-shadow: $box-shadow-base;
-        transition: all .3s ease;
+        transition: all 0.3s ease;
         z-index: 10;
         border-radius: $border-radius;
+        max-height: torem(200px);
+        overflow-y: auto;
     }
     &.k-btn-group {
-        >.k-btn.last-btn {
+        > .k-btn.last-btn {
             border-top-right-radius: $border-radius;
             border-bottom-right-radius: $border-radius;
         }

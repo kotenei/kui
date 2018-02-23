@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Input from "../Input";
 import { kClass, kSize, getClassSet } from "../../utils/kUtils";
 import { Sizes } from "../../utils/styleMaps";
+import domUtils from "../../utils/domUtils";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import MultipleList from "../MultipleList";
 import Dropdown from "../Dropdown";
@@ -27,7 +29,8 @@ class AutoComplete extends Component {
             value: props.value || props.defaultValue,
             inputValue: "",
             dropdownData: [],
-            selectedIds: []
+            selectedIds: [],
+            autoFocus: false
         };
         this.active = 0;
     }
@@ -110,11 +113,28 @@ class AutoComplete extends Component {
             }
         }
     };
+    //移除项
+    handleItemRemove = (e, removeItem) => {
+        const { value } = this.state;
+        let index = value.findIndex(item => {
+            return item.value == removeItem.value;
+        });
+        value.splice(index, 1);
+        this.setState({
+            value
+        });
+    };
     //移动
     move(step) {
         const { dropdownData } = this.state;
         if (dropdownData.length == 0) {
             return;
+        }
+        if (!this.elmDropdownMenu) {
+            this.elmDropdownMenu = this.elmDropdown.querySelector(
+                ".k-dropdown-menu"
+            );
+            this.elmMenuItems = this.elmDropdownMenu.querySelectorAll("li");
         }
         this.active += step;
         if (this.active < 0) {
@@ -122,10 +142,26 @@ class AutoComplete extends Component {
         } else if (this.active > dropdownData.length - 1) {
             this.active = 0;
         }
-        let selectedIds = [dropdownData[this.active].value];
-        this.setState({
-            selectedIds
-        });
+        let selectedIds = [dropdownData[this.active].value],
+            curMenuItem = this.elmMenuItems[this.active],
+            scrollTop = this.elmDropdownMenu.scrollTop,
+            clientHeight = this.elmDropdownMenu.clientHeight,
+            itemHeight = domUtils.height(curMenuItem),
+            itemTop = domUtils.position(curMenuItem).top;
+
+        this.setState(
+            {
+                selectedIds
+            },
+            () => {
+                if (itemTop >= clientHeight) {
+                    this.elmDropdownMenu.scrollTop =
+                        itemTop + itemHeight - clientHeight + scrollTop;
+                } else if (itemTop < 0) {
+                    this.elmDropdownMenu.scrollTop = scrollTop + itemTop;
+                }
+            }
+        );
     }
     //选中
     select() {
@@ -163,10 +199,12 @@ class AutoComplete extends Component {
                 if (!hasItem) {
                     newValue.push(selected);
                     this.setState({
-                        value: newValue
+                        value: newValue,
+                        inputValue: ""
                     });
                 }
             }
+            this.cache = null;
         }
     }
     //搜索
@@ -193,6 +231,10 @@ class AutoComplete extends Component {
                 () => {
                     if (data.length > 0) {
                         this.refs.dropdown.show();
+                        this.elmDropdown = ReactDOM.findDOMNode(
+                            this.refs.dropdown
+                        );
+                        this.elmDropdownMenu=null;
                     } else {
                         this.refs.dropdown.hide();
                     }
@@ -263,7 +305,7 @@ class AutoComplete extends Component {
     }
     renderContainer() {
         const { mode, placeholder, kSize } = this.props;
-        const { value, inputValue } = this.state;
+        const { value, inputValue, autoFocus } = this.state;
 
         if (mode == "single") {
             return (
@@ -272,9 +314,10 @@ class AutoComplete extends Component {
                     type="text"
                     kSize={kSize}
                     placeholder={placeholder}
+                    value={inputValue}
+                    autoFocus={autoFocus}
                     onKeyUp={this.handleKeyUp}
                     onChange={this.handleChange}
-                    value={inputValue}
                 />
             );
         } else {
@@ -284,6 +327,11 @@ class AutoComplete extends Component {
                     showInput={true}
                     placeholder={placeholder}
                     value={value}
+                    inputValue={inputValue}
+                    autoFocus={autoFocus}
+                    onKeyUp={this.handleKeyUp}
+                    onChange={this.handleChange}
+                    onItemRemove={this.handleItemRemove}
                 />
             );
         }

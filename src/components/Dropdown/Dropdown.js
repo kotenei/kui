@@ -125,7 +125,7 @@ class Dropdown extends Component {
     };
     handleMenuEnter = e => {
         const { trigger } = this.props;
-        if (trigger == "click") {
+        if (trigger == "click"||trigger == "manual") {
             return;
         }
         this.show();

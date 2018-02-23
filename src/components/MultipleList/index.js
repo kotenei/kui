@@ -10,14 +10,23 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 const prefixCls = "k-multiple-list";
 
 class MultipleList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            inputValue: PropTypes.inputValue
+        };
+    }
     static propTypes = {
         ref: PropTypes.string,
         value: PropTypes.array,
+        inputValue: PropTypes.string,
         disabled: PropTypes.bool,
         showInput: PropTypes.bool,
         onClick: PropTypes.func,
         onFocus: PropTypes.func,
         onBlur: PropTypes.func,
+        onChange: PropTypes.func,
+        onKeyUp: PropTypes.func,
         onItemRemove: PropTypes.func
     };
     static defaultProps = {
@@ -37,15 +46,41 @@ class MultipleList extends Component {
             onFocus(e);
         }
     };
-    handleBlur = e => {};
+    handleBlur = e => {
+        const { onBlur } = this.props;
+        if (onBlur) {
+            onBlur(e);
+        }
+    };
+    handleKeyUp = e => {
+        const { onKeyUp } = this.props;
+        if (onKeyUp) {
+            onKeyUp(e);
+        }
+    };
+    handleChange = e => {
+        const { target } = e;
+        const { onChange } = this.props;
+        if (onChange) {
+            onChange(e);
+        }
+    };
     handleItemRemove = (item, e) => {
         const { onItemRemove } = this.props;
         if (onItemRemove) {
             onItemRemove(e, item);
         }
     };
+    componentWillReceiveProps(nextProps) {
+        if ("inputValue" in nextProps) {
+            this.setState({
+                inputValue: nextProps.inputValue
+            });
+        }
+    }
     renderList() {
         const { value, showInput, kSize, placeholder } = this.props;
+        const { inputValue } = this.state;
         let items = [];
         value.forEach((v, i) => {
             let item = v;
@@ -77,6 +112,10 @@ class MultipleList extends Component {
                         placeholder={placeholder}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
+                        onKeyUp={this.handleKeyUp}
+                        onChange={this.handleChange}
+                        value={inputValue}
+                        autoFocus={this.props.autoFocus}
                     />
                 </li>
             );

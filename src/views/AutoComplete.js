@@ -28,8 +28,8 @@ class AutoCompleteView extends Component {
                     <AutoComplete
                         data={dataSource}
                         placeholder="请输入a-z"
-                        onSelect={this.handleSelect}
-                        onChange={this.handleChange}
+                        //onSelect={this.handleSelect}
+                        //onChange={this.handleChange}
                     />
                 </div>
                 <h3>多选</h3>
@@ -37,7 +37,7 @@ class AutoCompleteView extends Component {
                     <AutoComplete
                         mode="multiple"
                         data={dataSource}
-                        value={["Ada"]}
+                        //value={["Ada"]}
                         placeholder="请输入a-z"
                     />
                 </div>

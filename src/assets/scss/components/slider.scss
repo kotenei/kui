@@ -1,0 +1,21 @@
+.k-slider {
+    width: 100%;
+    position: relative;
+    &-rail {
+        position: absolute;
+        width: 100%;
+    }
+    &-track {
+        position: absolute;
+    }
+    &-steps {
+        position: absolute;
+        width: 100%;
+        left: 0;
+    }
+    &-marks {
+        position: absolute;
+        width: 100%;
+        left: 0;
+    }
+}

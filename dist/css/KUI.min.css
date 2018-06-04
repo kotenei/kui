@@ -2843,6 +2843,23 @@ input[type="submit"].k-btn-block, input[type="reset"].k-btn-block, input[type="b
     .k-select.disabled .k-select-single .k-icon {
       cursor: not-allowed; }
 
+.k-slider {
+  width: 100%;
+  position: relative; }
+  .k-slider-rail {
+    position: absolute;
+    width: 100%; }
+  .k-slider-track {
+    position: absolute; }
+  .k-slider-steps {
+    position: absolute;
+    width: 100%;
+    left: 0; }
+  .k-slider-marks {
+    position: absolute;
+    width: 100%;
+    left: 0; }
+
 .k-steps {
   font-family: "Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   .k-steps .k-steps-item {

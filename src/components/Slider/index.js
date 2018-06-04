@@ -26,21 +26,50 @@ class Slider extends Component {
         step: 1,
         vertical: false
     };
-    renderMarks() {
-        const { marks, range } = this.props;
-        let items = [];
-        if (!range || !marks) {
-            return null;
+    getMarks() {
+        const { marks, range, min, max, step } = this.props;
+        let ret = {
+            dots: [],
+            marks: []
+        };
+        if (marks) {
+            for (let i = min; i <= max; i++) {
+                let diff = max - min,
+                    percent = (i - min) / diff * 100,
+                    dotStyle = { left: `${percent}%` },
+                    mark = marks[i];
+                if (mark) {
+                    let isObj = typeof mark === "object";
+                    let markStyle = isObj
+                        ? { ...dotStyle, ...mark.style }
+                        : dotStyle;
+                    ret.dots.push(
+                        <span className={`${prefixCls}-dot`} style={dotStyle} />
+                    );
+                    ret.marks.push(
+                        <span className={`${prefixCls}-mark`} style={markStyle}>
+                            {isObj ? mark : mark.label}
+                        </span>
+                    );
+                }
+            }
         }
-        for (var k in marks) {
-            items.push(<span className={`${prefixCls}-dot`} />);
-        }
-        return items;
+        return ret;
     }
     render() {
+        const { disabled } = this.props;
+        let marks = this.getMarks();
         return (
-            <div className={prefixCls}>
-                <div className={`${prefixCls}-step`}>{this.renderMarks()}</div>
+            <div
+                className={classnames({
+                    [prefixCls]: true,
+                    [`${prefixCls}-disabled`]: disabled
+                })}
+            >
+                <div className={`${prefixCls}-rail`} />
+                <div className={`${prefixCls}-track`} />
+                <div className={`${prefixCls}-step`}>{marks.dots}</div>
+                <div className={`${prefixCls}-marks`}>{marks.marks}</div>
             </div>
         );
     }

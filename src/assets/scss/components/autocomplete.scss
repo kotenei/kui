@@ -6,5 +6,9 @@
     .k-dropdown-menu{
         max-height: torem(200px);
         width: 100%;
+        overflow-y: auto;
+        >li{
+            //padding-left:torem(12px)
+        }
     }
 }

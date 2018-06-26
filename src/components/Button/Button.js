@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Icon from '../Icon';
-import classnames from 'classnames';
-import { kStyles, kClass, kSize, getClassSet } from '../../utils/kUtils';
-import { State, DEFAULT, PRIMARY, Sizes } from '../../utils/styleMaps';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Icon from "../Icon";
+import classnames from "classnames";
+import omit from "object.omit";
+import { kStyles, kClass, kSize, getClassSet } from "../../utils/kUtils";
+import { State, DEFAULT, PRIMARY, Sizes } from "../../utils/styleMaps";
 
-const types = ['button', 'reset', 'submit'];
+const types = ["button", "reset", "submit"];
 
 class Button extends Component {
     static propTypes = {
@@ -14,32 +15,45 @@ class Button extends Component {
         type: PropTypes.oneOf(types),
         raised: PropTypes.bool,
         fab: PropTypes.bool
-    }
+    };
     static defaultProps = {
         disabled: false,
-        type: 'button'
-    }
+        type: "button"
+    };
     render() {
         const { icon } = this.props;
         let classes = getClassSet(this.props);
+        let otherProps = omit(this.props, [
+            "kClass",
+            "kStyle",
+            "kSize",
+            "raised",
+            "fab",
+            "disabled",
+            "icon"
+        ]);
         classes.disabled = this.props.disabled;
-        classes = classnames(classes, { 'k-btn-raised': this.props.raised, 'k-btn-fab': this.props.fab });
+        classes = classnames(classes, {
+            "k-btn-raised": this.props.raised,
+            "k-btn-fab": this.props.fab
+        });
         return (
-            <button {...this.props}
+            <button
+                {...otherProps}
                 type={this.props.type}
                 className={classnames(classes, this.props.className)}
             >
                 {icon ? <Icon type={icon} /> : null}
                 {this.props.children}
             </button>
-        )
+        );
     }
 }
 
 const styles = State.values().concat(DEFAULT, PRIMARY);
 
-export default kStyles(styles, DEFAULT,
-    kSize([Sizes.LARGE, Sizes.SMALL, Sizes.XSMALL],
-        kClass('k-btn', Button)
-    )
+export default kStyles(
+    styles,
+    DEFAULT,
+    kSize([Sizes.LARGE, Sizes.SMALL, Sizes.XSMALL], kClass("k-btn", Button))
 );

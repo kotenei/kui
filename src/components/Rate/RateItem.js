@@ -6,7 +6,7 @@ class RateItem extends Component {
     static propTypes = {
         value: PropTypes.number,
         current: PropTypes.number,
-        character: PropTypes.string,
+        character: PropTypes.node,
         onClick: PropTypes.func,
         onHover: PropTypes.func
     };
@@ -38,8 +38,15 @@ class RateItem extends Component {
             <li className={classString}>
                 <div
                     className={`${prefixCls}-star-first`}
-                    onMouseOver={this.handleTrigger.bind(this, allowHalf ? value - 0.5 : value, "hover")}
-                    onClick={this.handleTrigger.bind(this, allowHalf ? value - 0.5 : value)}
+                    onMouseOver={this.handleTrigger.bind(
+                        this,
+                        allowHalf ? value - 0.5 : value,
+                        "hover"
+                    )}
+                    onClick={this.handleTrigger.bind(
+                        this,
+                        allowHalf ? value - 0.5 : value
+                    )}
                 >
                     {character}
                 </div>

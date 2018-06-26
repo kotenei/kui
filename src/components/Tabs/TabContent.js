@@ -34,7 +34,7 @@ class TabContent extends Component {
                 'active': activeIndex == index
             })
             items.push(
-                <div className={classString}>
+                <div key={index} className={classString}>
                     {children}
                 </div>
             );

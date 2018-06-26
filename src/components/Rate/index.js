@@ -82,6 +82,7 @@ class Rate extends Component {
         for (let i = 0; i < count; i++) {
             items.push(
                 <RateItem
+                    key={i}
                     current={value}
                     value={i + 1}
                     prefixCls={prefixCls}

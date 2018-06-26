@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes, { func } from 'prop-types';
-import classnames from 'classnames';
-import CarouselPanel from './CarouselPanel';
-import domUtils from '../../utils/domUtils';
-import { Transition } from 'react-transition-group';
-import Icon from '../Icon';
+import React, { Component } from "react";
+import PropTypes, { func } from "prop-types";
+import classnames from "classnames";
+import CarouselPanel from "./CarouselPanel";
+import domUtils from "../../utils/domUtils";
+import { guid } from "../../utils/kUtils";
+import { Transition } from "react-transition-group";
+import Icon from "../Icon";
 
-const prefixCls = 'k-carousel';
+const prefixCls = "k-carousel";
 
 class Carousel extends Component {
     constructor(props) {
@@ -17,21 +18,21 @@ class Carousel extends Component {
             height: 0,
             totalWidth: 0,
             totalHeight: 0,
-            transition: ''
-        }
+            transition: ""
+        };
     }
     static propTypes = {
         height: PropTypes.number,
         delay: PropTypes.number,
         autoplay: PropTypes.bool,
         vertical: PropTypes.bool
-    }
+    };
     static defaultProps = {
         height: 160,
         delay: 3000,
         autoplay: false,
         vertical: false
-    }
+    };
     init() {
         const { children } = this.props;
         const { activeIndex } = this.state;
@@ -52,7 +53,7 @@ class Carousel extends Component {
             totalHeight,
             x,
             y,
-            transition: ''
+            transition: ""
         });
     }
     run() {
@@ -65,7 +66,7 @@ class Carousel extends Component {
                 this.active(index, () => {
                     this.run();
                 });
-            }, delay)
+            }, delay);
         }
     }
     stop() {
@@ -77,102 +78,124 @@ class Carousel extends Component {
     active(index, callback) {
         const { vertical } = this.props;
         const { width, height, max } = this.state;
-        let transition = 'all .3s ease',
+        let transition = "all .3s ease",
             style,
-            x, y;
+            x,
+            y;
 
         let tmpIndex = index;
 
         if (index == max) {
             index = 1;
-            transition = '';
+            transition = "";
         }
         if (index < 0) {
             index = max - 2;
-            transition = '';
+            transition = "";
         }
 
         if (vertical) {
             y = index * height;
             this.setState({
                 y
-            })
+            });
         } else {
             x = index * width;
             this.setState({
                 x
-            })
+            });
         }
 
-        this.setState({
-            transition,
-            activeIndex: tmpIndex
-        }, () => {
-            setTimeout(() => {
-                if (index == max - 1) {
-                    this.setState({
-                        activeIndex: 1,
-                        x: width,
-                        y: height,
-                        transition: ''
-                    }, () => {
+        this.setState(
+            {
+                transition,
+                activeIndex: tmpIndex
+            },
+            () => {
+                setTimeout(() => {
+                    if (index == max - 1) {
+                        this.setState(
+                            {
+                                activeIndex: 1,
+                                x: width,
+                                y: height,
+                                transition: ""
+                            },
+                            () => {
+                                if (callback) {
+                                    callback.call(this);
+                                }
+                            }
+                        );
+                    } else if (index == 0) {
+                        let num = max - 2;
+                        this.setState(
+                            {
+                                activeIndex: num,
+                                x: num * width,
+                                y: num * height,
+                                transition: ""
+                            },
+                            () => {
+                                if (callback) {
+                                    callback.call(this);
+                                }
+                            }
+                        );
+                    } else {
                         if (callback) {
                             callback.call(this);
                         }
-                    })
-                } else if (index == 0) {
-                    let num = max - 2;
-                    this.setState({
-                        activeIndex: num,
-                        x: num * width,
-                        y: num * height,
-                        transition: ''
-                    }, () => {
-                        if (callback) {
-                            callback.call(this);
-                        }
-                    })
-                } else {
-                    if (callback) {
-                        callback.call(this);
                     }
-                }
-
-            }, 300);
-        })
+                }, 300);
+            }
+        );
     }
-    handleEnter = (e) => {
+    handleEnter = e => {
         this.stop();
-    }
-    handleLeave = (e) => {
+    };
+    handleLeave = e => {
         this.isStop = false;
         this.run();
-    }
-    handleDotClick = (index) => {
+    };
+    handleDotClick = index => {
         this.stop();
         this.active(index + 1);
-    }
+    };
     handlePrev = () => {
         const { activeIndex } = this.state;
         let index = activeIndex - 1;
         this.active(index);
-    }
+    };
     handleNext = () => {
         const { activeIndex } = this.state;
         let index = activeIndex + 1;
         this.active(index);
-    }
+    };
     componentDidMount() {
         const { delay, max } = this.props;
         this.init();
-        this.tm = setTimeout(() => {
-            this.run();
-        }, delay);
+        this.run();
+    }
+    componentWillUnmount() {
+        if (this.tm) {
+            clearTimeout(this.tm);
+        }
     }
     renderList() {
         const { children, vertical } = this.props;
-        const { totalWidth, totalHeight, width, height, x, y, transition } = this.state;
+        const {
+            totalWidth,
+            totalHeight,
+            width,
+            height,
+            x,
+            y,
+            transition
+        } = this.state;
         let items = [];
+        let key = 0;
+        let style = { transition };
 
         React.Children.forEach(children, (child, index) => {
             let props = {
@@ -181,20 +204,34 @@ class Carousel extends Component {
                 width,
                 height,
                 vertical
+            };
+
+            if (index == 0) {
+                items.push(
+                    <CarouselPanel key={key} {...props}>
+                        {children[children.length - 1]}
+                    </CarouselPanel>
+                );
+                key++;
             }
+
             items.push(
-                <CarouselPanel {...props}>{child}</CarouselPanel>
-            )
+                <CarouselPanel key={key} {...props}>
+                    {child}
+                </CarouselPanel>
+            );
+
+            key++;
+
+            if (index == children.length - 1) {
+                items.push(
+                    <CarouselPanel key={key} {...props}>
+                        {children[0]}
+                    </CarouselPanel>
+                );
+            }
         });
 
-        if (items.length > 1) {
-            items.splice(0, 0, React.cloneElement(items[items.length - 1]))
-            items.push(
-                React.cloneElement(items[1])
-            )
-        }
-
-        let style = { transition };
         if (vertical) {
             style.height = totalHeight;
             style.transform = `translate3d(0px, -${y}px, 0px)`;
@@ -207,12 +244,13 @@ class Carousel extends Component {
             <div className={`${prefixCls}-list`} style={style}>
                 {items}
             </div>
-        )
+        );
     }
     renderDots() {
         const { children } = this.props;
         const { activeIndex, max } = this.state;
-        let items = [], len = children.length;
+        let items = [],
+            len = children.length;
         let index = activeIndex - 1;
         if (index >= max - 2) {
             index = 0;
@@ -222,11 +260,15 @@ class Carousel extends Component {
         }
         for (let i = 0; i < len; i++) {
             items.push(
-                <span className={classnames({
-                    [`${prefixCls}-dot`]: true,
-                    'active': index == i
-                })} onClick={this.handleDotClick.bind(this, i)}></span>
-            )
+                <span
+                    key={i}
+                    className={classnames({
+                        [`${prefixCls}-dot`]: true,
+                        active: index == i
+                    })}
+                    onClick={this.handleDotClick.bind(this, i)}
+                />
+            );
         }
         return items;
     }
@@ -235,7 +277,7 @@ class Carousel extends Component {
         let classString = classnames({
             [`${prefixCls}`]: true,
             [`${prefixCls}-vertical`]: vertical
-        })
+        });
         return (
             <div
                 className={classString}
@@ -245,23 +287,27 @@ class Carousel extends Component {
                 onMouseLeave={this.handleLeave}
             >
                 {this.renderList()}
-                <div className={`${prefixCls}-dots`}>
-                    {this.renderDots()}
-                </div>
-                <span className={classnames({
-                    [`${prefixCls}-control`]: true,
-                    [`${prefixCls}-control-left`]: true
-                })} onClick={this.handlePrev}>
+                <div className={`${prefixCls}-dots`}>{this.renderDots()}</div>
+                <span
+                    className={classnames({
+                        [`${prefixCls}-control`]: true,
+                        [`${prefixCls}-control-left`]: true
+                    })}
+                    onClick={this.handlePrev}
+                >
                     <Icon type="left" />
                 </span>
-                <span className={classnames({
-                    [`${prefixCls}-control`]: true,
-                    [`${prefixCls}-control-right`]: true
-                })} onClick={this.handleNext}>
+                <span
+                    className={classnames({
+                        [`${prefixCls}-control`]: true,
+                        [`${prefixCls}-control-right`]: true
+                    })}
+                    onClick={this.handleNext}
+                >
                     <Icon type="right" />
                 </span>
             </div>
-        )
+        );
     }
 }
 

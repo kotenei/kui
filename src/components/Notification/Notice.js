@@ -14,7 +14,7 @@ const iconType = {
 class Notice extends Component {
     static propTypes = {
         duration: PropTypes.number,
-        state: PropTypes.oneOf['info', 'success', 'warning', 'danger', 'loading'],
+        state: PropTypes.oneOf(['info', 'success', 'warning', 'danger', 'loading']),
         title: PropTypes.node.isRequired,
         content: PropTypes.node.isRequired,
         onClose: PropTypes.func

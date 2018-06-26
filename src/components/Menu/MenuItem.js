@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import Tooltip from '../Tooltip';
-import Icon from '../Icon';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
+import Tooltip from "../Tooltip";
+import Icon from "../Icon";
 
 class MenuItem extends Component {
     constructor(props) {
@@ -11,21 +11,42 @@ class MenuItem extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         disabled: PropTypes.bool
-    }
+    };
     static defaultProps = {
         disabled: false
-    }
-    handleClick = (e) => {
-        const { onItemTrigger, id, parentIds,disabled,title } = this.props;
-        if(disabled){
+    };
+    handleClick = e => {
+        const {
+            onItemTrigger,
+            id,
+            parentIds,
+            disabled,
+            title,
+            onSubItemClick
+        } = this.props;
+        if (disabled) {
             return;
         }
-        if (onItemTrigger) {
-            onItemTrigger(e, {id, parentIds,title}, 'click');
+        if (onSubItemClick) {
+            onSubItemClick();
         }
-    }
+        if (onItemTrigger) {
+            onItemTrigger(e, { id, parentIds, title }, "click");
+        }
+    };
     render() {
-        const { prefixCls, disabled,title, children, inlineIndent, selectedIds, id, rootId, mode, level } = this.props;
+        const {
+            prefixCls,
+            disabled,
+            title,
+            children,
+            inlineIndent,
+            selectedIds,
+            id,
+            rootId,
+            mode,
+            level
+        } = this.props;
         let isSelected = selectedIds.indexOf(id) != -1;
         let classString = classnames({
             [`${prefixCls}-item`]: true,
@@ -34,40 +55,50 @@ class MenuItem extends Component {
         });
 
         let tooltipTitle = [],
-            item, icon;
+            item,
+            icon;
 
         React.Children.forEach(children, (child, index) => {
             if (!child) {
                 return;
             }
-            if (child.type == Icon && index == 0) {
+            if (child.type && child.type.displayName == "Icon" && index == 0) {
                 icon = child;
             } else {
                 tooltipTitle.push(child);
             }
         });
 
-        if (mode == 'inlineCollapsed' && level == 1) {
+        if (mode == "inlineCollapsed" && level == 1) {
             item = (
                 <li className={classString}>
-                    <Tooltip placement="right" title={tooltipTitle} onClick={this.handleClick}>
-                        <div className={`${prefixCls}-collapsed-item`}>{icon}</div>
+                    <Tooltip
+                        placement="right"
+                        title={tooltipTitle}
+                        onClick={this.handleClick}
+                    >
+                        <div className={`${prefixCls}-collapsed-item`}>
+                            {icon}
+                        </div>
                     </Tooltip>
                 </li>
-            )
+            );
         } else {
             item = (
                 <li
                     className={classString}
-                    style={{ paddingLeft: mode == 'inline' ? inlineIndent : null }}
+                    style={{
+                        paddingLeft: mode == "inline" ? inlineIndent : null
+                    }}
                     title={title}
-                    onClick={this.handleClick}>
+                    onClick={this.handleClick}
+                >
                     {children}
                 </li>
-            )
+            );
         }
 
-        return item
+        return item;
     }
 }
 

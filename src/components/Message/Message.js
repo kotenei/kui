@@ -17,7 +17,7 @@ class Message extends Component {
         super(props);
     }
     static propTypes = {
-        state: PropTypes.oneOf['info', 'success', 'warning', 'error', 'loading'],
+        state: PropTypes.oneOf(['info', 'success', 'warning', 'error', 'loading']),
         content: PropTypes.node.isRequired,
         duration: PropTypes.number,
         closable: PropTypes.bool,

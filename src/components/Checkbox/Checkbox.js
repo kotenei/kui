@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import shallowEqual from 'shallowequal';
 
 class Checkbox extends Component {
     constructor(props) {
@@ -93,7 +92,6 @@ class Checkbox extends Component {
                         name={name}
                         value={value}
                         disabled={disabled}
-                        defaultChecked={checked}
                         checked={checked}
                         onChange={checkboxProps.onChange || this.handleChange} />
                     {this.renderMode()}

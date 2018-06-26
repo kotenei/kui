@@ -16,12 +16,11 @@ class Notification extends Component {
     }
     static propTypes = {
         transitionName: PropTypes.string,
-        component: PropTypes.node,
+        component: PropTypes.func,
         style: PropTypes.object
     }
     static defaultProps = {
-        transitionName: 'fade',
-        component: null
+        transitionName: 'fade'
     }
     add(noticeProps) {
         this.setState(prevState => {

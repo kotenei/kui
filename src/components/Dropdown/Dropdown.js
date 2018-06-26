@@ -21,19 +21,18 @@ class Dropdown extends Component {
     }
     static propTypes = {
         prefixCls: PropTypes.string,
-        component: PropTypes.oneOfType(PropTypes.string, PropTypes.element),
+        component: PropTypes.any,
         menu: PropTypes.element,
         selectedIds: PropTypes.array,
-        trigger: PropTypes.oneOf[("click", "hover", "manual")],
-        placement:
-            PropTypes.oneOf[
-                ("topLeft",
-                "topCenter",
-                "topRight",
-                "bottomLeft",
-                "bottomCenter",
-                "bottomRight")
-            ],
+        trigger: PropTypes.oneOf(["click", "hover", "manual"]),
+        placement: PropTypes.oneOf([
+            "topLeft",
+            "topCenter",
+            "topRight",
+            "bottomLeft",
+            "bottomCenter",
+            "bottomRight"
+        ]),
         disabled: PropTypes.bool,
         multiple: PropTypes.bool,
         show: PropTypes.bool,
@@ -54,6 +53,10 @@ class Dropdown extends Component {
             w: domUtils.outerWidth(dom),
             h: domUtils.outerHeight(dom)
         };
+
+        // this.setState({
+        //     show: false
+        // });
     }
     setPosition() {
         const { placement } = this.props;
@@ -125,7 +128,7 @@ class Dropdown extends Component {
     };
     handleMenuEnter = e => {
         const { trigger } = this.props;
-        if (trigger == "click"||trigger == "manual") {
+        if (trigger == "click" || trigger == "manual") {
             return;
         }
         this.show();
@@ -152,13 +155,18 @@ class Dropdown extends Component {
         if (this.tm) {
             clearTimeout(this.tm);
         }
-        setTimeout(() => {
+        this.tm = setTimeout(() => {
             this.setState({
                 show: true
             });
         }, 100);
     };
     hide = () => {
+        const { onBeforeHide } = this.props;
+        const { show } = this.state;
+        if (!show) {
+            return;
+        }
         this.tm = setTimeout(() => {
             this.setState({
                 show: false
@@ -175,45 +183,48 @@ class Dropdown extends Component {
     }
     componentDidMount() {
         this.setOrgSize();
+        this.setPosition();
         this.hide();
         document.addEventListener("click", this.hide);
     }
     componentWillReceiveProps(nextProps) {
-        if ("show" in this.props && this.props.show != nextProps.show) {
+        if ("show" in nextProps) {
             this.setState({
                 show: nextProps.show
             });
         }
     }
     componentWillUnmount() {
+        if (this.tm) {
+            clearTimeout(this.tm);
+        }
         document.removeEventListener("click", this.hide);
         delete instances[this.id];
     }
     renderMenu() {
         const { menu, prefixCls, multiple, selectedIds } = this.props;
         const { position, show } = this.state;
-        if (!menu) {
-            return null;
-        }
-        let newMenu = show ? (
-            <CSSTransition timeout={300} classNames="slide-bottom">
-                {React.cloneElement(menu, {
-                    ...menu.props,
-                    multiple,
-                    selectedIds,
-                    ref: "dropdownMenu",
-                    mode: "vertical",
-                    className: classnames({
-                        [`${prefixCls}-menu`]: true,
-                        "slide-bottom-enter": true
-                    }),
-                    style: position,
-                    onMouseEnter: this.handleMenuEnter,
-                    onMouseLeave: this.handleMenuLeave,
-                    onSelect: this.handleMenuSelect
-                })}
-            </CSSTransition>
-        ) : null;
+
+        let newMenu =
+            show && menu ? (
+                <CSSTransition timeout={300} classNames="slide-bottom">
+                    {React.cloneElement(menu, {
+                        ...menu.props,
+                        multiple,
+                        selectedIds,
+                        ref: "dropdownMenu",
+                        mode: "vertical",
+                        className: classnames({
+                            [`${prefixCls}-menu`]: true,
+                            "slide-bottom-enter": true
+                        }),
+                        style: position,
+                        onMouseEnter: this.handleMenuEnter,
+                        onMouseLeave: this.handleMenuLeave,
+                        onSelect: this.handleMenuSelect
+                    })}
+                </CSSTransition>
+            ) : null;
 
         return (
             <TransitionGroup component={FirstChild}>{newMenu}</TransitionGroup>

@@ -30,7 +30,8 @@ class AutoComplete extends Component {
             inputValue: "",
             dropdownData: [],
             selectedIds: [],
-            autoFocus: false
+            focus: false,
+            show: false
         };
         this.active = -1;
     }
@@ -44,7 +45,6 @@ class AutoComplete extends Component {
         defaultValue: PropTypes.array,
         formatItem: PropTypes.func,
         formatResult: PropTypes.func,
-        filter: PropTypes.func,
         onChange: PropTypes.func,
         onSearch: PropTypes.func,
         onSelect: PropTypes.func
@@ -62,45 +62,49 @@ class AutoComplete extends Component {
             if (typeof item === "object") {
                 return { text: item.text, value: item.value };
             }
-            return item;
-        },
-        filter: (searchText, val) => {
-            return (
-                searchText &&
-                val.toLowerCase().indexOf(searchText.toLowerCase()) != -1
-            );
+            return { text: item, value: item };
         }
     };
-    //聚焦
     handleFocus = e => {
-        const { data } = this.props;
-        if (data && data.length > 0) {
-            this.show();
-        }
+        const { data, onSearch } = this.props;
+        const { inputValue } = this.state;
+        this.setState(
+            {
+                focus: true
+            },
+            () => {
+                if (onSearch && inputValue) {
+                    onSearch(inputValue);
+                } else {
+                    this.show();
+                }
+            }
+        );
+    };
+    handleBlur = () => {
+        this.setState({
+            focus: false
+        });
+        this.hide();
     };
     handleChange = e => {
         const { mode, onChange } = this.props;
-        const { target, keyCode } = e;
+        const { target } = e;
         if (onChange) {
             onChange(e);
         }
         if ("value" in this.props && mode == "single") {
             return;
         }
+        this.active = -1;
         this.setState({
-            inputValue: target.value
+            inputValue: target.value,
+            selectedIds: []
         });
     };
     handleKeyUp = e => {
         const { target, keyCode } = e;
         let val = target.value.trim();
-
-        // if (!this.cache || this.cache != val) {
-        //     this.cache = val;
-        //     this.active = 0;
-        //     this.search(val);
-        // }
-
         switch (keyCode) {
             case KEY.UP:
             case KEY.LEFT:
@@ -115,21 +119,21 @@ class AutoComplete extends Component {
                 this.select();
                 break;
             default:
+                this.search(val);
                 break;
         }
     };
     //选择项
     handleSelect = (e, ids) => {
-        const { onSelect, formatResult, mode } = this.props;
-        const { dropdownData } = this.state;
-        for (let i = 0; i < dropdownData.length; i++) {
-            const item = dropdownData[i];
-            if (item.value == ids[0]) {
-                let result = formatResult(item);
+        const { onSelect, formatResult, mode, data } = this.props;
+        for (let i = 0; i < data.length; i++) {
+            let item = data[i],
+                result = formatResult(item);
+            if (result.value == ids[0]) {
                 if (onSelect) {
-                    onSelect(result);
+                    onSelect(item);
                 }
-                this.setValue(item);
+                this.setValue(result);
                 break;
             }
         }
@@ -146,29 +150,34 @@ class AutoComplete extends Component {
         });
     };
     //显示
-    show() {
-        const { data } = this.props;
+    show(data = this.props.data) {
         if (!data || data.length == 0) {
             return;
         }
-        this.refs.dropdown.show();
         this.elmDropdown = ReactDOM.findDOMNode(this.refs.dropdown);
+        this.setState({
+            show: true
+        });
     }
     //隐藏
     hide() {
-        this.refs.dropdown.hide();
         this.active = -1;
         this.elmDropdownMenu = null;
         this.setState({
-            selectedIds:[]
-        })
+            selectedIds: [],
+            show: false
+        });
     }
     //移动
     move(step) {
-        const { dropdownData } = this.state;
-        const { data } = this.props;
-        if (data.length == 0) {
+        const { data, max } = this.props;
+        const { show } = this.state;
+        if (!data || data.length == 0 || !show) {
             return;
+        }
+        let len = data.length - 1;
+        if (max && max <= len) {
+            len = max - 1;
         }
         if (!this.elmDropdownMenu) {
             this.elmDropdownMenu = this.elmDropdown.querySelector(
@@ -178,8 +187,8 @@ class AutoComplete extends Component {
         }
         this.active += step;
         if (this.active < 0) {
-            this.active = data.length - 1;
-        } else if (this.active > data.length - 1) {
+            this.active = len;
+        } else if (this.active > len) {
             this.active = 0;
         }
 
@@ -207,21 +216,18 @@ class AutoComplete extends Component {
     }
     //选中
     select() {
-        const { onSelect, formatResult } = this.props;
-        const { dropdownData } = this.state;
-        let selected = dropdownData[this.active];
+        const { onSelect, formatResult, data } = this.props;
+        let selected = data[this.active];
         let result = formatResult(selected);
         if (onSelect) {
-            onSelect(result);
+            onSelect(selected);
         }
-        this.refs.dropdown.hide();
-        this.setValue(selected);
+        this.setValue(result);
     }
     //设置值
     setValue(selected) {
         const { mode } = this.props;
         const { value } = this.state;
-        let inputValue = "";
         if (!("value" in this.props)) {
             if (mode == "single") {
                 this.setState({
@@ -246,76 +252,15 @@ class AutoComplete extends Component {
                     });
                 }
             }
-            this.cache = null;
         }
+        this.hide();
     }
     //搜索
     search(val) {
-        const { data, onSearch } = this.props;
-
-        if (val.length == 0 || data.length == 0) {
-            this.refs.dropdown.hide();
-            return;
+        const { onSearch } = this.props;
+        if (onSearch) {
+            onSearch(val);
         }
-        let searchData = this.getData(val);
-        let selectedIds = [];
-        if (searchData.length > 0) {
-            selectedIds = [searchData[this.active].value];
-        }
-        this.setState(
-            {
-                dropdownData: searchData,
-                selectedIds
-            },
-            () => {
-                if (searchData.length > 0) {
-                    this.refs.dropdown.show();
-                    this.elmDropdown = ReactDOM.findDOMNode(this.refs.dropdown);
-                    this.elmDropdownMenu = null;
-                } else {
-                    this.refs.dropdown.hide();
-                }
-            }
-        );
-    }
-    //取数据
-    getData(val) {
-        this.cacheData = [];
-        const { data, formatItem, max } = this.props;
-        let flag = 0,
-            ret = [];
-        if (val.length == 0) {
-            return ret;
-        }
-        for (let i = 0; i < data.length; i++) {
-            const item = data[i];
-            let formatted = formatItem(item),
-                text,
-                value;
-            if (typeof formatted !== "object") {
-                text = value = formatted;
-            } else {
-                text = formatted.text;
-                value = formatted.value;
-            }
-            if (
-                text
-                    .toString()
-                    .toLowerCase()
-                    .indexOf(val.toLowerCase()) >= 0
-            ) {
-                this.cacheData.push(item);
-                ret.push({
-                    text,
-                    value
-                });
-                if (flag == max - 1) {
-                    break;
-                }
-                flag++;
-            }
-        }
-        return ret;
     }
     //高亮
     highlight(char, str) {
@@ -335,11 +280,21 @@ class AutoComplete extends Component {
     }
     //取菜单
     getMenus() {
-        const { data } = this.props;
+        const { data, max } = this.props;
+        if (!data) {
+            return null;
+        }
         let menus = [];
         for (let i = 0; i < data.length; i++) {
             let item = this.formatItem(data[i]);
-            menus.push(<Menu.Item id={item.value}>{item.text}</Menu.Item>);
+            menus.push(
+                <Menu.Item key={i} id={item.value}>
+                    {item.text}
+                </Menu.Item>
+            );
+            if (max && i == max - 1) {
+                break;
+            }
         }
         if (menus.length == 0) {
             return null;
@@ -376,10 +331,18 @@ class AutoComplete extends Component {
             value: newValue
         });
     }
-    componentWillReceiveProps(nextProps) {}
+    componentWillReceiveProps(nextProps) {
+        const { focus } = this.state;
+        const { data } = nextProps;
+        if (data && data.length > 0 && focus) {
+            this.show(data);
+        } else {
+            this.hide();
+        }
+    }
     renderContainer() {
         const { mode, placeholder, kSize } = this.props;
-        const { value, inputValue, autoFocus } = this.state;
+        const { value, inputValue } = this.state;
 
         if (mode == "single") {
             return (
@@ -388,10 +351,11 @@ class AutoComplete extends Component {
                     type="text"
                     kSize={kSize}
                     placeholder={placeholder}
-                    //value={inputValue}
+                    value={inputValue || ""}
                     onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}
                     onKeyUp={this.handleKeyUp}
-                    //onChange={this.handleChange}
+                    onChange={this.handleChange}
                 />
             );
         } else {
@@ -411,11 +375,12 @@ class AutoComplete extends Component {
         }
     }
     render() {
-        const { mode } = this.props;
-        const { selectedIds } = this.state;
+        const { mode,kSize } = this.props;
+        const { selectedIds, show } = this.state;
         let classes = getClassSet(this.props);
         let classString = classnames(classes, {
-            [`${prefixCls}-${mode}`]: true
+            [`${prefixCls}-${mode}`]: true,
+            [`${prefixCls}-${kSize}`]:kSize!=null
         });
         let menu = this.getMenus();
         return (
@@ -426,6 +391,7 @@ class AutoComplete extends Component {
                 trigger="manual"
                 selectedIds={selectedIds}
                 onSelect={this.handleSelect}
+                show={show}
             >
                 {this.renderContainer()}
             </Dropdown>

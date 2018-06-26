@@ -10,7 +10,7 @@ class Popover extends Component {
         super(props);
     }
     static propTypes = {
-        title: PropTypes,
+        title: PropTypes.node,
         content: PropTypes.node.isRequired
     }
     renderPopover() {

@@ -189,8 +189,8 @@ class Modal extends Component {
                 </div>
             )
         } else {
-            items.push(<Button raised kStyle={cancelStyle} onClick={this.handleCancel}>{cancelText}</Button>);
-            items.push(<Button raised kStyle={okStyle} onClick={this.handleOK}>{okText}</Button>);
+            items.push(<Button key="modal_cancel" raised kStyle={cancelStyle} onClick={this.handleCancel}>{cancelText}</Button>);
+            items.push(<Button key="modal_ok" raised kStyle={okStyle} onClick={this.handleOK}>{okText}</Button>);
         }
         return (
             <div className={`${prefixCls}-foot`} ref="foot">

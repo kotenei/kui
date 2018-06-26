@@ -23,6 +23,7 @@ export function kClass(defaultClass, Component) {
 }
 
 export const kStyles = (styles, defaultStyle, Component) => {
+    
     if (typeof defaultStyle !== "string") {
         Component = defaultStyle;
         defaultStyle = undefined;

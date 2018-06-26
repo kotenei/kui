@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import Icon from '../Icon';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import Icon from "../Icon";
 
 class BreadcrumbItem extends Component {
     static propTypes = {
         icon: PropTypes.string,
         separator: PropTypes.string,
         to: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
-    }
+    };
     static defaultProps = {
-        separator: '/'
-    }
+        separator: "/"
+    };
     renderIcon() {
         const { icon } = this.props;
         if (!icon) {
@@ -21,14 +21,21 @@ class BreadcrumbItem extends Component {
     }
     renderItem() {
         const { to, children } = this.props;
-        let items = [];
         if (to) {
-            items.push(<Link to={to}>{this.renderIcon()}<span>{children}</span></Link>);
+            return (
+                <Link to={to}>
+                    {this.renderIcon()}
+                    <span>{children}</span>
+                </Link>
+            );
         } else {
-            items.push(this.renderIcon());
-            items.push(<span >{children}</span>);
+            return (
+                <span>
+                    {this.renderIcon()}
+                    <span>{children}</span>
+                </span>
+            );
         }
-        return items;
     }
     renderSeparator() {
         const { separator } = this.props;
@@ -40,7 +47,7 @@ class BreadcrumbItem extends Component {
                 {this.renderItem()}
                 {this.renderSeparator()}
             </li>
-        )
+        );
     }
 }
 

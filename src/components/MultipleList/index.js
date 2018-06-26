@@ -90,7 +90,7 @@ class MultipleList extends Component {
                 item = { text: v, value: v };
             }
             items.push(
-                <CSSTransition timeout={300} classNames="fade">
+                <CSSTransition key={v} timeout={300} classNames="fade">
                     <li className="item" title={item.text}>
                         <div className={`${prefixCls}-choice-content`}>
                             {item.text}
@@ -106,20 +106,29 @@ class MultipleList extends Component {
 
         if (showInput) {
             items.push(
-                <li key={`li-${this.id}`} style={{ width: "100%", flex: 1 }}>
-                    <Input
-                        className={`${prefixCls}-input`}
-                        type="text"
-                        kSize={kSize}
-                        placeholder={placeholder}
-                        onFocus={this.handleFocus}
-                        onBlur={this.handleBlur}
-                        onKeyUp={this.handleKeyUp}
-                        onChange={this.handleChange}
-                        value={inputValue}
-                        autoFocus={this.props.autoFocus}
-                    />
-                </li>
+                <CSSTransition
+                    key={`input_${this.id}`}
+                    timeout={300}
+                    classNames="fade"
+                >
+                    <li
+                        key={`li-${this.id}`}
+                        style={{ width: "100%", flex: 1 }}
+                    >
+                        <Input
+                            className={`${prefixCls}-input`}
+                            type="text"
+                            kSize={kSize}
+                            placeholder={placeholder}
+                            onFocus={this.handleFocus}
+                            onBlur={this.handleBlur}
+                            onKeyUp={this.handleKeyUp}
+                            onChange={this.handleChange}
+                            value={inputValue}
+                            autoFocus={this.props.autoFocus}
+                        />
+                    </li>
+                </CSSTransition>
             );
         }
 

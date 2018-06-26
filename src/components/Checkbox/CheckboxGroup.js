@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Checkbox from './Checkbox';
-import shallowEqual from 'shallowequal';
 
 class CheckboxGroup extends Component {
     constructor(props) {

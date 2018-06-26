@@ -63,7 +63,6 @@ class Radio extends Component {
                         type="radio"
                         name={name}
                         disabled={disabled}
-                        defaultChecked={checked}
                         checked={checked}
                         value={value}
                         onChange={radioProps.onChange || this.handleChange} />

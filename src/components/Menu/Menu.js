@@ -22,10 +22,12 @@ class Menu extends Component {
         selectedIds: PropTypes.array,
         inlineIndent: PropTypes.number,
         inlineCollapsed: PropTypes.bool,
-        mode:
-            PropTypes.oneOf[
-                ("vertical", "inline", "horizontal", "inlineCollapsed")
-            ],
+        mode: PropTypes.oneOf([
+            "vertical",
+            "inline",
+            "horizontal",
+            "inlineCollapsed"
+        ]),
         selectable: PropTypes.bool,
         multiple: PropTypes.bool,
         onClick: PropTypes.func,
@@ -48,7 +50,6 @@ class Menu extends Component {
         let newSelectedIds = [...selectedIds];
         let newOpenIds = [...openIds];
         let index = -1;
-
         switch (trigger) {
             case "click":
                 if (multiple) {

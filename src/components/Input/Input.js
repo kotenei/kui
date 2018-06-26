@@ -105,7 +105,9 @@ class Input extends Component {
             'prefix',
             'suffix',
             'onPressEnter',
-            'className'
+            'className',
+            'kClass',
+            'kSize',
         ]);
         let classes = getClassSet(props);
         return this.renderLabeledIcon(

@@ -26,9 +26,8 @@ class AutoComplete extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: props.value || props.defaultValue,
+            multipleValue: [],
             inputValue: "",
-            dropdownData: [],
             selectedIds: [],
             focus: false,
             show: false
@@ -41,7 +40,7 @@ class AutoComplete extends Component {
         highlight: PropTypes.bool,
         max: PropTypes.number,
         placeholder: PropTypes.string,
-        value: PropTypes.array,
+        value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
         defaultValue: PropTypes.array,
         onChange: PropTypes.func,
         onSearch: PropTypes.func,
@@ -228,22 +227,22 @@ class AutoComplete extends Component {
                     inputValue: selected.value
                 });
             } else {
-                let newValue = [...value];
-                let hasItem = false;
-                for (let i = 0; i < value.length; i++) {
-                    const item = value[i];
-                    if (item.value == selected.value) {
-                        hasItem = true;
-                        break;
-                    }
-                }
-                if (!hasItem) {
-                    newValue.push(selected);
-                    this.setState({
-                        value: newValue,
-                        inputValue: ""
-                    });
-                }
+                // let newValue = [...value];
+                // let hasItem = false;
+                // for (let i = 0; i < value.length; i++) {
+                //     const item = value[i];
+                //     if (item.value == selected.value) {
+                //         hasItem = true;
+                //         break;
+                //     }
+                // }
+                // if (!hasItem) {
+                //     newValue.push(selected);
+                //     this.setState({
+                //         value: newValue,
+                //         inputValue: ""
+                //     });
+                // }
             }
         }
         this.hide();
@@ -302,34 +301,38 @@ class AutoComplete extends Component {
         return <Menu>{menus}</Menu>;
     }
     componentWillMount() {
-        const { defaultValue, value, formatItem, mode } = this.props;
-        let tmpValue = value || defaultValue || [];
-        let newValue = [],
-            inputValue;
-        tmpValue.forEach(item => {
-            if (typeof item === "object") {
-                newValue.push(item);
-            } else {
-                newValue.push({
-                    text: item,
-                    value: item
-                });
-            }
-        });
+        const { defaultValue, value, mode, data } = this.props;
+        //let tmpValue = value || defaultValue || [];
+        // let newValue = [],
+        //     inputValue;
+        // tmpValue.forEach(item => {
+        //     if (typeof item === "object") {
+        //         newValue.push(item);
+        //     } else {
+        //         newValue.push({
+        //             text: item,
+        //             value: item
+        //         });
+        //     }
+        // });
 
-        if (newValue.length > 0) {
-            inputValue = newValue[0].text;
-        }
+        // if (newValue.length > 0) {
+        //     inputValue = newValue[0].text;
+        // }
 
-        if (mode == "single") {
-            this.setState({
-                inputValue
-            });
-        }
+        // if (mode == "single") {
+        //     this.setState({
+        //         inputValue: value
+        //     });
+        // } else {
+        //     this.setState({
 
-        this.setState({
-            value: newValue
-        });
+        //     });
+        // }
+
+        // this.setState({
+        //     value: newValue
+        // });
     }
     componentWillReceiveProps(nextProps) {
         const { focus } = this.state;
@@ -347,7 +350,7 @@ class AutoComplete extends Component {
     }
     renderContainer() {
         const { mode, placeholder, kSize } = this.props;
-        const { value, inputValue } = this.state;
+        const { multipleValue, inputValue } = this.state;
 
         if (mode == "single") {
             return (
@@ -369,7 +372,7 @@ class AutoComplete extends Component {
                     kSize={kSize}
                     showInput={true}
                     placeholder={placeholder}
-                    value={value}
+                    value={multipleValue}
                     //inputValue={inputValue}
                     onFocus={this.handleFocus}
                     onKeyUp={this.handleKeyUp}

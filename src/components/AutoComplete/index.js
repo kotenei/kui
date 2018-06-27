@@ -43,8 +43,6 @@ class AutoComplete extends Component {
         placeholder: PropTypes.string,
         value: PropTypes.array,
         defaultValue: PropTypes.array,
-        formatItem: PropTypes.func,
-        formatResult: PropTypes.func,
         onChange: PropTypes.func,
         onSearch: PropTypes.func,
         onSelect: PropTypes.func
@@ -54,16 +52,7 @@ class AutoComplete extends Component {
         mode: "single",
         highlight: false,
         max: 10,
-        defaultValue: [],
-        formatItem: item => {
-            return item;
-        },
-        formatResult: item => {
-            if (typeof item === "object") {
-                return { text: item.text, value: item.value };
-            }
-            return { text: item, value: item };
-        }
+        defaultValue: []
     };
     handleFocus = e => {
         const { data, onSearch } = this.props;
@@ -125,15 +114,15 @@ class AutoComplete extends Component {
     };
     //选择项
     handleSelect = (e, ids) => {
-        const { onSelect, formatResult, mode, data } = this.props;
+        const { onSelect, mode, data } = this.props;
         for (let i = 0; i < data.length; i++) {
             let item = data[i],
-                result = formatResult(item);
-            if (result.value == ids[0]) {
+                formatted = this.formatItem(item);
+            if (formatted.value == ids[0]) {
                 if (onSelect) {
                     onSelect(item);
                 }
-                this.setValue(result);
+                this.setValue(formatted);
                 break;
             }
         }
@@ -220,13 +209,13 @@ class AutoComplete extends Component {
     }
     //选中
     select() {
-        const { onSelect, formatResult, data } = this.props;
-        let selected = data[this.active];
-        let result = formatResult(selected);
+        const { onSelect, data } = this.props;
+        let selected = data[this.active],
+            formatted = this.formatItem(selected);
         if (onSelect) {
             onSelect(selected);
         }
-        this.setValue(result);
+        this.setValue(formatted);
     }
     //设置值
     setValue(selected) {
@@ -264,13 +253,14 @@ class AutoComplete extends Component {
         const { onSearch } = this.props;
         if (onSearch) {
             onSearch(val);
+            return;
         }
     }
     //高亮
     highlight(char, str) {
         const { highlight } = this.props;
         if (highlight) {
-            let ret = new RegExp(`(${char})`, "ig");
+            let reg = new RegExp(`(${char})`, "ig");
             str = str.replace(reg, `<strong>$1</strong>`);
         }
         return str;
@@ -278,22 +268,28 @@ class AutoComplete extends Component {
     //格式化项
     formatItem(item) {
         if (typeof item === "object") {
-            return item;
+            return { text: item.text, value: item.value };
+        } else {
+            let val = String(item);
+            return { text: val, value: val };
         }
-        return { text: item, value: item };
     }
     //取菜单
     getMenus() {
-        const { data, max } = this.props;
+        const { data, max, highlight } = this.props;
+        const { inputValue } = this.state;
         if (!data) {
             return null;
         }
         let menus = [];
         for (let i = 0; i < data.length; i++) {
             let item = this.formatItem(data[i]);
+            if (highlight && inputValue) {
+                item.text = this.highlight(inputValue, item.text);
+            }
             menus.push(
                 <Menu.Item key={i} id={item.value}>
-                    {item.text}
+                    <span dangerouslySetInnerHTML={{ __html: item.text }} />
                 </Menu.Item>
             );
             if (max && i == max - 1) {

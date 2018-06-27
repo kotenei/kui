@@ -155,18 +155,22 @@ class AutoComplete extends Component {
             return;
         }
         this.elmDropdown = ReactDOM.findDOMNode(this.refs.dropdown);
-        this.setState({
-            show: true
-        });
+        this.tm = setTimeout(() => {
+            this.setState({
+                show: true
+            });
+        }, 100);
     }
     //隐藏
     hide() {
         this.active = -1;
         this.elmDropdownMenu = null;
-        this.setState({
-            selectedIds: [],
-            show: false
-        });
+        this.tm = setTimeout(() => {
+            this.setState({
+                selectedIds: [],
+                show: false
+            });
+        }, 300);
     }
     //移动
     move(step) {
@@ -340,6 +344,11 @@ class AutoComplete extends Component {
             this.hide();
         }
     }
+    componentWillUnmount() {
+        if (this.tm) {
+            clearTimeout(this.tm);
+        }
+    }
     renderContainer() {
         const { mode, placeholder, kSize } = this.props;
         const { value, inputValue } = this.state;
@@ -375,12 +384,12 @@ class AutoComplete extends Component {
         }
     }
     render() {
-        const { mode,kSize } = this.props;
+        const { mode, kSize } = this.props;
         const { selectedIds, show } = this.state;
         let classes = getClassSet(this.props);
         let classString = classnames(classes, {
             [`${prefixCls}-${mode}`]: true,
-            [`${prefixCls}-${kSize}`]:kSize!=null
+            [`${prefixCls}-${kSize}`]: kSize != null
         });
         let menu = this.getMenus();
         return (

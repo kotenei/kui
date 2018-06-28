@@ -37,19 +37,18 @@ class AutoComplete extends Component {
     }
     static propTypes = {
         data: PropTypes.array,
-        mode: PropTypes.oneOf(["single", "multiple"]),
+        multiple: PropTypes.bool,
         highlight: PropTypes.bool,
         max: PropTypes.number,
         placeholder: PropTypes.string,
         value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-        defaultValue: PropTypes.array,
+        defaultValue: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
         onChange: PropTypes.func,
         onSearch: PropTypes.func,
         onSelect: PropTypes.func
     };
     static defaultProps = {
         data: [],
-        mode: "single",
         highlight: false,
         max: 10,
         defaultValue: []
@@ -71,18 +70,19 @@ class AutoComplete extends Component {
         );
     };
     handleBlur = () => {
+        console.log('s')
         this.setState({
             focus: false
         });
         this.hide();
     };
     handleChange = e => {
-        const { mode, onChange } = this.props;
+        const { multiple, onChange } = this.props;
         const { target } = e;
         if (onChange) {
             onChange(e);
         }
-        if ("value" in this.props && mode == "single") {
+        if ("value" in this.props && !multiple) {
             return;
         }
         this.active = 0;
@@ -113,7 +113,7 @@ class AutoComplete extends Component {
     };
     //选择项
     handleSelect = (e, ids) => {
-        const { onSelect, mode, data } = this.props;
+        const { onSelect, data } = this.props;
         for (let i = 0; i < data.length; i++) {
             let item = data[i],
                 formatted = this.formatItem(item);
@@ -128,20 +128,23 @@ class AutoComplete extends Component {
     };
     //移除项
     handleItemRemove = (e, removeItem) => {
-        const { value } = this.state;
-        let index = value.findIndex(item => {
+        if ("value" in this.props) {
+            return;
+        }
+        const { multipleValue } = this.state;
+        let index = multipleValue.findIndex(item => {
             return item.value == removeItem.value;
         });
-        value.splice(index, 1);
+        multipleValue.splice(index, 1);
         this.setState({
-            value
+            multipleValue
         });
     };
     //鼠标移过菜单项
     handleMenuItemMouseEnter = (e, id, parentIds) => {
         this.setState({
-            selectedIds:[id]
-        })
+            selectedIds: [id]
+        });
     };
     //鼠标移出菜单项
     handleMenuItemMouseLeave = (e, id, parentIds) => {};
@@ -236,31 +239,31 @@ class AutoComplete extends Component {
     }
     //设置值
     setValue(selected) {
-        const { mode } = this.props;
-        const { value } = this.state;
+        const { multiple } = this.props;
+        const { multipleValue } = this.state;
         if (!("value" in this.props)) {
-            if (mode == "single") {
+            if (!multiple) {
                 this.setState({
-                    value: [selected],
                     inputValue: selected.value
                 });
             } else {
-                // let newValue = [...value];
-                // let hasItem = false;
-                // for (let i = 0; i < value.length; i++) {
-                //     const item = value[i];
-                //     if (item.value == selected.value) {
-                //         hasItem = true;
-                //         break;
-                //     }
-                // }
-                // if (!hasItem) {
-                //     newValue.push(selected);
-                //     this.setState({
-                //         value: newValue,
-                //         inputValue: ""
-                //     });
-                // }
+                let newValue = [...multipleValue];
+                let hasItem = false;
+                for (let i = 0; i < multipleValue.length; i++) {
+                    const item = this.formatItem(multipleValue[i]);
+                    if (item.value == selected.value) {
+                        hasItem = true;
+                        break;
+                    }
+                }
+                if (!hasItem) {
+                    newValue.push(selected);
+                    console.log(newValue);
+                    this.setState({
+                        multipleValue: newValue,
+                        inputValue: ""
+                    });
+                }
             }
         }
         this.hide();
@@ -324,38 +327,28 @@ class AutoComplete extends Component {
         return <Menu>{menus}</Menu>;
     }
     componentWillMount() {
-        const { defaultValue, value, mode, data } = this.props;
-        //let tmpValue = value || defaultValue || [];
-        // let newValue = [],
-        //     inputValue;
-        // tmpValue.forEach(item => {
-        //     if (typeof item === "object") {
-        //         newValue.push(item);
-        //     } else {
-        //         newValue.push({
-        //             text: item,
-        //             value: item
-        //         });
-        //     }
-        // });
-
-        // if (newValue.length > 0) {
-        //     inputValue = newValue[0].text;
-        // }
-
-        // if (mode == "single") {
-        //     this.setState({
-        //         inputValue: value
-        //     });
-        // } else {
-        //     this.setState({
-
-        //     });
-        // }
-
-        // this.setState({
-        //     value: newValue
-        // });
+        const { defaultValue, value, multiple, data } = this.props;
+        let tmpValue = value || defaultValue || "";
+        if (tmpValue) {
+            if (!multiple) {
+                this.setState({
+                    inputValue: typeof tmpValue === "string" ? tmpValue : ""
+                });
+                return;
+            } else {
+                if (!Array.isArray(tmpValue)) {
+                    return;
+                }
+                let multipleValue = [];
+                tmpValue.forEach(item => {
+                    let formatted = this.formatItem(item);
+                    multipleValue.push(formatted);
+                });
+                this.setState({
+                    multipleValue
+                });
+            }
+        }
     }
     componentWillReceiveProps(nextProps) {
         const { focus } = this.state;
@@ -372,10 +365,9 @@ class AutoComplete extends Component {
         }
     }
     renderContainer() {
-        const { mode, placeholder, kSize } = this.props;
+        const { multiple, placeholder, kSize } = this.props;
         const { multipleValue, inputValue } = this.state;
-
-        if (mode == "single") {
+        if (!multiple) {
             return (
                 <Input
                     trigger="dropdown"
@@ -396,21 +388,22 @@ class AutoComplete extends Component {
                     showInput={true}
                     placeholder={placeholder}
                     value={multipleValue}
-                    //inputValue={inputValue}
+                    inputValue={inputValue || ""}
                     onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}
                     onKeyUp={this.handleKeyUp}
-                    //onChange={this.handleChange}
-                    //onItemRemove={this.handleItemRemove}
+                    onChange={this.handleChange}
+                    onItemRemove={this.handleItemRemove}
                 />
             );
         }
     }
     render() {
-        const { mode, kSize } = this.props;
+        const { multiple, kSize } = this.props;
         const { selectedIds, show } = this.state;
         let classes = getClassSet(this.props);
         let classString = classnames(classes, {
-            [`${prefixCls}-${mode}`]: true,
+            [`${prefixCls}-${multiple ? "multiple" : "single"}`]: true,
             [`${prefixCls}-${kSize}`]: kSize != null
         });
         let menu = this.getMenus();

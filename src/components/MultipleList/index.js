@@ -14,7 +14,7 @@ class MultipleList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputValue: PropTypes.inputValue
+            inputValue: props.inputValue
         };
         this.id = `multiplelist_${seed++}`;
     }
@@ -90,7 +90,7 @@ class MultipleList extends Component {
                 item = { text: v, value: v };
             }
             items.push(
-                <CSSTransition key={v} timeout={300} classNames="fade">
+                <CSSTransition key={i} timeout={300} classNames="fade">
                     <li className="item" title={item.text}>
                         <div className={`${prefixCls}-choice-content`}>
                             {item.text}

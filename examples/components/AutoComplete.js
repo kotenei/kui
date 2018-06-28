@@ -25,6 +25,9 @@ class AutoCompleteView extends Component {
                 result.push(item);
             }
         });
+        if (result.length == 0) {
+            result = data;
+        }
         this.setState({
             dataSource: result
         });
@@ -45,12 +48,13 @@ class AutoCompleteView extends Component {
                 </div>
                 <h3>多选</h3>
                 <div className="k-example">
-                    {/* <AutoComplete
-                        mode="multiple"
+                    <AutoComplete
+                        multiple
                         data={dataSource}
-                        //value={["Ada"]}
                         placeholder="请输入a-z"
-                    /> */}
+                        onSearch={this.handleSearch}
+                        onSelect={this.handleSelect}
+                    />
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">

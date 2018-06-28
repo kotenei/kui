@@ -17,7 +17,7 @@ module.exports = {
         filename: "js/[name].min.js",
         //library: "KUI",
         //libraryTarget: "umd",
-        publicPath: "/dist"
+        //publicPath: "dist"
     },
     module: {
         rules: [
@@ -39,7 +39,7 @@ module.exports = {
             },
             {
                 test: /\.(svg|eot|ttf|woff|woff2)/,
-                use: "url-loader?limit=1000&name=fonts/[name].[ext]"
+                use: "url-loader?limit=1000&name=fonts/[name].[ext]&publicPath=../"
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
@@ -85,7 +85,7 @@ module.exports = {
         new CleanWebpackPlugin(["dist"]),
         new HtmlWebPackPlugin({
             template: "./examples/index.html",
-            filename: "../index.html"
+            filename: "index.html"
         }),
         new MiniCssExtractPlugin({
             filename: "css/[name].min.css"
@@ -93,11 +93,10 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
-        //contentBase: path.resolve(__dirname, "./dist"),
+        contentBase: path.resolve(__dirname, "./dist"),
         compress: true,
         port: 3003,
         host: "localhost",
-        //publicPath:'/'
         //hot: true
     }
 };

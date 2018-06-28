@@ -1,8 +1,8 @@
 @font-face {
   font-family: "anticon";
-  src: url(/distfonts/iconfont.eot);
+  src: url(../fonts/iconfont.eot);
   /* IE9*/
-  src: url(/distfonts/iconfont.eot#iefix) format("embedded-opentype"), url(/distfonts/iconfont.woff) format("woff"), url(/distfonts/iconfont.ttf) format("truetype"), url(/distfonts/iconfont.svg#anticon) format("svg");
+  src: url(../fonts/iconfont.eot#iefix) format("embedded-opentype"), url(../fonts/iconfont.woff) format("woff"), url(../fonts/iconfont.ttf) format("truetype"), url(../fonts/iconfont.svg#anticon) format("svg");
   /* iOS 4.1- */ }
 
 .anticon {

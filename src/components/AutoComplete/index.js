@@ -29,10 +29,11 @@ class AutoComplete extends Component {
             multipleValue: [],
             inputValue: "",
             selectedIds: [],
+            activeIds: [],
             focus: false,
             show: false
         };
-        this.active = -1;
+        this.active = 0;
     }
     static propTypes = {
         data: PropTypes.array,
@@ -84,10 +85,9 @@ class AutoComplete extends Component {
         if ("value" in this.props && mode == "single") {
             return;
         }
-        this.active = -1;
+        this.active = 0;
         this.setState({
-            inputValue: target.value,
-            selectedIds: []
+            inputValue: target.value
         });
     };
     handleKeyUp = e => {
@@ -137,22 +137,40 @@ class AutoComplete extends Component {
             value
         });
     };
+    //鼠标移过菜单项
+    handleMenuItemMouseEnter = (e, id, parentIds) => {
+        this.setState({
+            selectedIds:[id]
+        })
+    };
+    //鼠标移出菜单项
+    handleMenuItemMouseLeave = (e, id, parentIds) => {};
     //显示
     show(data = this.props.data) {
         if (!data || data.length == 0) {
             return;
         }
+        if (this.tm) {
+            clearTimeout(this.tm);
+        }
         this.elmDropdown = ReactDOM.findDOMNode(this.refs.dropdown);
         this.tm = setTimeout(() => {
+            let formatted = this.formatItem(data[0]);
+            let selectedIds = [formatted.value];
+            this.active = 0;
             this.setState({
-                show: true
+                show: true,
+                selectedIds
             });
         }, 100);
     }
     //隐藏
     hide() {
-        this.active = -1;
+        this.active = 0;
         this.elmDropdownMenu = null;
+        if (this.tm) {
+            clearTimeout(this.tm);
+        }
         this.tm = setTimeout(() => {
             this.setState({
                 selectedIds: [],
@@ -287,7 +305,12 @@ class AutoComplete extends Component {
                 item.text = this.highlight(inputValue, item.text);
             }
             menus.push(
-                <Menu.Item key={i} id={item.value}>
+                <Menu.Item
+                    key={i}
+                    id={item.value}
+                    onItemMouseEnter={this.handleMenuItemMouseEnter}
+                    onItemMouseLeave={this.handleMenuItemMouseLeave}
+                >
                     <span dangerouslySetInnerHTML={{ __html: item.text }} />
                 </Menu.Item>
             );

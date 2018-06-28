@@ -34,6 +34,18 @@ class MenuItem extends Component {
             onItemTrigger(e, { id, parentIds, title }, "click");
         }
     };
+    handleMouseEnter = e => {
+        const { onItemMouseEnter, id, parentIds } = this.props;
+        if (onItemMouseEnter) {
+            onItemMouseEnter(e, id, parentIds);
+        }
+    };
+    handleMouseLeave = e => {
+        const { onItemMouseLeave, id, parentIds } = this.props;
+        if (onItemMouseLeave) {
+            onItemMouseLeave(e, id, parentIds);
+        }
+    };
     render() {
         const {
             prefixCls,
@@ -92,6 +104,8 @@ class MenuItem extends Component {
                     }}
                     title={title}
                     onClick={this.handleClick}
+                    onMouseEnter={this.handleMouseEnter}
+                    onMouseLeave={this.handleMouseLeave}
                 >
                     {children}
                 </li>

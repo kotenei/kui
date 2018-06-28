@@ -18,6 +18,7 @@
         padding: 0 torem(20px);
         min-width: torem(160px);
         &:hover {
+            //background: $activeBgColor;
             color: $primary;
         }
         &.k-menu-item-active {

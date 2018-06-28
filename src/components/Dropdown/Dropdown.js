@@ -53,10 +53,6 @@ class Dropdown extends Component {
             w: domUtils.outerWidth(dom),
             h: domUtils.outerHeight(dom)
         };
-
-        // this.setState({
-        //     show: false
-        // });
     }
     setPosition() {
         const { placement } = this.props;
@@ -164,8 +160,8 @@ class Dropdown extends Component {
     hide = () => {
         const { onBeforeHide } = this.props;
         const { show } = this.state;
-        if (!show) {
-            return;
+        if (this.tm) {
+            clearTimeout(this.tm);
         }
         this.tm = setTimeout(() => {
             this.setState({

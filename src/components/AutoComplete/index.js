@@ -50,8 +50,7 @@ class AutoComplete extends Component {
     static defaultProps = {
         data: [],
         highlight: false,
-        max: 10,
-        defaultValue: []
+        max: 10
     };
     handleFocus = e => {
         const { data, onSearch } = this.props;
@@ -70,7 +69,6 @@ class AutoComplete extends Component {
         );
     };
     handleBlur = () => {
-        console.log('s')
         this.setState({
             focus: false
         });
@@ -118,10 +116,7 @@ class AutoComplete extends Component {
             let item = data[i],
                 formatted = this.formatItem(item);
             if (formatted.value == ids[0]) {
-                if (onSelect) {
-                    onSelect(item);
-                }
-                this.setValue(formatted);
+                this.setValue(item);
                 break;
             }
         }
@@ -229,41 +224,44 @@ class AutoComplete extends Component {
     }
     //选中
     select() {
-        const { onSelect, data } = this.props;
-        let selected = data[this.active],
-            formatted = this.formatItem(selected);
-        if (onSelect) {
-            onSelect(selected);
-        }
-        this.setValue(formatted);
+        const { data } = this.props;
+        // let selected = data[this.active],
+        //     formatted = this.formatItem(selected);
+        // if (onSelect) {
+        //     onSelect(selected);
+        // }
+        this.setValue(data[this.active]);
     }
     //设置值
     setValue(selected) {
-        const { multiple } = this.props;
+        const { multiple, onSelect } = this.props;
         const { multipleValue } = this.state;
+        let formatted = this.formatItem(selected);
         if (!("value" in this.props)) {
             if (!multiple) {
                 this.setState({
-                    inputValue: selected.value
+                    inputValue: formatted.value
                 });
             } else {
                 let newValue = [...multipleValue];
                 let hasItem = false;
                 for (let i = 0; i < multipleValue.length; i++) {
                     const item = this.formatItem(multipleValue[i]);
-                    if (item.value == selected.value) {
+                    if (item.value == formatted.value) {
                         hasItem = true;
                         break;
                     }
                 }
                 if (!hasItem) {
-                    newValue.push(selected);
-                    console.log(newValue);
+                    newValue.push(formatted);
                     this.setState({
                         multipleValue: newValue,
                         inputValue: ""
                     });
                 }
+            }
+            if (onSelect) {
+                onSelect(selected);
             }
         }
         this.hide();

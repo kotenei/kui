@@ -52,6 +52,7 @@ class AutoCompleteView extends Component {
                         multiple
                         data={dataSource}
                         placeholder="请输入a-z"
+                        defaultValue={['Ada']}
                         onSearch={this.handleSearch}
                         onSelect={this.handleSelect}
                     />

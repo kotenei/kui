@@ -29,6 +29,7 @@ class AutoComplete extends Component {
             multipleValue: [],
             inputValue: "",
             selectedIds: [],
+            selectedItems: [],
             activeIds: [],
             focus: false,
             show: false
@@ -126,13 +127,15 @@ class AutoComplete extends Component {
         if ("value" in this.props) {
             return;
         }
-        const { multipleValue } = this.state;
-        let index = multipleValue.findIndex(item => {
-            return item.value == removeItem.value;
+        const { selectedItems } = this.state;
+        const newValue = [...selectedItems];
+        let index = selectedItems.findIndex(item => {
+            let formatted = this.formatItem(item);
+            return formatted.value == removeItem.value;
         });
-        multipleValue.splice(index, 1);
+        newValue.splice(index, 1);
         this.setState({
-            multipleValue
+            selectedItems: newValue
         });
     };
     //鼠标移过菜单项
@@ -225,43 +228,42 @@ class AutoComplete extends Component {
     //选中
     select() {
         const { data } = this.props;
-        // let selected = data[this.active],
-        //     formatted = this.formatItem(selected);
-        // if (onSelect) {
-        //     onSelect(selected);
-        // }
         this.setValue(data[this.active]);
     }
     //设置值
     setValue(selected) {
         const { multiple, onSelect } = this.props;
-        const { multipleValue } = this.state;
+        const { selectedItems } = this.state;
         let formatted = this.formatItem(selected);
         if (!("value" in this.props)) {
             if (!multiple) {
                 this.setState({
-                    inputValue: formatted.value
+                    inputValue: formatted.value,
+                    selectedItems: [selected]
                 });
+                if (onSelect) {
+                    onSelect(selected);
+                }
             } else {
-                let newValue = [...multipleValue];
+                let newValue = [...selectedItems];
                 let hasItem = false;
-                for (let i = 0; i < multipleValue.length; i++) {
-                    const item = this.formatItem(multipleValue[i]);
+                for (let i = 0; i < selectedItems.length; i++) {
+                    let item = this.formatItem(selectedItems[i]);
                     if (item.value == formatted.value) {
                         hasItem = true;
                         break;
                     }
                 }
                 if (!hasItem) {
-                    newValue.push(formatted);
+                    newValue.push(selected);
                     this.setState({
-                        multipleValue: newValue,
+                        selectedItems: newValue,
                         inputValue: ""
                     });
                 }
-            }
-            if (onSelect) {
-                onSelect(selected);
+                if (onSelect) {
+                    onSelect(newValue);
+                }
             }
         }
         this.hide();
@@ -327,25 +329,28 @@ class AutoComplete extends Component {
     componentWillMount() {
         const { defaultValue, value, multiple, data } = this.props;
         let tmpValue = value || defaultValue || "";
+        let selectedItems = [];
         if (tmpValue) {
             if (!multiple) {
+                let inputValue = typeof tmpValue === "string" ? tmpValue : "";
+                if (inputValue) {
+                    selectedItems.push(inputValue);
+                }
                 this.setState({
-                    inputValue: typeof tmpValue === "string" ? tmpValue : ""
+                    inputValue
                 });
                 return;
             } else {
                 if (!Array.isArray(tmpValue)) {
                     return;
                 }
-                let multipleValue = [];
                 tmpValue.forEach(item => {
-                    let formatted = this.formatItem(item);
-                    multipleValue.push(formatted);
-                });
-                this.setState({
-                    multipleValue
+                    selectedItems.push(item);
                 });
             }
+            this.setState({
+                selectedItems
+            });
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -364,7 +369,10 @@ class AutoComplete extends Component {
     }
     renderContainer() {
         const { multiple, placeholder, kSize } = this.props;
-        const { multipleValue, inputValue } = this.state;
+        const { inputValue, selectedItems } = this.state;
+        let multipleValue = selectedItems.map(item => {
+            return this.formatItem(item);
+        });
         if (!multiple) {
             return (
                 <Input

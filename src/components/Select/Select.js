@@ -26,12 +26,11 @@ class Select extends Component {
         super(props);
         const value = props.value || props.defaultValue;
         this.state = {
-            value:
-                props.mode == "single" && value.length > 1 ? [value[0]] : value
+            value: !props.multiple && value.length > 1 ? [value[0]] : value
         };
     }
     static propTypes = {
-        mode: PropTypes.oneOf(["single", "multiple"]),
+        multiple: PropTypes.bool,
         placeholder: PropTypes.string,
         disabled: PropTypes.bool,
         defaultValue: PropTypes.array,
@@ -39,14 +38,14 @@ class Select extends Component {
         onSelect: PropTypes.func
     };
     static defaultProps = {
-        mode: "single",
+        multiple: false,
         disabled: false,
         defaultValue: []
     };
     handleOptionSelect = (e, selectedIds, info) => {
-        const { onSelect, mode } = this.props;
+        const { onSelect, multiple } = this.props;
         const { value } = this.state;
-        if (mode == "multiple") {
+        if (multiple) {
             e.stopPropagation();
             e.nativeEvent.stopImmediatePropagation();
         }
@@ -56,13 +55,13 @@ class Select extends Component {
             });
         }
         if (onSelect) {
-            onSelect(selectedIds);
+            onSelect( selectedIds);
         }
     };
     handleItemRemove = (e, item) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        const { mode, disabled } = this.props;
+        const { disabled, multiple } = this.props;
         const { value } = this.state;
         if (disabled) {
             return;
@@ -70,7 +69,7 @@ class Select extends Component {
         let newValue = [...value];
         let index = value.indexOf(item.value);
         this.refs.dropdown.hide();
-        if (mode == "single") {
+        if (!multiple) {
             return;
         }
         if (index != -1) {
@@ -83,7 +82,6 @@ class Select extends Component {
         }
     };
     handleMultipleListClick = e => {
-        console.log(e)
         const { disabled } = this.props;
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
@@ -107,9 +105,10 @@ class Select extends Component {
         });
     }
     componentWillReceiveProps(nextProps) {
+        const { multiple } = this.props;
         if ("value" in nextProps) {
             this.setState({
-                value: nextProps.value
+                value: multiple ? nextProps.value : nextProps.value[0]
             });
         }
     }
@@ -122,6 +121,7 @@ class Select extends Component {
             }
             items.push(
                 React.cloneElement(child, {
+                    key: index,
                     index,
                     ...child.props,
                     onClick: this.handleOptionClick
@@ -132,7 +132,7 @@ class Select extends Component {
         return <Menu multiple>{items}</Menu>;
     }
     renderContainer() {
-        const { mode, placeholder,disabled,kSize } = this.props;
+        const { multiple, placeholder, disabled, kSize } = this.props;
         const { value } = this.state;
         let valList = [];
 
@@ -143,10 +143,14 @@ class Select extends Component {
             });
         });
 
-        if (mode == "single") {
+        if (!multiple) {
             return (
                 <div>
-                    <div className={`${prefixCls}-${mode}`}>
+                    <div
+                        className={`${prefixCls}-${
+                            multiple ? "multiple" : "single"
+                        }`}
+                    >
                         {value.length == 0 ? (
                             <span className={`${prefixCls}-placeholder`}>
                                 {placeholder}
@@ -171,7 +175,7 @@ class Select extends Component {
         }
     }
     render() {
-        const { placeholder, mode, disabled } = this.props;
+        const { placeholder, multiple, disabled } = this.props;
         const { value } = this.state;
         let classes = getClassSet(this.props);
         let classString = classnames(classes, {
@@ -186,7 +190,7 @@ class Select extends Component {
                 trigger="click"
                 onSelect={this.handleOptionSelect}
                 selectedIds={value}
-                multiple={mode == "multiple"}
+                multiple={multiple}
                 disabled={disabled}
             >
                 {this.renderContainer()}

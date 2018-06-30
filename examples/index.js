@@ -30,7 +30,7 @@ import Popover from './components/Popover';
 import Progress from './components/Progress';
 import Radio from './components/Radio';
 import Rate from './components/Rate';
-// import Select from './components/Select';
+import Select from './components/Select';
 import Slider from './components/Slider';
 import Steps from './components/Steps';
 import Switch from './components/Switch';
@@ -192,8 +192,7 @@ ReactDOM.render(
                                 </li>
                                 <li>
                                     <NavLink
-                                        to="###"
-                                        className="disabled"
+                                        to="/Select"
                                         activeClassName="selected"
                                     >
                                         Select 选择器
@@ -415,7 +414,7 @@ ReactDOM.render(
                     <Route path="/Progress" exact component={Progress} />
                     <Route path="/Radio" exact component={Radio} />
                     <Route path="/Rate" exact component={Rate} />
-                    {/* <Route path="/Select" exact component={Select} /> */}
+                    <Route path="/Select" exact component={Select} />
                     {/* <Route path="/Slider" exact component={Slider} /> */}
                     <Route path="/Steps" exact component={Steps} />
                     <Route path="/Switch" exact component={Switch} />

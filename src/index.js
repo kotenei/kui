@@ -29,6 +29,7 @@ export Popover from './components/Popover';
 export Progress from './components/Progress';
 export Radio from './components/Radio';
 export Rate from './components/Rate';
+export Select from './components/Select';
 export Slider from './components/Slider';
 export Steps from './components/Steps';
 export Switch from './components/Switch';

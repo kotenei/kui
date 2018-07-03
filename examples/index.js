@@ -200,7 +200,7 @@ ReactDOM.render(
                                 </li>
                                 <li>
                                     <NavLink
-                                        to="###"
+                                        to="/Slider"
                                         className="disabled"
                                         activeClassName="selected"
                                     >
@@ -415,7 +415,7 @@ ReactDOM.render(
                     <Route path="/Radio" exact component={Radio} />
                     <Route path="/Rate" exact component={Rate} />
                     <Route path="/Select" exact component={Select} />
-                    {/* <Route path="/Slider" exact component={Slider} /> */}
+                    <Route path="/Slider" exact component={Slider} />
                     <Route path="/Steps" exact component={Steps} />
                     <Route path="/Switch" exact component={Switch} />
                     {/* <Route path="/Table" exact component={Table} /> */}

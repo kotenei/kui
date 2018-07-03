@@ -1,0 +1,48 @@
+
+.k-slider {
+    width: 100%;
+    position: relative;
+    height: torem(12px);
+    line-height: 1.5;
+    padding: torem(4px) 0;
+    cursor: pointer;
+    &-rail {
+        position: absolute;
+        width: 100%;
+        background: #f5f5f5;
+        height: torem(4px);
+        border-radius: torem(2px);
+        transition: all .3s ease;
+    }
+    &-track {
+        position: absolute;
+        height: torem(4px);
+        background: $primary;
+    }
+    &-step {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        height: torem(4px);
+        background: transparent;
+    }
+    &-marks {
+        position: absolute;
+        width: 100%;
+        left: 0;
+    }
+    &-handle {
+        position: absolute;
+        width: torem(14px);
+        height: torem(14px);
+        margin-left: torem(-7px);
+        margin-top: torem(-5px);
+        border: 1px solid $primary;
+        background: white;
+        border-radius: 50%; 
+        transition: all .3s ease;
+        &:hover{
+            transform: scale(1.2)
+        }
+    }
+}

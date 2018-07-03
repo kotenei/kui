@@ -52,8 +52,7 @@ class Slider extends Component {
         };
         if (marks) {
             for (let i = min; i <= max; i++) {
-                let diff = max - min,
-                    percent = ((i - min) / diff) * 100,
+                let percent = this.getTrackWidth(i),
                     dotStyle = { left: `${percent}%` },
                     mark = marks[i];
                 if (mark) {
@@ -73,6 +72,12 @@ class Slider extends Component {
             }
         }
         return ret;
+    }
+    getTrackWidth(val) {
+        const { min, max } = this.props;
+        let diff = max - min,
+            width = ((val - min) / diff) * 100;
+        return width;
     }
     componentWillMount() {
         const { range, defaultValue, value } = this.props;

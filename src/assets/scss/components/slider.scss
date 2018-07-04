@@ -1,11 +1,56 @@
-
-.k-slider {
+$prefixCls:'.k-slider';
+#{$prefixCls} {
     width: 100%;
     position: relative;
     height: torem(12px);
     line-height: 1.5;
     padding: torem(4px) 0;
     cursor: pointer;
+    &:hover{
+        #{$prefixCls}-rail {
+            background:#e8e8e8;
+        }
+    }
+    &-vertical {
+        width: torem(12px);
+        height: 100%;
+        padding: 0 torem(4px);
+        margin: torem(6px) torem(10px);
+        #{$prefixCls}-rail {
+            width: torem(4px);
+            height: 100%;
+        }
+        #{$prefixCls}-track {
+            width: torem(4px);
+            height: 100%;
+        }
+        #{$prefixCls}-step {
+            width: torem(4px);
+            height: 100%;
+            &-dot {
+                top: auto;
+                left: torem(2px);
+                margin-bottom: torem(-4px);
+            }
+        }
+        #{$prefixCls}-marks {
+            left: torem(12px);
+            height: 100%;
+            width: torem(20px);
+            top: 0;
+            &-mark {
+                left: torem(4px);
+                margin-bottom: -50%;
+                white-space: nowrap;
+                margin-left: auto;
+                width: auto;
+            }
+        }
+        #{$prefixCls}-handle {
+            margin-left: torem(-5px);
+            margin-bottom: torem(-7px);
+        }
+    }
     &-rail {
         position: absolute;
         width: 100%;
@@ -22,14 +67,31 @@
     &-step {
         position: absolute;
         width: 100%;
-        left: 0;
         height: torem(4px);
         background: transparent;
+        &-dot {
+            position: absolute;
+            width: torem(8px);
+            height: torem(8px);
+            border: 2px solid #e8e8e8;
+            border-radius: 50%;
+            background: white;
+            top: torem(-2px);
+            margin-left: torem(-4px);
+        }
     }
     &-marks {
         position: absolute;
         width: 100%;
         left: 0;
+        top: torem(14px);
+        &-mark {
+            position: absolute;
+            text-align: center;
+            width: 30%;
+            margin-left: -15%;
+            vertical-align: middle;
+        }
     }
     &-handle {
         position: absolute;
@@ -37,11 +99,11 @@
         height: torem(14px);
         margin-left: torem(-7px);
         margin-top: torem(-5px);
-        border: 1px solid $primary;
+        border: 2px solid $primary;
         background: white;
-        border-radius: 50%; 
+        border-radius: 50%;
         transition: all .3s ease;
-        &:hover{
+        &:hover {
             transform: scale(1.2)
         }
     }

@@ -6,6 +6,7 @@ class SliderHandler extends Component {
     static propTypes = {
         prefixCls: PropTypes.string,
         title: PropTypes.node,
+        style: PropTypes.object,
         vertical: PropTypes.bool,
         onDragStart: PropTypes.func,
         onChange: PropTypes.func,
@@ -15,11 +16,10 @@ class SliderHandler extends Component {
         prefixCls: "k-slider"
     };
     render() {
-        const { prefixCls, title } = this.props;
-        console.log(title)
+        const { prefixCls, title, style } = this.props;
         return (
             <Tooltip title={title}>
-                <div className={`${prefixCls}-handle`} />
+                <div className={`${prefixCls}-handle`} style={style } />
             </Tooltip>
         );
     }

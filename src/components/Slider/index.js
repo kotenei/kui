@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import SliderHandle from "./SlederHandle";
+import domUtils from "../../utils/domUtils";
 
 const prefixCls = "k-slider";
 
@@ -43,6 +45,29 @@ class Slider extends Component {
         tipFormatter(item) {
             return item;
         }
+    };
+    handleChange = (e, mouseCoord, moveCoord, handleInfo) => {
+        const { min, max, step, vertical } = this.props;
+        let percent, val;
+
+        if (!vertical) {
+            percent = (moveCoord.x / (this.elmInfo.ew - handleInfo.ew)) * 100;
+        } else {
+            percent =
+                ((this.elmInfo.eh - moveCoord.y) /
+                    (this.elmInfo.eh - handleInfo.eh)) *
+                100;
+
+            console.log(percent, moveCoord, this.elmInfo.eh);
+        }
+        val = Math.round(((percent / 100) * (max - min)) / step) * step + min;
+        if (val > max) {
+            val = max;
+        }
+        if (val < min) {
+            val = min;
+        }
+        console.log(val);
     };
     getMarks() {
         const { marks, vertical, min, max, step } = this.props;
@@ -116,7 +141,24 @@ class Slider extends Component {
                   height: num2
               };
     }
-    componentWillMount() {}
+    setElmInfo() {
+        if (!this.elm) {
+            this.elm = ReactDOM.findDOMNode(this.refs.slider);
+        }
+        let position = domUtils.position(this.elm);
+        let offset = domUtils.offset(this.elm);
+        this.elmInfo = {
+            left: parseInt(position.left),
+            top: parseInt(position.top),
+            offsetLeft: offset.left,
+            offsetTop: offset.top,
+            ew: domUtils.outerWidth(this.elm),
+            eh: domUtils.outerHeight(this.elm)
+        };
+    }
+    componentDidMount() {
+        this.setElmInfo();
+    }
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
             this.setState({
@@ -157,6 +199,7 @@ class Slider extends Component {
                     vertical={vertical}
                     title={title}
                     style={style}
+                    onChange={this.handleChange}
                 />
             );
         }
@@ -169,6 +212,7 @@ class Slider extends Component {
 
         return (
             <div
+                ref="slider"
                 className={classnames({
                     [prefixCls]: true,
                     [`${prefixCls}-vertical`]: vertical,

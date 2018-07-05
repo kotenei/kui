@@ -48,39 +48,45 @@ class Slider extends Component {
     };
     handleChange = (e, coordinate, handleInfo) => {
         const { min, max, step, vertical } = this.props;
-        let diffPosition, diffValue,percent, val;
+        let diffPosition, diffValue, percent, val;
 
-        if (!vertical) {
-            // percent = (coordinate.moveCoord.x / (this.elmInfo.ew - handleInfo.ew)) * 100;
-            //diffPosition = handleInfo.left - this.elmInfo.left;
-            // diffValue =
-            //     (diffPosition / (this.elmInfo.ew - handleInfo.ew)) *
-            //     (max - min);
-            // if (diffValue <= min) {
-            //     diffValue = min;
-            // }
-            // if (diffValue >= max) {
-            //     diffValue = max;
-            // }
+        //if (!vertical) {
+        // percent = (coordinate.moveCoord.x / (this.elmInfo.ew - handleInfo.ew)) * 100;
+        //diffPosition = handleInfo.left - this.elmInfo.left;
+        // diffValue =
+        //     (diffPosition / (this.elmInfo.ew - handleInfo.ew)) *
+        //     (max - min);
+        // if (diffValue <= min) {
+        //     diffValue = min;
+        // }
+        // if (diffValue >= max) {
+        //     diffValue = max;
+        // }
 
-            // var valModStep = (diffValue - min) % step;
-            // var alignValue = diffValue - valModStep;
+        // var valModStep = (diffValue - min) % step;
+        // var alignValue = diffValue - valModStep;
 
-            // if (Math.abs(valModStep) * 2 >= step) {
-            //     alignValue += valModStep > 0 ? step : -step;
-            // }
+        // if (Math.abs(valModStep) * 2 >= step) {
+        //     alignValue += valModStep > 0 ? step : -step;
+        // }
 
-            //console.log(diffPosition)
-            // this.setState({
-            //     value:alignValue.toFixed(5)
-            // })
-            return;
-        } else {
-            // percent =
-            //     ((this.elmInfo.eh - coordinate.moveCoord.y) /
-            //         (this.elmInfo.eh - handleInfo.eh)) *
-            //     100;
-        }
+        //console.log(diffPosition)
+        // this.setState({
+        //     value:alignValue.toFixed(5)
+        // })
+        // return;
+        //} else {
+        // percent =
+        //     ((this.elmInfo.eh - coordinate.moveCoord.y) /
+        //         (this.elmInfo.eh - handleInfo.eh)) *
+        //     100;
+        //}
+
+        percent = this.getPercent(coordinate, handleInfo);
+
+        //console.log(percent);
+        return;
+
         val = Math.round(((percent / 100) * (max - min)) / step) * step + min;
         if (val >= max) {
             val = max;
@@ -92,10 +98,27 @@ class Slider extends Component {
         this.setState({
             value: val
         });
-
-
-        
     };
+    getPercent(coordinate, handleInfo) {
+        const { vertical, min, max, step } = this.props;
+        let distanceToSlide, percentage;
+        if (vertical) {
+            distanceToSlide = coordinate.curCoord.y - handleInfo.offsetTop;
+        } else {
+            distanceToSlide = coordinate.curCoord.x - handleInfo.offsetLeft;
+        }
+
+        percentage = (distanceToSlide / this.elmInfo.eh) * 100;
+
+        let f = (step * 100) / (max - min);
+        percentage = Math.round(percentage / f) * f;
+
+        //percentage = 100 - percentage;
+
+        console.log(coordinate.curCoord.y)
+
+        return percentage;
+    }
 
     getMarks() {
         const { marks, vertical, min, max, step } = this.props;

@@ -49,6 +49,7 @@ class SliderHandler extends Component {
         const { onDragStart } = this.props;
         document.addEventListener("mousemove", this.handleMouseMove);
         document.addEventListener("mouseup", this.handleMouseUp);
+        this.setElmInfo();
         //获取鼠标位置
         let mouseCoord = this.getMouseCoord(e);
         //记录鼠标在拖动层的坐标位置
@@ -78,8 +79,13 @@ class SliderHandler extends Component {
             x: mouseCoord.x - this.offset.x,
             y: mouseCoord.y - this.offset.y
         };
+        let coordinate={
+            orgCoord:this.originalCoord,
+            curCoord:mouseCoord,
+            moveCoord
+        }
         if (onChange) {
-            onChange(e, mouseCoord, moveCoord, this.elmInfo);
+            onChange(e, coordinate, this.elmInfo);
         }
     }
     stop(e) {

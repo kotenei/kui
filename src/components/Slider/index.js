@@ -46,29 +46,57 @@ class Slider extends Component {
             return item;
         }
     };
-    handleChange = (e, mouseCoord, moveCoord, handleInfo) => {
+    handleChange = (e, coordinate, handleInfo) => {
         const { min, max, step, vertical } = this.props;
-        let percent, val;
+        let diffPosition, diffValue,percent, val;
 
         if (!vertical) {
-            percent = (moveCoord.x / (this.elmInfo.ew - handleInfo.ew)) * 100;
-        } else {
-            percent =
-                ((this.elmInfo.eh - moveCoord.y) /
-                    (this.elmInfo.eh - handleInfo.eh)) *
-                100;
+            // percent = (coordinate.moveCoord.x / (this.elmInfo.ew - handleInfo.ew)) * 100;
+            //diffPosition = handleInfo.left - this.elmInfo.left;
+            // diffValue =
+            //     (diffPosition / (this.elmInfo.ew - handleInfo.ew)) *
+            //     (max - min);
+            // if (diffValue <= min) {
+            //     diffValue = min;
+            // }
+            // if (diffValue >= max) {
+            //     diffValue = max;
+            // }
 
-            console.log(percent, moveCoord, this.elmInfo.eh);
+            // var valModStep = (diffValue - min) % step;
+            // var alignValue = diffValue - valModStep;
+
+            // if (Math.abs(valModStep) * 2 >= step) {
+            //     alignValue += valModStep > 0 ? step : -step;
+            // }
+
+            //console.log(diffPosition)
+            // this.setState({
+            //     value:alignValue.toFixed(5)
+            // })
+            return;
+        } else {
+            // percent =
+            //     ((this.elmInfo.eh - coordinate.moveCoord.y) /
+            //         (this.elmInfo.eh - handleInfo.eh)) *
+            //     100;
         }
         val = Math.round(((percent / 100) * (max - min)) / step) * step + min;
-        if (val > max) {
+        if (val >= max) {
             val = max;
         }
-        if (val < min) {
+        if (val <= min) {
             val = min;
         }
-        console.log(val);
+
+        this.setState({
+            value: val
+        });
+
+
+        
     };
+
     getMarks() {
         const { marks, vertical, min, max, step } = this.props;
         let ret = {
@@ -116,7 +144,8 @@ class Slider extends Component {
         return width;
     }
     getTrackStyle() {
-        const { value, vertical } = this.state;
+        const { value } = this.state;
+        const { vertical } = this.props;
         let min = 0,
             max = 0,
             num1 = 0,

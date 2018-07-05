@@ -102,7 +102,7 @@ $prefixCls:'.k-slider';
         border: 2px solid $primary;
         background: white;
         border-radius: 50%;
-        transition: all .3s ease;
+        transition: scale .3s ease;
         &:hover {
             transform: scale(1.2)
         }

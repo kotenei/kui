@@ -30,6 +30,7 @@ class Slider extends Component {
         range: PropTypes.bool,
         step: PropTypes.number,
         vertical: PropTypes.bool,
+        reversed: PropTypes.bool,
         value: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
         defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
         tipFormatter: PropTypes.func,
@@ -40,86 +41,47 @@ class Slider extends Component {
         min: 0,
         max: 100,
         range: false,
-        step: 1,
+        step: 11,
         vertical: false,
+        reversed: true,
         tipFormatter(item) {
             return item;
         }
     };
     handleChange = (e, coordinate, handleInfo) => {
         const { min, max, step, vertical } = this.props;
-        let diffPosition, diffValue, percent, val;
+        let percentage;
+        percentage = this.getPercentage(coordinate, handleInfo);
 
-        //if (!vertical) {
-        // percent = (coordinate.moveCoord.x / (this.elmInfo.ew - handleInfo.ew)) * 100;
-        //diffPosition = handleInfo.left - this.elmInfo.left;
-        // diffValue =
-        //     (diffPosition / (this.elmInfo.ew - handleInfo.ew)) *
-        //     (max - min);
-        // if (diffValue <= min) {
-        //     diffValue = min;
-        // }
-        // if (diffValue >= max) {
-        //     diffValue = max;
-        // }
-
-        // var valModStep = (diffValue - min) % step;
-        // var alignValue = diffValue - valModStep;
-
-        // if (Math.abs(valModStep) * 2 >= step) {
-        //     alignValue += valModStep > 0 ? step : -step;
-        // }
-
-        //console.log(diffPosition)
-        // this.setState({
-        //     value:alignValue.toFixed(5)
-        // })
-        // return;
-        //} else {
-        // percent =
-        //     ((this.elmInfo.eh - coordinate.moveCoord.y) /
-        //         (this.elmInfo.eh - handleInfo.eh)) *
-        //     100;
-        //}
-
-        percent = this.getPercent(coordinate, handleInfo);
-
-        //console.log(percent);
-        return;
-
-        val = Math.round(((percent / 100) * (max - min)) / step) * step + min;
-        if (val >= max) {
-            val = max;
+        if (percentage >= max) {
+            percentage = max;
         }
-        if (val <= min) {
-            val = min;
+        if (percentage <= min) {
+            percentage = min;
         }
 
         this.setState({
-            value: val
+            value: percentage
         });
     };
-    getPercent(coordinate, handleInfo) {
-        const { vertical, min, max, step } = this.props;
-        let distanceToSlide, percentage;
+    getPercentage(coordinate, handleInfo) {
+        const { vertical, min, max, step, reversed } = this.props;
+        let common = (step * 100) / (max - min),
+            distanceToSlide,
+            percentage;
         if (vertical) {
-            distanceToSlide = coordinate.curCoord.y - handleInfo.offsetTop;
+            distanceToSlide = coordinate.curCoord.y - this.elmInfo.offsetTop;
+            percentage = (distanceToSlide / this.elmInfo.eh) * 100;
         } else {
-            distanceToSlide = coordinate.curCoord.x - handleInfo.offsetLeft;
+            distanceToSlide = coordinate.curCoord.x - this.elmInfo.offsetLeft;
+            percentage = (distanceToSlide / this.elmInfo.ew) * 100;
         }
-
-        percentage = (distanceToSlide / this.elmInfo.eh) * 100;
-
-        let f = (step * 100) / (max - min);
-        percentage = Math.round(percentage / f) * f;
-
-        //percentage = 100 - percentage;
-
-        console.log(coordinate.curCoord.y)
-
+        percentage = Math.round(percentage / common) * common;
+        if (reversed) {
+            percentage = 100 - percentage;
+        }
         return percentage;
     }
-
     getMarks() {
         const { marks, vertical, min, max, step } = this.props;
         let ret = {
@@ -168,16 +130,16 @@ class Slider extends Component {
     }
     getTrackStyle() {
         const { value } = this.state;
-        const { vertical } = this.props;
-        let min = 0,
-            max = 0,
+        const { vertical, min, max } = this.props;
+        let newNmin = 0,
+            newMax = 0,
             num1 = 0,
             num2 = 0;
         if (Array.isArray(value)) {
-            min = Math.min(...value);
-            max = Math.max(...value);
+            newMin = Math.min(...value);
+            newMax = Math.max(...value);
         } else {
-            max = value;
+            newMax = value;
         }
 
         num1 = this.getDistance(min) + "%";

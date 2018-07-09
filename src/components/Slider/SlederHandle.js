@@ -63,7 +63,6 @@ class SliderHandler extends Component {
             left: mouseCoord.x - this.elmInfo.left,
             top: mouseCoord.y - this.elmInfo.top
         };
-        console.log(this.elmInfo)
         //捕捉鼠标的作用范围，防止鼠标移动过快丢失
         if (this.elm.setCapture) {
             this.elm.setCapture();

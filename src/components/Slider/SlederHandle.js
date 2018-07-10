@@ -130,7 +130,7 @@ class SliderHandler extends Component {
                 <div
                     className={`${prefixCls}-handle`}
                     style={style}
-                    onMouseDown={disabled ? null : this.handleMouseDown}
+                    //onMouseDown={disabled ? null : this.handleMouseDown}
                 />
             </Tooltip>
         );

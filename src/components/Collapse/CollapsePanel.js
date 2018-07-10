@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { FirstChild } from '../../utils/kUtils';
+import { FirstChild } from '../../utils';
 import Icon from '../Icon';
 
 class CollapsePanel extends Component {

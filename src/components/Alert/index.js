@@ -5,10 +5,9 @@ import {
     kStyles,
     kClass,
     kSize,
-    getClassSet,
-    guid,
-    FirstChild
+    getClassSet
 } from "../../utils/kUtils";
+import {guid,FirstChild} from "../../utils";
 import { State, Sizes, PRIMARY } from "../../utils/styleMaps";
 import Icon from "../Icon";
 import { CSSTransition, TransitionGroup } from "react-transition-group";

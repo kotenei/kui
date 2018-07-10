@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { guid } from '../../utils/kUtils';
+import { guid } from '../../utils';
 import Notice from './Notice';
 import Notification from './Notification';
 

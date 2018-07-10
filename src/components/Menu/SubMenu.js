@@ -6,7 +6,7 @@ import Icon from "../Icon";
 import omit from "object.omit";
 import domUtils from "../../utils/domUtils";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { guid, FirstChild } from "../../utils/kUtils";
+import { guid, FirstChild } from "../../utils";
 import Tooltip from "../Tooltip";
 
 class SubMenu extends Component {

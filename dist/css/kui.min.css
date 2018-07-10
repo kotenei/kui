@@ -2944,6 +2944,97 @@ input[type="button"].k-btn-block {
     .k-select.disabled .k-select-single .k-icon {
       cursor: not-allowed; }
 
+.k-slider {
+  width: 100%;
+  position: relative;
+  height: 0.75rem;
+  line-height: 1.5;
+  padding: 0.25rem 0;
+  cursor: pointer; }
+  .k-slider:hover .k-slider-rail {
+    background: #e8e8e8; }
+  .k-slider-vertical {
+    width: 0.75rem;
+    height: 100%;
+    padding: 0 0.25rem;
+    margin: 0.375rem 0.625rem; }
+    .k-slider-vertical .k-slider-rail {
+      width: 0.25rem;
+      height: 100%; }
+    .k-slider-vertical .k-slider-track {
+      width: 0.25rem;
+      height: 100%; }
+    .k-slider-vertical .k-slider-step {
+      width: 0.25rem;
+      height: 100%; }
+      .k-slider-vertical .k-slider-step-dot {
+        top: auto;
+        left: 0.125rem;
+        margin-bottom: -0.25rem; }
+    .k-slider-vertical .k-slider-marks {
+      left: 0.75rem;
+      height: 100%;
+      width: 1.25rem;
+      top: 0; }
+      .k-slider-vertical .k-slider-marks-mark {
+        left: 0.25rem;
+        margin-bottom: -50%;
+        white-space: nowrap;
+        margin-left: auto;
+        width: auto; }
+    .k-slider-vertical .k-slider-handle {
+      margin-left: -0.3125rem;
+      margin-bottom: -0.4375rem; }
+  .k-slider-rail {
+    position: absolute;
+    width: 100%;
+    background: #f5f5f5;
+    height: 0.25rem;
+    border-radius: 0.125rem;
+    transition: all .3s ease; }
+  .k-slider-track {
+    position: absolute;
+    height: 0.25rem;
+    background: #2196f3; }
+  .k-slider-step {
+    position: absolute;
+    width: 100%;
+    height: 0.25rem;
+    background: transparent; }
+    .k-slider-step-dot {
+      position: absolute;
+      width: 0.5rem;
+      height: 0.5rem;
+      border: 2px solid #e8e8e8;
+      border-radius: 50%;
+      background: white;
+      top: -0.125rem;
+      margin-left: -0.25rem; }
+  .k-slider-marks {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0.875rem; }
+    .k-slider-marks-mark {
+      position: absolute;
+      text-align: center;
+      width: 30%;
+      margin-left: -15%;
+      vertical-align: middle; }
+  .k-slider-handle {
+    position: absolute;
+    width: 0.875rem;
+    height: 0.875rem;
+    margin-left: -0.4375rem;
+    margin-top: -0.3125rem;
+    border: 2px solid #2196f3;
+    background: white;
+    border-radius: 50%;
+    transition: scale .3s ease; }
+    .k-slider-handle:hover {
+      -webkit-transform: scale(1.2);
+              transform: scale(1.2); }
+
 .k-steps {
   font-family: "Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   .k-steps .k-steps-item {

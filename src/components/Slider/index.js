@@ -4,22 +4,15 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import SliderHandle from "./SlederHandle";
 import domUtils from "../../utils/domUtils";
+import { getMouseCoord } from "../../utils";
 
 const prefixCls = "k-slider";
 
 class Slider extends Component {
     constructor(props) {
         super(props);
-        let value = props.vlaue || props.defaultValue;
-        if (!value) {
-            if (props.range) {
-                value = [0, 0];
-            } else {
-                value = 0;
-            }
-        }
         this.state = {
-            value
+            value: 1
         };
     }
     static propTypes = {
@@ -38,16 +31,34 @@ class Slider extends Component {
     };
     static defaultProps = {
         disabled: false,
-        min: 0,
+        min: 1,
         max: 100,
         range: false,
-        step: 11,
+        step: 1,
         vertical: false,
-        reversed: true,
+        reversed: false,
+        defaultValue: 1,
         tipFormatter(item) {
             return item;
         }
     };
+    handleMouseDown = e => {
+        e.stopPropagation();
+        e.preventDefault();
+        let sliderInfo = this.getSliderInfo();
+        let mouseCoord = getMouseCoord(e);
+        let percentage = this.getPercentage(mouseCoord, sliderInfo);
+        let value = this.toValue(percentage);
+        this.setState({
+            value
+        });
+        //禁止文档选择事件
+        document.onselectstart = function() {
+            return false;
+        };
+        return false;
+    };
+
     handleChange = (e, coordinate, handleInfo) => {
         const { min, max, step, vertical } = this.props;
         let percentage;
@@ -64,22 +75,42 @@ class Slider extends Component {
             value: percentage
         });
     };
-    getPercentage(coordinate, handleInfo) {
+    mouseDown(e) {}
+    mouseMove(e) {}
+    mouseUp(e) {}
+    toValue(percentage) {
+        const { min, max, step } = this.props;
+        let value = (percentage / 100) * (max - min);
+        value = min + Math.round(value / step) * step;
+        if (value < min) {
+            value = min;
+        }
+        if (value > max) {
+            value = max;
+        }
+        return value;
+    }
+    toPercentage(value) {
+        const { min, max } = this.props;
+        return (100 * (value - min)) / (max - min);
+    }
+    getPercentage(mouseCoord, sliderInfo) {
         const { vertical, min, max, step, reversed } = this.props;
-        let common = (step * 100) / (max - min),
+        let num = (step * 100) / (max - min),
             distanceToSlide,
             percentage;
         if (vertical) {
-            distanceToSlide = coordinate.curCoord.y - this.elmInfo.offsetTop;
-            percentage = (distanceToSlide / this.elmInfo.eh) * 100;
+            distanceToSlide = mouseCoord.y - sliderInfo.offsetTop;
+            percentage = (distanceToSlide / sliderInfo.height) * 100;
         } else {
-            distanceToSlide = coordinate.curCoord.x - this.elmInfo.offsetLeft;
-            percentage = (distanceToSlide / this.elmInfo.ew) * 100;
+            distanceToSlide = mouseCoord.x - sliderInfo.offsetLeft;
+            percentage = (distanceToSlide / sliderInfo.width) * 100;
         }
-        percentage = Math.round(percentage / common) * common;
         if (reversed) {
             percentage = 100 - percentage;
         }
+        percentage = Math.max(0, Math.min(100, percentage));
+
         return percentage;
     }
     getMarks() {
@@ -90,10 +121,10 @@ class Slider extends Component {
         };
         if (marks) {
             for (let i = min; i <= max; i++) {
-                let percent = this.getDistance(i),
-                    dotStyle = !vertical
-                        ? { left: `${percent}%` }
-                        : { bottom: `${percent}%` },
+                let percentage = this.toPercentage(i),
+                    dotStyle = vertical
+                        ? { bottom: `${percentage}%` }
+                        : { left: `${percentage}%` },
                     mark = marks[i];
                 if (mark) {
                     let isObj = typeof mark === "object";
@@ -122,75 +153,100 @@ class Slider extends Component {
         }
         return ret;
     }
-    getDistance(val) {
-        const { min, max } = this.props;
-        let diff = max - min,
-            width = ((val - min) / diff) * 100;
-        return width;
-    }
     getTrackStyle() {
         const { value } = this.state;
-        const { vertical, min, max } = this.props;
-        let newNmin = 0,
-            newMax = 0,
-            num1 = 0,
-            num2 = 0;
+        const { vertical } = this.props;
+        let min, max, num1, num2;
         if (Array.isArray(value)) {
-            newMin = Math.min(...value);
-            newMax = Math.max(...value);
+            min = Math.min(...value);
+            max = Math.max(...value);
         } else {
-            newMax = value;
+            min = this.props.min;
+            max = value;
         }
-
-        num1 = this.getDistance(min) + "%";
-        num2 = this.getDistance(max) - this.getDistance(min) + "%";
-
-        return !vertical
+        num1 = this.toPercentage(min) + "%";
+        num2 = this.toPercentage(max) - this.toPercentage(min) + "%";
+        return vertical
             ? {
-                  left: num1,
-                  width: num2
-              }
-            : {
                   bottom: num1,
                   height: num2
+              }
+            : {
+                  left: num1,
+                  width: num2
               };
     }
-    setElmInfo() {
+    getSliderInfo() {
         if (!this.elm) {
             this.elm = ReactDOM.findDOMNode(this.refs.slider);
         }
         let position = domUtils.position(this.elm);
         let offset = domUtils.offset(this.elm);
-        this.elmInfo = {
-            left: parseInt(position.left),
-            top: parseInt(position.top),
+        return {
+            left: position.left,
+            top: position.top,
             offsetLeft: offset.left,
             offsetTop: offset.top,
-            ew: domUtils.outerWidth(this.elm),
-            eh: domUtils.outerHeight(this.elm)
+            width: domUtils.outerWidth(this.elm),
+            height: domUtils.outerHeight(this.elm)
         };
     }
+    init(props = this.props) {
+        const { range, min, max } = props;
+        let val = props.value || props.defaultValue;
+        let tmpMin, tmpMax, tmpVal;
+        if (range && Array.isArray(val)) {
+            let arrVal = [];
+            val = val.sort((a, b) => {
+                return a - b;
+            });
+            val.forEach(item => {
+                if (item <= min) {
+                    arrVal.push(min);
+                } else if (item >= max) {
+                    arrVal.push(max);
+                } else {
+                    arrVal.push(item);
+                }
+            });
+            val = arrVal;
+        } else {
+            if (val <= min) {
+                val = min;
+            }
+            if (val >= max) {
+                val = max;
+            }
+            val = range ? [val] : val;
+        }
+
+        this.setState({
+            value: val
+        });
+    }
+    componentWillMount() {
+        this.init();
+    }
     componentDidMount() {
-        this.setElmInfo();
+        // this.setElmInfo();
+        //this.init();
     }
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
-            this.setState({
-                value: nextProps.value
-            });
+            this.init(nextProps);
         }
     }
     renderHandles() {
         const { vertical, tipFormatter, range } = this.props;
         const { value } = this.state;
-        let title, style, distance;
+        let title, style, percentage;
         if (range) {
             return value.map((val, index) => {
                 title = tipFormatter(val);
-                distance = this.getDistance(val);
-                style = !vertical
-                    ? { left: `${distance}%` }
-                    : { bottom: `${distance}%` };
+                percentage = this.toPercentage(val);
+                style = vertical
+                    ? { bottom: `${percentage}%` }
+                    : { left: `${percentage}%` };
                 return (
                     <SliderHandle
                         key={index}
@@ -203,10 +259,10 @@ class Slider extends Component {
             });
         } else {
             title = tipFormatter(value);
-            distance = this.getDistance(value);
-            style = !vertical
-                ? { left: `${distance}%` }
-                : { bottom: `${distance}%` };
+            percentage = this.toPercentage(value);
+            style = vertical
+                ? { bottom: `${percentage}%` }
+                : { left: `${percentage}%` };
             return (
                 <SliderHandle
                     prefixCls={prefixCls}
@@ -232,6 +288,7 @@ class Slider extends Component {
                     [`${prefixCls}-vertical`]: vertical,
                     [`${prefixCls}-disabled`]: disabled
                 })}
+                onMouseDown={this.handleMouseDown}
             >
                 <div className={`${prefixCls}-rail`} />
                 <div className={`${prefixCls}-track`} style={trackStyle} />

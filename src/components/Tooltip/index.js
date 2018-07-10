@@ -2,14 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
-import {
-    kStyles,
-    kClass,
-    kSize,
-    getClassSet,
-    guid,
-    FirstChild
-} from "../../utils/kUtils";
+import { kStyles, kClass, kSize, getClassSet } from "../../utils/kUtils";
+import { guid, FirstChild } from "../../utils";
 import { State, PRIMARY, Sizes } from "../../utils/styleMaps";
 import domUtils from "../../utils/domUtils";
 

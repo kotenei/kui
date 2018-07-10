@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
-import { guid, FirstChild } from '../../utils/kUtils';
+import { guid, FirstChild } from '../../utils';
 import Icon from '../Icon';
 
 class Loading extends Component {

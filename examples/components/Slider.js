@@ -17,13 +17,13 @@ class SliderView extends Component {
     render() {
         return (
             <div>
-                <h1>Select 选择器</h1>
+                <h1>Slider 滑块</h1>
                 <h3>基本用法</h3>
                 <div
                     className="k-example"
                     style={{ paddingLeft: 30, paddingRight: 30, height: 400 }}
                 >
-                    <Slider   defaultValue={22} />
+                    <Slider   defaultValue={3} />
                     <br />
                     {/* <Slider range defaultValue={[0, 9, 11, 30, 12]} /> */}
                 </div>

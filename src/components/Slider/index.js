@@ -51,6 +51,8 @@ class Slider extends Component {
         let value = this.toValue(percentage);
         this.setState({
             value
+        },()=>{
+            //this.refs[`slider-${value}`].showTooltip();
         });
         //禁止文档选择事件
         document.onselectstart = function() {
@@ -227,10 +229,7 @@ class Slider extends Component {
     componentWillMount() {
         this.init();
     }
-    componentDidMount() {
-        // this.setElmInfo();
-        //this.init();
-    }
+    componentDidMount() {}
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
             this.init(nextProps);
@@ -249,6 +248,7 @@ class Slider extends Component {
                     : { left: `${percentage}%` };
                 return (
                     <SliderHandle
+                        ref={`slider-${val}`}
                         key={index}
                         prefixCls={prefixCls}
                         vertical={vertical}
@@ -265,6 +265,7 @@ class Slider extends Component {
                 : { left: `${percentage}%` };
             return (
                 <SliderHandle
+                    ref={`slider-${value}`}
                     prefixCls={prefixCls}
                     vertical={vertical}
                     title={title}

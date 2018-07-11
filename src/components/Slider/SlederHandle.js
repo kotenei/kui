@@ -17,6 +17,7 @@ class SliderHandler extends Component {
         title: PropTypes.node,
         style: PropTypes.object,
         vertical: PropTypes.bool,
+        showTooltip: PropTypes.bool,
         onDragStart: PropTypes.func,
         onChange: PropTypes.func,
         onDragStop: PropTypes.func
@@ -79,11 +80,11 @@ class SliderHandler extends Component {
             x: mouseCoord.x - this.offset.x,
             y: mouseCoord.y - this.offset.y
         };
-        let coordinate={
-            orgCoord:this.originalCoord,
-            curCoord:mouseCoord,
+        let coordinate = {
+            orgCoord: this.originalCoord,
+            curCoord: mouseCoord,
             moveCoord
-        }
+        };
         if (onChange) {
             onChange(e, coordinate, this.elmInfo);
         }
@@ -106,7 +107,7 @@ class SliderHandler extends Component {
     }
     setElmInfo() {
         if (!this.elm) {
-            this.elm = ReactDOM.findDOMNode(this.refs.handle);
+            this.elm = ReactDOM.findDOMNode(this.refs.tooltip);
             this.elm = this.elm.querySelector("div");
         }
         let position = domUtils.position(this.elm);
@@ -124,9 +125,9 @@ class SliderHandler extends Component {
         this.setElmInfo();
     }
     render() {
-        const { prefixCls, title, style, disabled } = this.props;
+        const { prefixCls, title, style, disabled, showTooltip } = this.props;
         return (
-            <Tooltip title={title} ref="handle">
+            <Tooltip title={title} ref="tooltip" show={true}>
                 <div
                     className={`${prefixCls}-handle`}
                     style={style}

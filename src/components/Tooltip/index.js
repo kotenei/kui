@@ -24,7 +24,8 @@ class Tooltip extends Component {
         this.id = `tooltip_${seed++}`;
         this.state = {
             position: { top: -999, left: -999 },
-            hidden: false
+            hidden: false,
+            show: props.show
         };
         instances[this.id] = this;
     }
@@ -109,8 +110,8 @@ class Tooltip extends Component {
         let parent = ReactDOM.findDOMNode(this.refs.trigger),
             ew = domUtils.outerWidth(parent),
             eh = domUtils.outerHeight(parent),
-            tw = this.orgSize.w,
-            th = this.orgSize.h,
+            tw = domUtils.outerWidth(this.refs.tooltip),
+            th = domUtils.outerHeight(this.refs.tooltip),
             position = { left: 0, top: 0 },
             pos = { left: 0, top: 0 };
 
@@ -176,12 +177,6 @@ class Tooltip extends Component {
             position: pos
         });
     }
-    setOrgSize() {
-        this.orgSize = {
-            w: domUtils.outerWidth(this.refs.tooltip),
-            h: domUtils.outerHeight(this.refs.tooltip)
-        };
-    }
     show() {
         const { delay } = this.props;
         this.setState({
@@ -218,7 +213,6 @@ class Tooltip extends Component {
             typeof this.props.title !== "undefined" &&
             React.Children.toArray(this.props.children).length == 1
         ) {
-            this.setOrgSize();
             this.setPosition();
             this.setState({
                 show: false,
@@ -228,7 +222,14 @@ class Tooltip extends Component {
         window.addEventListener("resize", this.setPosition);
         document.addEventListener("click", this.hide);
     }
-    componentWillReceiveProps(nextProps) {}
+    componentWillReceiveProps(nextProps) {
+        if ("show" in nextProps && nextProps.show != this.state.show) {
+            this.setState({
+                show: true,
+                hidden: false
+            });
+        }
+    }
     componentWillUnmount() {
         window.removeEventListener("resize", this.setPosition);
         document.removeEventListener("click", this.hide);

@@ -53,7 +53,7 @@ class Tooltip extends Component {
     static defaultProps = {
         placement: "top",
         trigger: "hover",
-        delay: 100
+        delay: 50
     };
     handleTriggerMouseEnter() {
         const { trigger } = this.props;
@@ -179,6 +179,9 @@ class Tooltip extends Component {
     }
     show() {
         const { delay } = this.props;
+        if ("show" in this.props) {
+            return;
+        }
         this.setState({
             hidden: false
         });
@@ -191,6 +194,9 @@ class Tooltip extends Component {
     }
     hide() {
         const { delay } = this.props;
+        if ("show" in this.props) {
+            return;
+        }
         this.setState({
             show: false
         });
@@ -214,20 +220,23 @@ class Tooltip extends Component {
             React.Children.toArray(this.props.children).length == 1
         ) {
             this.setPosition();
-            this.setState({
-                show: false,
-                hidden: true
-            });
+            if (!("show" in this.props)) {
+                this.setState({
+                    show: false,
+                    hidden: true
+                });
+            }
         }
         window.addEventListener("resize", this.setPosition);
         document.addEventListener("click", this.hide);
     }
     componentWillReceiveProps(nextProps) {
-        if ("show" in nextProps && nextProps.show != this.state.show) {
-            this.setState({
-                show: true,
-                hidden: false
-            });
+        if ("show" in nextProps) {
+            if (nextProps.show) {
+                this.show();
+            } else {
+                this.hide();
+            }
         }
     }
     componentWillUnmount() {

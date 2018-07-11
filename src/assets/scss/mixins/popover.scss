@@ -6,7 +6,7 @@
     max-width: 17.5rem;
     border-radius: $border-radius;
     position: absolute;
-    transition: all .6s;
+    transition:  opacity .6s;
     visibility: hidden;
     opacity: 0;
     &.#{$prefix}-hidden {
@@ -151,7 +151,6 @@
             margin-left: -.3125rem;
         }
     }
-    
     &.left,
     &.leftTop,
     &.leftBottom {
@@ -185,36 +184,30 @@
             margin-top: -.3125rem;
         }
     }
-
     &.topLeft,
-    &.bottomLeft{
-        .#{$prefix}-arrow{
-            left:torem(16px);
+    &.bottomLeft {
+        .#{$prefix}-arrow {
+            left: torem(16px);
         }
     }
-
-
     &.topRight,
-    &.bottomRight{
-        .#{$prefix}-arrow{
-            right:torem(16px);
-            left:auto;
+    &.bottomRight {
+        .#{$prefix}-arrow {
+            right: torem(16px);
+            left: auto;
         }
     }
-
     &.leftTop,
-    &.rightTop{
-        .#{$prefix}-arrow{
-            top:torem(14px);
+    &.rightTop {
+        .#{$prefix}-arrow {
+            top: torem(14px);
         }
     }
-
     &.leftBottom,
-    &.rightBottom{
-        .#{$prefix}-arrow{
-            top:auto;
-            bottom:torem(10px);
+    &.rightBottom {
+        .#{$prefix}-arrow {
+            top: auto;
+            bottom: torem(10px);
         }
     }
-
 }

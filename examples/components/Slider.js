@@ -21,9 +21,9 @@ class SliderView extends Component {
                 <h3>基本用法</h3>
                 <div
                     className="k-example"
-                    style={{ paddingLeft: 30, paddingRight: 30, height: 400 }}
+                    style={{ paddingLeft: 30, paddingRight: 30,  }}
                 >
-                    <Slider   defaultValue={3} />
+                    <Slider   defaultValue={10} />
                     <br />
                     {/* <Slider range defaultValue={[0, 9, 11, 30, 12]} /> */}
                 </div>

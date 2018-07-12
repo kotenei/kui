@@ -2498,8 +2498,7 @@ input[type="button"].k-btn-block {
   max-width: 17.5rem;
   border-radius: 0.25rem;
   position: absolute;
-  transition: all .6s;
-  visibility: hidden;
+  transition: opacity .3s;
   opacity: 0;
   border: 1px solid #ccc;
   background: white;
@@ -2511,7 +2510,6 @@ input[type="button"].k-btn-block {
   .k-popover.k-popover-hidden {
     display: none; }
   .k-popover.in {
-    visibility: visible;
     opacity: 1; }
   .k-popover .k-popover-arrow {
     width: 0;
@@ -3034,6 +3032,15 @@ input[type="button"].k-btn-block {
     .k-slider-handle:hover {
       -webkit-transform: scale(1.2);
               transform: scale(1.2); }
+  .k-slider.k-slider-disabled {
+    cursor: not-allowed; }
+    .k-slider.k-slider-disabled .k-slider-track {
+      background: rgba(0, 0, 0, 0.25); }
+    .k-slider.k-slider-disabled .k-slider-handle {
+      border-color: rgba(0, 0, 0, 0.25); }
+      .k-slider.k-slider-disabled .k-slider-handle:hover {
+        -webkit-transform: none;
+                transform: none; }
 
 .k-steps {
   font-family: "Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif; }
@@ -3734,13 +3741,11 @@ input[type="button"].k-btn-block {
   max-width: 17.5rem;
   border-radius: 0.25rem;
   position: absolute;
-  transition: all .6s;
-  visibility: hidden;
+  transition: opacity .3s;
   opacity: 0; }
   .k-tooltip.k-tooltip-hidden {
     display: none; }
   .k-tooltip.in {
-    visibility: visible;
     opacity: 1; }
   .k-tooltip .k-tooltip-arrow {
     width: 0;

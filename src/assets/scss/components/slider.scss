@@ -6,9 +6,9 @@ $prefixCls:'.k-slider';
     line-height: 1.5;
     padding: torem(4px) 0;
     cursor: pointer;
-    &:hover{
+    &:hover {
         #{$prefixCls}-rail {
-            background:#e8e8e8;
+            background: #e8e8e8;
         }
     }
     &-vertical {
@@ -105,6 +105,18 @@ $prefixCls:'.k-slider';
         transition: scale .3s ease;
         &:hover {
             transform: scale(1.2)
+        }
+    }
+    &#{$prefixCls}-disabled {
+        cursor: $cursor-disabled;
+        #{$prefixCls}-track {
+            background: rgba(0, 0, 0, .25);
+        }
+        #{$prefixCls}-handle {
+            border-color: rgba(0, 0, 0, .25);
+            &:hover {
+                transform: none;
+            }
         }
     }
 }

@@ -24,7 +24,6 @@ class Slider extends Component {
         range: PropTypes.bool,
         step: PropTypes.number,
         vertical: PropTypes.bool,
-        reversed: PropTypes.bool,
         value: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
         defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
         tipFormatter: PropTypes.func,
@@ -39,7 +38,6 @@ class Slider extends Component {
         range: false,
         step: 1,
         vertical: false,
-        reversed: false,
         defaultValue: 1,
         tipFormatter(item) {
             return item;
@@ -49,6 +47,8 @@ class Slider extends Component {
         e.stopPropagation();
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
+        const { disabled } = this.props;
+        if (disabled) return;
         let value = this.getValue(e);
         this.setState({
             value,
@@ -130,7 +130,7 @@ class Slider extends Component {
         return value;
     }
     getPercentage(mouseCoord, sliderInfo) {
-        const { vertical, min, max, step, reversed } = this.props;
+        const { vertical, min, max, step } = this.props;
         let num = (step * 100) / (max - min),
             distanceToSlide,
             percentage;
@@ -141,7 +141,7 @@ class Slider extends Component {
             distanceToSlide = mouseCoord.x - sliderInfo.offsetLeft;
             percentage = (distanceToSlide / sliderInfo.width) * 100;
         }
-        if (reversed) {
+        if (vertical) {
             percentage = 100 - percentage;
         }
         percentage = Math.max(0, Math.min(100, percentage));
@@ -169,14 +169,14 @@ class Slider extends Component {
 
                     ret.dots.push(
                         <span
-                            key={`dot_${i}`}
+                            key={`slider-dot-${i}`}
                             className={`${prefixCls}-step-dot`}
                             style={dotStyle}
                         />
                     );
                     ret.marks.push(
                         <span
-                            key={`mark_${i}`}
+                            key={`slider-mark-${i}`}
                             className={`${prefixCls}-marks-mark`}
                             style={markStyle}
                         >
@@ -227,19 +227,21 @@ class Slider extends Component {
         };
     }
     getSliderHandle = (value, key) => {
-        const { tipFormatter, vertical } = this.props;
+        const { tipFormatter, vertical, disabled } = this.props;
         const { activeValue } = this.state;
         let title = tipFormatter(value),
             percentage = this.toPercentage(value),
             style = vertical
                 ? { bottom: `${percentage}%` }
                 : { left: `${percentage}%` };
+
         return (
             <SliderHandle
-                key={`slider-${key || value}`}
-                ref={`slider-${value}`}
+                key={`slider-handle-${key}`}
+                ref={`slider-handle-${value}`}
                 prefixCls={prefixCls}
                 vertical={vertical}
+                disabled={disabled}
                 title={title}
                 style={style}
                 value={value}

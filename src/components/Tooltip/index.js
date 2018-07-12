@@ -235,16 +235,20 @@ class Tooltip extends Component {
         }
     }
     componentDidMount() {
-        const { trigger } = this.props;
+        const { trigger,show } = this.props;
         if (
             typeof this.props.title !== "undefined" &&
             React.Children.toArray(this.props.children).length == 1
         ) {
             this.setPosition();
-            if (!("show" in this.props)) {
+            this.setState({
+                show: false,
+                hidden: true
+            });
+            if (show) {
                 this.setState({
-                    show: false,
-                    hidden: true
+                    show: true,
+                    hidden: false
                 });
             }
         }

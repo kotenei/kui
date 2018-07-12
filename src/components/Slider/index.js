@@ -12,7 +12,8 @@ class Slider extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 1
+            value: 1,
+            activeValue: -1
         };
     }
     static propTypes = {
@@ -43,16 +44,16 @@ class Slider extends Component {
         }
     };
     handleMouseDown = e => {
-        e.stopPropagation();
-        e.preventDefault();
+        //e.stopPropagation();
+        //e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation()
         let sliderInfo = this.getSliderInfo();
         let mouseCoord = getMouseCoord(e);
         let percentage = this.getPercentage(mouseCoord, sliderInfo);
         let value = this.toValue(percentage);
         this.setState({
-            value
-        },()=>{
-            //this.refs[`slider-${value}`].showTooltip();
+            value,
+            activeValue: value
         });
         //禁止文档选择事件
         document.onselectstart = function() {
@@ -226,6 +227,37 @@ class Slider extends Component {
             value: val
         });
     }
+    getSliderHandle = (value, key) => {
+        const { tipFormatter, vertical } = this.props;
+        const { activeValue } = this.state;
+        let title = tipFormatter(value),
+            percentage = this.toPercentage(value),
+            style = vertical
+                ? { bottom: `${percentage}%` }
+                : { left: `${percentage}%` };
+        return (
+            <SliderHandle
+                key={`slider-${key || value}`}
+                ref={`slider-${value}`}
+                prefixCls={prefixCls}
+                vertical={vertical}
+                title={title}
+                style={style}
+                value={value}
+                showTooltip={value == activeValue}
+                onMouseEnter={() => {
+                    this.setState({
+                        activeValue: value
+                    });
+                }}
+                onMouseLeave={() => {
+                    this.setState({
+                        activeValue: -1
+                    });
+                }}
+            />
+        );
+    };
     componentWillMount() {
         this.init();
     }
@@ -237,42 +269,14 @@ class Slider extends Component {
     }
     renderHandles() {
         const { vertical, tipFormatter, range } = this.props;
-        const { value } = this.state;
+        const { value, activeValue } = this.state;
         let title, style, percentage;
         if (range) {
             return value.map((val, index) => {
-                title = tipFormatter(val);
-                percentage = this.toPercentage(val);
-                style = vertical
-                    ? { bottom: `${percentage}%` }
-                    : { left: `${percentage}%` };
-                return (
-                    <SliderHandle
-                        ref={`slider-${val}`}
-                        key={index}
-                        prefixCls={prefixCls}
-                        vertical={vertical}
-                        title={title}
-                        style={style}
-                    />
-                );
+                return this.getSliderHandle(val, index);
             });
         } else {
-            title = tipFormatter(value);
-            percentage = this.toPercentage(value);
-            style = vertical
-                ? { bottom: `${percentage}%` }
-                : { left: `${percentage}%` };
-            return (
-                <SliderHandle
-                    ref={`slider-${value}`}
-                    prefixCls={prefixCls}
-                    vertical={vertical}
-                    title={title}
-                    style={style}
-                    onChange={this.handleChange}
-                />
-            );
+            return this.getSliderHandle(value);
         }
     }
     render() {

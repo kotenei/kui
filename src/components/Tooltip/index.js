@@ -20,7 +20,6 @@ class Tooltip extends Component {
         this.handleTooltipMouseLeave = this.handleTooltipMouseLeave.bind(this);
         this.handleTooltipClick = this.handleTooltipClick.bind(this);
         this.setPosition = this.setPosition.bind(this);
-        this.hide = this.hide.bind(this);
         this.id = `tooltip_${seed++}`;
         this.state = {
             position: { top: -999, left: -999 },
@@ -48,28 +47,36 @@ class Tooltip extends Component {
         trigger: PropTypes.oneOf(["hover", "click"]),
         delay: PropTypes.number,
         show: PropTypes.bool,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+        onMouseEnter: PropTypes.func
     };
     static defaultProps = {
         placement: "top",
         trigger: "hover",
-        delay: 50
+        delay: 100
     };
     handleTriggerMouseEnter() {
-        const { trigger } = this.props;
+        const { trigger, onMouseEnter } = this.props;
         if (trigger != "hover") {
             return;
+        }
+        if (onMouseEnter) {
+            onMouseEnter();
         }
         this.show();
     }
     handleTriggerMouseLeave() {
-        const { trigger } = this.props;
+        const { trigger, onMouseLeave } = this.props;
         if (trigger != "hover") {
             return;
         }
+        if (onMouseLeave) {
+            onMouseLeave();
+        }
         this.tm = setTimeout(() => {
             this.hide();
-        }, 200);
+        }, 300);
     }
     handleTooltipMouseEnter() {
         const { trigger } = this.props;
@@ -92,6 +99,7 @@ class Tooltip extends Component {
         if (onClick) {
             onClick(e);
         }
+        this.hideOther();
         if (trigger != "click") {
             return;
         }
@@ -100,11 +108,11 @@ class Tooltip extends Component {
         } else {
             this.hide();
         }
-        this.hideOther();
     }
     handleTooltipClick(e) {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
+        this.hideOther();
     }
     setPosition() {
         let parent = ReactDOM.findDOMNode(this.refs.trigger),
@@ -177,35 +185,47 @@ class Tooltip extends Component {
             position: pos
         });
     }
-    show() {
+    show = (e, focus) => {
         const { delay } = this.props;
-        if ("show" in this.props) {
+        if (typeof e === "boolean") {
+            focus = e;
+        }
+        if ("show" in this.props && !focus) {
             return;
         }
-        this.setState({
-            hidden: false
-        });
-        setTimeout(() => {
-            this.setState({
-                show: true
-            });
-            this.setPosition();
-        }, delay);
-    }
-    hide() {
+        this.setState(
+            {
+                hidden: false
+            },
+            () => {
+                this.setPosition();
+                this.setState({
+                    show: true
+                });
+            }
+        );
+    };
+    hide = (e, focus) => {
         const { delay } = this.props;
-        if ("show" in this.props) {
+        if (e && !focus && typeof e == "boolean") {
+            focus = e;
+        }
+        if ("show" in this.props && !focus) {
             return;
         }
-        this.setState({
-            show: false
-        });
-        setTimeout(() => {
-            this.setState({
-                hidden: true
-            });
-        }, delay);
-    }
+        this.setState(
+            {
+                show: false
+            },
+            () => {
+                //this.tm = setTimeout(() => {
+                    this.setState({
+                        hidden: true
+                    });
+                //},1000);
+            }
+        );
+    };
     hideOther() {
         for (var k in instances) {
             if (k == this.id) {
@@ -215,6 +235,7 @@ class Tooltip extends Component {
         }
     }
     componentDidMount() {
+        const { trigger } = this.props;
         if (
             typeof this.props.title !== "undefined" &&
             React.Children.toArray(this.props.children).length == 1
@@ -228,20 +249,31 @@ class Tooltip extends Component {
             }
         }
         window.addEventListener("resize", this.setPosition);
-        document.addEventListener("click", this.hide);
+        if (trigger == "click") {
+            document.addEventListener("click", this.hide);
+        }
     }
     componentWillReceiveProps(nextProps) {
         if ("show" in nextProps) {
             if (nextProps.show) {
-                this.show();
+                setTimeout(() => {
+                    this.setPosition();
+                });
+                this.show(true);
             } else {
-                this.hide();
+                this.hide(true);
             }
         }
     }
     componentWillUnmount() {
+        const { trigger } = this.props;
+        if (this.tm) {
+            clearTimeout(this.tm);
+        }
+        if (trigger === "click") {
+            document.removeEventListener("click", this.hide);
+        }
         window.removeEventListener("resize", this.setPosition);
-        document.removeEventListener("click", this.hide);
         delete instances[this.id];
     }
     renderTooltip() {

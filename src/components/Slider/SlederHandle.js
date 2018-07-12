@@ -17,13 +17,15 @@ class SliderHandler extends Component {
         title: PropTypes.node,
         style: PropTypes.object,
         vertical: PropTypes.bool,
+        value: PropTypes.number.isRequired,
         showTooltip: PropTypes.bool,
         onDragStart: PropTypes.func,
         onChange: PropTypes.func,
         onDragStop: PropTypes.func
     };
     static defaultProps = {
-        prefixCls: "k-slider"
+        prefixCls: "k-slider",
+        value: 0
     };
     handleMouseDown = e => {
         const { target } = e;
@@ -45,6 +47,18 @@ class SliderHandler extends Component {
         document.removeEventListener("mousemove", this.handleMouseMove);
         document.removeEventListener("mouseup", this.handleMouseUp);
         return false;
+    };
+    handleMouseEnter = () => {
+        const { onMouseEnter, value } = this.props;
+        if (onMouseEnter) {
+            onMouseEnter(value);
+        }
+    };
+    handleMouseLeave = () => {
+        const { onMouseLeave, value } = this.props;
+        if (onMouseLeave) {
+            onMouseLeave(value);
+        }
     };
     start(e) {
         const { onDragStart } = this.props;
@@ -125,9 +139,21 @@ class SliderHandler extends Component {
         this.setElmInfo();
     }
     render() {
-        const { prefixCls, title, style, disabled, showTooltip } = this.props;
+        const {
+            prefixCls,
+            title,
+            style,
+            disabled,
+            showTooltip,
+        } = this.props;
         return (
-            <Tooltip title={title} ref="tooltip" show={true}>
+            <Tooltip
+                title={title}
+                ref="tooltip"
+                // show={showTooltip}
+                // onMouseEnter={this.handleMouseEnter}
+                // onMouseLeave={this.handleMouseLeave}
+            >
                 <div
                     className={`${prefixCls}-handle`}
                     style={style}

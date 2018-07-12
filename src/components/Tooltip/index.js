@@ -219,9 +219,9 @@ class Tooltip extends Component {
             },
             () => {
                 //this.tm = setTimeout(() => {
-                    this.setState({
-                        hidden: true
-                    });
+                this.setState({
+                    hidden: true
+                });
                 //},1000);
             }
         );
@@ -256,12 +256,14 @@ class Tooltip extends Component {
     componentWillReceiveProps(nextProps) {
         if ("show" in nextProps) {
             if (nextProps.show) {
-                setTimeout(() => {
-                    this.setPosition();
-                });
-                this.show(true);
+                this.setPosition();
+                if (!this.state.show) {
+                    this.show(true);
+                }
             } else {
-                this.hide(true);
+                if (this.state.show) {
+                    this.hide(true);
+                }
             }
         }
     }
@@ -314,9 +316,11 @@ class Tooltip extends Component {
         const children = React.Children.map(this.props.children, child => {
             return React.cloneElement(child, {
                 ref: child.ref || "trigger",
-                onMouseEnter: this.handleTriggerMouseEnter,
-                onMouseLeave: this.handleTriggerMouseLeave,
-                onClick: this.handleTriggerClick
+                onMouseEnter:
+                    child.props.onMouseEnter || this.handleTriggerMouseEnter,
+                onMouseLeave:
+                    child.props.onMouseLeave || this.handleTriggerMouseLeave,
+                onClick: child.onClick || this.handleTriggerClick
             });
         });
         return (

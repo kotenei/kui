@@ -28,7 +28,9 @@ class Slider extends Component {
         value: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
         defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
         tipFormatter: PropTypes.func,
-        onChange: PropTypes.func
+        onDragStart: PropTypes.func,
+        onChange: PropTypes.func,
+        onDragStop: PropTypes.func
     };
     static defaultProps = {
         disabled: false,
@@ -44,13 +46,10 @@ class Slider extends Component {
         }
     };
     handleMouseDown = e => {
-        //e.stopPropagation();
-        //e.preventDefault();
-        e.nativeEvent.stopImmediatePropagation()
-        let sliderInfo = this.getSliderInfo();
-        let mouseCoord = getMouseCoord(e);
-        let percentage = this.getPercentage(mouseCoord, sliderInfo);
-        let value = this.toValue(percentage);
+        e.stopPropagation();
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        let value = this.getValue(e);
         this.setState({
             value,
             activeValue: value
@@ -61,26 +60,52 @@ class Slider extends Component {
         };
         return false;
     };
-
-    handleChange = (e, coordinate, handleInfo) => {
-        const { min, max, step, vertical } = this.props;
-        let percentage;
-        percentage = this.getPercentage(coordinate, handleInfo);
-
-        if (percentage >= max) {
-            percentage = max;
-        }
-        if (percentage <= min) {
-            percentage = min;
-        }
-
+    handleMouseEnter = value => {
+        this.isEnter = true;
         this.setState({
-            value: percentage
+            activeValue: value
         });
     };
-    mouseDown(e) {}
-    mouseMove(e) {}
-    mouseUp(e) {}
+    handleMouseLeave = value => {
+        this.isEnter = false;
+        if (!this.isMoving) {
+            this.setState({
+                activeValue: -1
+            });
+        }
+    };
+    handleDragStart = e => {
+        const { onDragStart } = this.props;
+        let value = this.getValue(e);
+        this.isMoving = true;
+        if (onDragStart) {
+            onDragStart(value);
+        }
+    };
+    handleChange = e => {
+        const { onDragStart, disabled } = this.props;
+        let value = this.getValue(e);
+        this.setState({
+            value,
+            activeValue: value
+        });
+        if (onDragStart) {
+            onDragStart(value);
+        }
+    };
+    handleDragStop = e => {
+        const { onDragStop } = this.props;
+        const { value } = this.state;
+        this.isMoving = false;
+        if (!this.isEnter) {
+            this.setState({
+                activeValue: -1
+            });
+        }
+        if (onDragStop) {
+            onDragStop(value);
+        }
+    };
     toValue(percentage) {
         const { min, max, step } = this.props;
         let value = (percentage / 100) * (max - min);
@@ -96,6 +121,13 @@ class Slider extends Component {
     toPercentage(value) {
         const { min, max } = this.props;
         return (100 * (value - min)) / (max - min);
+    }
+    getValue(e) {
+        let sliderInfo = this.getSliderInfo();
+        let mouseCoord = getMouseCoord(e);
+        let percentage = this.getPercentage(mouseCoord, sliderInfo);
+        let value = this.toValue(percentage);
+        return value;
     }
     getPercentage(mouseCoord, sliderInfo) {
         const { vertical, min, max, step, reversed } = this.props;
@@ -194,6 +226,32 @@ class Slider extends Component {
             height: domUtils.outerHeight(this.elm)
         };
     }
+    getSliderHandle = (value, key) => {
+        const { tipFormatter, vertical } = this.props;
+        const { activeValue } = this.state;
+        let title = tipFormatter(value),
+            percentage = this.toPercentage(value),
+            style = vertical
+                ? { bottom: `${percentage}%` }
+                : { left: `${percentage}%` };
+        return (
+            <SliderHandle
+                key={`slider-${key || value}`}
+                ref={`slider-${value}`}
+                prefixCls={prefixCls}
+                vertical={vertical}
+                title={title}
+                style={style}
+                value={value}
+                showTooltip={value == activeValue}
+                onDragStart={this.handleDragStart}
+                onChange={this.handleChange}
+                onDragStop={this.handleDragStop}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+            />
+        );
+    };
     init(props = this.props) {
         const { range, min, max } = props;
         let val = props.value || props.defaultValue;
@@ -227,37 +285,6 @@ class Slider extends Component {
             value: val
         });
     }
-    getSliderHandle = (value, key) => {
-        const { tipFormatter, vertical } = this.props;
-        const { activeValue } = this.state;
-        let title = tipFormatter(value),
-            percentage = this.toPercentage(value),
-            style = vertical
-                ? { bottom: `${percentage}%` }
-                : { left: `${percentage}%` };
-        return (
-            <SliderHandle
-                key={`slider-${key || value}`}
-                ref={`slider-${value}`}
-                prefixCls={prefixCls}
-                vertical={vertical}
-                title={title}
-                style={style}
-                value={value}
-                showTooltip={value == activeValue}
-                onMouseEnter={() => {
-                    this.setState({
-                        activeValue: value
-                    });
-                }}
-                onMouseLeave={() => {
-                    this.setState({
-                        activeValue: -1
-                    });
-                }}
-            />
-        );
-    };
     componentWillMount() {
         this.init();
     }

@@ -5,6 +5,7 @@ import classnames from "classnames";
 import SliderHandle from "./SlederHandle";
 import domUtils from "../../utils/domUtils";
 import { getMouseCoord } from "../../utils";
+import { parse } from "url";
 
 const prefixCls = "k-slider";
 
@@ -50,10 +51,10 @@ class Slider extends Component {
         const { disabled } = this.props;
         if (disabled) return;
         let value = this.getValue(e);
-        this.setState({
-            value,
-            activeValue: value
-        });
+        // this.setState({
+        //     value,
+        //     activeValue: value
+        // });
         //禁止文档选择事件
         document.onselectstart = function() {
             return false;
@@ -122,12 +123,35 @@ class Slider extends Component {
         const { min, max } = this.props;
         return (100 * (value - min)) / (max - min);
     }
-    getValue(e) {
+    getValue(mouseEvent) {
         let sliderInfo = this.getSliderInfo();
-        let mouseCoord = getMouseCoord(e);
+        let mouseCoord = getMouseCoord(mouseEvent);
         let percentage = this.getPercentage(mouseCoord, sliderInfo);
         let value = this.toValue(percentage);
         return value;
+    }
+    getValueRange(value) {
+        const { min, max } = this.props;
+        let range = {},
+            prev,
+            next,
+            mid;
+        for (let i = 0; i < value.length; i++) {
+            const first = value[i];
+            const second = i + 1 == value.length ? max : value[i + 1];
+            mid = parseInt((second - first) / 2);
+            // next = first + mid;
+            // if (i == 0) {
+            //     range[i] = [min, next];
+            // } else {
+            //     range[i] = [range[i - 1][1] + 1, second];
+            // }
+            console.log(mid)
+        }
+
+        //console.log(range);
+
+        return range;
     }
     getPercentage(mouseCoord, sliderInfo) {
         const { vertical, min, max, step } = this.props;
@@ -282,6 +306,8 @@ class Slider extends Component {
             }
             val = range ? [val] : val;
         }
+
+        this.getValueRange(val);
 
         this.setState({
             value: val

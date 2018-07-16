@@ -82,14 +82,18 @@ class SliderHandler extends Component {
             onDragStop(e);
         }
     }
-    componentDidMount() {}
     render() {
         const { prefixCls, title, style, disabled, showTooltip } = this.props;
         return (
-            <Tooltip title={title} ref="tooltip" show={showTooltip} >
+            <Tooltip
+                title={title}
+                ref="tooltip"
+                show={showTooltip}
+                style={{ zIndex: showTooltip ? 2 : 1 }}
+            >
                 <div
                     className={`${prefixCls}-handle`}
-                    style={style}
+                    style={{ ...style, zIndex: showTooltip ? 2 : 1 }}
                     onMouseDown={disabled ? null : this.handleMouseDown}
                     onMouseEnter={this.handleMouseEnter}
                     onMouseLeave={this.handleMouseLeave}

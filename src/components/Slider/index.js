@@ -16,6 +16,7 @@ class Slider extends Component {
             value: 1,
             activeValue: -1
         };
+        this.zIndex = 1;
     }
     static propTypes = {
         disabled: PropTypes.bool,
@@ -48,13 +49,30 @@ class Slider extends Component {
         e.stopPropagation();
         e.preventDefault();
         e.nativeEvent.stopImmediatePropagation();
-        const { disabled } = this.props;
+        const { disabled, range } = this.props;
         if (disabled) return;
-        let value = this.getValue(e);
-        // this.setState({
-        //     value,
-        //     activeValue: value
-        // });
+        let activeValue = this.getValue(e);
+        console.log(activeValue)
+        if (range) {
+            let valueRange = this.getValueRange();
+            for (let k in valueRange) {
+                const v = valueRange[k];
+                if (activeValue >= v[0] && activeValue <= v[1]) {
+                    let value = [...this.state.value];
+                    value[k] = activeValue;
+                    this.setState({
+                        value,
+                        activeValue
+                    });
+                    break;
+                }
+            }
+        } else {
+            this.setState({
+                value: activeValue,
+                activeValue
+            });
+        }
         //禁止文档选择事件
         document.onselectstart = function() {
             return false;
@@ -76,35 +94,55 @@ class Slider extends Component {
         }
     };
     handleDragStart = e => {
-        const { onDragStart } = this.props;
+        const { onDragStart, range } = this.props;
         let value = this.getValue(e);
+        if (range) {
+            this.tmpDragIndex = this.state.value.findIndex(item => {
+                return item == value;
+            });
+        }
         this.isMoving = true;
         if (onDragStart) {
             onDragStart(value);
         }
     };
     handleChange = e => {
-        const { onDragStart, disabled } = this.props;
-        let value = this.getValue(e);
+        const { onDragStart, disabled, range } = this.props;
+        let activeValue = this.getValue(e);
+        let value = activeValue;
+        if (range) {
+            let newValue = [...this.state.value];
+            newValue[this.tmpDragIndex] = activeValue;
+            value = newValue;
+        }
         this.setState({
             value,
-            activeValue: value
+            activeValue
         });
         if (onDragStart) {
             onDragStart(value);
         }
     };
     handleDragStop = e => {
-        const { onDragStop } = this.props;
+        const { onDragStop, range } = this.props;
         const { value } = this.state;
+        let newValue = value;
         this.isMoving = false;
         if (!this.isEnter) {
             this.setState({
                 activeValue: -1
             });
         }
+        if (range) {
+            newValue = value.sort((a, b) => {
+                return a - b;
+            });
+            this.setState({
+                value: newValue
+            });
+        }
         if (onDragStop) {
-            onDragStop(value);
+            onDragStop(newValue);
         }
     };
     toValue(percentage) {
@@ -130,7 +168,7 @@ class Slider extends Component {
         let value = this.toValue(percentage);
         return value;
     }
-    getValueRange(value) {
+    getValueRange(value = this.state.value) {
         const { min, max } = this.props;
         let range = {},
             prev,
@@ -140,17 +178,16 @@ class Slider extends Component {
             const first = value[i];
             const second = i + 1 == value.length ? max : value[i + 1];
             mid = parseInt((second - first) / 2);
-            // next = first + mid;
-            // if (i == 0) {
-            //     range[i] = [min, next];
-            // } else {
-            //     range[i] = [range[i - 1][1] + 1, second];
-            // }
-            console.log(mid)
+            next = first + mid;
+            if (i == 0) {
+                range[i] = [min, next];
+            } else {
+                range[i] = [range[i - 1][1] + 1, next];
+            }
+            if (i == value.length - 1) {
+                range[i][1] = max;
+            }
         }
-
-        //console.log(range);
-
         return range;
     }
     getPercentage(mouseCoord, sliderInfo) {
@@ -293,6 +330,7 @@ class Slider extends Component {
                 } else if (item >= max) {
                     arrVal.push(max);
                 } else {
+                    console.log(this.toPercentage(item),item)
                     arrVal.push(item);
                 }
             });
@@ -307,11 +345,12 @@ class Slider extends Component {
             val = range ? [val] : val;
         }
 
-        this.getValueRange(val);
-
         this.setState({
             value: val
         });
+    }
+    getSort(value) {
+        const { min, max, range } = this.props;
     }
     componentWillMount() {
         this.init();

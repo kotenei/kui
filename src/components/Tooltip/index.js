@@ -235,7 +235,7 @@ class Tooltip extends Component {
         }
     }
     componentDidMount() {
-        const { trigger,show } = this.props;
+        const { trigger, show } = this.props;
         if (
             typeof this.props.title !== "undefined" &&
             React.Children.toArray(this.props.children).length == 1
@@ -283,7 +283,7 @@ class Tooltip extends Component {
         delete instances[this.id];
     }
     renderTooltip() {
-        const { title, placement, kClass, className } = this.props;
+        const { title, placement, kClass, className, style } = this.props;
         const { show, position, hidden } = this.state;
         let classes = getClassSet(this.props);
         let classString = classnames(classes, className, {
@@ -295,7 +295,7 @@ class Tooltip extends Component {
         return ReactDOM.createPortal(
             <div
                 className={classString}
-                style={position}
+                style={{ ...style, ...position }}
                 ref="tooltip"
                 onMouseEnter={this.handleTooltipMouseEnter}
                 onMouseLeave={this.handleTooltipMouseLeave}

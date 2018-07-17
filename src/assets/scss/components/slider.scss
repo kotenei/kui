@@ -78,6 +78,9 @@ $prefixCls:'.k-slider';
             background: white;
             top: torem(-2px);
             margin-left: torem(-4px);
+            &-active {
+                border-color: $primary;
+            }
         }
     }
     &-marks {
@@ -91,6 +94,10 @@ $prefixCls:'.k-slider';
             width: 30%;
             margin-left: -15%;
             vertical-align: middle;
+            color: rgba(0, 0, 0, .45);
+            &-active {
+                color: rgba(0, 0, 0, .65);
+            }
         }
     }
     &-handle {

@@ -3008,6 +3008,8 @@ input[type="button"].k-btn-block {
       background: white;
       top: -0.125rem;
       margin-left: -0.25rem; }
+      .k-slider-step-dot-active {
+        border-color: #2196f3; }
   .k-slider-marks {
     position: absolute;
     width: 100%;
@@ -3018,7 +3020,10 @@ input[type="button"].k-btn-block {
       text-align: center;
       width: 30%;
       margin-left: -15%;
-      vertical-align: middle; }
+      vertical-align: middle;
+      color: rgba(0, 0, 0, 0.45); }
+      .k-slider-marks-mark-active {
+        color: rgba(0, 0, 0, 0.65); }
   .k-slider-handle {
     position: absolute;
     width: 0.875rem;

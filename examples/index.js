@@ -201,7 +201,6 @@ ReactDOM.render(
                                 <li>
                                     <NavLink
                                         to="/Slider"
-                                        className="disabled"
                                         activeClassName="selected"
                                     >
                                         Slider 滑动条

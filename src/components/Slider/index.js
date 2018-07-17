@@ -41,8 +41,8 @@ class Slider extends Component {
         step: 1,
         vertical: false,
         defaultValue: 1,
-        tipFormatter(item) {
-            return item;
+        tipFormatter(value) {
+            return value;
         }
     };
     handleMouseDown = e => {
@@ -60,16 +60,16 @@ class Slider extends Component {
                     let value = [...this.state.value];
                     value[k] = activeValue;
                     this.setState({
-                        value,
-                        activeValue
+                        value
+                        //activeValue
                     });
                     break;
                 }
             }
         } else {
             this.setState({
-                value: activeValue,
-                activeValue
+                value: activeValue
+                //activeValue
             });
         }
         //禁止文档选择事件
@@ -106,7 +106,7 @@ class Slider extends Component {
         }
     };
     handleChange = e => {
-        const { onDragStart, disabled, range } = this.props;
+        const { onChange, disabled, range } = this.props;
         let activeValue = this.getValue(e);
         let value = activeValue;
         if (range) {
@@ -118,8 +118,13 @@ class Slider extends Component {
             value,
             activeValue
         });
-        if (onDragStart) {
-            onDragStart(value);
+        if (onChange) {
+            let returnValue = range
+                ? [...value].sort((a, b) => {
+                      return a - b;
+                  })
+                : value;
+            onChange(returnValue);
         }
     };
     handleDragStop = e => {
@@ -210,6 +215,7 @@ class Slider extends Component {
     }
     getMarks() {
         const { marks, vertical, min, max, step } = this.props;
+        const { value } = this.state;
         let ret = {
             dots: [],
             marks: []
@@ -220,8 +226,13 @@ class Slider extends Component {
                     dotStyle = vertical
                         ? { bottom: `${percentage}%` }
                         : { left: `${percentage}%` },
-                    mark = marks[i];
+                    mark = marks[i],
+                    active = false;
+
+                let max = Array.isArray(value) ? Math.max(...value) : value;
+
                 if (mark) {
+                    active = max >= i;
                     let isObj = typeof mark === "object";
                     let markStyle = isObj
                         ? { ...dotStyle, ...mark.style }
@@ -230,14 +241,20 @@ class Slider extends Component {
                     ret.dots.push(
                         <span
                             key={`slider-dot-${i}`}
-                            className={`${prefixCls}-step-dot`}
+                            className={classnames({
+                                [`${prefixCls}-step-dot`]: true,
+                                [`${prefixCls}-step-dot-active`]: active
+                            })}
                             style={dotStyle}
                         />
                     );
                     ret.marks.push(
                         <span
                             key={`slider-mark-${i}`}
-                            className={`${prefixCls}-marks-mark`}
+                            className={classnames({
+                                [`${prefixCls}-marks-mark`]: true,
+                                [`${prefixCls}-marks-mark-active`]: active
+                            })}
                             style={markStyle}
                         >
                             {isObj ? mark.label : mark}
@@ -289,7 +306,10 @@ class Slider extends Component {
     getSliderHandle = (value, key) => {
         const { tipFormatter, vertical, disabled } = this.props;
         const { activeValue } = this.state;
-        let title = tipFormatter(value),
+        let title =
+                tipFormatter && typeof tipFormatter === "function"
+                    ? tipFormatter(value)
+                    : null,
             percentage = this.toPercentage(value),
             style = vertical
                 ? { bottom: `${percentage}%` }
@@ -359,11 +379,8 @@ class Slider extends Component {
                 val = max;
             }
             for (let k in stepRange) {
-                if (
-                    val >= stepRange[k][0] &&
-                    val <= stepRange[k][1]
-                ) {
-                    val=stepArr[k];
+                if (val >= stepRange[k][0] && val <= stepRange[k][1]) {
+                    val = stepArr[k];
                     break;
                 }
             }
@@ -379,7 +396,6 @@ class Slider extends Component {
     componentWillMount() {
         this.init();
     }
-    componentDidMount() {}
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
             this.init(nextProps);

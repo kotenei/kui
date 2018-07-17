@@ -218,11 +218,9 @@ class Tooltip extends Component {
                 show: false
             },
             () => {
-                //this.tm = setTimeout(() => {
                 this.setState({
                     hidden: true
                 });
-                //},1000);
             }
         );
     };
@@ -235,9 +233,9 @@ class Tooltip extends Component {
         }
     }
     componentDidMount() {
-        const { trigger, show } = this.props;
+        const { trigger, show, title } = this.props;
         if (
-            typeof this.props.title !== "undefined" &&
+            title === undefined &&
             React.Children.toArray(this.props.children).length == 1
         ) {
             this.setPosition();
@@ -258,9 +256,15 @@ class Tooltip extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
+        const { title } = nextProps;
+        if (title === null || title === undefined) {
+            return;
+        }
         if ("show" in nextProps) {
             if (nextProps.show) {
-                this.setPosition();
+                setTimeout(() => {
+                    this.setPosition();
+                });
                 if (!this.state.show) {
                     this.show(true);
                 }
@@ -308,15 +312,17 @@ class Tooltip extends Component {
         );
     }
     render() {
+        const { title } = this.props;
         if (
             !this.props.children ||
             React.Children.toArray(this.props.children).length > 1
         ) {
             return null;
         }
-        if (typeof this.props.title === "undefined") {
+        if (title === null || title === undefined) {
             return this.props.children;
         }
+
         const children = React.Children.map(this.props.children, child => {
             return React.cloneElement(child, {
                 ref: child.ref || "trigger",

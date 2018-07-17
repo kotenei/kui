@@ -52,7 +52,6 @@ class Slider extends Component {
         const { disabled, range } = this.props;
         if (disabled) return;
         let activeValue = this.getValue(e);
-        console.log(activeValue)
         if (range) {
             let valueRange = this.getValueRange();
             for (let k in valueRange) {
@@ -316,9 +315,19 @@ class Slider extends Component {
         );
     };
     init(props = this.props) {
-        const { range, min, max } = props;
+        const { range, min, max, step } = props;
         let val = props.value || props.defaultValue;
-        let tmpMin, tmpMax, tmpVal;
+        let stepArr = [],
+            stepRange;
+
+        for (let i = min; i <= max; i += step) {
+            stepArr.push(i);
+        }
+        if (stepArr[stepArr.length - 1] < max) {
+            stepArr.push(max);
+        }
+        stepRange = this.getValueRange(stepArr);
+
         if (range && Array.isArray(val)) {
             let arrVal = [];
             val = val.sort((a, b) => {
@@ -330,8 +339,15 @@ class Slider extends Component {
                 } else if (item >= max) {
                     arrVal.push(max);
                 } else {
-                    console.log(this.toPercentage(item),item)
-                    arrVal.push(item);
+                    for (let k in stepRange) {
+                        if (
+                            item >= stepRange[k][0] &&
+                            item <= stepRange[k][1]
+                        ) {
+                            arrVal.push(stepArr[k]);
+                            break;
+                        }
+                    }
                 }
             });
             val = arrVal;
@@ -342,9 +358,17 @@ class Slider extends Component {
             if (val >= max) {
                 val = max;
             }
+            for (let k in stepRange) {
+                if (
+                    val >= stepRange[k][0] &&
+                    val <= stepRange[k][1]
+                ) {
+                    val=stepArr[k];
+                    break;
+                }
+            }
             val = range ? [val] : val;
         }
-
         this.setState({
             value: val
         });

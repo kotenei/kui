@@ -55,7 +55,7 @@ class SliderView extends Component {
                         }}
                     />
                     <br />
-                    <Slider disabled={disabled} tipFormatter={null} />
+                    <Slider  tipFormatter={null} />
                 </div>
                 <h3>带标签滑块</h3>
                 <div

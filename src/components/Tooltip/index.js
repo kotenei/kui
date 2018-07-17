@@ -115,6 +115,10 @@ class Tooltip extends Component {
         this.hideOther();
     }
     setPosition() {
+        const { title } = this.props;
+        if (title === null || title === undefined) {
+            return;
+        }
         let parent = ReactDOM.findDOMNode(this.refs.trigger),
             ew = domUtils.outerWidth(parent),
             eh = domUtils.outerHeight(parent),
@@ -235,7 +239,7 @@ class Tooltip extends Component {
     componentDidMount() {
         const { trigger, show, title } = this.props;
         if (
-            title === undefined &&
+            title !== undefined &&
             React.Children.toArray(this.props.children).length == 1
         ) {
             this.setPosition();
@@ -289,6 +293,7 @@ class Tooltip extends Component {
     renderTooltip() {
         const { title, placement, kClass, className, style } = this.props;
         const { show, position, hidden } = this.state;
+
         let classes = getClassSet(this.props);
         let classString = classnames(classes, className, {
             [`${kClass}-hidden`]: hidden,

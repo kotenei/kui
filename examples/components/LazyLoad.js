@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { LazyLoad } from "main";
-import defaultImg from "../images/default.jpg";
 
 const style = {
     marginBottom: 10,

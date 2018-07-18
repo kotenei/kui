@@ -13,22 +13,22 @@ class InfiniteScroll extends Component {
         width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         distance: PropTypes.number,
-        onScrollEnd: PropTypes.func
+        onScrollBottom: PropTypes.func
     };
     static defaultProps = {
         height: 500,
         distance: 0.3
     };
     handleScroll = e => {
-        const { distance, onScrollEnd } = this.props;
+        const { distance, onScrollBottom } = this.props;
         let height = domUtils.height(this.refs.container),
             scrollBottom = height + this.refs.container.scrollTop,
             watchElmBottom = this.top + domUtils.height(this.refs.watch),
             remaining = watchElmBottom - scrollBottom,
             canScroll = remaining <= height * distance;
         if (canScroll) {
-            if (onScrollEnd) {
-                onScrollEnd();
+            if (onScrollBottom) {
+                onScrollBottom();
             }
         }
     };

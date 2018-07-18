@@ -18,7 +18,7 @@ class InfiniteScrollView extends Component {
     state = {
         data: []
     };
-    handleScrollEnd = () => {
+    handleScrollBottom = () => {
         const { data } = this.state;
         let last = data.length > 0 ? data[data.length - 1] : 0;
         let html = [];
@@ -46,7 +46,7 @@ class InfiniteScrollView extends Component {
             <div>
                 <h1>InfiniteScroll 无限滚动</h1>
                 <div className="k-example">
-                    <InfiniteScroll onScrollEnd={this.handleScrollEnd}>
+                    <InfiniteScroll onScrollBottom={this.handleScrollBottom}>
                         {this.renderItems()}
                     </InfiniteScroll>
                 </div>
@@ -62,9 +62,27 @@ class InfiniteScrollView extends Component {
                     </thead>
                     <tbody>
                         <tr>
-                            <td />
-                            <td />
-                            <td />
+                            <td>width</td>
+                            <td>容器宽度</td>
+                            <td>number|string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>height</td>
+                            <td>容器高度</td>
+                            <td>number|string</td>
+                            <td>400</td>
+                        </tr>
+                        <tr>
+                            <td>distance</td>
+                            <td>滚动系数</td>
+                            <td>number</td>
+                            <td>0.3</td>
+                        </tr>
+                        <tr>
+                            <td>onScrollBottom</td>
+                            <td>滚动到底部回调函数</td>
+                            <td>Function</td>
                             <td>—</td>
                         </tr>
                     </tbody>

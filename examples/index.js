@@ -4,41 +4,42 @@ import { HashRouter as Router, Route, NavLink } from "react-router-dom";
 
 import Home from "./components/Home";
 import Alert from "./components/Alert";
-import AutoComplete from './components/AutoComplete';
+import AutoComplete from "./components/AutoComplete";
 import Badge from "./components/Badge";
 import Breadcrumb from "./components/Breadcrumb";
 import Button from "./components/Button";
 // import Calendar from './components/Calendar';
-import Card from './components/Card';
+import Card from "./components/Card";
 import Carousel from "./components/Carousel";
 import Collapse from "./components/Collapse";
 import Checkbox from "./components/Checkbox";
 // import DatePicker from './components/Datepicker';
-import Dropdown from './components/Dropdown';
+import Dropdown from "./components/Dropdown";
 // import Form from './components/Form';
 import Icon from "./components/Icon";
 import Input from "./components/Input";
 import Layout from "./components/Layout";
+import LazyLoad from "./components/LazyLoad";
 import Loading from "./components/Loading";
-import Menu from './components/Menu';
-import Message from './components/Message';
-import Modal from './components/Modal';
-import Notification from './components/Notification';
-import Pagination from './components/Pagination';
-import Popconfirm from './components/Popconfirm';
-import Popover from './components/Popover';
-import Progress from './components/Progress';
-import Radio from './components/Radio';
-import Rate from './components/Rate';
-import Select from './components/Select';
-import Slider from './components/Slider';
-import Steps from './components/Steps';
-import Switch from './components/Switch';
+import Menu from "./components/Menu";
+import Message from "./components/Message";
+import Modal from "./components/Modal";
+import Notification from "./components/Notification";
+import Pagination from "./components/Pagination";
+import Popconfirm from "./components/Popconfirm";
+import Popover from "./components/Popover";
+import Progress from "./components/Progress";
+import Radio from "./components/Radio";
+import Rate from "./components/Rate";
+import Select from "./components/Select";
+import Slider from "./components/Slider";
+import Steps from "./components/Steps";
+import Switch from "./components/Switch";
 //import Table from './components/Table';
-import Tabs from './components/Tabs';
-import Tag from './components/Tag';
-import Timeline from './components/Timeline';
-import Tooltip from './components/Tooltip';
+import Tabs from "./components/Tabs";
+import Tag from "./components/Tag";
+import Timeline from "./components/Timeline";
+import Tooltip from "./components/Tooltip";
 // import Tree from './components/Tree';
 // import Upload from './components/Upload';
 
@@ -271,6 +272,14 @@ ReactDOM.render(
                                 </li>
                                 <li>
                                     <NavLink
+                                        to="/LazyLoad"
+                                        activeClassName="selected"
+                                    >
+                                        LazyLoad 延迟加载
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
                                         to="/Popover"
                                         activeClassName="selected"
                                     >
@@ -387,7 +396,11 @@ ReactDOM.render(
                 <div className="main-container">
                     <Route path="/" exact component={Home} />
                     <Route path="/Alert" exact component={Alert} />
-                    <Route path="/AutoComplete" exact component={AutoComplete} />
+                    <Route
+                        path="/AutoComplete"
+                        exact
+                        component={AutoComplete}
+                    />
                     <Route path="/Badge" exact component={Badge} />
                     <Route path="/Breadcrumb" exact component={Breadcrumb} />
                     <Route path="/Button" exact component={Button} />
@@ -402,11 +415,16 @@ ReactDOM.render(
                     <Route path="/Icon" exact component={Icon} />
                     <Route path="/Input" exact component={Input} />
                     {/* <Route path="/Layout" exact component={Layout} /> */}
+                    <Route path="/LazyLoad" exact component={LazyLoad} />
                     <Route path="/Loading" exact component={Loading} />
                     <Route path="/Menu" exact component={Menu} />
                     <Route path="/Message" exact component={Message} />
                     <Route path="/Modal" exact component={Modal} />
-                    <Route path="/Notification" exact component={Notification} />
+                    <Route
+                        path="/Notification"
+                        exact
+                        component={Notification}
+                    />
                     <Route path="/Pagination" exact component={Pagination} />
                     <Route path="/Popconfirm" exact component={Popconfirm} />
                     <Route path="/Popover" exact component={Popover} />

@@ -1921,6 +1921,10 @@ input[type="button"].k-btn-block {
     .k-input-affix-wrapper.k-input-affix-wrapper-sm .k-input-suffix .k-icon {
       font-size: 0.75rem; }
 
+.k-lazyload {
+  overflow-y: auto;
+  overflow-x: hidden; }
+
 .k-loading {
   position: relative;
   color: #2196f3;

@@ -1,0 +1,8 @@
+.k-infinitescroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    &-watch{
+        overflow: hidden;
+    }
+}

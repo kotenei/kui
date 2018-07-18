@@ -1792,6 +1792,13 @@ input[type="button"].k-btn-block {
   .k-icon.k-icon-danger {
     color: #f44336; }
 
+.k-infinitescroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative; }
+  .k-infinitescroll-watch {
+    overflow: hidden; }
+
 .k-input-group {
   position: relative;
   display: table; }

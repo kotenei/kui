@@ -17,6 +17,7 @@ import Checkbox from "./components/Checkbox";
 import Dropdown from "./components/Dropdown";
 // import Form from './components/Form';
 import Icon from "./components/Icon";
+import InfiniteScroll from "./components/InfiniteScroll";
 import Input from "./components/Input";
 import Layout from "./components/Layout";
 import LazyLoad from "./components/LazyLoad";
@@ -272,6 +273,14 @@ ReactDOM.render(
                                 </li>
                                 <li>
                                     <NavLink
+                                        to="/InfiniteScroll"
+                                        activeClassName="selected"
+                                    >
+                                        InfiniteScroll 无限加载
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
                                         to="/LazyLoad"
                                         activeClassName="selected"
                                     >
@@ -413,6 +422,11 @@ ReactDOM.render(
                     <Route path="/Dropdown" exact component={Dropdown} />
                     {/* <Route path="/Form" exact component={Form} /> */}
                     <Route path="/Icon" exact component={Icon} />
+                    <Route
+                        path="/InfiniteScroll"
+                        exact
+                        component={InfiniteScroll}
+                    />
                     <Route path="/Input" exact component={Input} />
                     {/* <Route path="/Layout" exact component={Layout} /> */}
                     <Route path="/LazyLoad" exact component={LazyLoad} />

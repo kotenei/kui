@@ -1,5 +1,6 @@
 import "./assets/iconfont/iconfont.css";
 import "./assets/scss/kui.scss";
+import InfiniteScroll from "./components/InfiniteScroll";
 
 export Alert from "./components/Alert";
 export AutoComplete from "./components/AutoComplete";
@@ -15,6 +16,7 @@ export DatePicker from "./components/Datepicker";
 export Dropdown from "./components/Dropdown";
 export Form from "./components/Form";
 export Icon from "./components/Icon";
+export InfiniteScroll from "./components/InfiniteScroll";
 export Input from "./components/Input";
 export Layout from "./components/Layout";
 export LazyLoad from "./components/LazyLoad";

@@ -3750,6 +3750,52 @@ input[type="button"].k-btn-block {
     .k-timeline .k-timeline-item:last-child .k-timeline-item-tail {
       display: none; }
 
+.k-timepicker {
+  position: absolute;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.25rem;
+  background: white;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  z-index: 1050; }
+  .k-timepicker::after {
+    content: " ";
+    position: absolute;
+    height: 2.1875rem;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    width: 80%;
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9; }
+  .k-timepicker-select {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 10.9375rem;
+    width: 3.5rem; }
+    .k-timepicker-select ul {
+      padding: 0;
+      margin: 0;
+      list-style: none; }
+      .k-timepicker-select ul li {
+        text-align: center;
+        height: 2.1875rem;
+        line-height: 2.1875rem;
+        cursor: pointer; }
+        .k-timepicker-select ul li.active {
+          font-weight: bold; }
+    .k-timepicker-select::-webkit-scrollbar {
+      width: 4px;
+      display: none; }
+    .k-timepicker-select::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.2); }
+    .k-timepicker-select:hover::-webkit-scrollbar {
+      display: block; }
+
 .k-tooltip {
   background: rgba(0, 0, 0, 0.8);
   color: white;

@@ -30,7 +30,8 @@ class TimePickerSelect extends Component {
         super(props);
     }
     state = {
-        scrollTop: 0
+        scrollTop: 0,
+        activeIndex: -1
     };
     static propTypes = {
         data: PropTypes.array,
@@ -38,11 +39,18 @@ class TimePickerSelect extends Component {
         onItemClick: PropTypes.func
     };
     handleItemClick = (value, index) => {
-        const { type, onItemClick } = this.props;
-        this.setScrollTop(index);
+        const { type, onItemClick, disabled } = this.props;
+        if (disabled) return;
+        //this.setScrollTop(index);
         if (onItemClick) {
             onItemClick(type, value, index);
         }
+        // this.setState({
+        //     activeIndex: index
+        // });
+    };
+    handleScroll = e => {
+        
     };
     getScrollTop(index) {
         const { data, value } = this.props;
@@ -69,6 +77,7 @@ class TimePickerSelect extends Component {
     }
     renderList() {
         const { data, value, type } = this.props;
+        const { activeIndex } = this.state;
         let items = [];
         items.push(<Item key="-2" />);
         items.push(<Item key="-1" />);
@@ -77,7 +86,7 @@ class TimePickerSelect extends Component {
                 <Item
                     key={index}
                     className={classnames({
-                        active: value && value == item
+                        active: (value && value == item) || index == activeIndex
                     })}
                     index={index}
                     value={item}
@@ -94,7 +103,11 @@ class TimePickerSelect extends Component {
     render() {
         const { prefixCls, data, value } = this.props;
         return data && data.length > 0 ? (
-            <div className={`${prefixCls}-select`} ref="select">
+            <div
+                className={`${prefixCls}-select`}
+                ref="select"
+                onScroll={this.handleScroll}
+            >
                 <ul>{this.renderList()}</ul>
             </div>
         ) : null;

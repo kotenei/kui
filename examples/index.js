@@ -8,14 +8,14 @@ import AutoComplete from "./components/AutoComplete";
 import Badge from "./components/Badge";
 import Breadcrumb from "./components/Breadcrumb";
 import Button from "./components/Button";
-// import Calendar from './components/Calendar';
+import Calendar from './components/Calendar';
 import Card from "./components/Card";
 import Carousel from "./components/Carousel";
 import Collapse from "./components/Collapse";
 import Checkbox from "./components/Checkbox";
-// import DatePicker from './components/Datepicker';
+import DatePicker from "./components/Datepicker";
 import Dropdown from "./components/Dropdown";
-// import Form from './components/Form';
+import Form from './components/Form';
 import Icon from "./components/Icon";
 import InfiniteScroll from "./components/InfiniteScroll";
 import Input from "./components/Input";
@@ -36,13 +36,14 @@ import Select from "./components/Select";
 import Slider from "./components/Slider";
 import Steps from "./components/Steps";
 import Switch from "./components/Switch";
-//import Table from './components/Table';
+import Table from './components/Table';
 import Tabs from "./components/Tabs";
 import Tag from "./components/Tag";
 import Timeline from "./components/Timeline";
+import TimePicker from "./components/TimePicker";
 import Tooltip from "./components/Tooltip";
-// import Tree from './components/Tree';
-// import Upload from './components/Upload';
+import Tree from './components/Tree';
+import Upload from './components/Upload';
 
 import "./style.css";
 
@@ -214,6 +215,15 @@ ReactDOM.render(
                                         activeClassName="selected"
                                     >
                                         Switch 开关
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="###"
+                                        className="disabled"
+                                        activeClassName="selected"
+                                    >
+                                        TimePicker 时间选择
                                     </NavLink>
                                 </li>
                                 <li>
@@ -413,14 +423,14 @@ ReactDOM.render(
                     <Route path="/Badge" exact component={Badge} />
                     <Route path="/Breadcrumb" exact component={Breadcrumb} />
                     <Route path="/Button" exact component={Button} />
-                    {/* <Route path="/Calendar" exact component={Calendar} />*/}
+                    <Route path="/Calendar" exact component={Calendar} />
                     <Route path="/Card" exact component={Card} />
                     <Route path="/Carousel" exact component={Carousel} />
                     <Route path="/Checkbox" exact component={Checkbox} />
                     <Route path="/Collapse" exact component={Collapse} />
-                    {/* <Route path="/DatePicker" exact component={DatePicker} />  */}
+                    <Route path="/DatePicker" exact component={DatePicker} />
                     <Route path="/Dropdown" exact component={Dropdown} />
-                    {/* <Route path="/Form" exact component={Form} /> */}
+                    <Route path="/Form" exact component={Form} />
                     <Route path="/Icon" exact component={Icon} />
                     <Route
                         path="/InfiniteScroll"
@@ -428,7 +438,7 @@ ReactDOM.render(
                         component={InfiniteScroll}
                     />
                     <Route path="/Input" exact component={Input} />
-                    {/* <Route path="/Layout" exact component={Layout} /> */}
+                    <Route path="/Layout" exact component={Layout} />
                     <Route path="/LazyLoad" exact component={LazyLoad} />
                     <Route path="/Loading" exact component={Loading} />
                     <Route path="/Menu" exact component={Menu} />
@@ -449,13 +459,14 @@ ReactDOM.render(
                     <Route path="/Slider" exact component={Slider} />
                     <Route path="/Steps" exact component={Steps} />
                     <Route path="/Switch" exact component={Switch} />
-                    {/* <Route path="/Table" exact component={Table} /> */}
+                    <Route path="/Table" exact component={Table} />
                     <Route path="/Tabs" exact component={Tabs} />
                     <Route path="/Tag" exact component={Tag} />
                     <Route path="/Timeline" exact component={Timeline} />
+                    <Route path="/TimePicker" exact component={TimePicker} />
                     <Route path="/Tooltip" exact component={Tooltip} />
-                    {/* <Route path="/Tree" exact component={Tree} />
-                    <Route path="/Upload" exact component={Upload} />  */}
+                    <Route path="/Tree" exact component={Tree} />
+                    <Route path="/Upload" exact component={Upload} /> 
                 </div>
                 <div className="clearfix" />
             </div>

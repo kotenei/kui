@@ -39,6 +39,7 @@ export Table from "./components/Table";
 export Tabs from "./components/Tabs";
 export Tag from "./components/Tag";
 export Timeline from "./components/Timeline";
+export TimePicker from './components/TimePicker';
 export Tooltip from "./components/Tooltip";
 export Tree from "./components/Tree";
 export Upload from "./components/Upload";

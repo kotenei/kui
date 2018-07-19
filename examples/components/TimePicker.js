@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { Form } from "main";
+import { TimePicker } from "main";
 
-class FormView extends Component {
+class TimePickerView extends Component {
     render() {
         return (
             <div>
-                <h1>Form 表单</h1>
-                <div className="k-example" />
+                <h1>TimePicker 时间选择</h1>
+                <div className="k-example">
+                    <TimePicker />
+                </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">
                     <thead>
@@ -31,4 +33,4 @@ class FormView extends Component {
     }
 }
 
-export default FormView;
+export default TimePickerView;

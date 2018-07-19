@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+const prefixCls = "k-timepicker";
+
 class TimePicker extends Component {
-    static propTypes = {};
+    static propTypes = {
+        start:PropTypes.string
+    };
     static defaultProps = {};
     render() {
-        return null;
+        return <div className={prefixCls} />;
     }
 }
 

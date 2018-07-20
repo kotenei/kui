@@ -30,7 +30,6 @@ class TimePickerSelect extends Component {
         super(props);
     }
     state = {
-        scrollTop: 0,
         activeIndex: -1
     };
     static propTypes = {
@@ -41,16 +40,32 @@ class TimePickerSelect extends Component {
     handleItemClick = (value, index) => {
         const { type, onItemClick, disabled } = this.props;
         if (disabled) return;
-        //this.setScrollTop(index);
         if (onItemClick) {
             onItemClick(type, value, index);
         }
-        // this.setState({
-        //     activeIndex: index
-        // });
+        this.setState(
+            {
+                activeIndex: index
+            },
+            () => {
+                this.scrollTo(index);
+            }
+        );
     };
     handleScroll = e => {
-        
+        let scrollTop = this.refs.select.scrollTop;
+        let activeIndex = 0;
+        let half = this.itemHeight / 2;
+        for (let i = 0; i < this.arrHeight.length; i++) {
+            const height = this.arrHeight[i];
+            if (height - scrollTop >= half) {
+                activeIndex = i;
+                break;
+            }
+        }
+        this.setState({
+            activeIndex
+        });
     };
     getScrollTop(index) {
         const { data, value } = this.props;
@@ -62,18 +77,38 @@ class TimePickerSelect extends Component {
         if (index == -1) {
             return 0;
         }
+        return index * this.itemHeight;
+    }
+    scrollTo(index) {
+        let scrollTop = this.getScrollTop(index);
+        this.refs.select.scrollTop = scrollTop;
+    }
+    init() {
+        const { data } = this.props;
         if (!this.itemHeight) {
             let li = this.refs.select.querySelector("li");
             this.itemHeight = domUtils.height(li);
         }
-        return index * this.itemHeight;
+        this.scrollTo();
+        this.arrHeight = [];
+        data.forEach((item, index) => {
+            this.arrHeight.push((index + 1) * this.itemHeight);
+        });
     }
-    setScrollTop(index) {
-        let scrollTop = this.getScrollTop(index);
-        this.refs.select.scrollTop = scrollTop;
+    componentWillMount() {
+        const { value, data } = this.props;
+        let activeIndex = data.findIndex(item => {
+            return item == value;
+        });
+        this.setState({
+            activeIndex
+        });
     }
     componentDidMount() {
-        this.setScrollTop();
+        this.init();
+    }
+    componentWillReceiveProps(nextProps){
+        
     }
     renderList() {
         const { data, value, type } = this.props;
@@ -86,7 +121,7 @@ class TimePickerSelect extends Component {
                 <Item
                     key={index}
                     className={classnames({
-                        active: (value && value == item) || index == activeIndex
+                        active: index == activeIndex
                     })}
                     index={index}
                     value={item}

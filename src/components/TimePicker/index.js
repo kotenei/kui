@@ -38,7 +38,13 @@ class TimePicker extends Component {
         open: false,
         use12Hours: false
     };
-    handleFocus = e => {};
+    handleFocus = e => {
+        if (!("show" in this.props)) {
+            this.setState({
+                show: true
+            });
+        }
+    };
     handleItemClick = (type, value, index) => {
         switch (type) {
             case "year":
@@ -105,6 +111,16 @@ class TimePicker extends Component {
             data.push(String(i).padStart(2, "0"));
         }
         return data;
+    }
+    show() {
+        this.setState({
+            open: true
+        });
+    }
+    hide() {
+        this.setState({
+            open: false
+        });
     }
     componentWillMount() {
         let value = this.props.value || this.props.defaultValue;

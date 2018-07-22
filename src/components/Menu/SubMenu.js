@@ -178,7 +178,7 @@ class SubMenu extends Component {
             [`${prefixCls}-${mode}`]: true,
             [`${prefixCls}-sub`]: true,
             [`${prefixCls}-pop-enter`]: mode == "vertical" && show,
-            "slide-bottom-enter": mode == "horizontal" && show && level == 1
+            "slide-down-enter": mode == "horizontal" && show && level == 1
         });
         let isHide = mode != "inline" ? !show : !isOpen;
         let style = {};
@@ -197,7 +197,7 @@ class SubMenu extends Component {
             animateName = `${prefixCls}-pop`;
         }
         if (level == 1 && mode == "horizontal") {
-            animateName = "slide-bottom";
+            animateName = "slide-down";
         }
         if (parentIds.indexOf(id) == -1) {
             newParentIds.push(id);

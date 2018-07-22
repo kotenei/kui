@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import domUtils from './domUtils';
+import domUtils from "./domUtils";
 
 export const guid = () => {
     function S4() {
@@ -35,11 +35,10 @@ export const getPosition = props => {
     let parent = ReactDOM.findDOMNode(props.trigger),
         ew = domUtils.outerWidth(parent),
         eh = domUtils.outerHeight(parent),
-        tw = props.orgWidth,
-        th = props.orgHeight,
+        tw = props.width || 0,
+        th = props.height || 0,
         position = { left: 0, top: 0 },
         pos = { left: 0, top: 0 };
-
     do {
         position.left += parent.offsetLeft - parent.scrollLeft;
         position.top += parent.offsetTop - parent.scrollTop;

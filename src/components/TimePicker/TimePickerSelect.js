@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import domUtils from "../../utils/domUtils";
 
+
 class Item extends Component {
     static propTypes = {
         value: PropTypes.string,
@@ -107,9 +108,7 @@ class TimePickerSelect extends Component {
     componentDidMount() {
         this.init();
     }
-    componentWillReceiveProps(nextProps){
-        
-    }
+    componentWillReceiveProps(nextProps) {}
     renderList() {
         const { data, value, type } = this.props;
         const { activeIndex } = this.state;

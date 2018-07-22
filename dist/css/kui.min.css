@@ -963,17 +963,16 @@ select:-webkit-autofill {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
 
-.fade-enter {
+.fade-enter,
+.fade-exit-active {
   opacity: 0; }
 
-.fade-enter.fade-enter-active {
+.fade-enter-active {
   opacity: 1; }
 
-.fade-exit {
-  opacity: 1; }
-
-.fade-exit.fade-exit-active {
-  opacity: 0; }
+.fade-enter-active,
+.fade-exit-active {
+  transition: opacity .3s ease; }
 
 .slide-enter {
   max-height: 0rem;
@@ -990,37 +989,18 @@ select:-webkit-autofill {
 .slide-exit.slide-exit-active {
   max-height: 0rem; }
 
-.slide-bottom-enter {
-  margin-top: -1.25rem !important;
-  opacity: 0 !important; }
+.slide-down-enter,
+.slide-down-exit-active {
+  opacity: 0;
+  margin-top: -1.25rem !important; }
 
-.slide-bottom-enter.slide-bottom-enter-active {
-  margin-top: 0 !important;
-  opacity: 1 !important; }
+.slide-down-enter-active {
+  opacity: 1;
+  margin-top: 0 !important; }
 
-.slide-bottom-exit {
-  margin-top: 0 !important;
-  opacity: 1 !important; }
-
-.slide-bottom-exit.slide-bottom-exit-active {
-  margin-top: -1.25rem !important;
-  opacity: 0 !important; }
-
-.slide-top-enter {
-  margin-top: 1.25rem !important;
-  opacity: 0 !important; }
-
-.slide-top-enter.slide-top-enter-active {
-  margin-top: 0 !important;
-  opacity: 1 !important; }
-
-.slide-top-exit {
-  margin-top: 0 !important;
-  opacity: 1 !important; }
-
-.slide-top-exit.slide-top-exit-active {
-  margin-top: 1.25rem !important;
-  opacity: 0 !important; }
+.slide-down-enter-active,
+.slide-down-exit-active {
+  transition: all .3s ease; }
 
 .k-alert {
   padding: .9375rem;
@@ -1031,7 +1011,6 @@ select:-webkit-autofill {
   display: table;
   width: 100%;
   margin-bottom: 1rem;
-  transition: all ease .3s;
   background: #009688; }
   .k-alert .close {
     color: #fff;
@@ -1698,7 +1677,6 @@ input[type="button"].k-btn-block {
     border: none;
     background: white;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
     z-index: 10;
     border-radius: 0.25rem; }
   .k-dropdown.k-btn-group > .k-btn.last-btn {
@@ -3657,7 +3635,6 @@ input[type="button"].k-btn-block {
   color: #fff;
   border-radius: 0.25rem;
   cursor: pointer;
-  transition: all ease .3s;
   margin: 0 0.5rem 0.5rem 0; }
 
 .k-tag-default {
@@ -3756,29 +3733,35 @@ input[type="button"].k-btn-block {
   border-radius: 0.25rem;
   background: white;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  display: flex;
   z-index: 1050; }
-  .k-timepicker::after {
+  .k-timepicker::before, .k-timepicker::after {
     content: " ";
     position: absolute;
-    height: 2.1875rem;
-    top: 50%;
+    height: 0.0625rem;
+    top: 4.375rem;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
     width: 80%;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #d9d9d9; }
+  .k-timepicker::after {
+    top: 6.5625rem;
+    border-top: none;
     border-bottom: 1px solid #d9d9d9; }
+  .k-timepicker-wrapper {
+    display: flex; }
   .k-timepicker-select {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 10.9375rem;
-    width: 3.5rem; }
+    width: 4.375rem; }
     .k-timepicker-select ul {
       padding: 0;
       margin: 0;
-      list-style: none; }
+      list-style: none;
+      overflow: hidden;
+      width: 4.375rem; }
       .k-timepicker-select ul li {
         text-align: center;
         height: 2.1875rem;
@@ -3795,6 +3778,10 @@ input[type="button"].k-btn-block {
       background: rgba(0, 0, 0, 0.2); }
     .k-timepicker-select:hover::-webkit-scrollbar {
       display: block; }
+  .k-timepicker-bottom {
+    padding: 0.625rem;
+    border-top: 1px solid #d9d9d9;
+    text-align: right; }
 
 .k-tooltip {
   background: rgba(0, 0, 0, 0.8);
@@ -3985,7 +3972,6 @@ input[type="button"].k-btn-block {
         border-radius: 0.25rem;
         padding: 0 1.25rem 0 0.625rem;
         background: #f3f3f3;
-        transition: all 0.3s;
         cursor: default; }
         .k-multiple-list .k-multiple-list-selection .k-multiple-list-choice-list li.item .k-icon {
           position: absolute;

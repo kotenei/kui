@@ -7,7 +7,7 @@ class TimePickerView extends Component {
             <div>
                 <h1>TimePicker 时间选择</h1>
                 <div className="k-example">
-                    <TimePicker value="12:54:50"  />
+                    <TimePicker   />
                 </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">

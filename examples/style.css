@@ -105,7 +105,6 @@ body {
     cursor: pointer;
     height: 100px;
     color: #555;
-    -webkit-transition: all .3s;
     transition: all .3s;
     position: relative;
     margin: 3px 0;

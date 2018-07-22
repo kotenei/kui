@@ -179,7 +179,6 @@ class Dropdown extends Component {
     }
     componentDidMount() {
         this.setOrgSize();
-        this.setPosition();
         this.hide();
         document.addEventListener("click", this.hide);
     }
@@ -203,7 +202,7 @@ class Dropdown extends Component {
 
         let newMenu =
             show && menu ? (
-                <CSSTransition timeout={300} classNames="slide-bottom">
+                <CSSTransition timeout={300} classNames="slide-down">
                     {React.cloneElement(menu, {
                         ...menu.props,
                         multiple,
@@ -212,7 +211,7 @@ class Dropdown extends Component {
                         mode: "vertical",
                         className: classnames({
                             [`${prefixCls}-menu`]: true,
-                            "slide-bottom-enter": true
+                            "slide-down-enter": true
                         }),
                         style: position,
                         onMouseEnter: this.handleMenuEnter,

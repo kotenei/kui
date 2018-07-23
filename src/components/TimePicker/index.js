@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { format } from "date-fns";
 import TimePickerSelect from "./TimePickerSelect";
 import Input from "../Input";
+import Icon from "../Icon";
 import Button from "../Button";
 import { Empty, getPosition, FirstChild } from "../../utils";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -11,14 +12,16 @@ import domUtils from "../../utils/domUtils";
 
 const prefixCls = "k-timepicker";
 const reg = /^(\d{1,2})(:)?(\d{1,2})\2(\d{1,2})(\s(pm|am))?$/i;
+let seed = 1;
+let instances = {};
 
 class TimePicker extends Component {
     constructor(props) {
         super(props);
-        this.tmpTime = [];
+        this.id = `tooltip_${seed++}`;
+        instances[this.id] = this;
     }
     state = {
-        inputValue: "",
         value: "",
         open: true,
         left: -999,
@@ -29,7 +32,6 @@ class TimePicker extends Component {
         okText: PropTypes.string,
         defaultValue: PropTypes.string,
         disabled: PropTypes.bool,
-        format: PropTypes.string,
         hourStep: PropTypes.number,
         minuteStep: PropTypes.number,
         secondStep: PropTypes.number,
@@ -37,7 +39,6 @@ class TimePicker extends Component {
         placeholder: PropTypes.string,
         use12Hours: PropTypes.bool,
         value: PropTypes.string,
-        onChange: PropTypes.func,
         onCancel: PropTypes.func,
         onOK: PropTypes.func
     };
@@ -50,7 +51,7 @@ class TimePicker extends Component {
         secondStep: 1,
         use12Hours: false
     };
-    // 文本框点击弹出时间选择
+    //文本框点击弹出时间选择
     handleClick = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
@@ -58,15 +59,15 @@ class TimePicker extends Component {
             this.open();
         }
     };
-    // 时间项点击
+    //时间项点击
     handleItemClick = (type, val, index) => {
         this.change(type, val, index);
     };
-    // 时间项滚动
+    //时间项滚动
     handleItemScroll = (type, val, index) => {
         this.change(type, val, index);
     };
-    // 点击取消
+    //点击取消
     handleCancel = () => {
         const { onCancel } = this.props;
         const { value } = this.setState;
@@ -78,7 +79,7 @@ class TimePicker extends Component {
             this.close();
         }
     };
-    // 点击确定
+    //点击确定
     handleOK = () => {
         const { onOK } = this.props;
         let value = this.tmpValue;
@@ -93,6 +94,20 @@ class TimePicker extends Component {
         if (onOK) {
             onOK(value);
         }
+    };
+    //清空值
+    handleClear = () => {
+        const { use12Hours, disabled } = this.props;
+        if (disabled || "value" in this.props) {
+            return;
+        }
+        this.tmpValue = "00:00:00";
+        if (use12Hours) {
+            this.tmpValue += " am";
+        }
+        this.setState({
+            value: ""
+        });
     };
     change(type, val, index) {
         const { use12Hours } = this.props;
@@ -124,7 +139,7 @@ class TimePicker extends Component {
             this.tmpValue += " " + timeSlot;
         }
     }
-    // 定位
+    //定位
     setPosition = () => {
         let position = getPosition({
             trigger: this.refs.input,
@@ -136,7 +151,7 @@ class TimePicker extends Component {
             top: position.top + 2
         });
     };
-    // 是否时间格式
+    //是否时间格式
     isTime(str) {
         let match = str.match(reg);
         if (!match) {
@@ -154,7 +169,7 @@ class TimePicker extends Component {
         }
         return true;
     }
-    // 小时列表项
+    //小时列表项
     getHours() {
         const { use12Hours, hourStep } = this.props;
         let hours = use12Hours ? 12 : 23;
@@ -164,7 +179,7 @@ class TimePicker extends Component {
         }
         return data;
     }
-    // 分钟列表项
+    //分钟列表项
     getMinutes() {
         const { minuteStep } = this.props;
         let data = [];
@@ -174,7 +189,7 @@ class TimePicker extends Component {
         }
         return data;
     }
-    // 秒列表项
+    //秒列表项
     getSeconds() {
         const { secondStep } = this.props;
         let data = [];
@@ -184,6 +199,7 @@ class TimePicker extends Component {
         }
         return data;
     }
+    //打开
     open = () => {
         const { disabled } = this.props;
         if (disabled) {
@@ -193,16 +209,23 @@ class TimePicker extends Component {
         this.setState({
             open: true
         });
+        this.closeOther();
     };
+    //关闭
     close = () => {
         const { disabled } = this.props;
-        if (disabled) {
-            return;
-        }
         this.setState({
             open: false
         });
     };
+    closeOther() {
+        for (var k in instances) {
+            if (k == this.id) {
+                continue;
+            }
+            instances[k].close();
+        }
+    }
     componentWillMount() {
         let value = this.props.value || this.props.defaultValue;
         this.tmpValue = "00:00:00";
@@ -235,6 +258,12 @@ class TimePicker extends Component {
             } else {
                 this.close();
             }
+        }
+        if ("value" in nextProps && this.isTime(nextProps.value)) {
+            this.tmpValue = nextProps.value;
+            this.setState({
+                value: nextProps.value
+            });
         }
     }
     componentWillUnmount() {
@@ -331,9 +360,26 @@ class TimePicker extends Component {
             document.body
         );
     }
+    renderSuffix() {
+        const { suffix } = this.props;
+        const { value, open } = this.state;
+        if (value && open) {
+            return (
+                <Icon
+                    type="close"
+                    onClick={this.handleClear}
+                    style={{ cursor: "pointer" }}
+                />
+            );
+        }
+        if (suffix) {
+            return suffix;
+        }
+        return null;
+    }
     render() {
         const { value } = this.state;
-        const { kSize, disabled } = this.props;
+        const { kSize, disabled, placeholder } = this.props;
         return (
             <Empty>
                 <Input
@@ -341,8 +387,11 @@ class TimePicker extends Component {
                     ref="input"
                     kSize={kSize}
                     disabled={disabled}
-                    defaultValue={value}
+                    value={value}
+                    placeholder={placeholder}
                     onClick={this.handleClick}
+                    suffix={this.renderSuffix()}
+                    onChange={() => {}}
                 />
                 {this.renderPicker()}
             </Empty>

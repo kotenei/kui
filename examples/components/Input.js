@@ -112,6 +112,12 @@ class InpurtView extends Component {
                             <td>—</td>
                         </tr>
                         <tr>
+                            <td>placeholder</td>
+                            <td>没有值时显示内容</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
                             <td>onPressEnter</td>
                             <td>按下回车回调</td>
                             <td>Function</td>

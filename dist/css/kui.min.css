@@ -3755,13 +3755,13 @@ input[type="button"].k-btn-block {
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 10.9375rem;
-    width: 4.375rem; }
+    width: 3.75rem; }
     .k-timepicker-select ul {
       padding: 0;
       margin: 0;
       list-style: none;
       overflow: hidden;
-      width: 4.375rem; }
+      width: 3.75rem; }
       .k-timepicker-select ul li {
         text-align: center;
         height: 2.1875rem;

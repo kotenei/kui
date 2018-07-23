@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import domUtils from "../../utils/domUtils";
 
-
 class Item extends Component {
     static propTypes = {
         value: PropTypes.string,
@@ -31,7 +30,7 @@ class TimePickerSelect extends Component {
         super(props);
     }
     state = {
-        activeIndex: -1
+        activeIndex: 0
     };
     static propTypes = {
         data: PropTypes.array,
@@ -54,6 +53,7 @@ class TimePickerSelect extends Component {
         );
     };
     handleScroll = e => {
+        const { onScroll, type, data } = this.props;
         let scrollTop = this.refs.select.scrollTop;
         let activeIndex = 0;
         let half = this.itemHeight / 2;
@@ -63,6 +63,9 @@ class TimePickerSelect extends Component {
                 activeIndex = i;
                 break;
             }
+        }
+        if (onScroll) {
+            onScroll(type, data[activeIndex], activeIndex);
         }
         this.setState({
             activeIndex
@@ -99,8 +102,11 @@ class TimePickerSelect extends Component {
     componentWillMount() {
         const { value, data } = this.props;
         let activeIndex = data.findIndex(item => {
-            return item == value;
+            return value && item.toLowerCase() == value.toLowerCase();
         });
+        if (activeIndex == -1) {
+            activeIndex = 0;
+        }
         this.setState({
             activeIndex
         });

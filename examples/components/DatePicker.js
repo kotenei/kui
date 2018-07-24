@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { DatePicker } from "main";
-const { YearPicker, MonthPicker, RangePicker, WeekPicker } = DatePicker;
+const { MonthPicker } = DatePicker;
 
 class DatePickerView extends Component {
     render() {
         return (
             <div>
                 <h1>DatePicker 日期选择</h1>
-                <div className="k-example" />
+                <div className="k-example"><MonthPicker /></div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">
                     <thead>

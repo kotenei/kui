@@ -1,6 +1,7 @@
 import "./assets/iconfont/iconfont.css";
 import "./assets/scss/kui.scss";
 import InfiniteScroll from "./components/InfiniteScroll";
+import DatePicker from "./components/DatePicker";
 
 export Alert from "./components/Alert";
 export AutoComplete from "./components/AutoComplete";
@@ -12,7 +13,7 @@ export Card from "./components/Card";
 export Carousel from "./components/Carousel";
 export Checkbox from "./components/Checkbox";
 export Collapse from "./components/Collapse";
-export DatePicker from "./components/Datepicker";
+export DatePicker from "./components/DatePicker";
 export Dropdown from "./components/Dropdown";
 export Form from "./components/Form";
 export Icon from "./components/Icon";
@@ -39,7 +40,7 @@ export Table from "./components/Table";
 export Tabs from "./components/Tabs";
 export Tag from "./components/Tag";
 export Timeline from "./components/Timeline";
-export TimePicker from './components/TimePicker';
+export TimePicker from "./components/TimePicker";
 export Tooltip from "./components/Tooltip";
 export Tree from "./components/Tree";
 export Upload from "./components/Upload";

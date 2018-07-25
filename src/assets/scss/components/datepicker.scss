@@ -1,0 +1,76 @@
+$prefixCls:'.k-datepicker';
+#{$prefixCls} {
+    position: absolute;
+    border: $border-width-base $border-style-base $border-color-base;
+    border-radius: $border-radius;
+    background: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    z-index: 1050;
+    min-width: torem(250px);
+    &-header {
+        display: flex;
+        text-align: center;
+        height: torem(40px);
+        line-height: torem(40px);
+        padding-left: torem(10px);
+        padding-right: torem(10px);
+        border-bottom: $border-width-base $border-style-base $border-color-base;
+        .k-icon {
+            cursor: pointer;
+            flex: 0;
+            font-size: $font-size-xs;
+            vertical-align: middle;
+        }
+        &-select {
+            flex: 1;
+            &-year {
+                margin-right: torem(5px);
+            }
+            &-year,
+            &-month {
+                cursor: pointer;
+            }
+        }
+    }
+    &-body {
+        padding: torem(10px);
+        table {
+            width: 100%;
+            td {
+                text-align: center;
+                padding:0 torem(6px);
+                a {
+                    font-size: $font-size-sm;
+                    padding: 0 torem(6px);
+                    border-radius: torem(2px);
+                    transition: background .3s ease;
+                    cursor: pointer;
+                    display: block;
+                    color: $font-color-base;
+                    height: torem(24px);
+                    line-height: torem(24px);
+                    &:hover {
+                        color: $primary;
+                    }
+                    &.active {
+                        background: $primary;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+    &-footer {
+        padding: torem(10px);
+    }
+
+    &-year-table{
+        td{
+            height: torem(66px);
+            line-height: torem(66px)
+            a{
+
+            }
+        }
+    }
+}

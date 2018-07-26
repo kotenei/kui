@@ -24,7 +24,8 @@ class DatePicker extends Component {
                 left: -999,
                 top: -999
             },
-            open: false
+            open: false,
+            view: 0
         };
         this.id = `tooltip_${seed++}`;
         instances[this.id] = this;
@@ -41,14 +42,68 @@ class DatePicker extends Component {
         disabled: false,
         format: "YYYY-MM-DD"
     };
-    //文本框点击弹出时间选择
-    handleClick = e => {
+    /**
+     * 文本框点击事件
+     *
+     */
+    handleInputClick = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
         if (!("open" in this.props)) {
             this.open();
         }
     };
+    /**
+     * 选择器点击事件
+     */
+    handlePickerClick = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+    };
+    /**
+     * 点击上一年
+     */
+    handleYearPrevClick = e => {
+        // const { onYearPrevClick } = this.props;
+        // if (onYearPrevClick) {
+        //     onYearPrevClick();
+        // }
+    };
+    /**
+     * 点击下一年
+     */
+    handleYearNextClick = e => {
+        // const { onYearNextClick } = this.props;
+        // if (onYearNextClick) {
+        //     onYearNextClick();
+        // }
+    };
+    /**
+     * 点击上个月
+     */
+    handleMonthPrevClick = e => {
+        // const { onMonthPrevClick } = this.props;
+        // if (onMonthPrevClick) {
+        //     onMonthPrevClick();
+        // }
+    };
+    /**
+     * 点击下个月
+     */
+    handleMonthNextClick = e => {
+        // const { onMonthNextClick } = this.props;
+        // if (onMonthNextClick) {
+        //     onMonthNextClick();
+        // }
+    };
+    /**
+     * 点击年份选择
+     */
+    handleYearClick = e => {};
+    /**
+     * 点击月份选择
+     */
+    handleMonthClick = e => {};
     //定位
     setPosition = () => {
         let position = getPosition({
@@ -111,10 +166,24 @@ class DatePicker extends Component {
             <TransitionGroup component={FirstChild}>
                 {open ? (
                     <CSSTransition timeout={300} classNames="slide-down">
-                        <div className={prefixCls} style={position}>
-                            <Header prefixCls={prefixCls} />
+                        <div
+                            className={prefixCls}
+                            style={position}
+                            onClick={this.handlePickerClick}
+                        >
+                            <Header
+                                prefixCls={prefixCls}
+                                onYearPrevClick={this.handleYearNextClick}
+                                onYearNextClick={this.handleYearNextClick}
+                                onMonthPrevClick={this.handleMonthPrevClick}
+                                onMonthNextClick={this.handleMonthNextClick}
+                                onYearClick={this.handleYearClick}
+                                onMonthClick={this.handleMonthClick}
+                            />
                             <Body prefixCls={prefixCls}>
-                                <YearView prefixCls={prefixCls}/> 
+                                {/* <YearView prefixCls={prefixCls} view={1} /> */}
+                                {/* <MonthView prefixCls={prefixCls} /> */}
+                                <DayView />
                             </Body>
                             <Footer prefixCls={prefixCls} />
                         </div>
@@ -135,7 +204,7 @@ class DatePicker extends Component {
                     kSize={kSize}
                     disabled={disabled}
                     placeholder={placeholder}
-                    onClick={this.handleClick}
+                    onClick={this.handleInputClick}
                 />
                 {this.renderPicker()}
             </Empty>

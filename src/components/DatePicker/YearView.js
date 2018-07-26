@@ -21,7 +21,7 @@ class YearView extends Component {
         year: new Date().getFullYear(),
         min,
         max: min + 400,
-        view: 0
+        view: 1
     };
     setViewData() {
         const { min, max, view, year } = this.props;
@@ -69,9 +69,10 @@ class YearView extends Component {
         for (let i = 0; i < 3; i++) {
             cells = [];
             for (let j = flag; j < data.length; j++) {
+                let isActive = false;
                 cells.push(
                     <td key={`cell-${j}`}>
-                        <a >{data[j]}</a>
+                        <a>{data[j]}</a>
                     </td>
                 );
                 flag++;
@@ -80,8 +81,8 @@ class YearView extends Component {
                 }
             }
             if (view == 1 && i == 2) {
-                cells.push(<td />);
-                cells.push(<td />);
+                cells.push(<td key="cell_empty1" />);
+                cells.push(<td key="cell_empty2" />);
             }
             rows.push(<tr key={`row-${i}`}>{cells}</tr>);
         }

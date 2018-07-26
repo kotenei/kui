@@ -1,39 +1,55 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { dates } from "../../utils/dateUtils";
 
 class MonthView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            months: dates[props.lang].months
+        };
+    }
     static propTypes = {
         prefixCls: PropTypes.string,
-        month: PropTypes.array
+        lang: PropTypes.string,
+        month: PropTypes.number,
+        onMonthClick: PropTypes.func
     };
     static defaultProps = {
-        prefixCls:'k-datepicker',
-        month: [
-            "一月",
-            "二月",
-            "三月",
-            "四月",
-            "五月",
-            "六月",
-            "七月",
-            "八月",
-            "九月",
-            "十月",
-            "十一月",
-            "十二月"
-        ]
+        prefixCls: "k-datepicker",
+        lang: "zh-cn",
+        month: new Date().getMonth()
+    };
+    handleMonthClick = e => {
+        const { target } = e;
+        const { onMonthClick } = this.props;
+        let month = target.getAttribute("data-month");
+        if (onMonthClick) {
+            onMonthClick(month);
+        }
     };
     renderRows() {
         const { month } = this.props;
+        const { months } = this.state;
         let rows = [],
             flag = 0;
 
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 3; i++) {
             let cells = [];
-            for (let j = flag; j < month.length; j++) {
-                cells.push(<td key={`cell_${j}`}>{month[j]}</td>);
+            for (let j = flag; j < months.length; j++) {
+                cells.push(
+                    <td key={`cell_${j}`}>
+                        <a
+                            data-month={j}
+                            className={`${month == j ? "active" : ""}`}
+                            onClick={this.handleMonthClick}
+                        >
+                            {months[j]}
+                        </a>
+                    </td>
+                );
                 flag++;
-                if ((j + 1) % 3 == 0) {
+                if ((j + 1) % 4 == 0) {
                     break;
                 }
             }
@@ -43,9 +59,9 @@ class MonthView extends Component {
         return rows;
     }
     render() {
-        const { prefixCls, month } = this.props;
+        const { prefixCls } = this.props;
         return (
-            <table className={`${prefixCls}-table`}>
+            <table className={`${prefixCls}-month-table`}>
                 <tbody>{this.renderRows()}</tbody>
             </table>
         );

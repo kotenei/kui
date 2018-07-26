@@ -4,18 +4,74 @@ import Icon from "../Icon";
 import { prefix } from "../../utils/kUtils";
 
 class Header extends Component {
+    static propTypes = {
+        onYearPrevClick: PropTypes.func,
+        onYearNextClick: PropTypes.func,
+        onMonthPrevClick: PropTypes.func,
+        onMonthNextClick: PropTypes.func,
+        onYearClick: PropTypes.func,
+        onMonthClick: PropTypes.func
+    };
+    handleClick = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+    };
+    handleYearPrevClick = e => {
+        const { onYearPrevClick } = this.props;
+        if (onYearPrevClick) {
+            onYearPrevClick();
+        }
+    };
+    handleYearNextClick = e => {
+        const { onYearNextClick } = this.props;
+        if (onYearNextClick) {
+            onYearNextClick();
+        }
+    };
+    handleMonthPrevClick = e => {
+        const { onMonthPrevClick } = this.props;
+        if (onMonthPrevClick) {
+            onMonthPrevClick();
+        }
+    };
+    handleMonthNextClick = e => {
+        const { onMonthNextClick } = this.props;
+        if (onMonthNextClick) {
+            onMonthNextClick();
+        }
+    };
+    handleYearClick = e => {};
+    handleMonthClick = e => {};
     render() {
         const { prefixCls } = this.props;
         return (
-            <div className={`${prefixCls}-header`}>
-                <Icon type="doubleleft" className={`${prefixCls}-prev-button`} />
-                <Icon type="left" className={`${prefixCls}-prev-button`}/>
+            <div className={`${prefixCls}-header`} onClick={this.handleClick}>
+                <a onClick={this.handleYearPrevClick}>
+                    <Icon
+                        type="doubleleft"
+                        className={`${prefixCls}-prev-button`}
+                    />
+                </a>
+                <a onClick={this.handleMonthPrevClick}>
+                    <Icon type="left" className={`${prefixCls}-prev-button`} />
+                </a>
                 <span className={`${prefixCls}-header-select`}>
-                    <span className={`${prefixCls}-header-select-year`}>2018年</span>
-                    <span className={`${prefixCls}-header-select-month`}>12月</span>
+                    <span className={`${prefixCls}-header-select-year`}>
+                        <a onClick={this.handleYearClick}>2018年</a>
+                    </span>
+                    <span className={`${prefixCls}-header-select-month`}>
+                        <a onClick={this.handleMonthClick}>12月</a>
+                    </span>
                 </span>
-                <Icon type="right" className={`${prefixCls}-next-button`}/>
-                <Icon type="doubleright" className={`${prefixCls}-next-button`}/>
+                <a onClick={this.handleMonthNextClick}>
+                    <Icon type="right" className={`${prefixCls}-next-button`} />
+                </a>
+                <a onClick={this.handleYearNextClick}>
+                    <Icon
+                        type="doubleright"
+                        className={`${prefixCls}-next-button`}
+                    />
+                </a>
             </div>
         );
     }

@@ -31,6 +31,12 @@ $prefixCls:'.k-datepicker';
                 cursor: pointer;
             }
         }
+        a {
+            color: $font-color-base;
+            &:hover {
+                color: $primary;
+            }
+        }
     }
     &-body {
         padding: torem(10px);
@@ -38,7 +44,7 @@ $prefixCls:'.k-datepicker';
             width: 100%;
             td {
                 text-align: center;
-                padding:0 torem(6px);
+                padding: 0 torem(6px);
                 a {
                     font-size: $font-size-sm;
                     padding: 0 torem(6px);
@@ -63,14 +69,11 @@ $prefixCls:'.k-datepicker';
     &-footer {
         padding: torem(10px);
     }
-
-    &-year-table{
-        td{
+    &-year-table,
+    &-month-table {
+        td {
             height: torem(66px);
-            line-height: torem(66px)
-            a{
-
-            }
+            line-height: torem(66px) a {}
         }
     }
 }

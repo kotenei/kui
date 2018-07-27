@@ -9,10 +9,10 @@ class Header extends Component {
     static propTypes = {
         date: PropTypes.object,
         lang: PropTypes.string,
-        onYearPrevClick: PropTypes.func,
-        onYearNextClick: PropTypes.func,
-        onMonthPrevClick: PropTypes.func,
-        onMonthNextClick: PropTypes.func,
+        onPrevYearClick: PropTypes.func,
+        onNextYearClick: PropTypes.func,
+        onPrevMonthClick: PropTypes.func,
+        onNextMonthClick: PropTypes.func,
         onYearClick: PropTypes.func,
         onMonthClick: PropTypes.func
     };
@@ -24,43 +24,53 @@ class Header extends Component {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
     };
-    handleYearPrevClick = e => {
-        const { onYearPrevClick } = this.props;
-        if (onYearPrevClick) {
-            onYearPrevClick();
+    handlePrevYearClick = e => {
+        const { onPrevYearClick } = this.props;
+        if (onPrevYearClick) {
+            onPrevYearClick();
         }
     };
-    handleYearNextClick = e => {
-        const { onYearNextClick } = this.props;
-        if (onYearNextClick) {
-            onYearNextClick();
+    handleNextYearClick = e => {
+        const { onNextYearClick } = this.props;
+        if (onNextYearClick) {
+            onNextYearClick();
         }
     };
-    handleMonthPrevClick = e => {
-        const { onMonthPrevClick } = this.props;
-        if (onMonthPrevClick) {
-            onMonthPrevClick();
+    handlePrevMonthClick = e => {
+        const { onPrevMonthClick } = this.props;
+        if (onPrevMonthClick) {
+            onPrevMonthClick();
         }
     };
-    handleMonthNextClick = e => {
-        const { onMonthNextClick } = this.props;
-        if (onMonthNextClick) {
-            onMonthNextClick();
+    handleNextMonthClick = e => {
+        const { onNextMonthClick } = this.props;
+        if (onNextMonthClick) {
+            onNextMonthClick();
         }
     };
-    handleYearClick = e => {};
-    handleMonthClick = e => {};
+    handleYearClick = e => {
+        const { onYearClick } = this.props;
+        if (onYearClick) {
+            onYearClick();
+        }
+    };
+    handleMonthClick = e => {
+        const { onMonthClick } = this.props;
+        if (onMonthClick) {
+            onMonthClick();
+        }
+    };
     render() {
         const { prefixCls, date, lang } = this.props;
         return (
             <div className={`${prefixCls}-header`} onClick={this.handleClick}>
-                <a onClick={this.handleYearPrevClick}>
+                <a onClick={this.handlePrevYearClick}>
                     <Icon
                         type="doubleleft"
                         className={`${prefixCls}-prev-button`}
                     />
                 </a>
-                <a onClick={this.handleMonthPrevClick}>
+                <a onClick={this.handlePrevMonthClick}>
                     <Icon type="left" className={`${prefixCls}-prev-button`} />
                 </a>
                 <span className={`${prefixCls}-header-select`}>
@@ -78,10 +88,10 @@ class Header extends Component {
                         </a>
                     </span>
                 </span>
-                <a onClick={this.handleMonthNextClick}>
+                <a onClick={this.handleNextMonthClick}>
                     <Icon type="right" className={`${prefixCls}-next-button`} />
                 </a>
-                <a onClick={this.handleYearNextClick}>
+                <a onClick={this.handleNextYearClick}>
                     <Icon
                         type="doubleright"
                         className={`${prefixCls}-next-button`}

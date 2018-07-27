@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
+import { addYears, addMonths } from "date-fns";
 import Input from "../Input";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Empty, getPosition, FirstChild } from "../../utils";
@@ -16,6 +17,8 @@ const prefixCls = "k-datepicker";
 let seed = 1;
 let instances = {};
 
+
+
 class DatePicker extends Component {
     constructor(props) {
         super(props);
@@ -27,6 +30,7 @@ class DatePicker extends Component {
             open: false,
             view: 0,
             inputValue: "",
+            date: props.defaultVallue || props.value || new Date(),
             tmpDate: props.defaultVallue || props.value || new Date()
         };
         this.id = `tooltip_${seed++}`;
@@ -67,38 +71,38 @@ class DatePicker extends Component {
     /**
      * 点击上一年
      */
-    handleYearPrevClick = e => {
-        // const { onYearPrevClick } = this.props;
-        // if (onYearPrevClick) {
-        //     onYearPrevClick();
-        // }
+    handlePrevYearClick = e => {
+        const { tmpDate } = this.state;
+        this.setState({
+            tmpDate: addYears(tmpDate, -1)
+        });
     };
     /**
      * 点击下一年
      */
-    handleYearNextClick = e => {
-        // const { onYearNextClick } = this.props;
-        // if (onYearNextClick) {
-        //     onYearNextClick();
-        // }
+    handleNextYearClick = e => {
+        const { tmpDate } = this.state;
+        this.setState({
+            tmpDate: addYears(tmpDate, 1)
+        });
     };
     /**
      * 点击上个月
      */
-    handleMonthPrevClick = e => {
-        // const { onMonthPrevClick } = this.props;
-        // if (onMonthPrevClick) {
-        //     onMonthPrevClick();
-        // }
+    handlePrevMonthClick = e => {
+        const { tmpDate } = this.state;
+        this.setState({
+            tmpDate: addMonths(tmpDate, -1)
+        });
     };
     /**
      * 点击下个月
      */
-    handleMonthNextClick = e => {
-        // const { onMonthNextClick } = this.props;
-        // if (onMonthNextClick) {
-        //     onMonthNextClick();
-        // }
+    handleNextMonthClick = e => {
+        const { tmpDate } = this.state;
+        this.setState({
+            tmpDate: addMonths(tmpDate, 1)
+        });
     };
     /**
      * 点击年份选择
@@ -136,7 +140,8 @@ class DatePicker extends Component {
     close = () => {
         const { disabled } = this.props;
         this.setState({
-            open: false
+            open: false,
+            tmpDate: this.state.date
         });
     };
     //关闭其它
@@ -185,10 +190,12 @@ class DatePicker extends Component {
                         >
                             <Header
                                 prefixCls={prefixCls}
-                                onYearPrevClick={this.handleYearNextClick}
-                                onYearNextClick={this.handleYearNextClick}
-                                onMonthPrevClick={this.handleMonthPrevClick}
-                                onMonthNextClick={this.handleMonthNextClick}
+                                date={tmpDate}
+                                view={view}
+                                onPrevYearClick={this.handlePrevYearClick}
+                                onNextYearClick={this.handleNextYearClick}
+                                onPrevMonthClick={this.handlePrevMonthClick}
+                                onNextMonthClick={this.handleNextMonthClick}
                                 onYearClick={this.handleYearClick}
                                 onMonthClick={this.handleMonthClick}
                             />

@@ -1,3 +1,4 @@
+import { getDaysInYear, getDaysInMonth } from "date-fns";
 export const dates = {
     en: {
         days: [
@@ -51,7 +52,7 @@ export const dates = {
             "星期五",
             "星期六"
         ],
-        daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+        daysShort: ["日", "一", "二", "三", "四", "五", "六"],
         daysMin: ["日", "一", "二", "三", "四", "五", "六"],
         months: [
             "一月",
@@ -83,4 +84,9 @@ export const dates = {
         ],
         today: "今天"
     }
+};
+
+export const getWeek = (date = new Date()) => {
+    let start = new Date(date.getFullYear(), 0, 1);
+    return Math.ceil(((date - start) / 86400000 + start.getDay() + 1) / 7);
 };

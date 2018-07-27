@@ -55,6 +55,11 @@ $prefixCls:'.k-datepicker';
                     color: $font-color-base;
                     height: torem(24px);
                     line-height: torem(24px);
+                    &.prev,
+                    &.next,
+                    &.week {
+                        color: #c0c4cc;
+                    }
                     &:hover {
                         color: $primary;
                     }
@@ -74,6 +79,12 @@ $prefixCls:'.k-datepicker';
         td {
             height: torem(66px);
             line-height: torem(66px) a {}
+        }
+    }
+    &-day-table {
+        td {
+            height: torem(30px);
+            line-height: torem(30px) a {}
         }
     }
 }

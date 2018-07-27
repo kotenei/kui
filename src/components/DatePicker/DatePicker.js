@@ -25,7 +25,9 @@ class DatePicker extends Component {
                 top: -999
             },
             open: false,
-            view: 0
+            view: 0,
+            inputValue: "",
+            tmpDate: props.defaultVallue || props.value || new Date()
         };
         this.id = `tooltip_${seed++}`;
         instances[this.id] = this;
@@ -36,11 +38,13 @@ class DatePicker extends Component {
         defaultValue: PropTypes.object,
         format: PropTypes.string,
         open: PropTypes.bool,
-        value: PropTypes.object
+        value: PropTypes.object,
+        view: PropTypes.oneOf([0, 1, 2, 3]) //0-1:年，2:月，3:日
     };
     static defaultProps = {
         disabled: false,
-        format: "YYYY-MM-DD"
+        format: "YYYY-MM-DD",
+        view: 3
     };
     /**
      * 文本框点击事件
@@ -160,8 +164,16 @@ class DatePicker extends Component {
         document.removeEventListener("click", this.close);
         window.removeEventListener("resize", this.setPosition);
     }
+    componentWillReceiveProps(nextProps) {
+        if ("value" in nextProps) {
+            this.setState({
+                tmpDate: nextProps.value
+            });
+        }
+    }
     renderPicker() {
-        const { open, position } = this.state;
+        const { open, position, tmpDate } = this.state;
+        const { view } = this.props;
         return ReactDOM.createPortal(
             <TransitionGroup component={FirstChild}>
                 {open ? (
@@ -181,9 +193,25 @@ class DatePicker extends Component {
                                 onMonthClick={this.handleMonthClick}
                             />
                             <Body prefixCls={prefixCls}>
-                                {/* <YearView prefixCls={prefixCls} view={1} /> */}
-                                {/* <MonthView prefixCls={prefixCls} /> */}
-                                <DayView />
+                                {view <= 1 ? (
+                                    <YearView
+                                        prefixCls={prefixCls}
+                                        view={view}
+                                        date={tmpDate}
+                                    />
+                                ) : null}
+                                {view == 2 ? (
+                                    <MonthView
+                                        prefixCls={prefixCls}
+                                        data={tmpDate}
+                                    />
+                                ) : null}
+                                {view == 3 ? (
+                                    <DayView
+                                        prefixCls={prefixCls}
+                                        date={tmpDate}
+                                    />
+                                ) : null}
                             </Body>
                             <Footer prefixCls={prefixCls} />
                         </div>

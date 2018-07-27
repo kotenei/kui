@@ -12,13 +12,13 @@ class MonthView extends Component {
     static propTypes = {
         prefixCls: PropTypes.string,
         lang: PropTypes.string,
-        month: PropTypes.number,
+        date: PropTypes.object,
         onMonthClick: PropTypes.func
     };
     static defaultProps = {
         prefixCls: "k-datepicker",
         lang: "zh-cn",
-        month: new Date().getMonth()
+        date: new Date()
     };
     handleMonthClick = e => {
         const { target } = e;
@@ -29,9 +29,10 @@ class MonthView extends Component {
         }
     };
     renderRows() {
-        const { month } = this.props;
+        const { date } = this.props;
         const { months } = this.state;
         let rows = [],
+            month = date.getMonth(),
             flag = 0;
 
         for (let i = 0; i < 3; i++) {

@@ -12,20 +12,21 @@ class YearView extends Component {
         };
     }
     static propTypes = {
-        year: PropTypes.number,
+        date: PropTypes.object,
         min: PropTypes.number,
         max: PropTypes.number,
         view: PropTypes.oneOf([0, 1])
     };
     static defaultProps = {
-        year: new Date().getFullYear(),
+        date: new Date(),
         min,
         max: min + 400,
         view: 1
     };
     setViewData() {
-        const { min, max, view, year } = this.props;
-        let pageSize = view == 0 ? 120 : 10,
+        const { min, max, view, date } = this.props;
+        let year = date.getFullYear(),
+            pageSize = view == 0 ? 120 : 10,
             total = max - min,
             pages = parseInt(total / pageSize) + 1,
             viewData = {},
@@ -60,19 +61,29 @@ class YearView extends Component {
         this.setViewData();
     }
     renderContent() {
-        const { view, year } = this.props;
+        const { view, date } = this.props;
         const { viewData, curPage } = this.state;
-        let rows = [],
+        let year = date.getFullYear(),
+            rows = [],
             flag = 0,
             data = viewData[curPage],
             cells;
         for (let i = 0; i < 3; i++) {
             cells = [];
             for (let j = flag; j < data.length; j++) {
+                const item = data[j];
                 let isActive = false;
+                if (view == 0) {
+                    let arr = item.split("-");
+                    if (year >= arr[0] && year <= arr[1]) {
+                        isActive = true;
+                    }
+                } else {
+                    isActive = year == item;
+                }
                 cells.push(
                     <td key={`cell-${j}`}>
-                        <a>{data[j]}</a>
+                        <a className={isActive ? "active" : ""}>{data[j]}</a>
                     </td>
                 );
                 flag++;

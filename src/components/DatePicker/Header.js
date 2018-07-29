@@ -9,6 +9,7 @@ class Header extends Component {
     static propTypes = {
         date: PropTypes.object,
         lang: PropTypes.string,
+        view: PropTypes.number,
         onPrevYearClick: PropTypes.func,
         onNextYearClick: PropTypes.func,
         onPrevMonthClick: PropTypes.func,
@@ -18,7 +19,8 @@ class Header extends Component {
     };
     static defaultProps = {
         date: new Date(),
-        lang: "zh-cn"
+        lang: "zh-cn",
+        view: 3
     };
     handleClick = e => {
         e.stopPropagation();
@@ -61,7 +63,7 @@ class Header extends Component {
         }
     };
     render() {
-        const { prefixCls, date, lang } = this.props;
+        const { prefixCls, date, lang, view } = this.props;
         return (
             <div className={`${prefixCls}-header`} onClick={this.handleClick}>
                 <a onClick={this.handlePrevYearClick}>
@@ -70,9 +72,15 @@ class Header extends Component {
                         className={`${prefixCls}-prev-button`}
                     />
                 </a>
-                <a onClick={this.handlePrevMonthClick}>
-                    <Icon type="left" className={`${prefixCls}-prev-button`} />
-                </a>
+                {view == 3 ? (
+                    <a onClick={this.handlePrevMonthClick}>
+                        <Icon
+                            type="left"
+                            className={`${prefixCls}-prev-button`}
+                        />
+                    </a>
+                ) : null}
+
                 <span className={`${prefixCls}-header-select`}>
                     <span className={`${prefixCls}-header-select-year`}>
                         <a onClick={this.handleYearClick}>
@@ -80,17 +88,25 @@ class Header extends Component {
                             {lang == "zh-cn" ? "年" : ""}
                         </a>
                     </span>
-                    <span className={`${prefixCls}-header-select-month`}>
-                        <a onClick={this.handleMonthClick}>
-                            {lang == "zh-cn"
-                                ? `${date.getMonth() + 1}月`
-                                : format(date, "MMMM")}
-                        </a>
-                    </span>
+                    {view == 3 ? (
+                        <span className={`${prefixCls}-header-select-month`}>
+                            <a onClick={this.handleMonthClick}>
+                                {lang == "zh-cn"
+                                    ? `${date.getMonth() + 1}月`
+                                    : format(date, "MMMM")}
+                            </a>
+                        </span>
+                    ) : null}
                 </span>
-                <a onClick={this.handleNextMonthClick}>
-                    <Icon type="right" className={`${prefixCls}-next-button`} />
-                </a>
+
+                {view == 3 ? (
+                    <a onClick={this.handleNextMonthClick}>
+                        <Icon
+                            type="right"
+                            className={`${prefixCls}-next-button`}
+                        />
+                    </a>
+                ) : null}
                 <a onClick={this.handleNextYearClick}>
                     <Icon
                         type="doubleright"

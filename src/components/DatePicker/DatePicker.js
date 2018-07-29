@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { addYears, addMonths } from "date-fns";
+import { addYears, addMonths, setMonth } from "date-fns";
 import Input from "../Input";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Empty, getPosition, FirstChild } from "../../utils";
@@ -17,8 +17,6 @@ const prefixCls = "k-datepicker";
 let seed = 1;
 let instances = {};
 
-
-
 class DatePicker extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +26,8 @@ class DatePicker extends Component {
                 top: -999
             },
             open: false,
-            view: 0,
+            view: props.view,
+            tmpView: props.view,
             inputValue: "",
             date: props.defaultVallue || props.value || new Date(),
             tmpDate: props.defaultVallue || props.value || new Date()
@@ -105,13 +104,52 @@ class DatePicker extends Component {
         });
     };
     /**
-     * 点击年份选择
+     * 年选择视图
      */
-    handleYearClick = e => {};
+    handleYearClick = e => {
+        let tmpView = this.state.tmpView;
+        if (tmpView == 0) {
+            return;
+        }
+        if (tmpView <= 2) {
+            tmpView--;
+        } else {
+            tmpView = 1;
+        }
+        tmpView = tmpView <= 0 ? 0 : tmpView;
+        this.setState({
+            tmpView
+        });
+    };
     /**
-     * 点击月份选择
+     * 月选择视力
      */
-    handleMonthClick = e => {};
+    handleMonthClick = e => {
+        this.setState({
+            tmpView: 2
+        });
+    };
+    /**
+     * 年选择
+     */
+    handleYearSelect = e => {};
+    /**
+     * 月选择
+     */
+    handleMonthSelect = month => {
+        const { date } = this.state;
+        const { view } = this.props;
+        let newDate = setMonth(date, month);
+        this.setState({
+            date: newDate,
+            tmpDate: newDate
+        });
+        if (view >= 3) {
+            this.setState({
+                tmpView: 3
+            });
+        }
+    };
     //定位
     setPosition = () => {
         let position = getPosition({
@@ -141,7 +179,8 @@ class DatePicker extends Component {
         const { disabled } = this.props;
         this.setState({
             open: false,
-            tmpDate: this.state.date
+            tmpDate: this.state.date,
+            tmpView: this.state.view
         });
     };
     //关闭其它
@@ -178,7 +217,7 @@ class DatePicker extends Component {
     }
     renderPicker() {
         const { open, position, tmpDate } = this.state;
-        const { view } = this.props;
+        const { view, tmpView } = this.state;
         return ReactDOM.createPortal(
             <TransitionGroup component={FirstChild}>
                 {open ? (
@@ -191,7 +230,7 @@ class DatePicker extends Component {
                             <Header
                                 prefixCls={prefixCls}
                                 date={tmpDate}
-                                view={view}
+                                view={tmpView}
                                 onPrevYearClick={this.handlePrevYearClick}
                                 onNextYearClick={this.handleNextYearClick}
                                 onPrevMonthClick={this.handlePrevMonthClick}
@@ -200,20 +239,21 @@ class DatePicker extends Component {
                                 onMonthClick={this.handleMonthClick}
                             />
                             <Body prefixCls={prefixCls}>
-                                {view <= 1 ? (
+                                {tmpView <= 1 ? (
                                     <YearView
                                         prefixCls={prefixCls}
-                                        view={view}
+                                        view={tmpView}
                                         date={tmpDate}
                                     />
                                 ) : null}
-                                {view == 2 ? (
+                                {tmpView == 2 ? (
                                     <MonthView
                                         prefixCls={prefixCls}
                                         data={tmpDate}
+                                        onMonthSelect={this.handleMonthSelect}
                                     />
                                 ) : null}
-                                {view == 3 ? (
+                                {tmpView == 3 ? (
                                     <DayView
                                         prefixCls={prefixCls}
                                         date={tmpDate}

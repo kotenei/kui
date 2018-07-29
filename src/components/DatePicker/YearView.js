@@ -23,8 +23,8 @@ class YearView extends Component {
         max: min + 400,
         view: 1
     };
-    setViewData() {
-        const { min, max, view, date } = this.props;
+    setViewData(props = this.props) {
+        const { min, max, view, date } = props;
         let year = date.getFullYear(),
             pageSize = view == 0 ? 120 : 10,
             total = max - min,
@@ -59,6 +59,9 @@ class YearView extends Component {
     }
     componentWillMount() {
         this.setViewData();
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setViewData(nextProps);
     }
     renderContent() {
         const { view, date } = this.props;

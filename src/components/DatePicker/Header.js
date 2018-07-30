@@ -64,6 +64,10 @@ class Header extends Component {
     };
     render() {
         const { prefixCls, date, lang, view } = this.props;
+        let year = date.getFullYear(),
+            num = year.toString().substr(3),
+            start = year - num,
+            end = start + 9;
         return (
             <div className={`${prefixCls}-header`} onClick={this.handleClick}>
                 <a onClick={this.handlePrevYearClick}>
@@ -83,8 +87,8 @@ class Header extends Component {
                 <span className={`${prefixCls}-header-select`}>
                     <span className={`${prefixCls}-header-select-year`}>
                         <a onClick={this.handleYearClick}>
-                            {date.getFullYear()}
-                            {lang == "zh-cn" ? "年" : ""}
+                            {view >= 1 ? year : `${start}-${end}`}
+                            {lang == "zh-cn" && view >= 1 ? "年" : ""}
                         </a>
                     </span>
                     {view == 2 ? (

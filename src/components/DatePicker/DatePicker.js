@@ -139,7 +139,23 @@ class DatePicker extends Component {
      */
     handleYearSelect = year => {
         const { tmpView, tmpDate } = this.state;
-        
+        const { view } = this.props;
+        let newDate = setYear(tmpDate, year);
+        this.setState({
+            tmpDate: newDate,
+            tmpView: view >= 1 ? 1 : view
+        });
+        if (view == 0 && !("value" in this.props)) {
+            this.setState(
+                {
+                    date: newDate,
+                    inputValue: format(newDate, this.props.format)
+                },
+                () => {
+                    this.close();
+                }
+            );
+        }
     };
     /**
      * 月选择
@@ -149,18 +165,19 @@ class DatePicker extends Component {
         const { view } = this.props;
         let newDate = setMonth(tmpDate, month);
         this.setState({
-            tmpDate: newDate
+            tmpDate: newDate,
+            tmpView: view
         });
         if (view == 1 && !("value" in this.props)) {
-            this.setState({
-                date: newDate,
-                inputValue: format(newDate, this.props.format)
-            });
-        }
-        if (view > 1) {
-            this.setState({
-                tmpView: view
-            });
+            this.setState(
+                {
+                    date: newDate,
+                    inputValue: format(newDate, this.props.format)
+                },
+                () => {
+                    this.close();
+                }
+            );
         }
     };
     /**
@@ -172,10 +189,15 @@ class DatePicker extends Component {
             tmpDate: date
         });
         if (view == 2 && !("value" in this.props)) {
-            this.setState({
-                date,
-                inputValue: format(date, this.props.format)
-            });
+            this.setState(
+                {
+                    date,
+                    inputValue: format(date, this.props.format)
+                },
+                () => {
+                    this.close();
+                }
+            );
         }
     };
     //定位
@@ -250,8 +272,6 @@ class DatePicker extends Component {
     renderPicker() {
         const { minDate, maxDate } = this.props;
         const { open, position, tmpDate, tmpView, date } = this.state;
-        // let minYear = minDate.getFullYear(),
-        //     maxYear = maxDate.getFullYear();
         return ReactDOM.createPortal(
             <TransitionGroup component={FirstChild}>
                 {open ? (
@@ -278,6 +298,7 @@ class DatePicker extends Component {
                                         prefixCls={prefixCls}
                                         view={tmpView}
                                         date={tmpDate}
+                                        onYearSelect={this.handleYearSelect}
                                     />
                                 ) : null}
                                 {tmpView == 1 ? (

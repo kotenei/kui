@@ -15,7 +15,8 @@ class YearView extends Component {
         date: PropTypes.object,
         min: PropTypes.number,
         max: PropTypes.number,
-        view: PropTypes.oneOf([0])
+        view: PropTypes.oneOf([0]),
+        onYearSelect: PropTypes.func
     };
     static defaultProps = {
         date: new Date(),
@@ -25,11 +26,14 @@ class YearView extends Component {
     };
     handleYearClick = e => {
         const { target } = e;
+        const { onYearSelect } = this.props;
+        let year = target.getAttribute("year");
+        if (onYearSelect) {
+            onYearSelect(year);
+        }
     };
-    componentWillMount() {
-    }
-    componentWillReceiveProps(nextProps) {
-    }
+    componentWillMount() {}
+    componentWillReceiveProps(nextProps) {}
     renderContent() {
         const { view, date } = this.props;
         let rows = [],

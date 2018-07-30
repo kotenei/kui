@@ -67,7 +67,7 @@ class DayView extends Component {
     static defaultProps = {
         date: now,
         lang: "zh-cn",
-        week: true
+        week: false
     };
     handleClick = date => {
         const { onDaySelect } = this.props;

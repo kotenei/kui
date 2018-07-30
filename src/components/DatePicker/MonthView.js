@@ -34,8 +34,7 @@ class MonthView extends Component {
         let rows = [],
             month = date.getMonth(),
             flag = 0;
-
-        console.log(date);
+            
         for (let i = 0; i < 3; i++) {
             let cells = [];
             for (let j = flag; j < months.length; j++) {

@@ -20,7 +20,7 @@ class Header extends Component {
     static defaultProps = {
         date: new Date(),
         lang: "zh-cn",
-        view: 3
+        view: 2
     };
     handleClick = e => {
         e.stopPropagation();
@@ -72,7 +72,7 @@ class Header extends Component {
                         className={`${prefixCls}-prev-button`}
                     />
                 </a>
-                {view == 3 ? (
+                {view == 2 ? (
                     <a onClick={this.handlePrevMonthClick}>
                         <Icon
                             type="left"
@@ -80,7 +80,6 @@ class Header extends Component {
                         />
                     </a>
                 ) : null}
-
                 <span className={`${prefixCls}-header-select`}>
                     <span className={`${prefixCls}-header-select-year`}>
                         <a onClick={this.handleYearClick}>
@@ -88,7 +87,7 @@ class Header extends Component {
                             {lang == "zh-cn" ? "年" : ""}
                         </a>
                     </span>
-                    {view == 3 ? (
+                    {view == 2 ? (
                         <span className={`${prefixCls}-header-select-month`}>
                             <a onClick={this.handleMonthClick}>
                                 {lang == "zh-cn"
@@ -98,8 +97,7 @@ class Header extends Component {
                         </span>
                     ) : null}
                 </span>
-
-                {view == 3 ? (
+                {view == 2 ? (
                     <a onClick={this.handleNextMonthClick}>
                         <Icon
                             type="right"

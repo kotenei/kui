@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { getDaysInMonth, lastDayOfMonth, addMonths, addDays } from "date-fns";
+import classnames from "classnames";
+import {
+    getDaysInMonth,
+    lastDayOfMonth,
+    addMonths,
+    addDays,
+    format
+} from "date-fns";
 import { dates, getWeek } from "../../utils/dateUtils";
 
 const now = new Date();
@@ -9,6 +16,7 @@ class Cell extends Component {
     static propTypes = {
         value: PropTypes.any,
         date: PropTypes.object,
+        selected: PropTypes.object,
         onClick: PropTypes.func
     };
     handleClick = () => {
@@ -18,10 +26,22 @@ class Cell extends Component {
         }
     };
     render() {
-        const { className, value } = this.props;
+        const { className, value, date, selected } = this.props;
+        let curDate = new Date(),
+            isCur = format(curDate, "YYYY-MM-DD") == format(date, "YYYY-MM-DD"),
+            isActive =
+                selected &&
+                format(date, "YYYY-MM-DD") == format(selected, "YYYY-MM-DD");
+
         return (
             <td>
-                <a className={className} onClick={this.handleClick}>
+                <a
+                    className={classnames(className, {
+                        curDay: isCur,
+                        active: isActive
+                    })}
+                    onClick={this.handleClick}
+                >
                     {value}
                 </a>
             </td>
@@ -39,13 +59,21 @@ class DayView extends Component {
     static propTypes = {
         prefixCls: PropTypes.string,
         date: PropTypes.object,
+        selected: PropTypes.object,
         lang: PropTypes.string,
-        week: PropTypes.bool
+        week: PropTypes.bool,
+        onDaySelect: PropTypes.func
     };
     static defaultProps = {
         date: now,
         lang: "zh-cn",
         week: true
+    };
+    handleClick = date => {
+        const { onDaySelect } = this.props;
+        if (onDaySelect) {
+            onDaySelect(date);
+        }
     };
     renderHead() {
         const { daysName } = this.state;
@@ -60,8 +88,9 @@ class DayView extends Component {
         return items;
     }
     renderBody() {
-        const { date, week } = this.props;
-        let days = getDaysInMonth(date), //当月所有天数
+        const { date, week, selected } = this.props;
+        let curDate = new Date(),
+            days = getDaysInMonth(date), //当月所有天数
             firstDate = new Date(date.getFullYear(), date.getMonth(), 1),
             dayOfWeek = firstDate.getDay(), //当月第一天是星期几
             lastDayOfPrevMonth = lastDayOfMonth(addMonths(date, -1)).getDate(), //上月最后一天
@@ -82,14 +111,29 @@ class DayView extends Component {
         }
         for (let i = start; i <= lastDayOfPrevMonth; i++) {
             cells.push(
-                <Cell className="prev" key={index} value={i} date={startDate} />
+                <Cell
+                    className="prev"
+                    key={index}
+                    value={i}
+                    date={startDate}
+                    selected={selected}
+                    onClick={this.handleClick}
+                />
             );
             tmpDate.push(startDate);
             startDate = addDays(startDate, 1);
             index++;
         }
         for (let i = 1; i <= days; i++) {
-            cells.push(<Cell key={index} value={i} date={startDate} />);
+            cells.push(
+                <Cell
+                    key={index}
+                    value={i}
+                    date={startDate}
+                    selected={selected}
+                    onClick={this.handleClick}
+                />
+            );
             tmpDate.push(startDate);
             startDate = addDays(startDate, 1);
             index++;
@@ -97,7 +141,14 @@ class DayView extends Component {
         end = 42 - cells.length;
         for (let i = 1; i <= end; i++) {
             cells.push(
-                <Cell className="next" key={index} value={i} date={startDate} />
+                <Cell
+                    className="next"
+                    key={index}
+                    value={i}
+                    date={startDate}
+                    selected={selected}
+                    onClick={this.handleClick}
+                />
             );
             tmpDate.push(startDate);
             startDate = addDays(startDate, 1);

@@ -85,6 +85,11 @@ $prefixCls:'.k-datepicker';
         td {
             height: torem(30px);
             line-height: torem(30px) a {}
+            a {
+                &.curDay {
+                    color: $primary
+                }
+            }
         }
     }
 }

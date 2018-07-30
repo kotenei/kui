@@ -28,7 +28,7 @@ class YearView extends Component {
         let year = date.getFullYear(),
             pageSize = view == 0 ? 120 : 10,
             total = max - min,
-            pages = parseInt(total / pageSize) + 1,
+            pages = parseInt(total / pageSize),
             viewData = {},
             step = view == 0 ? 10 : 1,
             start = min,
@@ -65,28 +65,20 @@ class YearView extends Component {
     }
     renderContent() {
         const { view, date } = this.props;
-        const { viewData, curPage } = this.state;
-        let year = date.getFullYear(),
-            rows = [],
+        let rows = [],
+            year = date.getFullYear(),
+            num = parseInt(year.toString().substr(3)),
+            start = year - num,
             flag = 0,
-            data = viewData[curPage],
             cells;
+
         for (let i = 0; i < 3; i++) {
             cells = [];
-            for (let j = flag; j < data.length; j++) {
-                const item = data[j];
-                let isActive = false;
-                if (view == 0) {
-                    let arr = item.split("-");
-                    if (year >= arr[0] && year <= arr[1]) {
-                        isActive = true;
-                    }
-                } else {
-                    isActive = year == item;
-                }
+            for (let j = flag, y; j < 10; j++) {
+                y = start + j;
                 cells.push(
                     <td key={`cell-${j}`}>
-                        <a className={isActive ? "active" : ""}>{data[j]}</a>
+                        <a className={y == year ? "active" : ""}>{y}</a>
                     </td>
                 );
                 flag++;
@@ -95,11 +87,13 @@ class YearView extends Component {
                 }
             }
             if (view == 1 && i == 2) {
-                cells.push(<td key="cell_empty1" />);
-                cells.push(<td key="cell_empty2" />);
+                cells.push(<td key={`cell-empty1-${i}`} />);
+                cells.push(<td key={`cell-empty2-${i}`} />);
             }
+
             rows.push(<tr key={`row-${i}`}>{cells}</tr>);
         }
+
         return rows;
     }
     render() {

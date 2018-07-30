@@ -137,7 +137,10 @@ class DatePicker extends Component {
     /**
      * 年选择
      */
-    handleYearSelect = e => {};
+    handleYearSelect = year => {
+        const { tmpView, tmpDate } = this.state;
+        
+    };
     /**
      * 月选择
      */

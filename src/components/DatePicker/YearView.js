@@ -15,53 +15,20 @@ class YearView extends Component {
         date: PropTypes.object,
         min: PropTypes.number,
         max: PropTypes.number,
-        view: PropTypes.oneOf([0, 1])
+        view: PropTypes.oneOf([0])
     };
     static defaultProps = {
         date: new Date(),
         min,
         max: min + 400,
-        view: 1
+        view: 0
     };
-    setViewData(props = this.props) {
-        const { min, max, view, date } = props;
-        let year = date.getFullYear(),
-            pageSize = view == 0 ? 120 : 10,
-            total = max - min,
-            pages = parseInt(total / pageSize),
-            viewData = {},
-            step = view == 0 ? 10 : 1,
-            start = min,
-            curPage = -1,
-            end;
-        for (let i = 0; i < pages; i++) {
-            viewData[i] = [];
-            end = start + pageSize;
-            for (let j = start; j < end; j += step) {
-                if (view == 0) {
-                    viewData[i].push(`${j}-${j + 9}`);
-                    if (year >= j && year <= j + 9) {
-                        curPage = i;
-                    }
-                } else {
-                    viewData[i].push(j);
-                    if (year == j) {
-                        curPage = i;
-                    }
-                }
-            }
-            start = end;
-        }
-        this.setState({
-            viewData,
-            curPage
-        });
-    }
+    handleYearClick = e => {
+        const { target } = e;
+    };
     componentWillMount() {
-        this.setViewData();
     }
     componentWillReceiveProps(nextProps) {
-        this.setViewData(nextProps);
     }
     renderContent() {
         const { view, date } = this.props;
@@ -78,7 +45,13 @@ class YearView extends Component {
                 y = start + j;
                 cells.push(
                     <td key={`cell-${j}`}>
-                        <a className={y == year ? "active" : ""}>{y}</a>
+                        <a
+                            year={y}
+                            className={y == year ? "active" : ""}
+                            onClick={this.handleYearClick}
+                        >
+                            {y}
+                        </a>
                     </td>
                 );
                 flag++;
@@ -86,7 +59,7 @@ class YearView extends Component {
                     break;
                 }
             }
-            if (view == 1 && i == 2) {
+            if (i == 2) {
                 cells.push(<td key={`cell-empty1-${i}`} />);
                 cells.push(<td key={`cell-empty2-${i}`} />);
             }

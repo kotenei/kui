@@ -43,9 +43,8 @@ class YearView extends Component {
                 y = start + j;
                 disabled = false;
                 if (
-                    minDate &&
-                    maxDate &&
-                    (y < minDate.getFullYear() || y > maxDate.getFullYear())
+                    (minDate && y < minDate.getFullYear()) ||
+                    (maxDate && y > maxDate.getFullYear())
                 ) {
                     disabled = true;
                 }

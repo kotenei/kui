@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 import { dates } from "../../utils/dateUtils";
+import { format } from "date-fns";
 
 class MonthView extends Component {
     constructor(props) {
@@ -13,6 +15,8 @@ class MonthView extends Component {
         prefixCls: PropTypes.string,
         lang: PropTypes.string,
         date: PropTypes.object,
+        minDate: PropTypes.object,
+        maxDate: PropTypes.object,
         onMonthSelect: PropTypes.func
     };
     static defaultProps = {
@@ -29,21 +33,33 @@ class MonthView extends Component {
         }
     };
     renderRows() {
-        const { date } = this.props;
+        const { date, minDate, maxDate } = this.props;
         const { months } = this.state;
         let rows = [],
+            year = date.getFullYear(),
             month = date.getMonth(),
-            flag = 0;
-            
+            flag = 0,
+            min = minDate ? format(minDate, "YYYYMM") : null,
+            max = maxDate ? format(maxDate, "YYYYMM") : null,
+            disabled;
+
         for (let i = 0; i < 3; i++) {
             let cells = [];
-            for (let j = flag; j < months.length; j++) {
+            for (let j = flag, num; j < months.length; j++) {
+                disabled = false;
+                num = year + (j + 1).toString().padStart(2, "0");
+                if ((min && num < min) || (max && num > max)) {
+                    disabled = true;
+                }
                 cells.push(
                     <td key={`cell_${j}`}>
                         <a
                             data-month={j}
-                            className={`${month == j ? "active" : ""}`}
-                            onClick={this.handleMonthClick}
+                            className={classnames({
+                                active: month == j,
+                                disabled
+                            })}
+                            onClick={!disabled ? this.handleMonthClick : null}
                         >
                             {months[j]}
                         </a>

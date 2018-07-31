@@ -14,6 +14,8 @@ class Cell extends Component {
     static propTypes = {
         value: PropTypes.any,
         date: PropTypes.object,
+        minDate: PropTypes.object,
+        maxDate: PropTypes.object,
         selected: PropTypes.object,
         onClick: PropTypes.func
     };
@@ -59,6 +61,8 @@ class DayView extends Component {
         date: PropTypes.object,
         selected: PropTypes.object,
         lang: PropTypes.string,
+        minDate: PropTypes.object,
+        maxDate: PropTypes.object,
         week: PropTypes.bool,
         onDaySelect: PropTypes.func
     };
@@ -76,6 +80,14 @@ class DayView extends Component {
             onDaySelect(date);
         }
     };
+    getDisabled(date) {
+        const { minDate, maxDate } = this.props;
+        let min = minDate ? format(minDate, "YYYYMMDD") : null,
+            max = maxDate ? format(maxDate, "YYYYMMDD") : null,
+            cur = format(date, "YYYYMMDD");
+
+        return (min && cur < min) || (max && cur > max);
+    }
     renderHead() {
         const { daysName } = this.state;
         const { week } = this.props;
@@ -99,6 +111,7 @@ class DayView extends Component {
             cells = [],
             tmpDate = [],
             index = 0,
+            disabled,
             start,
             end,
             startDate;
@@ -111,14 +124,17 @@ class DayView extends Component {
             startDate = addDays(firstDate, -dayOfWeek);
         }
         for (let i = start; i <= lastDayOfPrevMonth; i++) {
+            disabled = this.getDisabled(startDate);
             cells.push(
                 <Cell
-                    className="prev"
+                    className={classnames("prev", {
+                        disabled
+                    })}
                     key={index}
                     value={i}
                     date={startDate}
                     selected={selected}
-                    onClick={this.handleClick}
+                    onClick={!disabled ? this.handleClick : null}
                 />
             );
             tmpDate.push(startDate);
@@ -126,13 +142,17 @@ class DayView extends Component {
             index++;
         }
         for (let i = 1; i <= days; i++) {
+            disabled = this.getDisabled(startDate);
             cells.push(
                 <Cell
+                    className={classnames({
+                        disabled
+                    })}
                     key={index}
                     value={i}
                     date={startDate}
                     selected={selected}
-                    onClick={this.handleClick}
+                    onClick={!disabled ? this.handleClick : null}
                 />
             );
             tmpDate.push(startDate);
@@ -141,14 +161,17 @@ class DayView extends Component {
         }
         end = 42 - cells.length;
         for (let i = 1; i <= end; i++) {
+            disabled = this.getDisabled(startDate);
             cells.push(
                 <Cell
-                    className="next"
+                    className={classnames("next", {
+                        disabled
+                    })}
                     key={index}
                     value={i}
                     date={startDate}
                     selected={selected}
-                    onClick={this.handleClick}
+                    onClick={!disabled ? this.handleClick : null}
                 />
             );
             tmpDate.push(startDate);

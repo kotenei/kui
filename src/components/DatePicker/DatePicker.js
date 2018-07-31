@@ -37,9 +37,8 @@ class DatePicker extends Component {
             open: false,
             view: props.view,
             tmpView: props.view,
-            date: props.defaultVallue || props.value,
-            tmpDate: props.defaultVallue || props.value || new Date(),
-            selectedDate: props.defaultVallue || props.value
+            date: props.defaultValue || props.value,
+            tmpDate: props.defaultValue || props.value || new Date()
         };
         this.id = `tooltip_${seed++}`;
         instances[this.id] = this;
@@ -225,9 +224,13 @@ class DatePicker extends Component {
         if (!date) {
             let newDate = new Date();
             this.setState({
-                date: newDate,
                 tmpDate: newDate
             });
+            if (!"value" in this.props) {
+                this.setState({
+                    date: newDate
+                });
+            }
         }
     };
     /**
@@ -238,18 +241,23 @@ class DatePicker extends Component {
         let strDate = formatter(tmpDate, "YYYY-MM-DD") + " " + time;
         let newDate = new Date(strDate);
         this.setState({
-            date: newDate,
             tmpDate: newDate
         });
+        if (!"value" in this.props) {
+            this.setState({
+                date: newDate
+            });
+        }
     };
     /**
      * 今天选择
      */
     handleTodayClick = e => {
+        const { value } = this.props;
         let date = new Date();
         this.setState(
             {
-                date,
+                date: "value" in this.props ? value : date,
                 tmpDate: date
             },
             () => {
@@ -262,13 +270,14 @@ class DatePicker extends Component {
      */
     handleOKClick = e => {
         const { date } = this.state;
+        const { value } = this.props;
         if (date) {
             this.close();
         } else {
             let newDate = new Date();
             this.setState(
                 {
-                    date: newDate,
+                    date: "value" in this.props ? value : newDate,
                     tmpDate: newDate
                 },
                 () => {

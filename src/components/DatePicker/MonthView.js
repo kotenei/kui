@@ -6,7 +6,7 @@ class MonthView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            months: dates[props.lang].months
+            months: dates[props.lang].monthsShort
         };
     }
     static propTypes = {

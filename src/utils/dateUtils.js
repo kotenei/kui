@@ -1,4 +1,3 @@
-import { getDaysInYear, getDaysInMonth } from "date-fns";
 export const dates = {
     en: {
         days: [
@@ -11,7 +10,7 @@ export const dates = {
             "Saturday"
         ],
         daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
         months: [
             "January",
             "February",
@@ -40,7 +39,8 @@ export const dates = {
             "Nov",
             "Dec"
         ],
-        today: "Today"
+        today: "Today",
+        now: "Now"
     },
     "zh-cn": {
         days: [
@@ -82,7 +82,8 @@ export const dates = {
             "十一月",
             "十二月"
         ],
-        today: "今天"
+        today: "今天",
+        now: "此刻"
     }
 };
 

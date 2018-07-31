@@ -76,7 +76,7 @@ class Header extends Component {
                         className={`${prefixCls}-prev-button`}
                     />
                 </a>
-                {view == 2 ? (
+                {view >= 2 ? (
                     <a onClick={this.handlePrevMonthClick}>
                         <Icon
                             type="left"
@@ -91,7 +91,7 @@ class Header extends Component {
                             {lang == "zh-cn" && view >= 1 ? "年" : ""}
                         </a>
                     </span>
-                    {view == 2 ? (
+                    {view >= 2 ? (
                         <span className={`${prefixCls}-header-select-month`}>
                             <a onClick={this.handleMonthClick}>
                                 {lang == "zh-cn"
@@ -101,7 +101,7 @@ class Header extends Component {
                         </span>
                     ) : null}
                 </span>
-                {view == 2 ? (
+                {view >= 2 ? (
                     <a onClick={this.handleNextMonthClick}>
                         <Icon
                             type="right"

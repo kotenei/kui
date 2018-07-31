@@ -10,8 +10,6 @@ import {
 } from "date-fns";
 import { dates, getWeek } from "../../utils/dateUtils";
 
-const now = new Date();
-
 class Cell extends Component {
     static propTypes = {
         value: PropTypes.any,
@@ -65,12 +63,15 @@ class DayView extends Component {
         onDaySelect: PropTypes.func
     };
     static defaultProps = {
-        date: now,
+        date: new Date(),
         lang: "zh-cn",
         week: false
     };
     handleClick = date => {
         const { onDaySelect } = this.props;
+        let strDate =
+            format(date, "YYYY-MM-DD") + " " + format(new Date(), "HH:mm:ss");
+        date = new Date(strDate);
         if (onDaySelect) {
             onDaySelect(date);
         }

@@ -1,16 +1,25 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { addYears, addMonths, setMonth, format, setYear } from "date-fns";
+import {
+    addYears,
+    addMonths,
+    setMonth,
+    format as formatter,
+    setYear
+} from "date-fns";
 import Input from "../Input";
+import Button from "../Button";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Empty, getPosition, FirstChild } from "../../utils";
+import { dates } from "../../utils/dateUtils";
 import Header from "./Header";
 import Body from "./Body";
 import Footer from "./Footer";
 import YearView from "./YearView";
 import MonthView from "./MonthView";
 import DayView from "./DayView";
+import TimePicker from "../TimePicker";
 import domUtils from "../../utils/domUtils";
 
 const prefixCls = "k-datepicker";
@@ -28,7 +37,6 @@ class DatePicker extends Component {
             open: false,
             view: props.view,
             tmpView: props.view,
-            inputValue: "",
             date: props.defaultVallue || props.value,
             tmpDate: props.defaultVallue || props.value || new Date(),
             selectedDate: props.defaultVallue || props.value
@@ -41,15 +49,21 @@ class DatePicker extends Component {
         disabled: PropTypes.bool,
         defaultValue: PropTypes.object,
         format: PropTypes.string,
+        lang: PropTypes.string,
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
+        okText: PropTypes.string,
         open: PropTypes.bool,
+        today: PropTypes.bool,
         value: PropTypes.object,
-        view: PropTypes.oneOf([0, 1, 2]) //0:年，1:月，2:日
+        view: PropTypes.oneOf([0, 1, 2, 3]) //0:年，1:月，2:日  3:时间
     };
     static defaultProps = {
         disabled: false,
         format: "YYYY-MM-DD",
+        lang: "zh-cn",
+        okText: "确定",
+        today: false,
         view: 2
     };
     /**
@@ -148,8 +162,7 @@ class DatePicker extends Component {
         if (view == 0 && !("value" in this.props)) {
             this.setState(
                 {
-                    date: newDate,
-                    inputValue: format(newDate, this.props.format)
+                    date: newDate
                 },
                 () => {
                     this.close();
@@ -171,8 +184,7 @@ class DatePicker extends Component {
         if (view == 1 && !("value" in this.props)) {
             this.setState(
                 {
-                    date: newDate,
-                    inputValue: format(newDate, this.props.format)
+                    date: newDate
                 },
                 () => {
                     this.close();
@@ -185,14 +197,79 @@ class DatePicker extends Component {
      */
     handleDaySelect = date => {
         const { view } = this.props;
+        if (this.state.date) {
+            let time = formatter(this.state.date, "HH:mm:ss");
+            date = new Date(formatter(date, "YYYY-MM-DD") + " " + time);
+        }
         this.setState({
             tmpDate: date
         });
-        if (view == 2 && !("value" in this.props)) {
+        if (view >= 2 && !("value" in this.props)) {
             this.setState(
                 {
-                    date,
-                    inputValue: format(date, this.props.format)
+                    date
+                },
+                () => {
+                    if (view == 2) {
+                        this.close();
+                    }
+                }
+            );
+        }
+    };
+    /**
+     * 时间文件框点击
+     */
+    handleTimeClick = () => {
+        const { date } = this.state;
+        if (!date) {
+            let newDate = new Date();
+            this.setState({
+                date: newDate,
+                tmpDate: newDate
+            });
+        }
+    };
+    /**
+     * 时间选择
+     */
+    handleTimeOK = time => {
+        const { date, tmpDate } = this.state;
+        let strDate = formatter(tmpDate, "YYYY-MM-DD") + " " + time;
+        let newDate = new Date(strDate);
+        this.setState({
+            date: newDate,
+            tmpDate: newDate
+        });
+    };
+    /**
+     * 今天选择
+     */
+    handleTodayClick = e => {
+        let date = new Date();
+        this.setState(
+            {
+                date,
+                tmpDate: date
+            },
+            () => {
+                this.close();
+            }
+        );
+    };
+    /**
+     * 点击确定
+     */
+    handleOKClick = e => {
+        const { date } = this.state;
+        if (date) {
+            this.close();
+        } else {
+            let newDate = new Date();
+            this.setState(
+                {
+                    date: newDate,
+                    tmpDate: newDate
                 },
                 () => {
                     this.close();
@@ -257,6 +334,7 @@ class DatePicker extends Component {
     componentWillUnmount() {
         document.removeEventListener("click", this.close);
         window.removeEventListener("resize", this.setPosition);
+        delete instances[this.id];
     }
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
@@ -270,7 +348,7 @@ class DatePicker extends Component {
         });
     }
     renderPicker() {
-        const { minDate, maxDate } = this.props;
+        const { minDate, maxDate, lang, view, okText } = this.props;
         const { open, position, tmpDate, tmpView, date } = this.state;
         return ReactDOM.createPortal(
             <TransitionGroup component={FirstChild}>
@@ -281,9 +359,37 @@ class DatePicker extends Component {
                             style={position}
                             onClick={this.handlePickerClick}
                         >
+                            {view == 3 ? (
+                                <div className={`${prefixCls}-time-header`}>
+                                    <div>
+                                        <Input
+                                            kSize="sm"
+                                            value={
+                                                date
+                                                    ? formatter(
+                                                          date,
+                                                          "YYYY-MM-DD"
+                                                      )
+                                                    : ""
+                                            }
+                                            onChange={() => {}}
+                                        />
+                                    </div>
+                                    <div>
+                                        <TimePicker
+                                            kSize="sm"
+                                            value={formatter(date, "HH:mm:ss")}
+                                            showClearIcon={false}
+                                            onClick={this.handleTimeClick}
+                                            onOK={this.handleTimeOK}
+                                        />
+                                    </div>
+                                </div>
+                            ) : null}
                             <Header
                                 prefixCls={prefixCls}
                                 date={tmpDate}
+                                lang={lang}
                                 view={tmpView}
                                 onPrevYearClick={this.handlePrevYearClick}
                                 onNextYearClick={this.handleNextYearClick}
@@ -296,6 +402,7 @@ class DatePicker extends Component {
                                 {tmpView == 0 ? (
                                     <YearView
                                         prefixCls={prefixCls}
+                                        lang={lang}
                                         view={tmpView}
                                         date={tmpDate}
                                         onYearSelect={this.handleYearSelect}
@@ -304,20 +411,51 @@ class DatePicker extends Component {
                                 {tmpView == 1 ? (
                                     <MonthView
                                         prefixCls={prefixCls}
+                                        lang={lang}
                                         date={tmpDate}
                                         onMonthSelect={this.handleMonthSelect}
                                     />
                                 ) : null}
-                                {tmpView == 2 ? (
+                                {tmpView >= 2 ? (
                                     <DayView
                                         prefixCls={prefixCls}
+                                        lang={lang}
                                         date={tmpDate}
                                         selected={date}
                                         onDaySelect={this.handleDaySelect}
                                     />
                                 ) : null}
                             </Body>
-                            <Footer prefixCls={prefixCls} />
+                            <Footer prefixCls={prefixCls}>
+                                {tmpView == 2 ? (
+                                    <div style={{ textAlign: "center" }}>
+                                        <a
+                                            className={`${prefixCls}-today-btn`}
+                                            onClick={this.handleTodayClick}
+                                        >
+                                            {dates[lang].today}
+                                        </a>
+                                    </div>
+                                ) : null}
+                                {tmpView == 3 ? (
+                                    <div style={{ textAlign: "right" }}>
+                                        <a
+                                            className={`${prefixCls}-now-btn`}
+                                            onClick={this.handleTodayClick}
+                                        >
+                                            {dates[lang].now}
+                                        </a>
+                                        <Button
+                                            raised
+                                            kSize="sm"
+                                            kStyle={"primary"}
+                                            onClick={this.handleOKClick}
+                                        >
+                                            {okText}
+                                        </Button>
+                                    </div>
+                                ) : null}
+                            </Footer>
                         </div>
                     </CSSTransition>
                 ) : null}
@@ -326,8 +464,8 @@ class DatePicker extends Component {
         );
     }
     render() {
-        const { kSize, disabled, placeholder } = this.props;
-        const { position, value, inputValue } = this.state;
+        const { kSize, disabled, placeholder, format } = this.props;
+        const { position, value, date } = this.state;
         return (
             <Empty>
                 <Input
@@ -336,7 +474,7 @@ class DatePicker extends Component {
                     kSize={kSize}
                     disabled={disabled}
                     placeholder={placeholder}
-                    value={inputValue}
+                    value={date ? formatter(date, format) : " "}
                     onClick={this.handleInputClick}
                     onChange={() => {}}
                 />

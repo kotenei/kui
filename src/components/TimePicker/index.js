@@ -37,6 +37,7 @@ class TimePicker extends Component {
         secondStep: PropTypes.number,
         open: PropTypes.bool,
         placeholder: PropTypes.string,
+        showClearIcon: PropTypes.bool,
         use12Hours: PropTypes.bool,
         value: PropTypes.string,
         onCancel: PropTypes.func,
@@ -45,18 +46,23 @@ class TimePicker extends Component {
     static defaultProps = {
         cancelText: "取消",
         okText: "确定",
-        format: "hh:mm:ss",
+        format: "HH:mm:ss",
         hourStep: 1,
         minuteStep: 1,
         secondStep: 1,
+        showClearIcon: true,
         use12Hours: false
     };
     //文本框点击弹出时间选择
     handleClick = e => {
+        const { onClick } = this.props;
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
         if (!("open" in this.props)) {
             this.open();
+        }
+        if (onClick) {
+            onClick();
         }
     };
     //时间项点击
@@ -248,6 +254,7 @@ class TimePicker extends Component {
         if (this.props.open === true) {
             this.open();
         }
+
         document.addEventListener("click", this.close);
         window.addEventListener("resize", this.setPosition);
     }
@@ -269,6 +276,7 @@ class TimePicker extends Component {
     componentWillUnmount() {
         document.removeEventListener("click", this.close);
         window.removeEventListener("resize", this.setPosition);
+        delete instances[this.id];
     }
     renderPicker() {
         const { cancelText, okText, use12Hours } = this.props;
@@ -361,9 +369,9 @@ class TimePicker extends Component {
         );
     }
     renderSuffix() {
-        const { suffix } = this.props;
+        const { suffix, showClearIcon } = this.props;
         const { value, open } = this.state;
-        if (value && open) {
+        if (value && open && showClearIcon) {
             return (
                 <Icon
                     type="close"
@@ -372,14 +380,11 @@ class TimePicker extends Component {
                 />
             );
         }
-        if (suffix) {
-            return suffix;
-        }
-        return null;
+        return suffix;
     }
     render() {
         const { value } = this.state;
-        const { kSize, disabled, placeholder } = this.props;
+        const { kSize, disabled, placeholder, onClick } = this.props;
         return (
             <Empty>
                 <Input

@@ -14,7 +14,7 @@ $prefixCls:'.k-datepicker';
         line-height: torem(40px);
         padding-left: torem(10px);
         padding-right: torem(10px);
-        border-bottom: $border-width-base $border-style-base $border-color-base;
+        // border-bottom: $border-width-base $border-style-base $border-color-base;
         .k-icon {
             cursor: pointer;
             flex: 0;
@@ -72,8 +72,25 @@ $prefixCls:'.k-datepicker';
         }
     }
     &-footer {
+        position: relative;
         padding: torem(10px);
+        border-top: $border-width-base $border-style-base $border-color-base;
+        //height: torem(38px);
+        //line-height: torem(38px);
     }
+
+    &-time-header{
+        // display:flex;
+        // justify-content: space-around;
+        display: table;
+        padding: torem(10px) torem(5px);
+        border-bottom: $border-width-base $border-style-base $border-color-base;
+        >div{
+            display: table-cell;
+            padding:0 torem(5px)
+        }
+    }
+
     &-year-table,
     &-month-table {
         td {
@@ -91,5 +108,18 @@ $prefixCls:'.k-datepicker';
                 }
             }
         }
+    }
+    &-today-btn {
+        display: inline-block;
+        margin: 0 auto;
+        cursor: pointer;
+        font-size: $font-size-sm;
+    }
+    &-now-btn{
+        margin-right: torem(10px);
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+        font-size: $font-size-sm;
     }
 }

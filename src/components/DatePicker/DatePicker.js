@@ -44,7 +44,6 @@ class DatePicker extends Component {
         instances[this.id] = this;
     }
     static propTypes = {
-        type: PropTypes.arrayOf(["year", "month", "week", "date", "dateTime"]),
         disabled: PropTypes.bool,
         defaultValue: PropTypes.object,
         format: PropTypes.string,
@@ -226,7 +225,7 @@ class DatePicker extends Component {
             this.setState({
                 tmpDate: newDate
             });
-            if (!"value" in this.props) {
+            if (!("value" in this.props)) {
                 this.setState({
                     date: newDate
                 });
@@ -243,7 +242,7 @@ class DatePicker extends Component {
         this.setState({
             tmpDate: newDate
         });
-        if (!"value" in this.props) {
+        if (!("value" in this.props)) {
             this.setState({
                 date: newDate
             });
@@ -359,6 +358,13 @@ class DatePicker extends Component {
     renderPicker() {
         const { minDate, maxDate, lang, view, okText } = this.props;
         const { open, position, tmpDate, tmpView, date } = this.state;
+        let newMinDate = minDate,
+            newMaxDate = maxDate;
+
+        if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
+            newMaxDate = minDate();
+        }
+
         return ReactDOM.createPortal(
             <TransitionGroup component={FirstChild}>
                 {open ? (
@@ -414,6 +420,8 @@ class DatePicker extends Component {
                                         lang={lang}
                                         view={tmpView}
                                         date={tmpDate}
+                                        minDate={newMinDate}
+                                        maxDate={newMaxDate}
                                         onYearSelect={this.handleYearSelect}
                                     />
                                 ) : null}
@@ -422,6 +430,8 @@ class DatePicker extends Component {
                                         prefixCls={prefixCls}
                                         lang={lang}
                                         date={tmpDate}
+                                        minDate={newMinDate}
+                                        maxDate={newMaxDate}
                                         onMonthSelect={this.handleMonthSelect}
                                     />
                                 ) : null}
@@ -430,6 +440,8 @@ class DatePicker extends Component {
                                         prefixCls={prefixCls}
                                         lang={lang}
                                         date={tmpDate}
+                                        minDate={newMinDate}
+                                        maxDate={newMaxDate}
                                         selected={date}
                                         onDaySelect={this.handleDaySelect}
                                     />

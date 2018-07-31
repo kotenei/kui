@@ -1722,6 +1722,9 @@ input[type="button"].k-btn-block {
           .k-datepicker-body table td a.active {
             background: #2196f3;
             color: white; }
+          .k-datepicker-body table td a.disabled {
+            cursor: not-allowed;
+            color: #bdbdbd; }
   .k-datepicker-footer {
     position: relative;
     padding: 0.625rem;

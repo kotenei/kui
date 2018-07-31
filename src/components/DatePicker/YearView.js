@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
-const min = 1900;
+import classnames from "classnames";
 
 class YearView extends Component {
     constructor(props) {
@@ -13,16 +12,12 @@ class YearView extends Component {
     }
     static propTypes = {
         date: PropTypes.object,
-        min: PropTypes.number,
-        max: PropTypes.number,
-        view: PropTypes.oneOf([0]),
+        minDate: PropTypes.object,
+        maxDate: PropTypes.object,
         onYearSelect: PropTypes.func
     };
     static defaultProps = {
-        date: new Date(),
-        min,
-        max: min + 400,
-        view: 0
+        date: new Date()
     };
     handleYearClick = e => {
         const { target } = e;
@@ -32,27 +27,37 @@ class YearView extends Component {
             onYearSelect(year);
         }
     };
-    componentWillMount() {}
-    componentWillReceiveProps(nextProps) {}
     renderContent() {
-        const { view, date } = this.props;
+        const { date, minDate, maxDate } = this.props;
         let rows = [],
             year = date.getFullYear(),
             num = parseInt(year.toString().substr(3)),
             start = year - num,
             flag = 0,
+            disabled,
             cells;
 
         for (let i = 0; i < 3; i++) {
             cells = [];
             for (let j = flag, y; j < 10; j++) {
                 y = start + j;
+                disabled = false;
+                if (
+                    minDate &&
+                    maxDate &&
+                    (y < minDate.getFullYear() || y > maxDate.getFullYear())
+                ) {
+                    disabled = true;
+                }
                 cells.push(
                     <td key={`cell-${j}`}>
                         <a
                             year={y}
-                            className={y == year ? "active" : ""}
-                            onClick={this.handleYearClick}
+                            className={classnames({
+                                active: y == year,
+                                disabled
+                            })}
+                            onClick={!disabled ? this.handleYearClick : null}
                         >
                             {y}
                         </a>

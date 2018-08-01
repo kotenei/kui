@@ -11,12 +11,16 @@ class DatePicker extends Component {
             value: props.defaultValue || props.value
         };
     }
-    static propTypes = {};
-    static defaultProps = {};
     handleChange = date => {
-        this.setState({
-            value: date
-        });
+        const { onChange, format } = this.props;
+        if (!("value" in this.props)) {
+            this.setState({
+                value: date
+            });
+        }
+        if (onChange) {
+            onChange(formatter(date, format));
+        }
     };
     render() {
         const { kSize, disabled, placeholder, format } = this.props;

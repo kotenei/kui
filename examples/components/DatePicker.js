@@ -12,7 +12,6 @@ class DatePickerView extends Component {
                         //minDate={new Date(2018, 7, 1)}
                         maxDate={new Date(2018, 8, 1)}
                         view={2}
-                        showTime
                         format="YYYY-MM-DD HH:mm:ss"
                     />
                 </div>

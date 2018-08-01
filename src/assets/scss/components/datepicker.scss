@@ -41,39 +41,41 @@ $prefixCls:'.k-datepicker';
         padding: torem(10px);
         table {
             width: 100%;
-            td {
-                text-align: center;
-                padding: 0 torem(6px);
-                a {
-                    cursor: pointer;
-                    &:hover {
-                        color: $primary;
-                    }
-                    &.active {
-                        background: $primary;
-                        color: white;
-                    }
-                    &.disabled {
-                        cursor: $cursor-disabled;
-                    }
-                }
-                a,
-                span {
-                    font-size: $font-size-sm;
+            tr {
+                td {
+                    text-align: center;
                     padding: 0 torem(6px);
-                    border-radius: torem(2px);
-                    display: block;
-                    color: $font-color-base;
-                    height: torem(24px);
-                    line-height: torem(24px);
-                    &.prev,
-                    &.next,
-                    &.week {
-                        color: #c0c4cc;
+                    a {
+                        cursor: pointer;
+                        &:hover {
+                            color: $primary;
+                        }
+                        &.active {
+                            background: $primary;
+                            color: white;
+                        }
+                        &.disabled {
+                            cursor: $cursor-disabled;
+                        }
                     }
-                    &.disabled {
-                        color: #bcbcbc;
-                        background: #f5f5f5
+                    a,
+                    span {
+                        font-size: $font-size-sm;
+                        padding: 0 torem(6px);
+                        border-radius: torem(2px);
+                        display: block;
+                        color: $font-color-base;
+                        height: torem(24px);
+                        line-height: torem(24px);
+                        &.prev,
+                        &.next,
+                        &.week {
+                            color: #c0c4cc;
+                        }
+                        &.disabled {
+                            color: #bcbcbc;
+                            background: #f5f5f5
+                        }
                     }
                 }
             }
@@ -96,22 +98,24 @@ $prefixCls:'.k-datepicker';
     &-year-table,
     &-month-table {
         td {
-            width:torem(66px);
+            width: torem(66px);
             height: torem(66px);
             line-height: torem(66px) a {}
         }
     }
     &-day-table {
-        tr.week-row {
-            cursor: pointer;
-            &:hover {
-                background: #ECF6FD;
-            }
-            &.active {
-                background: $primary;
-                span {
+        tr {
+            &.week-row {
+                cursor: pointer;
+                &:hover {
+                    background: #ECF6FD;
+                }
+                &.active {
                     background: $primary;
-                    color: white !important;
+                    span {
+                        background: $primary;
+                        color: white !important;
+                    }
                 }
             }
             td {

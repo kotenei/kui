@@ -141,7 +141,6 @@ class DayView extends Component {
     }
     renderBody() {
         const { date, week, selected, onWeekSelect } = this.props;
-        console.log(week, "0");
         let curDate = new Date(),
             days = getDaysInMonth(date), //当月所有天数
             firstDate = new Date(date.getFullYear(), date.getMonth(), 1),

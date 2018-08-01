@@ -9,8 +9,11 @@ class DatePickerView extends Component {
                 <h1>DatePicker 日期选择</h1>
                 <div className="k-example">
                     <DatePicker
-                        minDate={new Date(2018, 0, 1)}
-                        maxDate={new Date(2018, 2, 1)}
+                        //minDate={new Date(2018, 7, 1)}
+                        maxDate={new Date(2018, 8, 1)}
+                        view={2}
+                        showTime
+                        format="YYYY-MM-DD HH:mm:ss"
                     />
                 </div>
                 <h1>API</h1>

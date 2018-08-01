@@ -6,7 +6,8 @@ import {
     lastDayOfMonth,
     addMonths,
     addDays,
-    format
+    format,
+    addYears
 } from "date-fns";
 import { dates, getWeek } from "../../utils/dateUtils";
 
@@ -17,6 +18,7 @@ class Cell extends Component {
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
         selected: PropTypes.object,
+        week: PropTypes.bool,
         onClick: PropTypes.func
     };
     handleClick = () => {
@@ -26,25 +28,55 @@ class Cell extends Component {
         }
     };
     render() {
-        const { className, value, date, selected } = this.props;
+        const { className, value, date, selected, week } = this.props;
         let curDate = new Date(),
             isCur = format(curDate, "YYYY-MM-DD") == format(date, "YYYY-MM-DD"),
             isActive =
                 selected &&
-                format(date, "YYYY-MM-DD") == format(selected, "YYYY-MM-DD");
+                format(date, "YYYY-MM-DD") == format(selected, "YYYY-MM-DD"),
+            strClassName = classnames(className, {
+                curDay: isCur,
+                active: isActive
+            });
 
         return (
             <td>
-                <a
-                    className={classnames(className, {
-                        curDay: isCur,
-                        active: isActive
-                    })}
-                    onClick={this.handleClick}
-                >
-                    {value}
-                </a>
+                {week ? (
+                    <span className={strClassName}>{value}</span>
+                ) : (
+                    <a className={strClassName} onClick={this.handleClick}>
+                        {value}
+                    </a>
+                )}
             </td>
+        );
+    }
+}
+
+class Row extends Component {
+    static propTypes = {
+        week: PropTypes.bool,
+        startDate: PropTypes.object,
+        endDate: PropTypes.object,
+        onClick: PropTypes.func
+    };
+    handleClick = () => {
+        const { onClick, startDate, endDate } = this.props;
+        if (onClick) {
+            onClick(startDate, endDate);
+        }
+    };
+    render() {
+        const { className, children, week } = this.props;
+        return (
+            <tr
+                className={classnames(className, {
+                    "week-row": week
+                })}
+                onClick={this.handleClick}
+            >
+                {children}
+            </tr>
         );
     }
 }
@@ -64,7 +96,8 @@ class DayView extends Component {
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
         week: PropTypes.bool,
-        onDaySelect: PropTypes.func
+        onDaySelect: PropTypes.func,
+        onWeekSelect: PropTypes.func
     };
     static defaultProps = {
         date: new Date(),
@@ -72,7 +105,8 @@ class DayView extends Component {
         week: false
     };
     handleClick = date => {
-        const { onDaySelect } = this.props;
+        const { onDaySelect, week } = this.props;
+        if (week) return;
         let strDate =
             format(date, "YYYY-MM-DD") + " " + format(new Date(), "HH:mm:ss");
         date = new Date(strDate);
@@ -80,12 +114,17 @@ class DayView extends Component {
             onDaySelect(date);
         }
     };
+    handleWeekClick = (startDate, endDate) => {
+        const { onWeekSelect } = this.props;
+        if (onWeekSelect) {
+            onWeekSelect(startDate, endDate);
+        }
+    };
     getDisabled(date) {
         const { minDate, maxDate } = this.props;
         let min = minDate ? format(minDate, "YYYYMMDD") : null,
             max = maxDate ? format(maxDate, "YYYYMMDD") : null,
             cur = format(date, "YYYYMMDD");
-
         return (min && cur < min) || (max && cur > max);
     }
     renderHead() {
@@ -101,7 +140,8 @@ class DayView extends Component {
         return items;
     }
     renderBody() {
-        const { date, week, selected } = this.props;
+        const { date, week, selected, onWeekSelect } = this.props;
+        console.log(week, "0");
         let curDate = new Date(),
             days = getDaysInMonth(date), //当月所有天数
             firstDate = new Date(date.getFullYear(), date.getMonth(), 1),
@@ -134,6 +174,7 @@ class DayView extends Component {
                     value={i}
                     date={startDate}
                     selected={selected}
+                    week={week}
                     onClick={!disabled ? this.handleClick : null}
                 />
             );
@@ -152,6 +193,7 @@ class DayView extends Component {
                     value={i}
                     date={startDate}
                     selected={selected}
+                    week={week}
                     onClick={!disabled ? this.handleClick : null}
                 />
             );
@@ -171,6 +213,7 @@ class DayView extends Component {
                     value={i}
                     date={startDate}
                     selected={selected}
+                    week={week}
                     onClick={!disabled ? this.handleClick : null}
                 />
             );
@@ -178,14 +221,29 @@ class DayView extends Component {
             startDate = addDays(startDate, 1);
             index++;
         }
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0, start, end; i < 6; i++) {
+            start = tmpDate[0];
+            end = tmpDate[6];
             rows.push(
-                <tr key={i} className={week ? "week-row" : ""}>
+                <Row
+                    key={i}
+                    className={classnames({
+                        active: selected && selected >= start && selected <= end
+                    })}
+                    week={week}
+                    startDate={start}
+                    endDate={end}
+                    onClick={week ? onWeekSelect : null}
+                >
                     {week ? (
-                        <Cell className="week" value={getWeek(tmpDate[0])} />
+                        <Cell
+                            className="week"
+                            week={week}
+                            value={getWeek(start)}
+                        />
                     ) : null}
                     {cells.splice(0, 7)}
-                </tr>
+                </Row>
             );
             tmpDate.splice(0, 7);
         }

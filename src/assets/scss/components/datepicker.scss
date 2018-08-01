@@ -45,20 +45,7 @@ $prefixCls:'.k-datepicker';
                 text-align: center;
                 padding: 0 torem(6px);
                 a {
-                    font-size: $font-size-sm;
-                    padding: 0 torem(6px);
-                    border-radius: torem(2px);
-                    transition: background .3s ease;
                     cursor: pointer;
-                    display: block;
-                    color: $font-color-base;
-                    height: torem(24px);
-                    line-height: torem(24px);
-                    &.prev,
-                    &.next,
-                    &.week {
-                        color: #c0c4cc;
-                    }
                     &:hover {
                         color: $primary;
                     }
@@ -68,7 +55,25 @@ $prefixCls:'.k-datepicker';
                     }
                     &.disabled {
                         cursor: $cursor-disabled;
-                        color: $disabled-color;
+                    }
+                }
+                a,
+                span {
+                    font-size: $font-size-sm;
+                    padding: 0 torem(6px);
+                    border-radius: torem(2px);
+                    display: block;
+                    color: $font-color-base;
+                    height: torem(24px);
+                    line-height: torem(24px);
+                    &.prev,
+                    &.next,
+                    &.week {
+                        color: #c0c4cc;
+                    }
+                    &.disabled {
+                        color: #bcbcbc;
+                        background: #f5f5f5
                     }
                 }
             }
@@ -77,12 +82,9 @@ $prefixCls:'.k-datepicker';
     &-footer {
         position: relative;
         padding: torem(10px);
-        border-top: $border-width-base $border-style-base $border-color-base; //height: torem(38px);
-        //line-height: torem(38px);
+        border-top: $border-width-base $border-style-base $border-color-base;
     }
     &-time-header {
-        // display:flex;
-        // justify-content: space-around;
         display: table;
         padding: torem(10px) torem(5px);
         border-bottom: $border-width-base $border-style-base $border-color-base;
@@ -94,17 +96,32 @@ $prefixCls:'.k-datepicker';
     &-year-table,
     &-month-table {
         td {
+            width:torem(66px);
             height: torem(66px);
             line-height: torem(66px) a {}
         }
     }
     &-day-table {
-        td {
-            height: torem(30px);
-            line-height: torem(30px) a {}
-            a {
-                &.curDay {
-                    color: $primary
+        tr.week-row {
+            cursor: pointer;
+            &:hover {
+                background: #ECF6FD;
+            }
+            &.active {
+                background: $primary;
+                span {
+                    background: $primary;
+                    color: white !important;
+                }
+            }
+            td {
+                height: torem(30px);
+                line-height: torem(30px);
+                a,
+                span {
+                    &.curDay {
+                        color: $primary
+                    }
                 }
             }
         }

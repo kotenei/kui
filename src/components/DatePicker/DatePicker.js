@@ -52,16 +52,18 @@ class DatePicker extends Component {
         maxDate: PropTypes.object,
         okText: PropTypes.string,
         open: PropTypes.bool,
-        today: PropTypes.bool,
+        showToday: PropTypes.bool,
+        showTime: PropTypes.bool,
         value: PropTypes.object,
-        view: PropTypes.oneOf([0, 1, 2, 3]) //0:年，1:月，2:日  3:时间
+        view: PropTypes.oneOf([0, 1, 2]) //0:年，1:月，2:日
     };
     static defaultProps = {
         disabled: false,
         format: "YYYY-MM-DD",
         lang: "zh-cn",
         okText: "确定",
-        today: false,
+        showToday: false,
+        showTime: false,
         view: 2
     };
     /**
@@ -216,6 +218,31 @@ class DatePicker extends Component {
         }
     };
     /**
+     * 周选择
+     */
+    handleWeekSelect = (startDate, endDate) => {
+        const { view, minDate, maxDate } = this.props;
+        let min = minDate ? formatter(minDate, "YYYYMMDD") : null;
+        let max = maxDate ? formatter(maxDate, "YYYYMMDD") : null;
+        let end = formatter(endDate, "YYYYMMDD");
+        if ((min && end < min) || (max && end > max)) {
+            return;
+        }
+        this.setState({
+            tmpDate: startDate
+        });
+        if (!("value" in this.props)) {
+            this.setState(
+                {
+                    date: startDate
+                },
+                () => {
+                    this.close();
+                }
+            );
+        }
+    };
+    /**
      * 时间文件框点击
      */
     handleTimeClick = () => {
@@ -356,7 +383,15 @@ class DatePicker extends Component {
         });
     }
     renderPicker() {
-        const { minDate, maxDate, lang, view, okText } = this.props;
+        const {
+            minDate,
+            maxDate,
+            lang,
+            view,
+            okText,
+            showToday,
+            showTime
+        } = this.props;
         const { open, position, tmpDate, tmpView, date } = this.state;
         let newMinDate = minDate,
             newMaxDate = maxDate;
@@ -374,7 +409,7 @@ class DatePicker extends Component {
                             style={position}
                             onClick={this.handlePickerClick}
                         >
-                            {view == 3 ? (
+                            {showTime ? (
                                 <div className={`${prefixCls}-time-header`}>
                                     <div>
                                         <Input
@@ -444,11 +479,13 @@ class DatePicker extends Component {
                                         maxDate={newMaxDate}
                                         selected={date}
                                         onDaySelect={this.handleDaySelect}
+                                        onWeekSelect={this.handleWeekSelect}
                                     />
                                 ) : null}
                             </Body>
-                            <Footer prefixCls={prefixCls}>
-                                {tmpView == 2 ? (
+
+                            {tmpView == 2 && showToday ? (
+                                <Footer prefixCls={prefixCls}>
                                     <div style={{ textAlign: "center" }}>
                                         <a
                                             className={`${prefixCls}-today-btn`}
@@ -457,8 +494,10 @@ class DatePicker extends Component {
                                             {dates[lang].today}
                                         </a>
                                     </div>
-                                ) : null}
-                                {tmpView == 3 ? (
+                                </Footer>
+                            ) : null}
+                            {showTime ? (
+                                <Footer prefixCls={prefixCls}>
                                     <div style={{ textAlign: "right" }}>
                                         <a
                                             className={`${prefixCls}-now-btn`}
@@ -475,8 +514,8 @@ class DatePicker extends Component {
                                             {okText}
                                         </Button>
                                     </div>
-                                ) : null}
-                            </Footer>
+                                </Footer>
+                            ) : null}
                         </div>
                     </CSSTransition>
                 ) : null}

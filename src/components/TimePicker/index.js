@@ -34,6 +34,8 @@ class TimePicker extends Component {
         disabled: PropTypes.bool,
         hourStep: PropTypes.number,
         minuteStep: PropTypes.number,
+        minTime: PropTypes.string,
+        maxTime: PropTypes.string,
         secondStep: PropTypes.number,
         open: PropTypes.bool,
         placeholder: PropTypes.string,
@@ -177,30 +179,51 @@ class TimePicker extends Component {
     }
     //小时列表项
     getHours() {
-        const { use12Hours, hourStep } = this.props;
-        let hours = use12Hours ? 12 : 23;
-        let data = [];
-        for (let i = 0; i <= hours; i += hourStep) {
+        const { use12Hours, hourStep, minTime, maxTime } = this.props;
+        let data = [],
+            min = 0,
+            max = use12Hours ? 12 : 23;
+        if (minTime && this.isTime(minTime)) {
+            min = parseInt(minTime.split(":")[0], 10);
+        }
+        if (maxTime && this.isTime(maxTime)) {
+            max = parseInt(maxTime.split(":")[0], 10);
+        }
+        for (let i = min; i <= max; i += hourStep) {
             data.push(String(i).padStart(2, "0"));
         }
         return data;
     }
     //分钟列表项
     getMinutes() {
-        const { minuteStep } = this.props;
-        let data = [];
-        let minutes = 59;
-        for (let i = 0; i <= minutes; i += minuteStep) {
+        const { minuteStep, minTime, maxTime } = this.props;
+        let data = [],
+            min = 0,
+            max = 59;
+        if (minTime && this.isTime(minTime)) {
+            min = parseInt(minTime.split(":")[1], 10);
+        }
+        if (maxTime && this.isTime(maxTime)) {
+            max = parseInt(maxTime.split(":")[1], 10);
+        }
+        for (let i = min; i <= max; i += minuteStep) {
             data.push(String(i).padStart(2, "0"));
         }
         return data;
     }
     //秒列表项
     getSeconds() {
-        const { secondStep } = this.props;
-        let data = [];
-        let seconds = 59;
-        for (let i = 0; i <= seconds; i += secondStep) {
+        const { secondStep, minTime, maxTime } = this.props;
+        let data = [],
+            min = 0,
+            max = 59;
+        if (minTime && this.isTime(minTime)) {
+            min = parseInt(minTime.split(":")[2], 10);
+        }
+        if (maxTime && this.isTime(maxTime)) {
+            max = parseInt(maxTime.split(":")[2], 10);
+        }
+        for (let i = min; i <= max; i += secondStep) {
             data.push(String(i).padStart(2, "0"));
         }
         return data;

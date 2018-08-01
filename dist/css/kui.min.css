@@ -1706,25 +1706,32 @@ input[type="button"].k-btn-block {
         text-align: center;
         padding: 0 0.375rem; }
         .k-datepicker-body table td a {
-          font-size: 0.75rem;
-          padding: 0 0.375rem;
-          border-radius: 0.125rem;
-          transition: background .3s ease;
-          cursor: pointer;
-          display: block;
-          color: #333;
-          height: 1.5rem;
-          line-height: 1.5rem; }
-          .k-datepicker-body table td a.prev, .k-datepicker-body table td a.next, .k-datepicker-body table td a.week {
-            color: #c0c4cc; }
+          cursor: pointer; }
           .k-datepicker-body table td a:hover {
             color: #2196f3; }
           .k-datepicker-body table td a.active {
             background: #2196f3;
             color: white; }
           .k-datepicker-body table td a.disabled {
-            cursor: not-allowed;
-            color: #bdbdbd; }
+            cursor: not-allowed; }
+        .k-datepicker-body table td a,
+        .k-datepicker-body table td span {
+          font-size: 0.75rem;
+          padding: 0 0.375rem;
+          border-radius: 0.125rem;
+          display: block;
+          color: #333;
+          height: 1.5rem;
+          line-height: 1.5rem; }
+          .k-datepicker-body table td a.prev, .k-datepicker-body table td a.next, .k-datepicker-body table td a.week,
+          .k-datepicker-body table td span.prev,
+          .k-datepicker-body table td span.next,
+          .k-datepicker-body table td span.week {
+            color: #c0c4cc; }
+          .k-datepicker-body table td a.disabled,
+          .k-datepicker-body table td span.disabled {
+            color: #bcbcbc;
+            background: #f5f5f5; }
   .k-datepicker-footer {
     position: relative;
     padding: 0.625rem;
@@ -1737,13 +1744,24 @@ input[type="button"].k-btn-block {
       display: table-cell;
       padding: 0 0.3125rem; }
   .k-datepicker-year-table td, .k-datepicker-month-table td {
+    width: 4.125rem;
     height: 4.125rem;
     line-height: 4.125rem a; }
-  .k-datepicker-day-table td {
-    height: 1.875rem;
-    line-height: 1.875rem a; }
-    .k-datepicker-day-table td a.curDay {
-      color: #2196f3; }
+  .k-datepicker-day-table tr.week-row {
+    cursor: pointer; }
+    .k-datepicker-day-table tr.week-row:hover {
+      background: #ECF6FD; }
+    .k-datepicker-day-table tr.week-row.active {
+      background: #2196f3; }
+      .k-datepicker-day-table tr.week-row.active span {
+        background: #2196f3;
+        color: white !important; }
+    .k-datepicker-day-table tr.week-row td {
+      height: 1.875rem;
+      line-height: 1.875rem; }
+      .k-datepicker-day-table tr.week-row td a.curDay,
+      .k-datepicker-day-table tr.week-row td span.curDay {
+        color: #2196f3; }
   .k-datepicker-today-btn {
     display: inline-block;
     margin: 0 auto;

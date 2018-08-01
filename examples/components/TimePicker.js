@@ -95,6 +95,18 @@ class TimePickerView extends Component {
                             <td>1</td>
                         </tr>
                         <tr>
+                            <td>minTime</td>
+                            <td>最小时间，格式:"00:00:00"</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>maxTime</td>
+                            <td>最大时间，格式:"00:00:00"</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
                             <td>secondStep</td>
                             <td>秒步长</td>
                             <td>number</td>

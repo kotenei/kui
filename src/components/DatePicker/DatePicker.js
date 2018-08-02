@@ -5,8 +5,6 @@ import Input from "../Input";
 import { format as formatter } from "date-fns";
 import PopPanel from "../PopPanel";
 
-let seed = 1;
-let instances = {};
 
 class DatePicker extends Component {
     constructor(props) {
@@ -15,8 +13,6 @@ class DatePicker extends Component {
             open: false,
             value: props.defaultValue || props.value
         };
-        this.id = `datepicker_${seed++}`;
-        instances[this.id] = this;
     }
     handleClick = e => {
         this.open();

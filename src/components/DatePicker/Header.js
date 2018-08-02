@@ -10,6 +10,10 @@ class Header extends Component {
         date: PropTypes.object,
         lang: PropTypes.string,
         view: PropTypes.number,
+        showPrevYear: PropTypes.bool,
+        showPrevMonth: PropTypes.bool,
+        showNextYear: PropTypes.bool,
+        showNextMonth: PropTypes.bool,
         onPrevYearClick: PropTypes.func,
         onNextYearClick: PropTypes.func,
         onPrevMonthClick: PropTypes.func,
@@ -20,7 +24,11 @@ class Header extends Component {
     static defaultProps = {
         date: new Date(),
         lang: "zh-cn",
-        view: 2
+        view: 2,
+        showPrevYear: true,
+        showPrevMonth: true,
+        showNextYear: true,
+        showNextMonth: true
     };
     handleClick = e => {
         e.stopPropagation();
@@ -63,20 +71,32 @@ class Header extends Component {
         }
     };
     render() {
-        const { prefixCls, date, lang, view } = this.props;
+        const {
+            prefixCls,
+            date,
+            lang,
+            view,
+            showPrevYear,
+            showPrevMonth,
+            showNextMonth,
+            showNextYear
+        } = this.props;
         let year = date.getFullYear(),
             num = year.toString().substr(3),
             start = year - num,
             end = start + 9;
         return (
             <div className={`${prefixCls}-header`} onClick={this.handleClick}>
-                <a onClick={this.handlePrevYearClick}>
-                    <Icon
-                        type="doubleleft"
-                        className={`${prefixCls}-prev-button`}
-                    />
-                </a>
-                {view >= 2 ? (
+                {showPrevYear ? (
+                    <a onClick={this.handlePrevYearClick}>
+                        <Icon
+                            type="doubleleft"
+                            className={`${prefixCls}-prev-button`}
+                        />
+                    </a>
+                ) : null}
+
+                {view >= 2 && showPrevMonth ? (
                     <a onClick={this.handlePrevMonthClick}>
                         <Icon
                             type="left"
@@ -101,7 +121,7 @@ class Header extends Component {
                         </span>
                     ) : null}
                 </span>
-                {view >= 2 ? (
+                {view >= 2 && showNextMonth ? (
                     <a onClick={this.handleNextMonthClick}>
                         <Icon
                             type="right"
@@ -109,12 +129,14 @@ class Header extends Component {
                         />
                     </a>
                 ) : null}
-                <a onClick={this.handleNextYearClick}>
-                    <Icon
-                        type="doubleright"
-                        className={`${prefixCls}-next-button`}
-                    />
-                </a>
+                {showNextYear ? (
+                    <a onClick={this.handleNextYearClick}>
+                        <Icon
+                            type="doubleright"
+                            className={`${prefixCls}-next-button`}
+                        />
+                    </a>
+                ) : null}
             </div>
         );
     }

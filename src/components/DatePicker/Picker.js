@@ -20,14 +20,6 @@ import DayView from "./DayView";
 import TimePicker from "../TimePicker";
 
 const prefixCls = "k-datepicker";
-const SELECT_TYPE = {
-    year: "year",
-    month: "month",
-    day: "day",
-    week: "week",
-    time: "time",
-    today: "today"
-};
 
 class Picker extends Component {
     constructor(props) {
@@ -46,19 +38,28 @@ class Picker extends Component {
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
         okText: PropTypes.string,
+        showPrevYear: PropTypes.bool,
+        showPrevMonth: PropTypes.bool,
+        showNextYear: PropTypes.bool,
+        showNextMonth: PropTypes.bool,
         showToday: PropTypes.bool,
         showTime: PropTypes.bool,
         showWeek: PropTypes.bool,
         value: PropTypes.object,
         view: PropTypes.oneOf([0, 1, 2]), //0:年，1:月，2:日
         onChange: PropTypes.func,
-        onOK: PropTypes.func
+        onPrev: PropTypes.func,
+        onNext: PropTypes.func
     };
     static defaultProps = {
         disabled: false,
         format: "YYYY-MM-DD",
         lang: "zh-cn",
         okText: "确定",
+        showPrevYear: true,
+        showPrevMonth: true,
+        showNextYear: true,
+        showNextMonth: true,
         showToday: false,
         showTime: false,
         view: 2
@@ -67,6 +68,7 @@ class Picker extends Component {
      * 点击上一年
      */
     handlePrevYearClick = e => {
+        const { onPrev } = this.props;
         const { tmpDate, tmpView } = this.state;
         let newDate;
         if (tmpView == 0) {
@@ -77,11 +79,15 @@ class Picker extends Component {
         this.setState({
             tmpDate: newDate
         });
+        if (onPrev) {
+            onPrev(newDate);
+        }
     };
     /**
      * 点击下一年
      */
     handleNextYearClick = e => {
+        const { onNext } = this.props;
         const { tmpDate, tmpView } = this.state;
         let newDate;
         if (tmpView == 0) {
@@ -92,24 +98,37 @@ class Picker extends Component {
         this.setState({
             tmpDate: newDate
         });
+        if (onNext) {
+            onNext(newDate);
+        }
     };
     /**
      * 点击上个月
      */
     handlePrevMonthClick = e => {
+        const { onPrev } = this.props;
         const { tmpDate } = this.state;
+        let newDate = addMonths(tmpDate, -1);
         this.setState({
-            tmpDate: addMonths(tmpDate, -1)
+            tmpDate: newDate
         });
+        if (onPrev) {
+            onPrev(newDate);
+        }
     };
     /**
      * 点击下个月
      */
     handleNextMonthClick = e => {
+        const { onNext } = this.porps;
         const { tmpDate } = this.state;
+        let newDate = addMonths(tmpDate, 1);
         this.setState({
-            tmpDate: addMonths(tmpDate, 1)
+            tmpDate: newDate
         });
+        if (onNext) {
+            onNext(newDate);
+        }
     };
     /**
      * 年选择视图
@@ -300,7 +319,7 @@ class Picker extends Component {
      */
     handleOKClick = e => {
         const { date } = this.state;
-        const { value, onChange, onOK } = this.props;
+        const { value, onChange } = this.props;
         if (date) {
             if (onChange) {
                 onChange({

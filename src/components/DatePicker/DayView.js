@@ -56,14 +56,13 @@ class Cell extends Component {
 class Row extends Component {
     static propTypes = {
         week: PropTypes.bool,
-        startDate: PropTypes.object,
-        endDate: PropTypes.object,
+        date: PropTypes.array,
         onClick: PropTypes.func
     };
     handleClick = () => {
-        const { onClick, startDate, endDate } = this.props;
+        const { onClick, startDate, endDate, date } = this.props;
         if (onClick) {
-            onClick(startDate, endDate);
+            onClick(date);
         }
     };
     render() {
@@ -112,12 +111,6 @@ class DayView extends Component {
         date = new Date(strDate);
         if (onDaySelect) {
             onDaySelect(date);
-        }
-    };
-    handleWeekClick = (startDate, endDate) => {
-        const { onWeekSelect } = this.props;
-        if (onWeekSelect) {
-            onWeekSelect(startDate, endDate);
         }
     };
     getDisabled(date) {
@@ -220,31 +213,31 @@ class DayView extends Component {
             startDate = addDays(startDate, 1);
             index++;
         }
-        for (let i = 0, start, end; i < 6; i++) {
-            start = tmpDate[0];
-            end = tmpDate[6];
+        for (let i = 0; i < 6; i++) {
+            let weekDate = tmpDate.splice(0, 7);
             rows.push(
                 <Row
                     key={i}
                     className={classnames({
-                        active: selected && selected >= start && selected <= end
+                        active:
+                            selected &&
+                            selected >= weekDate[0] &&
+                            selected <= weekDate[6]
                     })}
                     week={week}
-                    startDate={start}
-                    endDate={end}
+                    date={weekDate}
                     onClick={week ? onWeekSelect : null}
                 >
                     {week ? (
                         <Cell
                             className="week"
                             week={week}
-                            value={getWeek(start)}
+                            value={getWeek(weekDate[0])}
                         />
                     ) : null}
                     {cells.splice(0, 7)}
                 </Row>
             );
-            tmpDate.splice(0, 7);
         }
 
         return rows;

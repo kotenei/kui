@@ -1669,11 +1669,7 @@ input[type="button"].k-btn-block {
       margin-left: 0.625rem; }
 
 .k-datepicker {
-  position: absolute;
-  border: 1px solid #d9d9d9;
-  border-radius: 0.25rem;
   background: white;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   z-index: 1050;
   min-width: 15.625rem; }
   .k-datepicker-header {
@@ -2825,6 +2821,12 @@ input[type="button"].k-btn-block {
     right: 0.625rem; }
   .k-popover.bottom .k-popover-arrow::before, .k-popover.bottomLeft .k-popover-arrow::before, .k-popover.bottomRight .k-popover-arrow::before {
     border-bottom-color: #F7F7F7; }
+
+.k-popPanel {
+  position: absolute;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid #d9d9d9;
+  border-radius: 0.25rem; }
 
 .k-progress {
   display: inline-block;

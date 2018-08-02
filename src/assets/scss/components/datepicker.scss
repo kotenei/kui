@@ -1,10 +1,8 @@
 $prefixCls:'.k-datepicker';
+
 #{$prefixCls} {
-    position: absolute;
-    border: $border-width-base $border-style-base $border-color-base;
-    border-radius: $border-radius;
+    //border: $border-width-base $border-style-base $border-color-base;
     background: white;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
     z-index: 1050;
     min-width: torem(250px);
     &-header {

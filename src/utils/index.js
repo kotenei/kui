@@ -38,7 +38,9 @@ export const getPosition = props => {
         tw = props.width || 0,
         th = props.height || 0,
         position = { left: 0, top: 0 },
-        pos = { left: 0, top: 0 };
+        pos = { left: 0, top: 0 },
+        offset = 4;
+
     do {
         position.left += parent.offsetLeft - parent.scrollLeft;
         position.top += parent.offsetTop - parent.scrollTop;
@@ -59,15 +61,18 @@ export const getPosition = props => {
             break;
         case "top":
             pos = {
-                top: position.top - th,
+                top: position.top - th - offset,
                 left: position.left + ew / 2 - tw / 2
             };
             break;
         case "topLeft":
-            pos = { top: position.top - th, left: position.left };
+            pos = { top: position.top - th - offset, left: position.left };
             break;
         case "topRight":
-            pos = { top: position.top - th, left: position.left + ew - tw };
+            pos = {
+                top: position.top - th - offset,
+                left: position.left + ew - tw
+            };
             break;
         case "right":
             pos = {
@@ -83,15 +88,18 @@ export const getPosition = props => {
             break;
         case "bottom":
             pos = {
-                top: position.top + eh,
+                top: position.top + eh + offset,
                 left: position.left + ew / 2 - tw / 2
             };
             break;
         case "bottomLeft":
-            pos = { top: position.top + eh, left: position.left };
+            pos = { top: position.top + eh + offset, left: position.left };
             break;
         case "bottomRight":
-            pos = { top: position.top + eh, left: position.left + ew - tw };
+            pos = {
+                top: position.top + eh + offset,
+                left: position.left + ew - tw
+            };
             break;
     }
 

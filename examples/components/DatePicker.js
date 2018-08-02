@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { DatePicker } from "main";
-const { MonthPicker } = DatePicker;
+
+const { RangePicker } = DatePicker;
 
 class DatePickerView extends Component {
     render() {
@@ -8,14 +9,15 @@ class DatePickerView extends Component {
             <div>
                 <h1>DatePicker 日期选择</h1>
                 <div className="k-example">
-                    <DatePicker
-                        minDate={new Date(2018, 7, 1)}
+                    {/* <DatePicker
+                        //minDate={new Date(2018, 7, 1)}
                         //maxDate={new Date(2018, 8, 1)}
                         showTime
                         view={2}
                         format="YYYY-MM-DD HH:mm:ss"
                         //value={new Date()}
-                    />
+                    /> */}
+                    <RangePicker  />
                 </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">

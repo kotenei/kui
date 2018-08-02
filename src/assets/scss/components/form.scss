@@ -9,6 +9,11 @@
     border:$border-width-base $border-style-base $border-color-base;
     border-radius: $input-border-radius;
     height: $height-default;
+    position: relative;
+
+    input{
+        font-size: $font-size-base;
+    }
 
     @include form-control-focus();
     @include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);

@@ -11,10 +11,16 @@
     padding:$input-padding-y-lg $input-padding-x-lg;
     font-size: $font-size-lg;
     height: $height-lg;
+    input{
+      font-size: $font-size-lg;
+    }
 }
 
 @mixin form-control-sm(){
     padding:$input-padding-y-sm $input-padding-x-sm;
     font-size: $font-size-sm;
     height: $height-sm;
+    input{
+      font-size: $font-size-sm;
+    }
 }

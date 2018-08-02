@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Picker from "./Picker";
 import Input from "../Input";
 import { format as formatter } from "date-fns";
-import { Empty, getPosition, FirstChild } from "../../utils";
 import PopPanel from "../PopPanel";
 
 let seed = 1;
@@ -13,10 +12,6 @@ class DatePicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: {
-                left: -999,
-                top: -999
-            },
             open: false,
             value: props.defaultValue || props.value
         };

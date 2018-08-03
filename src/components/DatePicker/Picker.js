@@ -120,7 +120,7 @@ class Picker extends Component {
      * 点击下个月
      */
     handleNextMonthClick = e => {
-        const { onNext } = this.porps;
+        const { onNext } = this.props;
         const { tmpDate } = this.state;
         let newDate = addMonths(tmpDate, 1);
         this.setState({
@@ -360,7 +360,11 @@ class Picker extends Component {
             okText,
             showToday,
             showTime,
-            showWeek
+            showWeek,
+            showPrevMonth,
+            showPrevYear,
+            showNextMonth,
+            showNextYear
         } = this.props;
         const { tmpDate, tmpView, date } = this.state;
         let newMinDate = minDate,
@@ -397,6 +401,10 @@ class Picker extends Component {
                     date={tmpDate}
                     lang={lang}
                     view={tmpView}
+                    showPrevMonth={showPrevMonth}
+                    showPrevYear={showPrevYear}
+                    showNextMonth={showNextMonth}
+                    showNextYear={showNextYear}
                     onPrevYearClick={this.handlePrevYearClick}
                     onNextYearClick={this.handleNextYearClick}
                     onPrevMonthClick={this.handlePrevMonthClick}

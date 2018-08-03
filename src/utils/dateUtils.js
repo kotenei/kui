@@ -116,3 +116,16 @@ export const getWeek = (date = new Date(), dowOffset = 0) => {
     }
     return weeknum;
 };
+
+export const getDiffMonth = (startDate, endDate) => {
+    let startYear = startDate.getFullYear(),
+        startMonth = startDate.getMonth(),
+        endYear = endDate.getFullYear(),
+        endMonth = endDate.getMonth();
+    return (endYear - startYear) * 12 + (endMonth - startMonth);
+};
+
+export const getDiffDay = (startDate, endDate) => {
+    let diff = endDate.getTime() - startDate.getTime();
+    return Math.floor(diff / (1000 * 3600 * 24));
+};

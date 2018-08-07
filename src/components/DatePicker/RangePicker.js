@@ -19,7 +19,8 @@ class RangePicker extends Component {
         this.state = {
             open: false,
             value: props.defaultValue || props.value,
-            tmpValue: props.defaultValue || props.value,
+            tmpValue: props.defaultValue ||
+                props.value || [new Date(), addMonths(new Date(), 1)],
             showPrevMonth: true,
             showPrevYear: true,
             showNextMonth: true,
@@ -49,15 +50,10 @@ class RangePicker extends Component {
         });
     };
     setArrow() {
-        const { value } = this.state;
-        let startDate = new Date(),
-            endDate = addMonths(startDate, 2),
-            diff;
-        if (value && value.length > 0) {
-            startDate = value[0];
-            endDate = value[1];
-        }
-        diff = getDiffMonth(startDate, endDate);
+        const { value, tmpValue } = this.state;
+        let startDate = tmpValue[0],
+            endDate = tmpValue[1],
+            diff = getDiffMonth(startDate, endDate);
         if (diff <= 1) {
             this.setState({
                 showPrevMonth: false,
@@ -81,6 +77,7 @@ class RangePicker extends Component {
         const {
             open,
             value,
+            tmpValue,
             showPrevMonth,
             showPrevYear,
             showNextMonth,
@@ -111,6 +108,7 @@ class RangePicker extends Component {
                 <div className={`${prefixCls}-range-left`}>
                     <Picker
                         {...pickerProps}
+                        value={tmpValue[0]}
                         showNextMonth={showNextMonth}
                         showNextYear={showNextYear}
                     />
@@ -118,6 +116,7 @@ class RangePicker extends Component {
                 <div className={`${prefixCls}-range-right`}>
                     <Picker
                         {...pickerProps}
+                        value={tmpValue[1]}
                         showPrevMonth={showPrevMonth}
                         showPrevYear={showPrevYear}
                     />

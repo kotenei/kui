@@ -89,11 +89,12 @@ class DayView extends Component {
     }
     static propTypes = {
         prefixCls: PropTypes.string,
-        date: PropTypes.object,
-        selected: PropTypes.object,
+        date: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+        selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
         lang: PropTypes.string,
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
+        range: PropTypes.bool,
         week: PropTypes.bool,
         onDaySelect: PropTypes.func,
         onWeekSelect: PropTypes.func
@@ -133,7 +134,7 @@ class DayView extends Component {
         return items;
     }
     renderBody() {
-        const { date, week, selected, onWeekSelect } = this.props;
+        const { date, week, selected, onWeekSelect, range } = this.props;
         let curDate = new Date(),
             days = getDaysInMonth(date), //当月所有天数
             firstDate = new Date(date.getFullYear(), date.getMonth(), 1),

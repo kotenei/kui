@@ -25,9 +25,11 @@ class Picker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tmpView: props.view,
+            curView: props.view,
+            orgView: props.view,
             date: props.defaultValue || props.value,
-            tmpDate: props.defaultValue || props.value || new Date()
+            tmpDate: props.defaultValue || props.value || new Date(),
+            rangeDates: []
         };
     }
     static propTypes = {
@@ -38,6 +40,7 @@ class Picker extends Component {
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
         okText: PropTypes.string,
+        range: PropTypes.bool,
         showPrevYear: PropTypes.bool,
         showPrevMonth: PropTypes.bool,
         showNextYear: PropTypes.bool,
@@ -69,9 +72,9 @@ class Picker extends Component {
      */
     handlePrevYearClick = e => {
         const { onPrev } = this.props;
-        const { tmpDate, tmpView } = this.state;
+        const { tmpDate, curView } = this.state;
         let newDate;
-        if (tmpView == 0) {
+        if (curView == 0) {
             newDate = addYears(tmpDate, -10);
         } else {
             newDate = addYears(tmpDate, -1);
@@ -88,9 +91,9 @@ class Picker extends Component {
      */
     handleNextYearClick = e => {
         const { onNext } = this.props;
-        const { tmpDate, tmpView } = this.state;
+        const { tmpDate, curView } = this.state;
         let newDate;
-        if (tmpView == 0) {
+        if (curView == 0) {
             newDate = addYears(tmpDate, 10);
         } else {
             newDate = addYears(tmpDate, 1);
@@ -131,31 +134,33 @@ class Picker extends Component {
         }
     };
     /**
-     * 年选择视图
+     * 年视图
      */
     handleYearClick = e => {
         this.setState({
-            tmpView: 0
+            curView: 0,
+            orgView: this.state.curView
         });
     };
     /**
-     * 月选择视力
+     * 月视图
      */
     handleMonthClick = e => {
         this.setState({
-            tmpView: 1
+            curView: 1,
+            orgView: this.state.curView
         });
     };
     /**
      * 年选择
      */
     handleYearSelect = year => {
-        const { tmpView, tmpDate } = this.state;
-        const { view, onChange } = this.props;
+        const { curView, tmpDate, orgView } = this.state;
+        const { view, range, onChange } = this.props;
         let newDate = setYear(tmpDate, year);
         this.setState({
             tmpDate: newDate,
-            tmpView: view >= 1 ? 1 : view
+            curView: orgView
         });
         if (view == 0) {
             if (!("value" in this.props)) {
@@ -180,7 +185,7 @@ class Picker extends Component {
         let newDate = setMonth(tmpDate, month);
         this.setState({
             tmpDate: newDate,
-            tmpView: view
+            curView: view
         });
         if (view == 1) {
             if (!("value" in this.props)) {
@@ -200,7 +205,8 @@ class Picker extends Component {
      * 日选择
      */
     handleDaySelect = date => {
-        const { view, onChange, showTime } = this.props;
+        const { view, onChange, showTime, range } = this.props;
+
         if (this.state.date) {
             let time = formatter(this.state.date, "HH:mm:ss");
             date = new Date(formatter(date, "YYYY-MM-DD") + " " + time);
@@ -208,6 +214,9 @@ class Picker extends Component {
         this.setState({
             tmpDate: date
         });
+        if (range) {
+            this.setRange(date);
+        }
         if (view == 2) {
             if (!("value" in this.props)) {
                 this.setState({
@@ -217,7 +226,7 @@ class Picker extends Component {
             if (onChange) {
                 onChange({
                     date,
-                    canClose: !showTime
+                    //canClose: !showTime
                 });
             }
         }
@@ -341,6 +350,23 @@ class Picker extends Component {
             }
         }
     };
+    setRange = date => {
+        const { range } = this.props;
+        const { rangeDates } = this.state;
+        let newRangeDates = [...rangeDates];
+        if (rangeDates.length == 0 || rangeDates.length == 2) {
+            newRangeDates = [date];
+        } else {
+            if (rangeDates[0].getTime() < date.getTime()) {
+                newRangeDates.push(date);
+            } else {
+                newRangeDates.splice(0, 0, date);
+            }
+        }
+        this.setState({
+            rangeDates: newRangeDates
+        });
+    };
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
             this.setState({
@@ -349,7 +375,7 @@ class Picker extends Component {
             });
         }
         this.setState({
-            tmpView: nextProps.view
+            curView: nextProps.view
         });
     }
     render() {
@@ -366,7 +392,7 @@ class Picker extends Component {
             showNextMonth,
             showNextYear
         } = this.props;
-        const { tmpDate, tmpView, date } = this.state;
+        const { tmpDate, curView, date } = this.state;
         let newMinDate = minDate,
             newMaxDate = maxDate;
         if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
@@ -400,7 +426,7 @@ class Picker extends Component {
                     prefixCls={prefixCls}
                     date={tmpDate}
                     lang={lang}
-                    view={tmpView}
+                    view={curView}
                     showPrevMonth={showPrevMonth}
                     showPrevYear={showPrevYear}
                     showNextMonth={showNextMonth}
@@ -413,18 +439,18 @@ class Picker extends Component {
                     onMonthClick={this.handleMonthClick}
                 />
                 <Body prefixCls={prefixCls}>
-                    {tmpView == 0 ? (
+                    {curView == 0 ? (
                         <YearView
                             prefixCls={prefixCls}
                             lang={lang}
-                            view={tmpView}
+                            view={curView}
                             date={tmpDate}
                             minDate={newMinDate}
                             maxDate={newMaxDate}
                             onYearSelect={this.handleYearSelect}
                         />
                     ) : null}
-                    {tmpView == 1 ? (
+                    {curView == 1 ? (
                         <MonthView
                             prefixCls={prefixCls}
                             lang={lang}
@@ -434,7 +460,7 @@ class Picker extends Component {
                             onMonthSelect={this.handleMonthSelect}
                         />
                     ) : null}
-                    {tmpView >= 2 ? (
+                    {curView >= 2 ? (
                         <DayView
                             prefixCls={prefixCls}
                             lang={lang}
@@ -448,7 +474,7 @@ class Picker extends Component {
                         />
                     ) : null}
                 </Body>
-                {tmpView == 2 && showToday ? (
+                {curView == 2 && showToday ? (
                     <Footer prefixCls={prefixCls}>
                         <div style={{ textAlign: "center" }}>
                             <a

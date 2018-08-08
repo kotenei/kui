@@ -9,15 +9,16 @@ class DatePickerView extends Component {
             <div>
                 <h1>DatePicker 日期选择</h1>
                 <div className="k-example">
-                    {/* <DatePicker
+                    <DatePicker
                         //minDate={new Date(2018, 7, 1)}
                         //maxDate={new Date(2018, 8, 1)}
-                        showTime
+                        //showTime
                         view={2}
-                        format="YYYY-MM-DD HH:mm:ss"
+                        format="YYYY-MM-DD"
+                        range
                         //value={new Date()}
-                    /> */}
-                    <RangePicker  />
+                    />
+                    {/* <RangePicker  /> */}
                 </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">

@@ -18,6 +18,7 @@ class Cell extends Component {
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
         selected: PropTypes.object,
+        rangeDates: PropTypes.array,
         week: PropTypes.bool,
         onClick: PropTypes.func
     };
@@ -28,16 +29,41 @@ class Cell extends Component {
         }
     };
     render() {
-        const { className, value, date, selected, week } = this.props;
-        let curDate = new Date(),
-            isCur = format(curDate, "YYYY-MM-DD") == format(date, "YYYY-MM-DD"),
+        const {
+            className,
+            value,
+            date,
+            selected,
+            week,
+            rangeDates
+        } = this.props;
+        let formatStr = "YYYYMMDD",
+            curDate = new Date(),
+            isCur = format(curDate, formatStr) == format(date, formatStr),
+            strClassName = classnames(className, {
+                curDay: isCur
+            }),
+            isActive;
+
+        if (rangeDates) {
+            if (rangeDates.length > 0) {
+                rangeDates.forEach(rangeDate => {
+                    if (
+                        format(date, formatStr) === format(rangeDate, formatStr)
+                    ) {
+                        isActive = true;
+                    }
+                });
+            }
+        } else {
             isActive =
                 selected &&
-                format(date, "YYYY-MM-DD") == format(selected, "YYYY-MM-DD"),
-            strClassName = classnames(className, {
-                curDay: isCur,
-                active: isActive
-            });
+                format(date, formatStr) == format(selected, formatStr);
+        }
+
+        strClassName = classnames(strClassName, {
+            active: isActive
+        });
 
         return (
             <td>
@@ -94,7 +120,7 @@ class DayView extends Component {
         lang: PropTypes.string,
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
-        range: PropTypes.bool,
+        rangeDates: PropTypes.array,
         week: PropTypes.bool,
         onDaySelect: PropTypes.func,
         onWeekSelect: PropTypes.func
@@ -134,7 +160,7 @@ class DayView extends Component {
         return items;
     }
     renderBody() {
-        const { date, week, selected, onWeekSelect, range } = this.props;
+        const { date, week, selected, onWeekSelect, rangeDates } = this.props;
         let curDate = new Date(),
             days = getDaysInMonth(date), //当月所有天数
             firstDate = new Date(date.getFullYear(), date.getMonth(), 1),
@@ -167,6 +193,7 @@ class DayView extends Component {
                     value={i}
                     date={startDate}
                     selected={selected}
+                    // rangeDates={rangeDates}
                     week={week}
                     onClick={!disabled ? this.handleClick : null}
                 />
@@ -185,6 +212,7 @@ class DayView extends Component {
                     key={index}
                     value={i}
                     date={startDate}
+                    rangeDates={rangeDates}
                     selected={selected}
                     week={week}
                     onClick={!disabled ? this.handleClick : null}
@@ -206,6 +234,7 @@ class DayView extends Component {
                     value={i}
                     date={startDate}
                     selected={selected}
+                    // rangeDates={rangeDates}
                     week={week}
                     onClick={!disabled ? this.handleClick : null}
                 />

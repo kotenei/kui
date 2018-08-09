@@ -21,6 +21,7 @@ class RangePicker extends Component {
             value: props.defaultValue || props.value,
             tmpValue: props.defaultValue ||
                 props.value || [new Date(), addMonths(new Date(), 1)],
+            rangeDates: props.defaultValue || props.value || [],
             showPrevMonth: true,
             showPrevYear: true,
             showNextMonth: true,
@@ -38,7 +39,23 @@ class RangePicker extends Component {
     handleClick = e => {
         this.open();
     };
-    handleChange = obj => {};
+    handleChange = obj => {
+        let rangeDates = this.setRangeDates(obj.date);
+        let tmpValue = [...this.state.tmpValue];
+        tmpValue[0] = rangeDates[0];
+        if (rangeDates[1]) {
+            tmpValue[1] = rangeDates[1];
+            if (getDiffMonth(tmpValue[0], tmpValue[1]) <= 0) {
+                tmpValue[1] = addMonths(tmpValue[0], 1);
+            }
+        }
+        this.setState({
+            tmpValue
+        });
+        if (rangeDates && rangeDates.length == 2) {
+            this.close();
+        }
+    };
     open = () => {
         this.setState({
             open: true
@@ -63,14 +80,31 @@ class RangePicker extends Component {
             });
         }
     }
+    setRangeDates = date => {
+        const { rangeDates } = this.state;
+        let newRangeDates = [...rangeDates];
+        if (rangeDates.length == 0 || rangeDates.length == 2) {
+            newRangeDates = [date];
+        } else {
+            if (rangeDates[0].getTime() < date.getTime()) {
+                newRangeDates.push(date);
+            } else {
+                newRangeDates.splice(0, 0, date);
+            }
+        }
+        this.setState({
+            rangeDates: newRangeDates
+        });
+        return newRangeDates;
+    };
     componentWillMount() {
         this.setArrow();
     }
     componentDidMount() {
-        document.addEventListener("click", this.close);
+        //document.addEventListener("click", this.close);
     }
     componentWillUnmount() {
-        document.removeEventListener("click", this.close);
+        //document.removeEventListener("click", this.close);
     }
     render() {
         const { separator, kSize } = this.props;
@@ -78,14 +112,12 @@ class RangePicker extends Component {
             open,
             value,
             tmpValue,
+            rangeDates,
             showPrevMonth,
             showPrevYear,
             showNextMonth,
             showNextYear
         } = this.state;
-        let startValue, endValue;
-        if (!value || value.length == 0) {
-        }
 
         let input = (
             <div
@@ -108,17 +140,21 @@ class RangePicker extends Component {
                 <div className={`${prefixCls}-range-left`}>
                     <Picker
                         {...pickerProps}
-                        value={tmpValue[0]}
+                        //rangeDates={rangeDates}
+                        //value={tmpValue[0]}
                         showNextMonth={showNextMonth}
                         showNextYear={showNextYear}
+                        //onChange={this.handleChange}
                     />
                 </div>
                 <div className={`${prefixCls}-range-right`}>
                     <Picker
                         {...pickerProps}
-                        value={tmpValue[1]}
+                        //rangeDates={rangeDates}
+                        //value={tmpValue[1]}
                         showPrevMonth={showPrevMonth}
                         showPrevYear={showPrevYear}
+                        //onChange={this.handleChange}
                     />
                 </div>
             </PopPanel>

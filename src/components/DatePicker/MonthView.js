@@ -17,7 +17,6 @@ class MonthView extends Component {
         date: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
-        range:PropTypes.bool,
         onMonthSelect: PropTypes.func
     };
     static defaultProps = {

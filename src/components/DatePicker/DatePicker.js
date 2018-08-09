@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import omit from "object.omit";
 import Picker from "./Picker";
 import Input from "../Input";
 import { format as formatter } from "date-fns";
 import PopPanel from "../PopPanel";
-
 
 class DatePicker extends Component {
     constructor(props) {
@@ -51,6 +51,12 @@ class DatePicker extends Component {
     render() {
         const { kSize, disabled, placeholder, format } = this.props;
         const { value, open } = this.state;
+        const pickerProps = omit(this.props, [
+            "kSize",
+            "placeholder",
+            "range",
+            "rangeDates"
+        ]);
         let input = (
             <Input
                 ref="input"
@@ -66,7 +72,7 @@ class DatePicker extends Component {
         return (
             <PopPanel input={input} open={open}>
                 <Picker
-                    {...this.props}
+                    {...pickerProps}
                     value={value}
                     onChange={this.handleChange}
                 />

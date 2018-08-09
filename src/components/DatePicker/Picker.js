@@ -29,7 +29,7 @@ class Picker extends Component {
             orgView: props.view,
             date: props.defaultValue || props.value,
             tmpDate: props.defaultValue || props.value || new Date(),
-            rangeDates: []
+            rangeDates: props.rangeDates
         };
     }
     static propTypes = {
@@ -40,7 +40,7 @@ class Picker extends Component {
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
         okText: PropTypes.string,
-        range: PropTypes.bool,
+        rangeDates: PropTypes.array,
         showPrevYear: PropTypes.bool,
         showPrevMonth: PropTypes.bool,
         showNextYear: PropTypes.bool,
@@ -59,6 +59,7 @@ class Picker extends Component {
         format: "YYYY-MM-DD",
         lang: "zh-cn",
         okText: "确定",
+        rnage: false,
         showPrevYear: true,
         showPrevMonth: true,
         showNextYear: true,
@@ -156,7 +157,7 @@ class Picker extends Component {
      */
     handleYearSelect = year => {
         const { curView, tmpDate, orgView } = this.state;
-        const { view, range, onChange } = this.props;
+        const { view, onChange } = this.props;
         let newDate = setYear(tmpDate, year);
         this.setState({
             tmpDate: newDate,
@@ -205,20 +206,25 @@ class Picker extends Component {
      * 日选择
      */
     handleDaySelect = date => {
-        const { view, onChange, showTime, range } = this.props;
-
+        const { view, onChange, showTime } = this.props;
+        const { rangeDates } = this.state;
+        let canSetDate = !rangeDates || (rangeDates && rangeDates.length == 0),
+            newRangeDates;
         if (this.state.date) {
             let time = formatter(this.state.date, "HH:mm:ss");
             date = new Date(formatter(date, "YYYY-MM-DD") + " " + time);
         }
-        this.setState({
-            tmpDate: date
-        });
-        if (range) {
-            this.setRange(date);
+
+        this.setRangeDates(date);
+
+        if (!rangeDates) {
+            this.setState({
+                tmpDate: date
+            });
         }
+
         if (view == 2) {
-            if (!("value" in this.props)) {
+            if (!("value" in this.props) && !rangeDates) {
                 this.setState({
                     date
                 });
@@ -226,7 +232,7 @@ class Picker extends Component {
             if (onChange) {
                 onChange({
                     date,
-                    //canClose: !showTime
+                    canClose: !showTime && !rangeDates
                 });
             }
         }
@@ -350,12 +356,14 @@ class Picker extends Component {
             }
         }
     };
-    setRange = date => {
-        const { range } = this.props;
+    setRangeDates = date => {
         const { rangeDates } = this.state;
-        let newRangeDates = [...rangeDates];
-        if (rangeDates.length == 0 || rangeDates.length == 2) {
-            newRangeDates = [date];
+        if ("rangeDates" in this.props) return;
+        let newRangeDates =
+            rangeDates && rangeDates.length < 2 ? [...rangeDates] : [];
+
+        if (newRangeDates.length == 0) {
+            newRangeDates.push(date);
         } else {
             if (rangeDates[0].getTime() < date.getTime()) {
                 newRangeDates.push(date);
@@ -366,6 +374,7 @@ class Picker extends Component {
         this.setState({
             rangeDates: newRangeDates
         });
+        return newRangeDates;
     };
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
@@ -374,6 +383,12 @@ class Picker extends Component {
                 tmpDate: nextProps.value
             });
         }
+        if ("rangeDates" in nextProps) {
+            this.setState({
+                rangeDates: nextProps.rangeDates
+            });
+        }
+
         this.setState({
             curView: nextProps.view
         });
@@ -392,7 +407,7 @@ class Picker extends Component {
             showNextMonth,
             showNextYear
         } = this.props;
-        const { tmpDate, curView, date } = this.state;
+        const { tmpDate, curView, date, rangeDates } = this.state;
         let newMinDate = minDate,
             newMaxDate = maxDate;
         if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
@@ -468,6 +483,7 @@ class Picker extends Component {
                             minDate={newMinDate}
                             maxDate={newMaxDate}
                             selected={date}
+                            rangeDates={rangeDates}
                             week={showWeek}
                             onDaySelect={this.handleDaySelect}
                             onWeekSelect={this.handleWeekSelect}

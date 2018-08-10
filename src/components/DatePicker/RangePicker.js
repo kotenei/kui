@@ -41,6 +41,10 @@ class RangePicker extends Component {
         this.open();
     };
     handleDayHover = (type, date) => {
+        const { rangeDates } = this.props;
+        if (!rangeDates || rangeDates.length == 0) {
+            return;
+        }
         if (type == "enter") {
             this.setState({
                 hoverDate: date
@@ -207,6 +211,7 @@ class RangePicker extends Component {
                         {...pickerProps}
                         rangeDates={rangeDates}
                         value={tmpValue[0]}
+                        maxDate={tmpValue[1]}
                         hoverDate={hoverDate}
                         showNextMonth={showNextMonth}
                         showNextYear={showNextYear}
@@ -227,6 +232,7 @@ class RangePicker extends Component {
                         {...pickerProps}
                         rangeDates={rangeDates}
                         value={tmpValue[1]}
+                        minDate={tmpValue[0]}
                         hoverDate={hoverDate}
                         showPrevMonth={showPrevMonth}
                         showPrevYear={showPrevYear}

@@ -15,7 +15,7 @@ class DatePickerView extends Component {
                         //showTime
                         view={2}
                         format="YYYY-MM-DD"
-                        //value={new Date()}
+                        value={new Date()}
                     /> */}
                     <RangePicker />
                 </div>

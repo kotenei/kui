@@ -5,7 +5,7 @@ import pick from "object.pick";
 import omit from "object.omit";
 import Picker from "./Picker";
 import Input from "../Input";
-import { format as formatter, addMonths, month } from "date-fns";
+import { format as formatter, addMonths, month, addYears } from "date-fns";
 import PopPanel from "../PopPanel";
 import { prefix } from "../../utils/kUtils";
 import { getDiffMonth } from "../../utils/dateUtils";
@@ -18,6 +18,7 @@ class RangePicker extends Component {
         super(props);
         this.state = {
             open: false,
+            hoverDate: null,
             value: props.defaultValue || props.value,
             tmpValue: props.defaultValue ||
                 props.value || [new Date(), addMonths(new Date(), 1)],
@@ -39,33 +40,79 @@ class RangePicker extends Component {
     handleClick = e => {
         this.open();
     };
-    handleChange = obj => {
-        let rangeDates = this.setRangeDates(obj.date);
-        let tmpValue = [...this.state.tmpValue];
-        tmpValue[0] = rangeDates[0];
-        if (rangeDates[1]) {
-            tmpValue[1] = rangeDates[1];
-            if (getDiffMonth(tmpValue[0], tmpValue[1]) <= 0) {
-                tmpValue[1] = addMonths(tmpValue[0], 1);
+    handleDayHover = (type, date) => {
+        if (type == "enter") {
+            this.setState({
+                hoverDate: date
+            });
+        } else {
+            this.setState({
+                hoverDate: null
+            });
+        }
+    };
+    changeDate = (dateInfo, isStartPicker) => {
+        let tmpValue = [...this.state.tmpValue],
+            rangeDates;
+        switch (dateInfo.type) {
+            case "month":
+            case "year":
+                tmpValue[isStartPicker ? 0 : 1] = dateInfo.date;
+
+                break;
+            default:
+                rangeDates = this.setRangeDates(dateInfo.date);
+                tmpValue[0] = rangeDates[0];
+                if (rangeDates[1]) {
+                    tmpValue[1] = rangeDates[1];
+                }
+                break;
+        }
+        if (getDiffMonth(tmpValue[0], tmpValue[1]) <= 0) {
+            tmpValue[1] = addMonths(tmpValue[0], 1);
+        }
+
+        this.setState(
+            {
+                tmpValue
+            },
+            () => {
+                this.setArrow();
+                if (rangeDates && rangeDates.length == 2) {
+                    this.close();
+                }
+            }
+        );
+    };
+    setPrevNextDate(type, date, isStartPicker, num) {
+        const { tmpValue } = this.state;
+        let newTmpValue = [...tmpValue];
+        if (isStartPicker) {
+            if (type == "year") {
+                newTmpValue[0] = addYears(tmpValue[0], num);
+            } else {
+                newTmpValue[0] = addMonths(tmpValue[0], num);
+            }
+        } else {
+            if (type == "year") {
+                newTmpValue[1] = addYears(tmpValue[1], num);
+            } else {
+                newTmpValue[1] = addMonths(tmpValue[1], num);
             }
         }
-        this.setState({
-            tmpValue
-        });
-        if (rangeDates && rangeDates.length == 2) {
-            this.close();
-        }
-    };
-    open = () => {
-        this.setState({
-            open: true
-        });
-    };
-    close = () => {
-        this.setState({
-            open: false
-        });
-    };
+        this.setState(
+            {
+                tmpValue: newTmpValue
+            },
+            () => {
+                this.setArrow();
+            }
+        );
+    }
+
+    /**
+     * 设置箭头
+     */
     setArrow() {
         const { value, tmpValue } = this.state;
         let startDate = tmpValue[0],
@@ -77,6 +124,13 @@ class RangePicker extends Component {
                 showPrevYear: false,
                 showNextMonth: false,
                 showNextYear: false
+            });
+        } else {
+            this.setState({
+                showPrevMonth: true,
+                showPrevYear: true,
+                showNextMonth: true,
+                showNextYear: true
             });
         }
     }
@@ -97,6 +151,16 @@ class RangePicker extends Component {
         });
         return newRangeDates;
     };
+    open = () => {
+        this.setState({
+            open: true
+        });
+    };
+    close = () => {
+        this.setState({
+            open: false
+        });
+    };
     componentWillMount() {
         this.setArrow();
     }
@@ -111,6 +175,7 @@ class RangePicker extends Component {
         const {
             open,
             value,
+            hoverDate,
             tmpValue,
             rangeDates,
             showPrevMonth,
@@ -140,21 +205,41 @@ class RangePicker extends Component {
                 <div className={`${prefixCls}-range-left`}>
                     <Picker
                         {...pickerProps}
-                        //rangeDates={rangeDates}
-                        //value={tmpValue[0]}
+                        rangeDates={rangeDates}
+                        value={tmpValue[0]}
+                        hoverDate={hoverDate}
                         showNextMonth={showNextMonth}
                         showNextYear={showNextYear}
-                        //onChange={this.handleChange}
+                        onDayHover={this.handleDayHover}
+                        onChange={dateInfo => {
+                            this.changeDate(dateInfo, true);
+                        }}
+                        onPrev={(type, date) => {
+                            this.setPrevNextDate(type, date, true, -1);
+                        }}
+                        onNext={(type, date) => {
+                            this.setPrevNextDate(type, date, true, 1);
+                        }}
                     />
                 </div>
                 <div className={`${prefixCls}-range-right`}>
                     <Picker
                         {...pickerProps}
-                        //rangeDates={rangeDates}
-                        //value={tmpValue[1]}
+                        rangeDates={rangeDates}
+                        value={tmpValue[1]}
+                        hoverDate={hoverDate}
                         showPrevMonth={showPrevMonth}
                         showPrevYear={showPrevYear}
-                        //onChange={this.handleChange}
+                        onDayHover={this.handleDayHover}
+                        onChange={dateInfo => {
+                            this.changeDate(dateInfo, false);
+                        }}
+                        onPrev={(type, date) => {
+                            this.setPrevNextDate(type, date, false, -1);
+                        }}
+                        onNext={(type, date) => {
+                            this.setPrevNextDate(type, date, false, 1);
+                        }}
                     />
                 </div>
             </PopPanel>

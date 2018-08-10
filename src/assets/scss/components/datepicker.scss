@@ -124,6 +124,9 @@ $prefixCls:'.k-datepicker';
                         color: $primary
                     }
                 }
+                &.inRange{
+                    background: #E6F7FF;
+                }
             }
         }
     }

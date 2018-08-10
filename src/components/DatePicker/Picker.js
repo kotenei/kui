@@ -20,6 +20,15 @@ import DayView from "./DayView";
 import TimePicker from "../TimePicker";
 
 const prefixCls = "k-datepicker";
+const CHANGE_TYPE = {
+    year: "year",
+    month: "month",
+    day: "day",
+    week: "week",
+    time: "time",
+    today: "today",
+    confirm: "confirm"
+};
 
 class Picker extends Component {
     constructor(props) {
@@ -84,7 +93,7 @@ class Picker extends Component {
             tmpDate: newDate
         });
         if (onPrev) {
-            onPrev(newDate);
+            onPrev("year", newDate);
         }
     };
     /**
@@ -103,7 +112,7 @@ class Picker extends Component {
             tmpDate: newDate
         });
         if (onNext) {
-            onNext(newDate);
+            onNext("year", newDate);
         }
     };
     /**
@@ -117,7 +126,7 @@ class Picker extends Component {
             tmpDate: newDate
         });
         if (onPrev) {
-            onPrev(newDate);
+            onPrev("month", newDate);
         }
     };
     /**
@@ -131,7 +140,7 @@ class Picker extends Component {
             tmpDate: newDate
         });
         if (onNext) {
-            onNext(newDate);
+            onNext("month", newDate);
         }
     };
     /**
@@ -169,12 +178,13 @@ class Picker extends Component {
                     date: newDate
                 });
             }
-            if (onChange) {
-                onChange({
-                    date: newDate,
-                    canClose: true
-                });
-            }
+        }
+        if (onChange) {
+            onChange({
+                type: CHANGE_TYPE.year,
+                date: newDate,
+                canClose: view == 0
+            });
         }
     };
     /**
@@ -194,12 +204,13 @@ class Picker extends Component {
                     date: newDate
                 });
             }
-            if (onChange) {
-                onChange({
-                    date: newDate,
-                    canClose: true
-                });
-            }
+        }
+        if (onChange) {
+            onChange({
+                type: CHANGE_TYPE.month,
+                date: newDate,
+                canClose: view == 1
+            });
         }
     };
     /**
@@ -217,24 +228,28 @@ class Picker extends Component {
 
         this.setRangeDates(date);
 
-        if (!rangeDates) {
+        if (canSetDate) {
             this.setState({
                 tmpDate: date
             });
         }
 
         if (view == 2) {
-            if (!("value" in this.props) && !rangeDates) {
+            if (!("value" in this.props) && canSetDate) {
                 this.setState({
                     date
                 });
             }
-            if (onChange) {
-                onChange({
-                    date,
-                    canClose: !showTime && !rangeDates
-                });
-            }
+        }
+        if (onChange) {
+            onChange({
+                type: CHANGE_TYPE.day,
+                date,
+                canClose:
+                    view == 2 &&
+                    ((!showTime && !rangeDates) ||
+                        (rangeDates && rangeDates.length == 2))
+            });
         }
     };
     /**
@@ -260,6 +275,7 @@ class Picker extends Component {
         }
         if (onChange) {
             onChange({
+                type: CHANGE_TYPE.week,
                 date,
                 canClose: true
             });
@@ -283,6 +299,7 @@ class Picker extends Component {
             }
             if (onChange) {
                 onChange({
+                    type: CHANGE_TYPE.time,
                     date: newDate,
                     canClose: false
                 });
@@ -307,6 +324,7 @@ class Picker extends Component {
         }
         if (onChange) {
             onChange({
+                type: CHANGE_TYPE.time,
                 date: newDate,
                 canClose: false
             });
@@ -324,6 +342,7 @@ class Picker extends Component {
         });
         if (onChange) {
             onChange({
+                type: CHANGE_TYPE.today,
                 date: date,
                 canClose: true
             });
@@ -350,6 +369,7 @@ class Picker extends Component {
             });
             if (onChange) {
                 onChange({
+                    type: CHANGE_TYPE.confirm,
                     date: newDate,
                     canClose: true
                 });
@@ -395,6 +415,7 @@ class Picker extends Component {
     }
     render() {
         const {
+            hoverDate,
             minDate,
             maxDate,
             lang,
@@ -405,7 +426,8 @@ class Picker extends Component {
             showPrevMonth,
             showPrevYear,
             showNextMonth,
-            showNextYear
+            showNextYear,
+            onDayHover
         } = this.props;
         const { tmpDate, curView, date, rangeDates } = this.state;
         let newMinDate = minDate,
@@ -480,12 +502,14 @@ class Picker extends Component {
                             prefixCls={prefixCls}
                             lang={lang}
                             date={tmpDate}
+                            hoverDate={hoverDate}
                             minDate={newMinDate}
                             maxDate={newMaxDate}
                             selected={date}
                             rangeDates={rangeDates}
                             week={showWeek}
                             onDaySelect={this.handleDaySelect}
+                            onDayHover={onDayHover}
                             onWeekSelect={this.handleWeekSelect}
                         />
                     ) : null}

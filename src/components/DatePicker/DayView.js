@@ -12,15 +12,18 @@ import {
 import { dates, getWeek } from "../../utils/dateUtils";
 
 class Cell extends Component {
+    state = {};
     static propTypes = {
         value: PropTypes.any,
         date: PropTypes.object,
+        hoverDate: PropTypes.object,
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
         selected: PropTypes.object,
         rangeDates: PropTypes.array,
         week: PropTypes.bool,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        onCellHover: PropTypes.func
     };
     handleClick = () => {
         const { date, onClick } = this.props;
@@ -28,45 +31,94 @@ class Cell extends Component {
             onClick(date);
         }
     };
+    handleMouseEnter = e => {
+        const { date, onCellHover, hoverDate } = this.props;
+        if (onCellHover) {
+            onCellHover("enter", date);
+        }
+    };
+    handleMouseLeave = e => {
+        const { date, onCellHover } = this.props;
+        if (onCellHover) {
+            onCellHover("leave", date);
+        }
+    };
+    inRange(date) {
+        const { rangeDates, hoverDate } = this.props;
+        let formatStr = "YYYYMMDD",
+            curDate = format(date, formatStr),
+            startDate,
+            endDate,
+            hDate;
+        if (!rangeDates || rangeDates.length == 0) {
+            return false;
+        }
+        startDate = format(rangeDates[0], formatStr);
+
+        if (rangeDates[1]) {
+            endDate = format([rangeDates[1]], formatStr);
+            return curDate > startDate && curDate < endDate;
+        } else if (hoverDate) {
+            hDate = format(hoverDate, formatStr);
+            if (hDate > startDate) {
+                return curDate > startDate && curDate < hDate;
+            } else if (hDate < startDate) {
+                return curDate > hDate && curDate < startDate;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
     render() {
         const {
             className,
             value,
             date,
             selected,
+            hoverDate,
             week,
-            rangeDates
+            rangeDates,
+            onCellHover
         } = this.props;
         let formatStr = "YYYYMMDD",
-            curDate = new Date(),
-            isCur = format(curDate, formatStr) == format(date, formatStr),
+            now = format(new Date(), formatStr),
+            curDate = format(date, formatStr),
+            isCur = curDate == now,
             strClassName = classnames(className, {
                 curDay: isCur
             }),
-            isActive;
+            isActive,
+            inRange;
 
         if (rangeDates) {
             if (rangeDates.length > 0) {
                 rangeDates.forEach(rangeDate => {
-                    if (
-                        format(date, formatStr) === format(rangeDate, formatStr)
-                    ) {
+                    if (curDate === format(rangeDate, formatStr)) {
                         isActive = true;
                     }
                 });
             }
         } else {
-            isActive =
-                selected &&
-                format(date, formatStr) == format(selected, formatStr);
+            isActive = selected && curDate == format(selected, formatStr);
         }
-
+        inRange = this.inRange(date);
         strClassName = classnames(strClassName, {
-            active: isActive
+            active:
+                isActive ||
+                (rangeDates &&
+                    rangeDates.length == 1 &&
+                    curDate == format(hoverDate, formatStr))
         });
 
         return (
-            <td>
+            <td
+                className={classnames({
+                    inRange
+                })}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+            >
                 {week ? (
                     <span className={strClassName}>{value}</span>
                 ) : (
@@ -116,6 +168,7 @@ class DayView extends Component {
     static propTypes = {
         prefixCls: PropTypes.string,
         date: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+        hoverDate: PropTypes.object,
         selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
         lang: PropTypes.string,
         minDate: PropTypes.object,
@@ -123,6 +176,7 @@ class DayView extends Component {
         rangeDates: PropTypes.array,
         week: PropTypes.bool,
         onDaySelect: PropTypes.func,
+        onDayHover: PropTypes.func,
         onWeekSelect: PropTypes.func
     };
     static defaultProps = {
@@ -160,7 +214,15 @@ class DayView extends Component {
         return items;
     }
     renderBody() {
-        const { date, week, selected, onWeekSelect, rangeDates } = this.props;
+        const {
+            date,
+            week,
+            selected,
+            onWeekSelect,
+            onDayHover,
+            rangeDates,
+            hoverDate
+        } = this.props;
         let curDate = new Date(),
             days = getDaysInMonth(date), //当月所有天数
             firstDate = new Date(date.getFullYear(), date.getMonth(), 1),
@@ -193,8 +255,8 @@ class DayView extends Component {
                     value={i}
                     date={startDate}
                     selected={selected}
-                    // rangeDates={rangeDates}
                     week={week}
+                    onCellHover={onDayHover}
                     onClick={!disabled ? this.handleClick : null}
                 />
             );
@@ -215,6 +277,8 @@ class DayView extends Component {
                     rangeDates={rangeDates}
                     selected={selected}
                     week={week}
+                    hoverDate={hoverDate}
+                    onCellHover={onDayHover}
                     onClick={!disabled ? this.handleClick : null}
                 />
             );
@@ -234,8 +298,8 @@ class DayView extends Component {
                     value={i}
                     date={startDate}
                     selected={selected}
-                    // rangeDates={rangeDates}
                     week={week}
+                    onCellHover={onDayHover}
                     onClick={!disabled ? this.handleClick : null}
                 />
             );

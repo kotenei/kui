@@ -289,10 +289,14 @@ class TimePicker extends Component {
                 this.close();
             }
         }
-        if ("value" in nextProps && this.isTime(nextProps.value)) {
-            this.tmpValue = nextProps.value;
+        if ("value" in nextProps) {
+            let value =
+                nextProps.value && this.isTime(nextProps.value)
+                    ? nextProps.value
+                    : "";
+            this.tmpValue = value || "00:00:00";
             this.setState({
-                value: nextProps.value
+                value
             });
         }
     }

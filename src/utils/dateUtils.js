@@ -129,3 +129,11 @@ export const getDiffDay = (startDate, endDate) => {
     let diff = endDate.getTime() - startDate.getTime();
     return Math.floor(diff / (1000 * 3600 * 24));
 };
+
+export const getFirstDay = date => {
+    return new Date(date.getFullYear(), date.getMonth(), 1);
+};
+
+export const getLastDay = date => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+};

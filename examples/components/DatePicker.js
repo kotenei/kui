@@ -17,7 +17,7 @@ class DatePickerView extends Component {
                         format="YYYY-MM-DD"
                         value={new Date()}
                     /> */}
-                    <RangePicker />
+                    <RangePicker format="YYYY-MM-DD HH:mm:ss" showTime/>
                 </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">

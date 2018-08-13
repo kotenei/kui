@@ -176,4 +176,11 @@ $prefixCls:'.k-datepicker';
     &-range-right {
         float: right;
     }
+    &-range-footer{
+        clear: both;
+        position: relative;
+        padding: torem(10px);
+        border-top: $border-width-base $border-style-base $border-color-base;
+        text-align: right;
+    }
 }

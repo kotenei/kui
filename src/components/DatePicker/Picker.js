@@ -44,6 +44,7 @@ class Picker extends Component {
     static propTypes = {
         disabled: PropTypes.bool,
         defaultValue: PropTypes.object,
+        footerExtra: PropTypes.node,
         format: PropTypes.string,
         lang: PropTypes.string,
         minDate: PropTypes.object,
@@ -57,6 +58,7 @@ class Picker extends Component {
         showToday: PropTypes.bool,
         showTime: PropTypes.bool,
         showWeek: PropTypes.bool,
+        useRangeDatesIndex: PropTypes.number,
         value: PropTypes.object,
         view: PropTypes.oneOf([0, 1, 2]), //0:年，1:月，2:日
         onChange: PropTypes.func,
@@ -75,6 +77,8 @@ class Picker extends Component {
         showNextMonth: true,
         showToday: false,
         showTime: false,
+        showWeek: false,
+        useRangeDatesIndex: 0,
         view: 2
     };
     /**
@@ -415,6 +419,7 @@ class Picker extends Component {
     }
     render() {
         const {
+            footerExtra,
             hoverDate,
             minDate,
             maxDate,
@@ -427,14 +432,22 @@ class Picker extends Component {
             showPrevYear,
             showNextMonth,
             showNextYear,
+            useRangeDatesIndex,
             onDayHover
         } = this.props;
         const { tmpDate, curView, date, rangeDates } = this.state;
         let newMinDate = minDate,
-            newMaxDate = maxDate;
+            newMaxDate = maxDate,
+            dateTime = date,
+            dateTimeDisabled = false;
         if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
             newMaxDate = minDate();
         }
+        if (rangeDates) {
+            dateTime = rangeDates[useRangeDatesIndex];
+            dateTimeDisabled = !dateTime;
+        }
+
         return (
             <div className={prefixCls} onClick={this.handlePickerClick}>
                 {showTime ? (
@@ -443,15 +456,23 @@ class Picker extends Component {
                             <Input
                                 kSize="sm"
                                 value={
-                                    date ? formatter(date, "YYYY-MM-DD") : ""
+                                    dateTime
+                                        ? formatter(dateTime, "YYYY-MM-DD")
+                                        : ""
                                 }
+                                disabled={dateTimeDisabled}
                                 onChange={() => {}}
                             />
                         </div>
                         <div>
                             <TimePicker
                                 kSize="sm"
-                                value={formatter(date, "HH:mm:ss")}
+                                value={
+                                    dateTime
+                                        ? formatter(dateTime, "HH:mm:ss")
+                                        : ""
+                                }
+                                disabled={dateTimeDisabled}
                                 showClearIcon={false}
                                 onClick={this.handleTimeClick}
                                 onOK={this.handleTimeOK}
@@ -514,8 +535,8 @@ class Picker extends Component {
                         />
                     ) : null}
                 </Body>
-                {curView == 2 && showToday ? (
-                    <Footer prefixCls={prefixCls}>
+                <Footer prefixCls={prefixCls}>
+                    {curView == 2 && showToday ? (
                         <div style={{ textAlign: "center" }}>
                             <a
                                 className={`${prefixCls}-today-btn`}
@@ -524,10 +545,8 @@ class Picker extends Component {
                                 {dates[lang].today}
                             </a>
                         </div>
-                    </Footer>
-                ) : null}
-                {showTime ? (
-                    <Footer prefixCls={prefixCls}>
+                    ) : null}
+                    {showTime && !rangeDates ? (
                         <div style={{ textAlign: "right" }}>
                             <a
                                 className={`${prefixCls}-now-btn`}
@@ -544,8 +563,9 @@ class Picker extends Component {
                                 {okText}
                             </Button>
                         </div>
-                    </Footer>
-                ) : null}
+                    ) : null}
+                    {footerExtra}
+                </Footer>
             </div>
         );
     }

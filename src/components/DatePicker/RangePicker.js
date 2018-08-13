@@ -8,8 +8,9 @@ import Input from "../Input";
 import { format as formatter, addMonths, month, addYears } from "date-fns";
 import PopPanel from "../PopPanel";
 import { prefix } from "../../utils/kUtils";
-import { getDiffMonth } from "../../utils/dateUtils";
+import { getDiffMonth, getFirstDay, getLastDay } from "../../utils/dateUtils";
 import Icon from "../Icon";
+import Button from "../Button";
 
 const prefixCls = "k-rangePicker";
 
@@ -31,17 +32,21 @@ class RangePicker extends Component {
     }
     static propTypes = {
         defaultValue: PropTypes.array,
+        format: PropTypes.string,
+        okText: PropTypes.string,
         separator: PropTypes.string,
         value: PropTypes.array
     };
     static defaultProps = {
+        format: "YYYY-MM-DD",
+        okText: "确定",
         separator: "-"
     };
-    handleClick = e => {
+    handleInputClick = e => {
         this.open();
     };
     handleDayHover = (type, date) => {
-        const { rangeDates } = this.props;
+        const { rangeDates } = this.state;
         if (!rangeDates || rangeDates.length == 0) {
             return;
         }
@@ -55,25 +60,29 @@ class RangePicker extends Component {
             });
         }
     };
+    handleOKClick = e => {};
     changeDate = (dateInfo, isStartPicker) => {
+        const { showTime, onChange } = this.props;
         let tmpValue = [...this.state.tmpValue],
             rangeDates;
         switch (dateInfo.type) {
             case "month":
             case "year":
                 tmpValue[isStartPicker ? 0 : 1] = dateInfo.date;
-
+                if (getDiffMonth(tmpValue[0], tmpValue[1]) <= 0) {
+                    tmpValue[1] = addMonths(tmpValue[0], 1);
+                }
+                break;
+            case "time":
+                
                 break;
             default:
                 rangeDates = this.setRangeDates(dateInfo.date);
-                tmpValue[0] = rangeDates[0];
-                if (rangeDates[1]) {
-                    tmpValue[1] = rangeDates[1];
-                }
                 break;
         }
-        if (getDiffMonth(tmpValue[0], tmpValue[1]) <= 0) {
-            tmpValue[1] = addMonths(tmpValue[0], 1);
+
+        if (onChange) {
+            onChange(rangeDates);
         }
 
         this.setState(
@@ -82,7 +91,7 @@ class RangePicker extends Component {
             },
             () => {
                 this.setArrow();
-                if (rangeDates && rangeDates.length == 2) {
+                if (rangeDates && rangeDates.length == 2 && !showTime) {
                     this.close();
                 }
             }
@@ -113,7 +122,6 @@ class RangePicker extends Component {
             }
         );
     }
-
     /**
      * 设置箭头
      */
@@ -161,6 +169,42 @@ class RangePicker extends Component {
         });
     };
     close = () => {
+        const { rangeDates } = this.state;
+
+        if ("value" in this.props) {
+            this.setState(
+                {
+                    value: this.props.value,
+                    tmpValue: this.props.value,
+                    rangeDates: this.props.vlaue
+                },
+                () => {
+                    this.setArrow();
+                }
+            );
+        } else {
+            if (!rangeDates || rangeDates.length <= 1) {
+                this.setState({
+                    rangeDates: this.state.value || []
+                });
+            } else {
+                let tmpValue = [...rangeDates];
+                let diff = getDiffMonth(rangeDates[0], rangeDates[1]);
+                if (diff <= 0) {
+                    tmpValue[1] = addMonths(tmpValue[0], 1);
+                }
+                this.setState(
+                    {
+                        tmpValue,
+                        value: rangeDates
+                    },
+                    () => {
+                        this.setArrow();
+                    }
+                );
+            }
+        }
+
         this.setState({
             open: false
         });
@@ -169,13 +213,27 @@ class RangePicker extends Component {
         this.setArrow();
     }
     componentDidMount() {
-        //document.addEventListener("click", this.close);
+        document.addEventListener("click", this.close);
+    }
+    componentWillReceiveProps(nextProps) {
+        if ("value" in nextProps) {
+            this.setState(
+                {
+                    value: nextProps.value,
+                    tmpValue: nextProps.value,
+                    rangeDates: nextProps.vlaue
+                },
+                () => {
+                    this.setArrow();
+                }
+            );
+        }
     }
     componentWillUnmount() {
-        //document.removeEventListener("click", this.close);
+        document.removeEventListener("click", this.close);
     }
     render() {
-        const { separator, kSize } = this.props;
+        const { separator, kSize, format, showTime, okText } = this.props;
         const {
             open,
             value,
@@ -187,6 +245,9 @@ class RangePicker extends Component {
             showNextMonth,
             showNextYear
         } = this.state;
+        let pickerProps = pick(this.props, ["format", "showTime"]);
+        let tmpStartDate = tmpValue[0],
+            tmpEndDate = tmpValue[1];
 
         let input = (
             <div
@@ -195,23 +256,33 @@ class RangePicker extends Component {
                     "k-form-control": true,
                     [`k-form-control-${kSize}`]: kSize
                 })}
-                onClick={this.handleClick}
+                onClick={this.handleInputClick}
             >
-                <input type="text" className={`${prefixCls}-input`} />
+                <input
+                    type="text"
+                    className={`${prefixCls}-input`}
+                    value={value ? formatter(value[0], format) : ""}
+                    onChange={() => {}}
+                />
                 <span className={`${prefixCls}-separator`}>{separator}</span>
-                <input type="text" className={`${prefixCls}-input`} />
+                <input
+                    type="text"
+                    className={`${prefixCls}-input`}
+                    value={value ? formatter(value[1], format) : ""}
+                    onChange={() => {}}
+                />
                 <Icon className={`${prefixCls}-icon`} type="calendar" />
             </div>
         );
-        let pickerProps = pick(this.props, ["format", "showTime", "view"]);
+
         return (
             <PopPanel input={input} open={open}>
                 <div className={`${prefixCls}-range-left`}>
                     <Picker
                         {...pickerProps}
                         rangeDates={rangeDates}
-                        value={tmpValue[0]}
-                        maxDate={tmpValue[1]}
+                        useRangeDatesIndex={0}
+                        value={tmpStartDate}
                         hoverDate={hoverDate}
                         showNextMonth={showNextMonth}
                         showNextYear={showNextYear}
@@ -231,8 +302,8 @@ class RangePicker extends Component {
                     <Picker
                         {...pickerProps}
                         rangeDates={rangeDates}
-                        value={tmpValue[1]}
-                        minDate={tmpValue[0]}
+                        useRangeDatesIndex={1}
+                        value={tmpEndDate}
                         hoverDate={hoverDate}
                         showPrevMonth={showPrevMonth}
                         showPrevYear={showPrevYear}
@@ -248,6 +319,18 @@ class RangePicker extends Component {
                         }}
                     />
                 </div>
+                {showTime ? (
+                    <div className={`${prefixCls}-range-footer`}>
+                        <Button
+                            raised
+                            kSize="sm"
+                            kStyle="primary"
+                            onClick={this.handleOKClick}
+                        >
+                            {okText}
+                        </Button>
+                    </div>
+                ) : null}
             </PopPanel>
         );
     }

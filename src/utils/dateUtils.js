@@ -137,3 +137,10 @@ export const getFirstDay = date => {
 export const getLastDay = date => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0);
 };
+
+export const getWeekFormat = (date, format) => {
+    while (date && format && new RegExp("(w+)", "ig").test(format)) {
+        format = format.replace(RegExp.$1, getWeek(date));
+    }
+    return format;
+};

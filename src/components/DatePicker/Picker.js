@@ -50,6 +50,7 @@ class Picker extends Component {
         minDate: PropTypes.object,
         maxDate: PropTypes.object,
         okText: PropTypes.string,
+        range: PropTypes.bool,
         rangeDates: PropTypes.array,
         showPrevYear: PropTypes.bool,
         showPrevMonth: PropTypes.bool,
@@ -229,15 +230,12 @@ class Picker extends Component {
             let time = formatter(this.state.date, "HH:mm:ss");
             date = new Date(formatter(date, "YYYY-MM-DD") + " " + time);
         }
-
         this.setRangeDates(date);
-
         if (canSetDate) {
             this.setState({
                 tmpDate: date
             });
         }
-
         if (view == 2) {
             if (!("value" in this.props) && canSetDate) {
                 this.setState({
@@ -381,8 +379,8 @@ class Picker extends Component {
         }
     };
     setRangeDates = date => {
-        const { rangeDates } = this.state;
-        if ("rangeDates" in this.props) return;
+        const { range, rangeDates } = this.state;
+        if (!range || "rangeDates" in this.props) return;
         let newRangeDates =
             rangeDates && rangeDates.length < 2 ? [...rangeDates] : [];
 
@@ -443,6 +441,7 @@ class Picker extends Component {
         if (minDate && maxDate && minDate.getTime() > maxDate.getTime()) {
             newMaxDate = minDate();
         }
+
         if (rangeDates) {
             dateTime = null;
             dateTimeDisabled = true;

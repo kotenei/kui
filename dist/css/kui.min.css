@@ -1758,6 +1758,8 @@ input[type="button"].k-btn-block {
     .k-datepicker-day-table tr td a.curDay,
     .k-datepicker-day-table tr td span.curDay {
       color: #2196f3; }
+    .k-datepicker-day-table tr td.inRange {
+      background: #E6F7FF; }
   .k-datepicker-today-btn {
     display: inline-block;
     margin: 0 auto;
@@ -1769,6 +1771,40 @@ input[type="button"].k-btn-block {
     display: inline-block;
     vertical-align: middle;
     font-size: 0.75rem; }
+
+.k-rangePicker {
+  display: flex;
+  padding-right: 2.5rem !important; }
+  .k-rangePicker-input {
+    border: 0;
+    background: transparent;
+    outline: 0;
+    text-align: center;
+    vertical-align: middle;
+    height: 100%;
+    color: #55595c;
+    width: 48%; }
+  .k-rangePicker-separator {
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    width: 4%; }
+  .k-rangePicker-icon {
+    position: absolute;
+    right: 0.4375rem;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
+  .k-rangePicker-range-left {
+    float: left; }
+  .k-rangePicker-range-right {
+    float: right; }
+  .k-rangePicker-range-footer {
+    clear: both;
+    position: relative;
+    padding: 0.625rem;
+    border-top: 1px solid #d9d9d9;
+    text-align: right; }
 
 .k-dropdown {
   display: inline-block;
@@ -1796,7 +1832,10 @@ input[type="button"].k-btn-block {
   border: 1px solid #d9d9d9;
   border-radius: 0.25rem;
   height: 2.5rem;
+  position: relative;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; }
+  .k-form-control input {
+    font-size: 0.875rem; }
   .k-form-control:focus {
     border-color: #66afe9;
     outline: none;
@@ -1809,10 +1848,14 @@ input[type="button"].k-btn-block {
     padding: 0.625rem 1rem;
     font-size: 1rem;
     height: 3.25rem; }
+    .k-form-control.k-form-control-lg input {
+      font-size: 1rem; }
   .k-form-control.k-form-control-sm {
     padding: 0.3125rem 0.625rem;
     font-size: 0.75rem;
     height: 2.125rem; }
+    .k-form-control.k-form-control-sm input {
+      font-size: 0.75rem; }
 
 .k-checkbox,
 .k-radio {
@@ -1890,6 +1933,10 @@ input[type="button"].k-btn-block {
     padding: 0.625rem 1rem;
     font-size: 1rem;
     height: 3.25rem; }
+    .k-input-group.k-input-group-lg .k-input-group-addon input,
+    .k-input-group.k-input-group-lg .k-form-control input,
+    .k-input-group.k-input-group-lg .k-input-group-btn .k-btn input {
+      font-size: 1rem; }
   .k-input-group.k-input-group-lg .k-input-group-addon .k-icon {
     font-size: 1rem; }
   .k-input-group.k-input-group-sm .k-input-group-addon,
@@ -1898,6 +1945,10 @@ input[type="button"].k-btn-block {
     padding: 0.3125rem 0.625rem;
     font-size: 0.75rem;
     height: 2.125rem; }
+    .k-input-group.k-input-group-sm .k-input-group-addon input,
+    .k-input-group.k-input-group-sm .k-form-control input,
+    .k-input-group.k-input-group-sm .k-input-group-btn .k-btn input {
+      font-size: 0.75rem; }
   .k-input-group.k-input-group-sm .k-input-group-addon .k-icon {
     font-size: 0.75rem; }
 

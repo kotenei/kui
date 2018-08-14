@@ -47,9 +47,11 @@ class RangePicker extends Component {
         onChange: PropTypes.func
     };
     static defaultProps = {
+        endPlaceholder: "结束日期",
         format: "YYYY-MM-DD",
         okText: "确定",
-        separator: "-"
+        separator: "-",
+        startPlaceholder: "开始日期"
     };
     handleInputClick = e => {
         this.open();
@@ -74,11 +76,18 @@ class RangePicker extends Component {
         e.nativeEvent.stopImmediatePropagation();
         const { onClear } = this.props;
         if (!("value" in this.props)) {
-            this.setState({
-                value: null,
-                tmpValue: [new Date(), addMonths(new Date(), 1)],
-                rangeDates: []
-            });
+            this.setState(
+                {
+                    value: null,
+                    tmpValue: [new Date(), addMonths(new Date(), 1)],
+                    rangeDates: []
+                },
+                () => {
+                    this.close();
+                }
+            );
+        } else {
+            this.close();
         }
         if (onClear) {
             onClear();
@@ -374,6 +383,7 @@ class RangePicker extends Component {
                 <div className={`${prefixCls}-range-left`}>
                     <Picker
                         {...pickerProps}
+                        range
                         rangeDates={rangeDates}
                         useRangeDatesIndex={0}
                         value={tmpStartDate}
@@ -395,6 +405,7 @@ class RangePicker extends Component {
                 <div className={`${prefixCls}-range-right`}>
                     <Picker
                         {...pickerProps}
+                        range
                         rangeDates={rangeDates}
                         useRangeDatesIndex={1}
                         value={tmpEndDate}

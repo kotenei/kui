@@ -444,8 +444,12 @@ class Picker extends Component {
             newMaxDate = minDate();
         }
         if (rangeDates) {
-            dateTime = rangeDates[useRangeDatesIndex];
-            dateTimeDisabled = !dateTime;
+            dateTime = null;
+            dateTimeDisabled = true;
+            if (rangeDates.length == 2) {
+                dateTime = rangeDates[useRangeDatesIndex];
+                dateTimeDisabled = false;
+            }
         }
 
         return (

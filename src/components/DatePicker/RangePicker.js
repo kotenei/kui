@@ -5,7 +5,13 @@ import pick from "object.pick";
 import omit from "object.omit";
 import Picker from "./Picker";
 import Input from "../Input";
-import { format as formatter, addMonths, month, addYears } from "date-fns";
+import {
+    format as formatter,
+    addMonths,
+    month,
+    addYears,
+    isFirstDayOfMonth
+} from "date-fns";
 import PopPanel from "../PopPanel";
 import { prefix } from "../../utils/kUtils";
 import { getDiffMonth, getFirstDay, getLastDay } from "../../utils/dateUtils";
@@ -20,10 +26,9 @@ class RangePicker extends Component {
         this.state = {
             open: false,
             hoverDate: null,
-            value: props.defaultValue || props.value,
-            tmpValue: props.defaultValue ||
-                props.value || [new Date(), addMonths(new Date(), 1)],
-            rangeDates: props.defaultValue || props.value || [],
+            value: null,
+            tmpValue: [new Date(), addMonths(new Date(), 1)],
+            rangeDates: [],
             showPrevMonth: true,
             showPrevYear: true,
             showNextMonth: true,
@@ -60,7 +65,14 @@ class RangePicker extends Component {
             });
         }
     };
-    handleOKClick = e => {};
+    handleOKClick = e => {
+        const { onChange } = this.props;
+        const { rangeDates } = this.state;
+        if (onChange) {
+            onChange(rangeDates);
+        }
+        this.close();
+    };
     changeDate = (dateInfo, isStartPicker) => {
         const { showTime, onChange } = this.props;
         let tmpValue = [...this.state.tmpValue],
@@ -74,7 +86,43 @@ class RangePicker extends Component {
                 }
                 break;
             case "time":
-                
+                if (this.state.rangeDates) {
+                    rangeDates = [...this.state.rangeDates];
+                    let startDate = rangeDates[0],
+                        endDate = rangeDates[1];
+                    if (isStartPicker) {
+                        rangeDates[0] = new Date(
+                            startDate.getFullYear(),
+                            startDate.getMonth(),
+                            startDate.getDate(),
+                            dateInfo.date.getHours(),
+                            dateInfo.date.getMinutes(),
+                            dateInfo.date.getSeconds()
+                        );
+                    } else {
+                        rangeDates[1] = new Date(
+                            endDate.getFullYear(),
+                            endDate.getMonth(),
+                            endDate.getDate(),
+                            dateInfo.date.getHours(),
+                            dateInfo.date.getMinutes(),
+                            dateInfo.date.getSeconds()
+                        );
+                    }
+                    if (
+                        rangeDates.length == 2 &&
+                        rangeDates[0].getTime() > rangeDates[1].getTime()
+                    ) {
+                        if (isStartPicker) {
+                            rangeDates[1] = rangeDates[0];
+                        } else {
+                            rangeDates[0] = rangeDates[1];
+                        }
+                    }
+                    this.setState({
+                        rangeDates
+                    });
+                }
                 break;
             default:
                 rangeDates = this.setRangeDates(dateInfo.date);
@@ -170,18 +218,8 @@ class RangePicker extends Component {
     };
     close = () => {
         const { rangeDates } = this.state;
-
         if ("value" in this.props) {
-            this.setState(
-                {
-                    value: this.props.value,
-                    tmpValue: this.props.value,
-                    rangeDates: this.props.vlaue
-                },
-                () => {
-                    this.setArrow();
-                }
-            );
+            this.init();
         } else {
             if (!rangeDates || rangeDates.length <= 1) {
                 this.setState({
@@ -209,24 +247,42 @@ class RangePicker extends Component {
             open: false
         });
     };
+    init(value = this.props.value || this.props.defaultValue) {
+        if (value) {
+            let tmpValue = [new Date(), addMonths(new Date(), 1)];
+            value = [...value];
+            if (value.length > 0) {
+                let startDate = value[0],
+                    endDate = value[1],
+                    diff = getDiffMonth(startDate, endDate);
+                tmpValue = [startDate, endDate];
+                if (diff <= 0) {
+                    tmpValue[1] = addMonths(endDate, 1);
+                }
+            }
+            this.setState(
+                {
+                    value: value,
+                    tmpValue,
+                    rangeDates: value
+                },
+                () => {
+                    this.setArrow();
+                }
+            );
+        } else {
+            this.setArrow();
+        }
+    }
     componentWillMount() {
-        this.setArrow();
+        this.init();
     }
     componentDidMount() {
         document.addEventListener("click", this.close);
     }
     componentWillReceiveProps(nextProps) {
         if ("value" in nextProps) {
-            this.setState(
-                {
-                    value: nextProps.value,
-                    tmpValue: nextProps.value,
-                    rangeDates: nextProps.vlaue
-                },
-                () => {
-                    this.setArrow();
-                }
-            );
+            this.init(nextProps.value);
         }
     }
     componentWillUnmount() {
@@ -261,14 +317,14 @@ class RangePicker extends Component {
                 <input
                     type="text"
                     className={`${prefixCls}-input`}
-                    value={value ? formatter(value[0], format) : ""}
+                    value={value && value[0] ? formatter(value[0], format) : ""}
                     onChange={() => {}}
                 />
                 <span className={`${prefixCls}-separator`}>{separator}</span>
                 <input
                     type="text"
                     className={`${prefixCls}-input`}
-                    value={value ? formatter(value[1], format) : ""}
+                    value={value && value[1] ? formatter(value[1], format) : ""}
                     onChange={() => {}}
                 />
                 <Icon className={`${prefixCls}-icon`} type="calendar" />

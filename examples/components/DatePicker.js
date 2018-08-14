@@ -4,6 +4,9 @@ import { DatePicker } from "main";
 const { RangePicker } = DatePicker;
 
 class DatePickerView extends Component {
+    state = {
+        rangeDates: []
+    };
     render() {
         return (
             <div>
@@ -17,7 +20,11 @@ class DatePickerView extends Component {
                         format="YYYY-MM-DD"
                         value={new Date()}
                     /> */}
-                    <RangePicker format="YYYY-MM-DD HH:mm:ss" showTime/>
+                    <RangePicker
+                        format="YYYY-MM-DD HH:mm:ss"
+                        //showTime
+                        //value={this.state.rangeDates}
+                    />
                 </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">

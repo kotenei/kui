@@ -37,10 +37,14 @@ class RangePicker extends Component {
     }
     static propTypes = {
         defaultValue: PropTypes.array,
+        endPlaceholder: PropTypes.string,
         format: PropTypes.string,
         okText: PropTypes.string,
         separator: PropTypes.string,
-        value: PropTypes.array
+        startPlaceholder: PropTypes.string,
+        value: PropTypes.array,
+        onClear: PropTypes.func,
+        onChange: PropTypes.func
     };
     static defaultProps = {
         format: "YYYY-MM-DD",
@@ -63,6 +67,21 @@ class RangePicker extends Component {
             this.setState({
                 hoverDate: null
             });
+        }
+    };
+    handleClear = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        const { onClear } = this.props;
+        if (!("value" in this.props)) {
+            this.setState({
+                value: null,
+                tmpValue: [new Date(), addMonths(new Date(), 1)],
+                rangeDates: []
+            });
+        }
+        if (onClear) {
+            onClear();
         }
     };
     handleOKClick = e => {
@@ -289,7 +308,15 @@ class RangePicker extends Component {
         document.removeEventListener("click", this.close);
     }
     render() {
-        const { separator, kSize, format, showTime, okText } = this.props;
+        const {
+            separator,
+            kSize,
+            format,
+            showTime,
+            okText,
+            startPlaceholder,
+            endPlaceholder
+        } = this.props;
         const {
             open,
             value,
@@ -317,6 +344,7 @@ class RangePicker extends Component {
                 <input
                     type="text"
                     className={`${prefixCls}-input`}
+                    placeholder={startPlaceholder}
                     value={value && value[0] ? formatter(value[0], format) : ""}
                     onChange={() => {}}
                 />
@@ -324,10 +352,20 @@ class RangePicker extends Component {
                 <input
                     type="text"
                     className={`${prefixCls}-input`}
+                    placeholder={endPlaceholder}
                     value={value && value[1] ? formatter(value[1], format) : ""}
                     onChange={() => {}}
                 />
-                <Icon className={`${prefixCls}-icon`} type="calendar" />
+                {rangeDates && rangeDates.length == 2 ? (
+                    <Icon
+                        className={`${prefixCls}-icon`}
+                        style={{ cursor: "pointer" }}
+                        type="close"
+                        onClick={this.handleClear}
+                    />
+                ) : (
+                    <Icon className={`${prefixCls}-icon`} type="calendar" />
+                )}
             </div>
         );
 

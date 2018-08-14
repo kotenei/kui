@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { DatePicker } from "main";
+import { addMonths } from "date-fns";
 
 const { RangePicker, YearPicker, MonthPicker, WeekPicker } = DatePicker;
 
@@ -58,7 +59,7 @@ class DatePickerView extends Component {
                         placeholder="请选择日期"
                     />
                 </div>
-                <h3>时间选择</h3>
+                <h3>日期时间选择</h3>
                 <div className="k-example">
                     <DatePicker
                         onChange={this.handleChange}
@@ -67,6 +68,16 @@ class DatePickerView extends Component {
                         placeholder="请选择日期"
                     />
                 </div>
+                <h3>日期范围</h3>
+                <div className="k-example">
+                    <DatePicker
+                        onChange={this.handleChange}
+                        placeholder="请选择日期"
+                        minDate={new Date()}
+                        maxDate={addMonths(new Date(), 1)}
+                    />
+                </div>
+
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">
                     <thead>

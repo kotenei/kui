@@ -110,7 +110,11 @@ class RangePicker extends Component {
             case "year":
                 tmpValue[isStartPicker ? 0 : 1] = dateInfo.date;
                 if (getDiffMonth(tmpValue[0], tmpValue[1]) <= 0) {
-                    tmpValue[1] = addMonths(tmpValue[0], 1);
+                    if (isStartPicker) {
+                        tmpValue[1] = addMonths(tmpValue[0], 1);
+                    } else {
+                        tmpValue[0] = addMonths(tmpValue[1], -1);
+                    }
                 }
                 break;
             case "time":
@@ -337,7 +341,12 @@ class RangePicker extends Component {
             showNextMonth,
             showNextYear
         } = this.state;
-        let pickerProps = pick(this.props, ["format", "showTime"]);
+        let pickerProps = pick(this.props, [
+            "format",
+            "showTime",
+            "minDate",
+            "maxDate"
+        ]);
         let tmpStartDate = tmpValue[0],
             tmpEndDate = tmpValue[1];
 

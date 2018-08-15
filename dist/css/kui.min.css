@@ -2877,7 +2877,8 @@ input[type="button"].k-btn-block {
   position: absolute;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   border: 1px solid #d9d9d9;
-  border-radius: 0.25rem; }
+  border-radius: 0.25rem;
+  background: white; }
 
 .k-progress {
   display: inline-block;

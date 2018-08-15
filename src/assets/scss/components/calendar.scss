@@ -1,0 +1,13 @@
+.k-calendar {
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        height: torem(45px);
+        line-height: torem(45px);
+        &-middle {
+            span {
+                font-size: torem(24px);
+            }
+        }
+    }
+}

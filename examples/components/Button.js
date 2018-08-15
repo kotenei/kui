@@ -34,10 +34,10 @@ class ButtonView extends React.Component {
                     <Button kStyle="warning" raised>
                         warning
                     </Button>&nbsp;&nbsp;
-                    <Button kStyle="danger" raised>
+                    <Button kStyle="danger" raised >
                         danger
                     </Button>&nbsp;&nbsp;
-                    <Button raised>disabled</Button>
+                    <Button raised disabled>disabled</Button>
                 </div>
                 <h3>Floating Action Button</h3>
                 <div className="k-example">

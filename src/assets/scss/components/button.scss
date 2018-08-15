@@ -19,9 +19,7 @@
     @include button-variant($btn-default-color, $btn-default-bg, white);
     &.k-btn-raised,
     &.k-btn-fab {
-
         //box-shadow: $box-shadow-base;
-
     }
     &.disabled {
         box-shadow: none;
@@ -71,7 +69,7 @@
 }
 
 .k-btn-default,
-{
+    {
     color: $font-color-base;
     &.k-btn-raised,
     &.k-btn-fab {
@@ -83,7 +81,7 @@
     color: $primary;
     &.k-btn-raised,
     &.k-btn-fab {
-        @include button-variant($white, $primary, $primary, false);
+        @include button-variant($white, $primary, $primary, true);
     }
 }
 
@@ -91,7 +89,7 @@
     color: $info;
     &.k-btn-raised,
     &.k-btn-fab {
-        @include button-variant($white, $info, $info, false);
+        @include button-variant($white, $info, $info, true);
     }
 }
 
@@ -99,7 +97,7 @@
     color: $success;
     &.k-btn-raised,
     &.k-btn-fab {
-        @include button-variant($white, $success, $success, false);
+        @include button-variant($white, $success, $success, true);
     }
 }
 
@@ -107,7 +105,7 @@
     color: $warning;
     &.k-btn-raised,
     &.k-btn-fab {
-        @include button-variant($white, $warning, $warning, false);
+        @include button-variant($white, $warning, $warning, true);
     }
 }
 
@@ -115,7 +113,7 @@
     color: $danger;
     &.k-btn-raised,
     &.k-btn-fab {
-        @include button-variant($white, $danger, $danger, false);
+        @include button-variant($white, $danger, $danger, true);
     }
 }
 
@@ -164,11 +162,11 @@ input[type="button"] {
         margin: 0;
         box-shadow: none;
         outline: none;
-        >.k-icon{
+        >.k-icon {
             margin: 0;
             vertical-align: baseline;
         }
-        &:focus{
+        &:focus {
             box-shadow: none;
         }
         &:first-child {
@@ -177,13 +175,17 @@ input[type="button"] {
         }
         &:not(:first-child):not(:last-child) {
             border-radius: 0;
-        } 
+        }
         &:last-child {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
         &.k-btn-raised.k-btn-default+.k-btn-raised.k-btn-default {
-            border-left: none;
+            border-left-width: 0;
+            &.active {
+                border-left-width: 1px;
+                margin-left: -1px;
+            }
         }
         &.k-btn-raised.k-btn-primary+.k-btn-raised.k-btn-primary {
             @include button-group-border($primary);

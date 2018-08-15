@@ -39,7 +39,11 @@ export const dates = {
             "Nov",
             "Dec"
         ],
+        year: "Year",
+        month: "Month",
+        day: "Day",
         today: "Today",
+        week: "Week",
         now: "Now"
     },
     "zh-cn": {
@@ -82,7 +86,11 @@ export const dates = {
             "十一月",
             "十二月"
         ],
+        year: "年",
+        month: "月",
+        day: "日",
         today: "今天",
+        week: "周",
         now: "此刻"
     }
 };

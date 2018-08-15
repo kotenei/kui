@@ -14,14 +14,24 @@ class Button extends Component {
         disabled: PropTypes.bool,
         type: PropTypes.oneOf(types),
         raised: PropTypes.bool,
-        fab: PropTypes.bool
+        fab: PropTypes.bool,
+        active: PropTypes.bool
     };
     static defaultProps = {
         disabled: false,
         type: "button"
     };
     render() {
-        const { icon } = this.props;
+        const {
+            icon,
+            raised,
+            fab,
+            active,
+            disabled,
+            type,
+            className,
+            children
+        } = this.props;
         let classes = getClassSet(this.props);
         let otherProps = omit(this.props, [
             "kClass",
@@ -30,21 +40,23 @@ class Button extends Component {
             "raised",
             "fab",
             "disabled",
-            "icon"
+            "icon",
+            "active"
         ]);
-        classes.disabled = this.props.disabled;
+        classes.disabled = disabled;
         classes = classnames(classes, {
-            "k-btn-raised": this.props.raised,
-            "k-btn-fab": this.props.fab
+            "k-btn-raised": raised,
+            "k-btn-fab": fab,
+            active: active
         });
         return (
             <button
                 {...otherProps}
-                type={this.props.type}
-                className={classnames(classes, this.props.className)}
+                type={type}
+                className={classnames(classes, className)}
             >
                 {icon ? <Icon type={icon} /> : null}
-                {this.props.children}
+                {children}
             </button>
         );
     }

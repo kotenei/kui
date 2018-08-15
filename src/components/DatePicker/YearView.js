@@ -5,10 +5,6 @@ import classnames from "classnames";
 class YearView extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            viewData: {},
-            curPage: -1
-        };
     }
     static propTypes = {
         date: PropTypes.object,

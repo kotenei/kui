@@ -39,35 +39,52 @@ class YearView extends Component {
         }
     };
     render() {
-        const { prefixCls, lang, view } = this.props;
+        const { prefixCls, lang, view, date } = this.props;
         return (
             <div className={`${prefixCls}-header`}>
                 <div className={`${prefixCls}-header-left`}>
                     <Button.Group>
-                        <Button raised>
-                            <Icon
-                                type="left"
-                                onClick={this.handlePrevNextClick.bind(
-                                    this,
-                                    "prev"
-                                )}
-                            />
+                        <Button
+                            raised
+                            onClick={this.handlePrevNextClick.bind(
+                                this,
+                                "prev"
+                            )}
+                        >
+                            <Icon type="left" />
                         </Button>
-                        <Button raised>
-                            <Icon
-                                type="right"
-                                onClick={this.handlePrevNextClick.bind(
-                                    this,
-                                    "next"
-                                )}
-                            />
+                        <Button
+                            raised
+                            onClick={this.handlePrevNextClick.bind(
+                                this,
+                                "next"
+                            )}
+                        >
+                            <Icon type="right" />
                         </Button>
                     </Button.Group>
                     &nbsp;
-                    <Button raised>{dates[lang].today}</Button>
+                    <Button raised onClick={this.handleTodayClick}>
+                        {dates[lang].today}
+                    </Button>
                 </div>
                 <div className={`${prefixCls}-header-middle`}>
-                    <span>2018年</span>
+                    <span>
+                        {date.getFullYear()}
+                        {lang == "zh-cn" && view >= 0 ? "年" : ""}
+                        {view >= 1 ? (
+                            <span>
+                                {date.getMonth() + 1}
+                                {lang == "zh-cn" && view >= 1 ? "月" : ""}
+                            </span>
+                        ) : null}
+                        {view >= 2 ? (
+                            <span>
+                                {date.getDate()}
+                                {lang == "zh-cn" && view >= 2 ? "日" : ""}
+                            </span>
+                        ) : null}
+                    </span>
                 </div>
                 <div className={`${prefixCls}-header-right`}>
                     <Button.Group>

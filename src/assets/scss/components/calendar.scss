@@ -9,5 +9,75 @@
                 font-size: torem(24px);
             }
         }
+        margin-bottom: torem(10px);
+    }
+    &-month {
+        border: $border-width-base $border-style-base $border-color-base;
+        &-header {
+            height: torem(35px);
+            line-height: torem(35px);
+        }
+        &-body {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        &-row {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            border-bottom: $border-width-base $border-style-base $border-color-base;
+            flex:1;
+            &:first-child {
+                border-top: $border-width-base $border-style-base $border-color-base;
+            }
+            &:last-child {
+                border-bottom: none;
+            }
+            &-cell {
+                border-right: $border-width-base $border-style-base $border-color-base;
+                flex:1;
+                padding: torem(8px);
+                &.gray {
+                    color: #c0c4cc;
+                }
+                &.head-cell {
+                    padding: 0;
+                    text-align: center;
+                    font-weight: bold;
+                }
+                &.body-cell {}
+                &:last-child {
+                    border-right: none;
+                }
+            }
+            &-cell-container {
+                position: absolute;
+                display: flex;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 100%;
+            }
+            &-event-container {
+                position: relative;
+                flex:1;
+                margin-top: torem(35px);
+                display: flex;
+                .grid-cell{
+                    
+                    flex:1;
+                    height: 20px;
+                    .event-percent{
+                        background: red;
+                        height: 20px;
+                        border-radius: 2px;
+                        padding-right: torem(3px);
+                        width:20px;
+                    }
+                }
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ import MonthView from "./MonthView";
 import DayView from "./DayView";
 import WeekView from "./WeekView";
 import { dates } from "../../utils/dateUtils";
+import { addYears, addMonths, addDays } from "date-fns";
 
 const prefixCls = "k-calendar";
 
@@ -22,8 +23,27 @@ class Calendar extends Component {
         lang: PropTypes.string
     };
     static defaultProps = {
-        view: 0,
+        view: 1,
         lang: "zh-cn"
+    };
+    handlePrevNextClick = type => {
+        const { tmpView, tmpDate } = this.state;
+        let newDate = tmpDate,
+            num = type == "prev" ? -1 : 1;
+        switch (tmpView) {
+            case 0:
+                newDate = addYears(tmpDate, num);
+                break;
+            case 1:
+                newDate = addMonths(tmpDate, num);
+                break;
+            case 2:
+                newDate = addDays(tmpDate, num);
+                break;
+        }
+        this.setState({
+            tmpDate: newDate
+        });
     };
     handleTodayClick = () => {
         this.setState({
@@ -44,14 +64,23 @@ class Calendar extends Component {
                     prefixCls={prefixCls}
                     view={tmpView}
                     date={tmpDate}
+                    onPrevNextClick={this.handlePrevNextClick}
                     onTodayClick={this.handleTodayClick}
                     onViewClick={this.handleViewClick}
                 />
                 <div className={`${prefixCls}-container`}>
-                    {tmpView == 0 ? <YearView prefixCls={prefixCls} /> : null}
-                    {tmpView == 1 ? <MonthView prefixCls={prefixCls} /> : null}
-                    {tmpView == 2 ? <DayView prefixCls={prefixCls} /> : null}
-                    {tmpView == 3 ? <WeekView prefixCls={prefixCls} /> : null}
+                    {tmpView == 0 ? (
+                        <YearView prefixCls={prefixCls} date={tmpDate} />
+                    ) : null}
+                    {tmpView == 1 ? (
+                        <MonthView prefixCls={prefixCls} date={tmpDate} />
+                    ) : null}
+                    {tmpView == 2 ? (
+                        <DayView prefixCls={prefixCls} date={tmpDate} />
+                    ) : null}
+                    {tmpView == 3 ? (
+                        <WeekView prefixCls={prefixCls} date={tmpDate} />
+                    ) : null}
                 </div>
             </div>
         );

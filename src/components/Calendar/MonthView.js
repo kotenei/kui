@@ -1,25 +1,36 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import { getDaysInMonth, addDays, lastDayOfMonth, addMonths } from "date-fns";
+import {
+    getDaysInMonth,
+    addDays,
+    lastDayOfMonth,
+    addMonths,
+    format as formatter
+} from "date-fns";
 import { dates, getFirstDay } from "../../utils/dateUtils";
 
 class Cell extends Component {
     static propTypes = {
         prefixCls: PropTypes.string,
         value: PropTypes.any,
-        date: PropTypes.object
+        date: PropTypes.object,
+        data: PropTypes.object
     };
     static defaultProps = {};
     render() {
-        const { prefixCls, value, className } = this.props;
+        const { prefixCls, value, className, date } = this.props;
+        let formatStr = "YYYYMMDD",
+            now = formatter(new Date(), formatStr),
+            cur = formatter(date, formatStr),
+            active = now == cur;
         return (
             <div
                 className={classnames(className, {
                     [`${prefixCls}-row-cell`]: true
                 })}
             >
-                {value}
+                <span className={active ? "active" : null}>{value}</span>
             </div>
         );
     }
@@ -28,6 +39,7 @@ class Cell extends Component {
 class MonthView extends Component {
     static propTypes = {
         date: PropTypes.object,
+        data: PropTypes.object,
         lang: PropTypes.string,
         prefixCls: PropTypes.string
     };
@@ -66,17 +78,20 @@ class MonthView extends Component {
         );
     }
     renderBody(prefixCls) {
-        const { date } = this.props;
+        const { date, data } = this.props;
         let days = getDaysInMonth(date),
             firstDate = getFirstDay(date),
             dayOfWeek = firstDate.getDay(), //当月第一天是星期几
             lastDayOfPrevMonth = lastDayOfMonth(addMonths(date, -1)).getDate(),
             rows = [],
             cells = [],
+            tmpDate = [],
             index = 0,
             startDate,
             start,
             end;
+
+        console.log(data);
 
         if (dayOfWeek == 0) {
             start = lastDayOfPrevMonth - 6;
@@ -96,6 +111,7 @@ class MonthView extends Component {
                     prefixCls={prefixCls}
                 />
             );
+            tmpDate.push(startDate);
             startDate = addDays(startDate, 1);
             index++;
         }
@@ -109,6 +125,7 @@ class MonthView extends Component {
                     prefixCls={prefixCls}
                 />
             );
+            tmpDate.push(startDate);
             startDate = addDays(startDate, 1);
             index++;
         }
@@ -123,6 +140,7 @@ class MonthView extends Component {
                     prefixCls={prefixCls}
                 />
             );
+            tmpDate.push(startDate);
             startDate = addDays(startDate, 1);
             index++;
         }
@@ -145,11 +163,20 @@ class MonthView extends Component {
                         <div className="grid-cell" />
                         <div className="grid-cell" />
                         <div className="grid-cell" /> */}
+                        {this.renderGridCells(tmpDate.splice(0, 7))}
                     </div>
                 </div>
             );
         }
         return <div className={`${prefixCls}-body`}>{rows}</div>;
+    }
+    renderGridCells(arrDate) {
+        const { data } = this.props;
+        let gridCells = [];
+        arrDate.forEach(date => {
+            gridCells.push(<div key={date} className="grid-cell" />);
+        });
+        return gridCells;
     }
     render() {
         const { date, lang } = this.props;

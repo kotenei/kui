@@ -36,7 +36,20 @@ class Cell extends Component {
     }
 }
 
+const Progress = props => {
+    const { style, data } = props;
+    return (
+        <div key={event} className="event-container" style={style}>
+            <div className="event-progress">{data.title}</div>
+        </div>
+    );
+};
+
 class MonthView extends Component {
+    constructor(props) {
+        super(props);
+        this.rows = [];
+    }
     static propTypes = {
         date: PropTypes.object,
         data: PropTypes.object,
@@ -48,6 +61,7 @@ class MonthView extends Component {
         lang: "zh-cn",
         prefixCls: "k-calendar"
     };
+
     renderHeader(prefixCls) {
         const { lang } = this.props;
         return (
@@ -90,8 +104,6 @@ class MonthView extends Component {
             startDate,
             start,
             end;
-
-        console.log(data);
 
         if (dayOfWeek == 0) {
             start = lastDayOfPrevMonth - 6;
@@ -172,9 +184,71 @@ class MonthView extends Component {
     }
     renderGridCells(arrDate) {
         const { data } = this.props;
-        let gridCells = [];
+        let formatStr = "YYYYMMDD",
+            gridCells = [],
+            key;
+
         arrDate.forEach(date => {
-            gridCells.push(<div key={date} className="grid-cell" />);
+            key = formatter(date, "YYYYMMDD");
+            let events = data && data[key];
+            let percentItems = [],
+                style;
+            if (events) {
+                events.forEach(event => {
+                    if (this.rows.length == 0) {
+                        style = { width: event.width + "%" };
+                        this.rows.push(event.dates);
+                        percentItems.push(
+                            <Progress key={event} style={style} data={event} />
+                        );
+                    } else {
+                        let rIndex = -1;
+                        for (let i = 0; i < this.rows.length; i++) {
+                            let row = this.rows[i];
+                            rIndex = row.findIndex(item => {
+                                return (
+                                    formatter(event.startDate, formatStr) ==
+                                    formatter(item, formatStr)
+                                );
+                            });
+                            if (rIndex == -1) {
+                                row.push(...event.dates);
+                                style = {
+                                    top: i * 20,
+                                    width: event.width + "%"
+                                };
+                                percentItems.push(
+                                    <Progress
+                                        key={event}
+                                        style={style}
+                                        data={event}
+                                    />
+                                );
+                                break;
+                            }
+                        }
+                        if (rIndex >= 0) {
+                            this.rows.push(event.dates);
+                            style = {
+                                top: (rIndex + 1) * 20,
+                                width: event.width + "%"
+                            };
+                            percentItems.push(
+                                <Progress
+                                    key={event}
+                                    style={style}
+                                    data={event}
+                                />
+                            );
+                        }
+                    }
+                });
+            }
+            gridCells.push(
+                <div key={date} className="grid-cell">
+                    {percentItems}
+                </div>
+            );
         });
         return gridCells;
     }

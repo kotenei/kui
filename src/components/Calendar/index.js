@@ -28,9 +28,10 @@ class Calendar extends Component {
         view: 1,
         lang: "zh-cn",
         data: [
+            { title: "event3", start: "2018-08-17", end: "2018-08-17" },
             { title: "event1", start: "2018-08-15", end: "2018-08-16" },
+            { title: "event1", start: "2018-08-15", end: "2018-08-18" },
             { title: "event2", start: "2018-08-16", end: "2018-08-19" },
-            { title: "event2", start: "2018-08-17", end: "2018-08-17" }
         ]
     };
     handlePrevNextClick = type => {
@@ -69,21 +70,26 @@ class Calendar extends Component {
         }
         let tmpData = {};
         data.forEach(item => {
-            let key;
+            let key, days;
             item.startDate = new Date(item.start);
             item.endDate = new Date(item.end);
-            item.days = getDiffDay(item.startDate, item.endDate);
-            item.width = ((item.days + 1) / 7) * 100;
+            days = getDiffDay(item.startDate, item.endDate);
+            item.width = ((days + 1) / 7) * 100;
+            item.dates = [item.startDate];
+            if (days > 0) {
+                for (let i = 1; i <= days; i++) {
+                    item.dates.push(addDays(item.startDate, i));
+                }
+            }
             key = formatter(item.startDate, "YYYYMMDD");
             if (!tmpData[key]) {
                 tmpData[key] = [item];
             } else {
                 let items = tmpData[key];
                 items.push(item);
-                items.sort((a, b, c) => {
-                    return b.endDate.getTime() - a.endDate.getTime();
+                items.sort((a, b) => {
+                    return b.dates.length - a.dates.length;
                 });
-                tmpData[key] = items;
             }
         });
         this.setState({

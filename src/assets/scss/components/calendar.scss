@@ -75,13 +75,19 @@
                 display: flex;
                 .grid-cell {
                     flex: 1;
-                    height: 20px;
-                    .event-percent {
-                        background: red;
-                        height: 20px;
-                        border-radius: 2px;
+                    .event-container {
+                        height: torem(20px);
                         padding-right: torem(3px);
-                        width: 20px;
+                        position: absolute;
+                        .event-progress{
+                            height: torem(18px);
+                            line-height: torem(16px);
+                            background: #7986CB;
+                            border-radius: $border-radius;
+                            cursor: pointer;
+                            padding:0 torem(5px);
+                            color:white;
+                        }
                     }
                 }
             }

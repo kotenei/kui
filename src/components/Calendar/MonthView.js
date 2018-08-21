@@ -8,7 +8,8 @@ import {
     addMonths,
     format as formatter
 } from "date-fns";
-import { dates, getFirstDay } from "../../utils/dateUtils";
+import { dates, getFirstDay, getDiffDay } from "../../utils/dateUtils";
+import { tmpdir } from "os";
 
 class Cell extends Component {
     static propTypes = {
@@ -49,10 +50,14 @@ class MonthView extends Component {
     constructor(props) {
         super(props);
         this.rows = [];
+        this.nextEvents = [];
+        this.state = {
+            tmpData: null
+        };
     }
     static propTypes = {
         date: PropTypes.object,
-        data: PropTypes.object,
+        data: PropTypes.array,
         lang: PropTypes.string,
         prefixCls: PropTypes.string
     };
@@ -61,7 +66,123 @@ class MonthView extends Component {
         lang: "zh-cn",
         prefixCls: "k-calendar"
     };
+    componentWillMount() {
+        this.init();
+    }
+    componentWillReceiveProps(nextProps) {
+        this.init(nextProps.data);
+    }
+    init(props) {
+        const { data, date } = props || this.props;
+        let firstDate = getFirstDay(date),
+            dayOfWeek = firstDate.getDay(),
+            startDate,
+            endDate;
 
+        if (dayOfWeek == 0) {
+            startDate = addDays(firstDate, -7);
+        } else {
+            startDate = addDays(firstDate, -dayOfWeek);
+        }
+        endDate = addDays(startDate, 41);
+
+        if (data && data.length > 0) {
+            let tmpData = [...data];
+            tmpData.forEach(item => {
+                item.startDate = new Date(item.start + " 00:00:00");
+                item.endDate = new Date(item.end + " 00:00:00");
+                if (
+                    item.startDate.getTime() < startDate.getTime() &&
+                    item.endDate.getTime() >= startDate.getTime()
+                ) {
+                    item.startDate = startDate;
+                    if (item.endDate.getTime() > endDate.getTime()) {
+                        item.endDate = endDate;
+                    }
+                }
+            });
+            tmpData.sort((a, b) => {
+                let diff = a.startDate.getTime() - b.startDate.getTime();
+                if (diff == 0) {
+                    return b.endDate.getTime() - a.endDate.getTime();
+                }
+                return diff;
+            });
+            this.setState({
+                tmpData
+            });
+        }
+
+        this.setState({
+            startDate
+        });
+
+        // let tmpData = {},
+        //     formatStr = "YYYYMMDD",
+        //     rows = [];
+        // data.forEach(item => {
+        //     let key, days;
+        //     item.startDate = new Date(item.start + " 00:00:00");
+        //     item.endDate = new Date(item.end + " 00:00:00");
+        //     days = getDiffDay(item.startDate, item.endDate);
+        //     item.width = this.getWidth(item.startDate, item.endDate);
+        //     item.dates = [item.startDate];
+        //     if (days > 0) {
+        //         for (let i = 1; i <= days; i++) {
+        //             item.dates.push(addDays(item.startDate, i));
+        //         }
+        //     }
+        //     key = formatter(item.startDate, formatStr);
+        //     if (!tmpData[key]) {
+        //         tmpData[key] = [item];
+        //     } else {
+        //         let items = tmpData[key];
+        //         items.push(item);
+        //         items.sort((a, b) => {
+        //             return b.dates.length - a.dates.length;
+        //         });
+        //     }
+        // });
+        // for (const key in tmpData) {
+        //     let events = tmpData[key];
+        //     events.forEach(event => {
+        //         let style = { width: event.width, top: 0 };
+        //         if (rows.length == 0) {
+        //             event.style = style;
+        //             rows.push(event.dates);
+        //         } else {
+        //             let rIndex = -1;
+        //             for (let i = 0; i < rows.length; i++) {
+        //                 let row = rows[i];
+        //                 rIndex = row.findIndex(item => {
+        //                     return (
+        //                         formatter(event.startDate, formatStr) ==
+        //                         formatter(item, formatStr)
+        //                     );
+        //                 });
+        //                 if (rIndex == -1) {
+        //                     row.push(...event.dates);
+        //                     style.top = i * 20;
+        //                     event.style = style;
+        //                     break;
+        //                 }
+        //             }
+        //             if (rIndex >= 0) {
+        //                 rows.push(event.dates);
+        //                 style.top = (rIndex + 1) * 20;
+        //                 event.style = style;
+        //             }
+        //         }
+        //     });
+        // }
+        // this.setState({
+        //     tmpData
+        // });
+    }
+    getWidth(startDate, endDate) {
+        let days = getDiffDay(startDate, endDate);
+        return ((days + 1) / 7) * 100 + "%";
+    }
     renderHeader(prefixCls) {
         const { lang } = this.props;
         return (
@@ -93,68 +214,31 @@ class MonthView extends Component {
     }
     renderBody(prefixCls) {
         const { date, data } = this.props;
-        let days = getDaysInMonth(date),
-            firstDate = getFirstDay(date),
-            dayOfWeek = firstDate.getDay(), //当月第一天是星期几
-            lastDayOfPrevMonth = lastDayOfMonth(addMonths(date, -1)).getDate(),
-            rows = [],
+        const { startDate } = this.state;
+        let tmpDate = startDate,
+            now = new Date(),
             cells = [],
-            tmpDate = [],
-            index = 0,
-            startDate,
-            start,
-            end;
-
-        if (dayOfWeek == 0) {
-            start = lastDayOfPrevMonth - 6;
-            startDate = addDays(firstDate, -7);
-        } else {
-            start = lastDayOfPrevMonth - dayOfWeek + 1;
-            startDate = addDays(firstDate, -dayOfWeek);
-        }
-
-        for (let i = start; i <= lastDayOfPrevMonth; i++) {
+            rows = [],
+            arrDate = [];
+        for (let i = 1, className; i <= 42; i++) {
+            className = classnames({
+                "body-cell": true,
+                gray: !(
+                    tmpDate.getFullYear() == now.getFullYear() &&
+                    tmpDate.getMonth() == now.getMonth()
+                )
+            });
             cells.push(
                 <Cell
-                    key={index}
-                    className="body-cell gray"
-                    value={i}
-                    date={startDate}
+                    key={`cell_${i}`}
+                    className={className}
+                    value={tmpDate.getDate()}
+                    date={tmpDate}
                     prefixCls={prefixCls}
                 />
             );
-            tmpDate.push(startDate);
-            startDate = addDays(startDate, 1);
-            index++;
-        }
-        for (let i = 1; i <= days; i++) {
-            cells.push(
-                <Cell
-                    key={index}
-                    className="body-cell"
-                    value={i}
-                    date={startDate}
-                    prefixCls={prefixCls}
-                />
-            );
-            tmpDate.push(startDate);
-            startDate = addDays(startDate, 1);
-            index++;
-        }
-        end = 42 - cells.length;
-        for (let i = 1; i <= end; i++) {
-            cells.push(
-                <Cell
-                    key={index}
-                    className="body-cell gray"
-                    value={i}
-                    date={startDate}
-                    prefixCls={prefixCls}
-                />
-            );
-            tmpDate.push(startDate);
-            startDate = addDays(startDate, 1);
-            index++;
+            arrDate.push(tmpDate);
+            tmpDate = addDays(startDate, i);
         }
 
         for (let i = 0; i < 6; i++) {
@@ -175,81 +259,96 @@ class MonthView extends Component {
                         <div className="grid-cell" />
                         <div className="grid-cell" />
                         <div className="grid-cell" /> */}
-                        {this.renderGridCells(tmpDate.splice(0, 7))}
+                        {this.renderGridCells(arrDate.splice(0, 7), i)}
                     </div>
                 </div>
             );
         }
         return <div className={`${prefixCls}-body`}>{rows}</div>;
     }
-    renderGridCells(arrDate) {
-        const { data } = this.props;
+    renderGridCells(arrDate, index) {
+        const { tmpData } = this.state;
         let formatStr = "YYYYMMDD",
+            startDate = arrDate[0],
+            endDate = arrDate[arrDate.length - 1],
             gridCells = [],
+            percentItems = [],
+            nextEvents = [],
+            events,
             key;
 
         arrDate.forEach(date => {
-            key = formatter(date, "YYYYMMDD");
-            let events = data && data[key];
-            let percentItems = [],
-                style;
-            if (events) {
-                events.forEach(event => {
-                    if (this.rows.length == 0) {
-                        style = { width: event.width + "%" };
-                        this.rows.push(event.dates);
-                        percentItems.push(
-                            <Progress key={event} style={style} data={event} />
-                        );
-                    } else {
-                        let rIndex = -1;
-                        for (let i = 0; i < this.rows.length; i++) {
-                            let row = this.rows[i];
-                            rIndex = row.findIndex(item => {
-                                return (
-                                    formatter(event.startDate, formatStr) ==
-                                    formatter(item, formatStr)
-                                );
-                            });
-                            if (rIndex == -1) {
-                                row.push(...event.dates);
-                                style = {
-                                    top: i * 20,
-                                    width: event.width + "%"
-                                };
-                                percentItems.push(
-                                    <Progress
-                                        key={event}
-                                        style={style}
-                                        data={event}
-                                    />
-                                );
-                                break;
-                            }
-                        }
-                        if (rIndex >= 0) {
-                            this.rows.push(event.dates);
-                            style = {
-                                top: (rIndex + 1) * 20,
-                                width: event.width + "%"
-                            };
-                            percentItems.push(
-                                <Progress
-                                    key={event}
-                                    style={style}
-                                    data={event}
-                                />
-                            );
-                        }
-                    }
-                });
-            }
+            //percentItems = [];
+
+            // if (this.nextEvents && this.nextEvents.length > 0) {
+            //     this.nextEvents.forEach((event, index) => {
+            //         console.log(event,'fffffffffff')
+            //         if (
+            //             formatter(event.endDate, formatStr) >
+            //             formatter(endDate, formatStr)
+            //         ) {
+            //             console.log('aaaaaaaaaaaa')
+            //         }else{
+            //             percentItems.push(
+            //                 <Progress
+            //                     key={`progress_${index}`}
+            //                     style={event.style}
+            //                     data={event}
+            //                 />
+            //             );
+            //         }
+            //     });
+            //     this.nextEvents=[];
+            // }
+
+            // events = tmpData[formatter(date, formatStr)];
+            // if (events) {
+            //     events.forEach((event, index) => {
+            //         if (
+            //             formatter(event.endDate, formatStr) >
+            //             formatter(endDate, formatStr)
+            //         ) {
+            //             let newEvent = {
+            //                 ...event,
+            //                 end: formatter(endDate, "YYYY-MM-DD"),
+            //                 endDate
+            //             };
+
+            //             newEvent.style.width = this.getWidth(
+            //                 newEvent.startDate,
+            //                 newEvent.endDate
+            //             );
+            //             percentItems.push(
+            //                 <Progress
+            //                     key={`progress_${index}`}
+            //                     style={newEvent.style}
+            //                     data={newEvent}
+            //                 />
+            //             );
+
+            //             nextEvents.push({
+            //                 ...event,
+            //                 startDate: addDays(endDate, 1)
+            //             });
+            //         } else {
+            //             percentItems.push(
+            //                 <Progress
+            //                     key={`progress_${index}`}
+            //                     style={event.style}
+            //                     data={event}
+            //                 />
+            //             );
+            //         }
+            //     });
+            // }
             gridCells.push(
                 <div key={date} className="grid-cell">
                     {percentItems}
                 </div>
             );
         });
+
+        this.nextEvents = nextEvents;
         return gridCells;
     }
     render() {

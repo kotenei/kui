@@ -52,7 +52,7 @@ class MonthView extends Component {
         this.rows = [];
         this.nextEvents = [];
         this.state = {
-            tmpData: null
+            mapData: null
         };
     }
     static propTypes = {
@@ -88,6 +88,17 @@ class MonthView extends Component {
 
         if (data && data.length > 0) {
             let tmpData = [...data];
+            let mapData = {},
+                key;
+            tmpData.sort((a, b) => {
+                let diff =
+                    a.start.replace(/-/g, "") - b.start.replace(/-/g, "");
+                if (diff == 0) {
+                    return b.end.replace(/-/g, "") - a.end.replace(/-/g, "");
+                }
+                return diff;
+            });
+
             tmpData.forEach(item => {
                 item.startDate = new Date(item.start + " 00:00:00");
                 item.endDate = new Date(item.end + " 00:00:00");
@@ -100,16 +111,15 @@ class MonthView extends Component {
                         item.endDate = endDate;
                     }
                 }
-            });
-            tmpData.sort((a, b) => {
-                let diff = a.startDate.getTime() - b.startDate.getTime();
-                if (diff == 0) {
-                    return b.endDate.getTime() - a.endDate.getTime();
+                key = formatter(item.startDate, "YYYYMMDD");
+                if (!mapData[key]) {
+                    mapData[key] = [item];
+                } else {
+                    mapData[key].push(item);
                 }
-                return diff;
             });
             this.setState({
-                tmpData
+                mapData
             });
         }
 

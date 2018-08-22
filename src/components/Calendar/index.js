@@ -32,7 +32,10 @@ class Calendar extends Component {
             { id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },
             { id: 2, title: "event2", start: "2018-08-15", end: "2018-08-16" },
             { id: 3, title: "event3", start: "2018-08-15", end: "2018-08-18" },
-            { id: 4, title: "event4", start: "2018-08-16", end: "2018-08-19" }
+            { id: 4, title: "event4", start: "2018-08-16", end: "2018-08-19" },
+            { id: 5, title: "event5", start: "2018-08-17", end: "2018-08-17" },
+            { id: 6, title: "event6", start: "2018-06-17", end: "2018-08-20" },
+            { id: 7, title: "event7", start: "2018-08-18", end: "2018-08-19" }
         ]
     };
     handlePrevNextClick = type => {

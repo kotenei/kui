@@ -14,7 +14,7 @@
     &-month {
         border: $border-width-base $border-style-base $border-color-base;
         position: relative;
-        min-height: torem(600px);
+        min-height: torem(1000px);
         display: flex;
         flex-direction: column;
         &-header {
@@ -78,15 +78,16 @@
                     .event-container {
                         height: torem(20px);
                         padding-right: torem(3px);
+                        padding-left: torem(5px);
                         position: absolute;
-                        .event-progress{
+                        .event-progress {
                             height: torem(18px);
                             line-height: torem(16px);
                             background: #7986CB;
                             border-radius: $border-radius;
                             cursor: pointer;
-                            padding:0 torem(5px);
-                            color:white;
+                            padding: 0 torem(5px);
+                            color: white;
                         }
                     }
                 }

@@ -82,12 +82,13 @@
                         position: absolute;
                         .event-progress {
                             height: torem(18px);
-                            line-height: torem(16px);
+                            line-height: torem(18px);
                             background: #7986CB;
                             border-radius: $border-radius;
                             cursor: pointer;
                             padding: 0 torem(5px);
                             color: white;
+                            font-size: $font-size-sm;
                         }
                     }
                 }

@@ -39,10 +39,12 @@ class Cell extends Component {
 }
 
 const Progress = props => {
-    const { style, data } = props;
+    const { style, data, progressStyle } = props;
     return (
         <div key={event} className="event-container" style={style}>
-            <div className="event-progress">{data.title}</div>
+            <div className="event-progress" style={progressStyle}>
+                {data.title}
+            </div>
         </div>
     );
 };
@@ -50,7 +52,6 @@ const Progress = props => {
 class MonthView extends Component {
     constructor(props) {
         super(props);
-        this.rows = [];
         this.nextEvents = [];
         this.state = {
             mapData: null
@@ -86,7 +87,6 @@ class MonthView extends Component {
             startDate = addDays(firstDate, -dayOfWeek);
         }
         endDate = addDays(startDate, 41);
-
         if (data && data.length > 0) {
             let tmpData = [...data];
             let mapData = {},
@@ -135,6 +135,7 @@ class MonthView extends Component {
         this.setState({
             startDate
         });
+        this.nextEvents=[];
     }
     getWidth(startDate, endDate) {
         let days = getDiffDay(startDate, endDate);
@@ -186,7 +187,12 @@ class MonthView extends Component {
                         newEvent.endDate
                     );
                     progressItems.push(
-                        <Progress key={guid()} style={style} data={newEvent} />
+                        <Progress
+                            key={guid()}
+                            style={style}
+                            progressStyle={event.style}
+                            data={newEvent}
+                        />
                     );
                     nextEvents.push({
                         ...event,
@@ -194,7 +200,12 @@ class MonthView extends Component {
                     });
                 } else {
                     progressItems.push(
-                        <Progress key={guid()} style={style} data={event} />
+                        <Progress
+                            key={guid()}
+                            style={style}
+                            progressStyle={event.style}
+                            data={event}
+                        />
                     );
                 }
             });
@@ -233,7 +244,6 @@ class MonthView extends Component {
         const { date, data } = this.props;
         const { startDate } = this.state;
         let tmpDate = startDate,
-            now = new Date(),
             cells = [],
             rows = [],
             arrDate = [];
@@ -241,8 +251,8 @@ class MonthView extends Component {
             className = classnames({
                 "body-cell": true,
                 gray: !(
-                    tmpDate.getFullYear() == now.getFullYear() &&
-                    tmpDate.getMonth() == now.getMonth()
+                    tmpDate.getFullYear() == date.getFullYear() &&
+                    tmpDate.getMonth() == date.getMonth()
                 )
             });
             cells.push(

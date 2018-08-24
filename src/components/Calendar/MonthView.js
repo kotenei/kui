@@ -135,14 +135,21 @@ class MonthView extends Component {
         this.setState({
             startDate
         });
-        this.nextEvents=[];
+        this.nextEvents = [];
     }
     getWidth(startDate, endDate) {
         let days = getDiffDay(startDate, endDate);
         return ((days + 1) / 7) * 100 + "%";
     }
     setProgress(params) {
-        const { endDate, progressItems, rows, events, nextEvents } = params;
+        const {
+            endDate,
+            progressItems,
+            rows,
+            events,
+            nextEvents,
+            hidden
+        } = params;
         if (events) {
             let formatStr = "YYYYMMDD",
                 style;
@@ -174,6 +181,7 @@ class MonthView extends Component {
                         style.top = (rows.length - 1) * 20;
                     }
                 }
+
                 if (
                     formatter(event.endDate, formatStr) >
                     formatter(endDate, formatStr)
@@ -242,12 +250,17 @@ class MonthView extends Component {
     }
     renderBody(prefixCls) {
         const { date, data } = this.props;
-        const { startDate } = this.state;
+        const { startDate, mapData } = this.state;
         let tmpDate = startDate,
             cells = [],
             rows = [],
-            arrDate = [];
+            arrDate = [],
+            key;
+
+        let dateRows = [];
+
         for (let i = 1, className; i <= 42; i++) {
+            key = formatter(tmpDate, "YYYYMMDD");
             className = classnames({
                 "body-cell": true,
                 gray: !(
@@ -264,9 +277,52 @@ class MonthView extends Component {
                     prefixCls={prefixCls}
                 />
             );
+
+            let events = mapData[key];
+            if (events) {
+                events.forEach(event => {
+                    if (dateRows.length == 0) {
+                        dateRows.push(event.dates);
+                    } else {
+                        let rIndex = -1;
+                        for (let i = 0; i < dateRows.length; i++) {
+                            let row = dateRows[i];
+                            rIndex = row.findIndex(item => {
+                                return (
+                                    formatter(event.startDate, 'YYYYMMDD') ==
+                                    formatter(item, 'YYYYMMDD')
+                                );
+                            });
+                            if (rIndex == -1) {
+                                row.push(...event.dates);
+                                break;
+                            }
+                        }
+                        if (rIndex >= 0) {
+                            dateRows.push(event.dates);
+                        }
+                    }
+                    
+                });
+                
+            }
+
+            // console.log(mapData[key]);
+
+            // let aa = {
+            //     1: [
+            //         { start: "1", end: "2", top: 0 },
+            //         { start: "1", end: "2", top: 20 },
+            //         { start: "1", end: "2", top: 40 }
+            //     ],
+            //     2: [{ start: "2", end: "4" ,top:60}]
+            // };
+
             arrDate.push(tmpDate);
             tmpDate = addDays(startDate, i);
         }
+
+        console.log(dateRows)
 
         for (let i = 0; i < 6; i++) {
             rows.push(
@@ -291,6 +347,7 @@ class MonthView extends Component {
             progressItems = [],
             nextEvents = [],
             rows = [],
+            hidden = [],
             flag = false,
             events,
             key,
@@ -304,7 +361,8 @@ class MonthView extends Component {
                     progressItems,
                     rows,
                     events: this.nextEvents,
-                    nextEvents
+                    nextEvents,
+                    hidden
                 });
                 flag = true;
             }
@@ -314,7 +372,8 @@ class MonthView extends Component {
                 progressItems,
                 rows,
                 events,
-                nextEvents
+                nextEvents,
+                hidden
             });
             gridCells.push(
                 <div key={guid()} className="grid-cell">

@@ -14,7 +14,7 @@
     &-month {
         border: $border-width-base $border-style-base $border-color-base;
         position: relative;
-        min-height: torem(1000px);
+        min-height: torem(735px);
         display: flex;
         flex-direction: column;
         &-header {
@@ -90,6 +90,17 @@
                             color: white;
                             font-size: $font-size-sm;
                         }
+                    }
+                    &-more {
+                        position: absolute;
+                        bottom: 0;
+                        font-size: $font-size-sm;
+                        color: #757575;
+                        padding: 0 torem(5px);
+                        cursor: pointer;
+                        height: torem(18px);
+                        line-height: torem(18px);
+                        width:14.29%
                     }
                 }
             }

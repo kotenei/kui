@@ -29,13 +29,18 @@ class Calendar extends Component {
         view: 1,
         lang: "zh-cn",
         data: [
-            { id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },
-            { id: 2, title: "event2", start: "2018-08-15", end: "2018-08-16" },
-            { id: 3, title: "event3", start: "2018-08-15", end: "2018-08-18" },
-            { id: 4, title: "event4", start: "2018-08-16", end: "2018-08-19" },
-            { id: 5, title: "event5", start: "2018-08-17", end: "2018-08-17" },
-            { id: 6, title: "event6", start: "2018-06-17", end: "2018-08-20" },
-            { id: 7, title: "event7", start: "2018-08-18", end: "2018-08-19" }
+            // { id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },
+            // { id: 2, title: "event2", start: "2018-08-15", end: "2018-08-16" },
+            // { id: 3, title: "event3", start: "2018-08-15", end: "2018-08-18" },
+            // { id: 4, title: "event4", start: "2018-08-16", end: "2018-08-19" },
+            // { id: 5, title: "event5", start: "2018-08-17", end: "2018-08-17" },
+            // { id: 6, title: "event6", start: "2018-06-17", end: "2018-08-20" },
+            // { id: 7, title: "event7", start: "2018-08-18", end: "2018-08-19" }
+            { id: 1, title: "event1", start: "2018-08-17", end: "2018-08-18" },
+            { id: 2, title: "event2", start: "2018-08-17", end: "2018-08-18" },
+            { id: 3, title: "event3", start: "2018-08-17", end: "2018-08-18" },
+            { id: 4, title: "event4", start: "2018-08-17", end: "2018-08-18" },
+            { id: 5, title: "event5", start: "2018-08-18", end: "2018-08-18" }
         ]
     };
     handlePrevNextClick = type => {
@@ -67,78 +72,6 @@ class Calendar extends Component {
             tmpView: view
         });
     };
-    init(data) {
-        // data = data || this.props.data;
-        // if (!data || data.length == 0) {
-        //     return;
-        // }
-        // let tmpData = {},
-        //     formatStr = "YYYYMMDD";
-        // data.forEach(item => {
-        //     let key, days;
-        //     item.startDate = new Date(item.start);
-        //     item.endDate = new Date(item.end);
-        //     days = getDiffDay(item.startDate, item.endDate);
-        //     item.width = ((days + 1) / 7) * 100;
-        //     item.dates = [item.startDate];
-        //     if (days > 0) {
-        //         for (let i = 1; i <= days; i++) {
-        //             item.dates.push(addDays(item.startDate, i));
-        //         }
-        //     }
-        //     key = formatter(item.startDate, formatStr);
-        //     if (!tmpData[key]) {
-        //         tmpData[key] = [item];
-        //     } else {
-        //         let items = tmpData[key];
-        //         items.push(item);
-        //         items.sort((a, b) => {
-        //             return b.dates.length - a.dates.length;
-        //         });
-        //     }
-        // });
-        // let rows = [];
-        // for (const key in tmpData) {
-        //     let events = tmpData[key];
-        //     events.forEach(event => {
-        //         let style = { width: event.width + "%", top: 0 };
-        //         if (rows.length == 0) {
-        //             event.style = style;
-        //             rows.push(event.dates);
-        //         } else {
-        //             let rIndex = -1;
-        //             for (let i = 0; i < rows.length; i++) {
-        //                 let row = rows[i];
-        //                 rIndex = row.findIndex(item => {
-        //                     return (
-        //                         formatter(event.startDate, formatStr) ==
-        //                         formatter(item, formatStr)
-        //                     );
-        //                 });
-        //                 if (rIndex == -1) {
-        //                     row.push(...event.dates);
-        //                     style.top = i * 20;
-        //                     event.style = style;
-        //                     break;
-        //                 }
-        //             }
-        //             if (rIndex >= 0) {
-        //                 rows.push(event.dates);
-        //                 style.top = (rIndex + 1) * 20;
-        //                 event.style = style;
-        //             }
-        //         }
-        //     });
-        // }
-        // console.log(tmpData);
-        //console.log(tmpData);
-        // this.setState({
-        //     tmpData
-        // });
-    }
-    componentWillMount() {
-        this.init();
-    }
     render() {
         const { lang, data } = this.props;
         const { tmpView, tmpDate, tmpData } = this.state;

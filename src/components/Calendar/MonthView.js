@@ -252,15 +252,17 @@ class MonthView extends Component {
         const { date, data } = this.props;
         const { startDate, mapData } = this.state;
         let tmpDate = startDate,
+            tmpStart = startDate,
             cells = [],
             rows = [],
             arrDate = [],
             key;
 
-        let dateRows = [];
+        let eventRows = [];
 
         for (let i = 1, className; i <= 42; i++) {
             key = formatter(tmpDate, "YYYYMMDD");
+
             className = classnames({
                 "body-cell": true,
                 gray: !(
@@ -280,34 +282,62 @@ class MonthView extends Component {
 
             let events = mapData[key];
             if (events) {
-                events.forEach(event => {
-                    if (dateRows.length == 0) {
-                        dateRows.push(event.dates);
+                events.forEach((event, index) => {
+                    let style = {
+                        width: this.getWidth(event.startDate, event.endDate),
+                        top: index * 20
+                    };
+                    //event.style=style;
+                    if (eventRows.length == 0) {
+                        eventRows.push([event]);
                     } else {
                         let rIndex = -1;
-                        for (let i = 0; i < dateRows.length; i++) {
-                            let row = dateRows[i];
+                        for (let i = 0; i < eventRows.length; i++) {
+                            let row = eventRows[i];
                             rIndex = row.findIndex(item => {
+                                let eventStartDate = formatter(
+                                        event.startDate,
+                                        "YYYYMMDD"
+                                    ),
+                                    itemStartDate = formatter(
+                                        item.startDate,
+                                        "YYYYMMDD"
+                                    ),
+                                    itemEndDate = formatter(
+                                        item.endDate,
+                                        "YYYYMMDD"
+                                    );
+                                console.log(
+                                    eventStartDate,
+                                    itemStartDate,
+                                    itemEndDate,
+                                    eventStartDate >= itemStartDate &&
+                                    eventStartDate <= itemEndDate
+                                );
                                 return (
-                                    formatter(event.startDate, 'YYYYMMDD') ==
-                                    formatter(item, 'YYYYMMDD')
+                                    eventStartDate >= itemStartDate &&
+                                    eventStartDate <= itemEndDate
                                 );
                             });
+                            console.log(rIndex)
                             if (rIndex == -1) {
-                                row.push(...event.dates);
+                                console.log(i);
+                                //style.top = i * 20;
+                                //event.style=style;
+                                row.push(event);
                                 break;
                             }
                         }
                         if (rIndex >= 0) {
-                            dateRows.push(event.dates);
+                            //style.top = (eventRows.length - 1) * 20;
+                            //event.style=style;
+                            eventRows.push([event]);
                         }
                     }
-                    
                 });
-                
             }
 
-            // console.log(mapData[key]);
+            console.log(eventRows);
 
             // let aa = {
             //     1: [
@@ -321,8 +351,6 @@ class MonthView extends Component {
             arrDate.push(tmpDate);
             tmpDate = addDays(startDate, i);
         }
-
-        console.log(dateRows)
 
         for (let i = 0; i < 6; i++) {
             rows.push(

@@ -14,9 +14,9 @@
     &-month {
         border: $border-width-base $border-style-base $border-color-base;
         position: relative;
-        min-height: torem(735px);
         display: flex;
         flex-direction: column;
+        min-height: 710px;
         &-header {
             height: torem(35px);
             line-height: torem(35px);
@@ -75,6 +75,7 @@
                 display: flex;
                 .grid-cell {
                     flex: 1;
+                    min-height: torem(20px);
                     .event-container {
                         height: torem(20px);
                         padding-right: torem(3px);

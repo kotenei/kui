@@ -29,18 +29,18 @@ class Calendar extends Component {
         view: 1,
         lang: "zh-cn",
         data: [
-            // { id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },
-            // { id: 2, title: "event2", start: "2018-08-15", end: "2018-08-16" },
-            // { id: 3, title: "event3", start: "2018-08-15", end: "2018-08-18" },
-            // { id: 4, title: "event4", start: "2018-08-16", end: "2018-08-19" },
-            // { id: 5, title: "event5", start: "2018-08-17", end: "2018-08-17" },
-            // { id: 6, title: "event6", start: "2018-06-17", end: "2018-08-20" },
-            // { id: 7, title: "event7", start: "2018-08-18", end: "2018-08-19" }
-            { id: 1, title: "event1", start: "2018-08-17", end: "2018-08-18" },
-            { id: 2, title: "event2", start: "2018-08-17", end: "2018-08-18" },
-            { id: 3, title: "event3", start: "2018-08-17", end: "2018-08-18" },
-            { id: 4, title: "event4", start: "2018-08-17", end: "2018-08-18" },
-            { id: 5, title: "event5", start: "2018-08-18", end: "2018-08-18" }
+            { id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },
+            { id: 2, title: "event2", start: "2018-08-15", end: "2018-08-16" },
+            { id: 3, title: "event3", start: "2018-08-15", end: "2018-08-18" },
+            { id: 4, title: "event4", start: "2018-08-16", end: "2018-08-19" },
+            { id: 5, title: "event5", start: "2018-08-17", end: "2018-08-17" },
+            { id: 6, title: "event6", start: "2018-06-17", end: "2018-08-20" },
+            { id: 7, title: "event7", start: "2018-08-18", end: "2018-08-19" },
+            { id: 8, title: "event8", start: "2018-08-19", end: "2018-08-25" },
+            { id: 9, title: "event9", start: "2018-08-20", end: "2018-08-22" },
+            // { id: 3, title: "event3", start: "2018-08-17", end: "2018-08-18" },
+            // { id: 4, title: "event4", start: "2018-08-17", end: "2018-08-18" },
+            // { id: 5, title: "event5", start: "2018-08-18", end: "2018-08-18" }
         ]
     };
     handlePrevNextClick = type => {

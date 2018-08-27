@@ -10,7 +10,7 @@ import {
 } from "date-fns";
 import { guid } from "../../utils";
 import { dates, getFirstDay, getDiffDay } from "../../utils/dateUtils";
-import { tmpdir } from "os";
+import domUtils from "../../utils/domUtils";
 
 class Cell extends Component {
     static propTypes = {
@@ -52,10 +52,12 @@ const Progress = props => {
 class MonthView extends Component {
     constructor(props) {
         super(props);
-        this.nextEvents = [];
         this.state = {
-            mapData: null
+            mapData: null,
+            maxTop: 0
         };
+        this.eventHeight = 20;
+        this.nextEvents = [];
     }
     static propTypes = {
         date: PropTypes.object,
@@ -68,12 +70,7 @@ class MonthView extends Component {
         lang: "zh-cn",
         prefixCls: "k-calendar"
     };
-    componentWillMount() {
-        this.init();
-    }
-    componentWillReceiveProps(nextProps) {
-        this.init(nextProps);
-    }
+
     init(props) {
         const { data, date } = props || this.props;
         let firstDate = getFirstDay(date),
@@ -148,18 +145,22 @@ class MonthView extends Component {
             rows,
             events,
             nextEvents,
-            hidden
+            tmpEvents,
+            mapHidden
         } = params;
+        const { maxTop } = this.state;
         if (events) {
             let formatStr = "YYYYMMDD",
+                height = this.eventHeight,
+                key,
                 style;
             events.forEach((event, index) => {
                 style = {
                     width: this.getWidth(event.startDate, event.endDate),
-                    top: index * 20
+                    top: index * height
                 };
                 if (rows.length == 0) {
-                    rows.push(event.dates);
+                    rows.push([...event.dates]);
                 } else {
                     let rIndex = -1;
                     for (let i = 0; i < rows.length; i++) {
@@ -172,13 +173,13 @@ class MonthView extends Component {
                         });
                         if (rIndex == -1) {
                             row.push(...event.dates);
-                            style.top = i * 20;
+                            style.top = i * height;
                             break;
                         }
                     }
                     if (rIndex >= 0) {
-                        rows.push(event.dates);
-                        style.top = (rows.length - 1) * 20;
+                        rows.push([...event.dates]);
+                        style.top = (rows.length - 1) * height;
                     }
                 }
 
@@ -190,34 +191,102 @@ class MonthView extends Component {
                         ...event,
                         endDate
                     };
-                    style.width = this.getWidth(
-                        newEvent.startDate,
-                        newEvent.endDate
-                    );
-                    progressItems.push(
-                        <Progress
-                            key={guid()}
-                            style={style}
-                            progressStyle={event.style}
-                            data={newEvent}
-                        />
-                    );
                     nextEvents.push({
                         ...event,
                         startDate: addDays(endDate, 1)
                     });
-                } else {
-                    progressItems.push(
-                        <Progress
-                            key={guid()}
-                            style={style}
-                            progressStyle={event.style}
-                            data={event}
-                        />
+                    style.width = this.getWidth(
+                        newEvent.startDate,
+                        newEvent.endDate
                     );
+                    if (style.top >= maxTop) {
+                        newEvent.position = style;
+                        this.setHidden(newEvent, tmpEvents, mapHidden);
+                        tmpEvents.push(newEvent);
+                    } else {
+                        progressItems.push(
+                            <Progress
+                                key={guid()}
+                                style={style}
+                                progressStyle={event.style}
+                                data={newEvent}
+                            />
+                        );
+                    }
+                } else {
+                    if (style.top >= maxTop) {
+                        event.position = style;
+                        this.setHidden(event, tmpEvents, mapHidden);
+                        tmpEvents.push(event);
+                    } else {
+                        progressItems.push(
+                            <Progress
+                                key={guid()}
+                                style={style}
+                                progressStyle={event.style}
+                                data={event}
+                            />
+                        );
+                    }
                 }
             });
         }
+    }
+    setHidden(event, events, mapHidden) {
+        const { maxTop } = this.state;
+        if (event.position.top >= maxTop) {
+            let key;
+            event.hidden = true;
+            event.dates.forEach(date => {
+                key = formatter(date, "YYYYMMDD");
+                if (!mapHidden[key]) {
+                    mapHidden[key] = 1;
+                } else {
+                    mapHidden[key]++;
+                }
+            });
+            events.forEach(item => {
+                if (
+                    item.position.top >= maxTop - this.eventHeight &&
+                    !item.hidden &&
+                    event.startDate.getTime() >= item.startDate.getTime() &&
+                    event.startDate.getTime() <= item.endDate.getTime()
+                ) {
+                    item.hidden = true;
+                    item.dates.forEach(date => {
+                        key = formatter(date, "YYYYMMDD");
+                        if (!mapHidden[key]) {
+                            mapHidden[key] = 1;
+                        } else {
+                            mapHidden[key]++;
+                        }
+                    });
+                }
+            });
+        }
+    }
+    setPosition() {
+        let elmCell = this.refs.month.querySelector(".grid-cell"),
+            height = domUtils.height(elmCell),
+            count = Math.floor(height / this.eventHeight + 0.25),
+            maxTop = (count - 1) * this.eventHeight;
+
+        this.setState({
+            maxTop
+        });
+    }
+    componentWillMount() {
+        this.init();
+    }
+    componentDidMount() {
+        this.setPosition();
+        window.addEventListener("resize", this.setPosition);
+    }
+    componentWillReceiveProps(nextProps) {
+        this.init(nextProps);
+    }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.setPosition);
     }
     renderHeader(prefixCls) {
         const { lang } = this.props;
@@ -258,11 +327,8 @@ class MonthView extends Component {
             arrDate = [],
             key;
 
-        let eventRows = [];
-
         for (let i = 1, className; i <= 42; i++) {
             key = formatter(tmpDate, "YYYYMMDD");
-
             className = classnames({
                 "body-cell": true,
                 gray: !(
@@ -282,71 +348,8 @@ class MonthView extends Component {
 
             let events = mapData[key];
             if (events) {
-                events.forEach((event, index) => {
-                    let style = {
-                        width: this.getWidth(event.startDate, event.endDate),
-                        top: index * 20
-                    };
-                    //event.style=style;
-                    if (eventRows.length == 0) {
-                        eventRows.push([event]);
-                    } else {
-                        let rIndex = -1;
-                        for (let i = 0; i < eventRows.length; i++) {
-                            let row = eventRows[i];
-                            rIndex = row.findIndex(item => {
-                                let eventStartDate = formatter(
-                                        event.startDate,
-                                        "YYYYMMDD"
-                                    ),
-                                    itemStartDate = formatter(
-                                        item.startDate,
-                                        "YYYYMMDD"
-                                    ),
-                                    itemEndDate = formatter(
-                                        item.endDate,
-                                        "YYYYMMDD"
-                                    );
-                                console.log(
-                                    eventStartDate,
-                                    itemStartDate,
-                                    itemEndDate,
-                                    eventStartDate >= itemStartDate &&
-                                    eventStartDate <= itemEndDate
-                                );
-                                return (
-                                    eventStartDate >= itemStartDate &&
-                                    eventStartDate <= itemEndDate
-                                );
-                            });
-                            console.log(rIndex)
-                            if (rIndex == -1) {
-                                console.log(i);
-                                //style.top = i * 20;
-                                //event.style=style;
-                                row.push(event);
-                                break;
-                            }
-                        }
-                        if (rIndex >= 0) {
-                            //style.top = (eventRows.length - 1) * 20;
-                            //event.style=style;
-                            eventRows.push([event]);
-                        }
-                    }
-                });
+                events.forEach((event, index) => {});
             }
-
-            console.log(eventRows);
-
-            // let aa = {
-            //     1: [
-            //         { start: "1", end: "2", top: 0 },
-            //         { start: "1", end: "2", top: 20 },
-            //         { start: "1", end: "2", top: 40 }
-            //     ],
-            //     2: [{ start: "2", end: "4" ,top:60}]
-            // };
 
             arrDate.push(tmpDate);
             tmpDate = addDays(startDate, i);
@@ -375,13 +378,15 @@ class MonthView extends Component {
             progressItems = [],
             nextEvents = [],
             rows = [],
-            hidden = [],
+            tmpEvents = [],
             flag = false,
+            mapHidden = {},
             events,
             key,
             style;
 
         arrDate.forEach(date => {
+            key = formatter(date, formatStr);
             progressItems = [];
             if (this.nextEvents && this.nextEvents.length > 0 && !flag) {
                 this.setProgress({
@@ -390,25 +395,38 @@ class MonthView extends Component {
                     rows,
                     events: this.nextEvents,
                     nextEvents,
-                    hidden
+                    tmpEvents,
+                    mapHidden
                 });
                 flag = true;
             }
-            events = mapData[formatter(date, formatStr)];
+            events = mapData[key];
             this.setProgress({
                 endDate,
                 progressItems,
                 rows,
                 events,
                 nextEvents,
-                hidden
+                tmpEvents,
+                mapHidden
             });
+
+            if (mapHidden[key]) {
+                progressItems.push(
+                    <div className="grid-cell-more" key={guid()}>
+                        还有
+                        {mapHidden[key]}项
+                    </div>
+                );
+            }
+
             gridCells.push(
                 <div key={guid()} className="grid-cell">
                     {progressItems}
                 </div>
             );
         });
+
         this.nextEvents = nextEvents;
         return gridCells;
     }
@@ -416,7 +434,7 @@ class MonthView extends Component {
         const { date, lang } = this.props;
         let prefixCls = `${this.props.prefixCls}-month`;
         return (
-            <div className={prefixCls}>
+            <div className={prefixCls} ref="month">
                 {this.renderHeader(prefixCls)}
                 {this.renderBody(prefixCls)}
             </div>

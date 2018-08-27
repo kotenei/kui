@@ -11,6 +11,8 @@ import {
 import { guid } from "../../utils";
 import { dates, getFirstDay, getDiffDay } from "../../utils/dateUtils";
 import domUtils from "../../utils/domUtils";
+import Popover from "./Popover";
+import PopPanel from "../PopPanel";
 
 class Cell extends Component {
     static propTypes = {
@@ -266,6 +268,7 @@ class MonthView extends Component {
         }
     }
     setPosition() {
+        if (!this.refs.month) return;
         let elmCell = this.refs.month.querySelector(".grid-cell"),
             height = domUtils.height(elmCell),
             count = Math.floor(height / this.eventHeight + 0.25),
@@ -321,14 +324,11 @@ class MonthView extends Component {
         const { date, data } = this.props;
         const { startDate, mapData } = this.state;
         let tmpDate = startDate,
-            tmpStart = startDate,
             cells = [],
             rows = [],
-            arrDate = [],
-            key;
+            arrDate = [];
 
         for (let i = 1, className; i <= 42; i++) {
-            key = formatter(tmpDate, "YYYYMMDD");
             className = classnames({
                 "body-cell": true,
                 gray: !(
@@ -345,11 +345,6 @@ class MonthView extends Component {
                     prefixCls={prefixCls}
                 />
             );
-
-            let events = mapData[key];
-            if (events) {
-                events.forEach((event, index) => {});
-            }
 
             arrDate.push(tmpDate);
             tmpDate = addDays(startDate, i);
@@ -437,6 +432,7 @@ class MonthView extends Component {
             <div className={prefixCls} ref="month">
                 {this.renderHeader(prefixCls)}
                 {this.renderBody(prefixCls)}
+                <Popover open={true} />
             </div>
         );
     }

@@ -7,6 +7,7 @@ import DayView from "./DayView";
 import WeekView from "./WeekView";
 import { addYears, addMonths, addDays, format as formatter } from "date-fns";
 import { dates, getFirstDay, getDiffDay } from "../../utils/dateUtils";
+import { deepClone } from "../../utils";
 
 const prefixCls = "k-calendar";
 
@@ -25,7 +26,7 @@ class Calendar extends Component {
         data: PropTypes.array
     };
     static defaultProps = {
-        view: 0,
+        view: 1,
         lang: "zh-cn",
         data: [
             { id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },
@@ -75,8 +76,9 @@ class Calendar extends Component {
         const { data } = props || this.props;
         if (data && data.length > 0) {
             let formatStr = "YYYYMMDD",
-                tmpData = [...data],
+                tmpData = deepClone(data),
                 days;
+
             tmpData.sort((a, b) => {
                 let diff =
                     a.start.replace(/-/g, "") - b.start.replace(/-/g, "");
@@ -98,6 +100,8 @@ class Calendar extends Component {
                         item.datesNumber.push(formatter(d, formatStr));
                     }
                 }
+                item.startNumber = item.datesNumber[0];
+                item.endNumber = item.datesNumber[item.datesNumber.length - 1];
             });
             this.setState({
                 tmpData
@@ -111,7 +115,7 @@ class Calendar extends Component {
         this.init(nextProps);
     }
     render() {
-        const { lang, data } = this.props;
+        const { lang } = this.props;
         const { tmpView, tmpDate, tmpData } = this.state;
         return (
             <div className={prefixCls}>

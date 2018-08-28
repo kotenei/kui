@@ -9,7 +9,7 @@ import {
     format as formatter
 } from "date-fns";
 import { dates, getFirstDay, getDiffDay } from "../../utils/dateUtils";
-import { getPosition, guid } from "../../utils";
+import { getPosition, guid, deepClone } from "../../utils";
 import domUtils from "../../utils/domUtils";
 import Popover from "./Popover";
 import PopPanel from "../PopPanel";
@@ -21,7 +21,6 @@ class Cell extends Component {
         date: PropTypes.object,
         data: PropTypes.object
     };
-    static defaultProps = {};
     render() {
         const { prefixCls, value, className, date } = this.props;
         let formatStr = "YYYYMMDD",
@@ -63,6 +62,7 @@ class MonthView extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            tmpData: null,
             mapData: null,
             maxTop: 0,
             position: { top: 0, left: 0 },
@@ -106,6 +106,7 @@ class MonthView extends Component {
         const { data, date } = props || this.props;
         let firstDate = getFirstDay(date),
             dayOfWeek = firstDate.getDay(),
+            formatStr = "YYYYMMDD",
             startDate,
             endDate;
         this.nextEvents = [];
@@ -116,48 +117,29 @@ class MonthView extends Component {
         }
         endDate = addDays(startDate, 41);
         if (data && data.length > 0) {
-            let tmpData = [...data];
+            let tmpData = deepClone(data);
             let mapData = {},
-                key,
-                days;
-            // tmpData.sort((a, b) => {
-            //     let diff =
-            //         a.start.replace(/-/g, "") - b.start.replace(/-/g, "");
-            //     if (diff == 0) {
-            //         return b.end.replace(/-/g, "") - a.end.replace(/-/g, "");
-            //     }
-            //     return diff;
-            // });
+                key;
 
-            // tmpData.forEach(item => {
-            //     item.startDate = new Date(item.start + " 00:00:00");
-            //     item.endDate = new Date(item.end + " 00:00:00");
-            //     days = getDiffDay(item.startDate, item.endDate);
-            //     item.dates = [item.startDate];
-            //     if (days > 0) {
-            //         for (let i = 1; i <= days; i++) {
-            //             item.dates.push(addDays(item.startDate, i));
-            //         }
-            //     }
-
-            //     if (
-            //         item.startDate.getTime() < startDate.getTime() &&
-            //         item.endDate.getTime() >= startDate.getTime()
-            //     ) {
-            //         item.startDate = startDate;
-            //         if (item.endDate.getTime() > endDate.getTime()) {
-            //             item.endDate = endDate;
-            //         }
-            //     }
-            //     key = formatter(item.startDate, "YYYYMMDD");
-            //     if (!mapData[key]) {
-            //         mapData[key] = [item];
-            //     } else {
-            //         mapData[key].push(item);
-            //     }
-            // });
-
+            tmpData.forEach(item => {
+                if (
+                    item.startDate.getTime() < startDate.getTime() &&
+                    item.endDate.getTime() >= startDate.getTime()
+                ) {
+                    item.startNumber = formatter(startDate, formatStr);
+                    if (item.endDate.getTime() > endDate.getTime()) {
+                        item.endNumber = formatter(endDate, formatStr);
+                    }
+                }
+                key = formatter(item.tmpStartDate, formatStr);
+                if (!mapData[key]) {
+                    mapData[key] = [item];
+                } else {
+                    mapData[key].push(item);
+                }
+            });
             this.setState({
+                tmpData,
                 mapData
             });
         }
@@ -200,8 +182,7 @@ class MonthView extends Component {
                         let row = rows[i];
                         rIndex = row.findIndex(item => {
                             return (
-                                formatter(event.startDate, formatStr) ==
-                                formatter(item, formatStr)
+                                event.startNumber==item
                             );
                         });
                         if (rIndex == -1) {
@@ -309,7 +290,7 @@ class MonthView extends Component {
             });
         }
     }
-    setPosition() {
+    setPosition = () => {
         if (!this.refs.month) return;
         let elmCell = this.refs.month.querySelector(".grid-cell"),
             height = domUtils.height(elmCell),
@@ -319,7 +300,7 @@ class MonthView extends Component {
         this.setState({
             maxTop
         });
-    }
+    };
     componentWillMount() {
         this.init();
     }
@@ -365,8 +346,8 @@ class MonthView extends Component {
         );
     }
     renderBody(prefixCls) {
-        const { date, data } = this.props;
-        const { startDate, mapData } = this.state;
+        const { date } = this.props;
+        const { startDate, mapData, tmpData } = this.state;
         let tmpDate = startDate,
             cells = [],
             rows = [],

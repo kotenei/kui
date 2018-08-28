@@ -2,26 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import domUtils from "./domUtils";
 
-export const guid = () => {
-    function S4() {
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    }
-    return (
-        S4() +
-        S4() +
-        "-" +
-        S4() +
-        "-" +
-        S4() +
-        "-" +
-        S4() +
-        "-" +
-        S4() +
-        S4() +
-        S4()
-    );
-};
-
 export const FirstChild = props => {
     const childrenArray = React.Children.toArray(props.children);
     return childrenArray[0] || null;
@@ -115,4 +95,42 @@ export const getMouseCoord = e => {
             e.pageY ||
             e.clientY + document.body.scrollTop - document.body.clientTop
     };
+};
+
+export const deepClone = obj => {
+    if (!obj || typeof obj !== "object" || obj instanceof Date) {
+        return obj;
+    }
+
+    let newObj = {};
+    if (Array.isArray(obj)) {
+        newObj = obj.map(item => {
+            return deepClone(item);
+        });
+    } else {
+        Object.keys(obj).forEach(key => {
+            return (newObj[key] = deepClone(obj[key]));
+        });
+    }
+    return newObj;
+};
+
+export const guid = () => {
+    function S4() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
+    return (
+        S4() +
+        S4() +
+        "-" +
+        S4() +
+        "-" +
+        S4() +
+        "-" +
+        S4() +
+        "-" +
+        S4() +
+        S4() +
+        S4()
+    );
 };

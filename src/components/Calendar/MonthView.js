@@ -8,8 +8,8 @@ import {
     addMonths,
     format as formatter
 } from "date-fns";
-import { guid } from "../../utils";
 import { dates, getFirstDay, getDiffDay } from "../../utils/dateUtils";
+import { getPosition, guid } from "../../utils";
 import domUtils from "../../utils/domUtils";
 import Popover from "./Popover";
 import PopPanel from "../PopPanel";
@@ -40,11 +40,19 @@ class Cell extends Component {
     }
 }
 
-const Progress = props => {
-    const { style, data, progressStyle } = props;
+const Event = props => {
+    const { style, data, progressStyle, prefixCls, onClick } = props;
     return (
-        <div key={event} className="event-container" style={style}>
-            <div className="event-progress" style={progressStyle}>
+        <div
+            key={event}
+            className={`${prefixCls}-event`}
+            style={style}
+            onClick={onClick}
+        >
+            <div
+                className={`${prefixCls}-event-progress`}
+                style={progressStyle}
+            >
                 {data.title}
             </div>
         </div>
@@ -56,7 +64,9 @@ class MonthView extends Component {
         super(props);
         this.state = {
             mapData: null,
-            maxTop: 0
+            maxTop: 0,
+            position: { top: 0, left: 0 },
+            active: null
         };
         this.eventHeight = 20;
         this.nextEvents = [];
@@ -65,21 +75,40 @@ class MonthView extends Component {
         date: PropTypes.object,
         data: PropTypes.array,
         lang: PropTypes.string,
-        prefixCls: PropTypes.string
+        prefixCls: PropTypes.string,
+        onEventClick: PropTypes.func
     };
     static defaultProps = {
         date: new Date(),
         lang: "zh-cn",
         prefixCls: "k-calendar"
     };
-
+    handleMoreClick = e => {
+        const { target } = e;
+        this.setState({
+            active: target.getAttribute("data-key")
+        });
+    };
+    handleClose = () => {
+        if (this.state.active) {
+            this.setState({
+                active: null
+            });
+        }
+    };
+    handleEventClick = event => {
+        const { onEventClick } = this.props;
+        if (onEventClick) {
+            onEventClick(event);
+        }
+    };
     init(props) {
         const { data, date } = props || this.props;
         let firstDate = getFirstDay(date),
             dayOfWeek = firstDate.getDay(),
             startDate,
             endDate;
-
+        this.nextEvents = [];
         if (dayOfWeek == 0) {
             startDate = addDays(firstDate, -7);
         } else {
@@ -91,42 +120,43 @@ class MonthView extends Component {
             let mapData = {},
                 key,
                 days;
-            tmpData.sort((a, b) => {
-                let diff =
-                    a.start.replace(/-/g, "") - b.start.replace(/-/g, "");
-                if (diff == 0) {
-                    return b.end.replace(/-/g, "") - a.end.replace(/-/g, "");
-                }
-                return diff;
-            });
+            // tmpData.sort((a, b) => {
+            //     let diff =
+            //         a.start.replace(/-/g, "") - b.start.replace(/-/g, "");
+            //     if (diff == 0) {
+            //         return b.end.replace(/-/g, "") - a.end.replace(/-/g, "");
+            //     }
+            //     return diff;
+            // });
 
-            tmpData.forEach(item => {
-                item.startDate = new Date(item.start + " 00:00:00");
-                item.endDate = new Date(item.end + " 00:00:00");
-                days = getDiffDay(item.startDate, item.endDate);
-                item.dates = [item.startDate];
-                if (days > 0) {
-                    for (let i = 1; i <= days; i++) {
-                        item.dates.push(addDays(item.startDate, i));
-                    }
-                }
+            // tmpData.forEach(item => {
+            //     item.startDate = new Date(item.start + " 00:00:00");
+            //     item.endDate = new Date(item.end + " 00:00:00");
+            //     days = getDiffDay(item.startDate, item.endDate);
+            //     item.dates = [item.startDate];
+            //     if (days > 0) {
+            //         for (let i = 1; i <= days; i++) {
+            //             item.dates.push(addDays(item.startDate, i));
+            //         }
+            //     }
 
-                if (
-                    item.startDate.getTime() < startDate.getTime() &&
-                    item.endDate.getTime() >= startDate.getTime()
-                ) {
-                    item.startDate = startDate;
-                    if (item.endDate.getTime() > endDate.getTime()) {
-                        item.endDate = endDate;
-                    }
-                }
-                key = formatter(item.startDate, "YYYYMMDD");
-                if (!mapData[key]) {
-                    mapData[key] = [item];
-                } else {
-                    mapData[key].push(item);
-                }
-            });
+            //     if (
+            //         item.startDate.getTime() < startDate.getTime() &&
+            //         item.endDate.getTime() >= startDate.getTime()
+            //     ) {
+            //         item.startDate = startDate;
+            //         if (item.endDate.getTime() > endDate.getTime()) {
+            //             item.endDate = endDate;
+            //         }
+            //     }
+            //     key = formatter(item.startDate, "YYYYMMDD");
+            //     if (!mapData[key]) {
+            //         mapData[key] = [item];
+            //     } else {
+            //         mapData[key].push(item);
+            //     }
+            // });
+
             this.setState({
                 mapData
             });
@@ -134,7 +164,6 @@ class MonthView extends Component {
         this.setState({
             startDate
         });
-        this.nextEvents = [];
     }
     getWidth(startDate, endDate) {
         let days = getDiffDay(startDate, endDate);
@@ -150,6 +179,7 @@ class MonthView extends Component {
             tmpEvents,
             mapHidden
         } = params;
+        const { prefixCls } = this.props;
         const { maxTop } = this.state;
         if (events) {
             let formatStr = "YYYYMMDD",
@@ -157,6 +187,7 @@ class MonthView extends Component {
                 key,
                 style;
             events.forEach((event, index) => {
+                key = `${event.id}-${index}`;
                 style = {
                     width: this.getWidth(event.startDate, event.endDate),
                     top: index * height
@@ -207,11 +238,16 @@ class MonthView extends Component {
                         tmpEvents.push(newEvent);
                     } else {
                         progressItems.push(
-                            <Progress
-                                key={guid()}
+                            <Event
+                                key={key}
+                                prefixCls={prefixCls}
                                 style={style}
                                 progressStyle={event.style}
                                 data={newEvent}
+                                onClick={this.handleEventClick.bind(
+                                    this,
+                                    event
+                                )}
                             />
                         );
                     }
@@ -222,11 +258,16 @@ class MonthView extends Component {
                         tmpEvents.push(event);
                     } else {
                         progressItems.push(
-                            <Progress
-                                key={guid()}
+                            <Event
+                                key={key}
+                                prefixCls={prefixCls}
                                 style={style}
                                 progressStyle={event.style}
                                 data={event}
+                                onClick={this.handleEventClick.bind(
+                                    this,
+                                    event
+                                )}
                             />
                         );
                     }
@@ -239,14 +280,7 @@ class MonthView extends Component {
         if (event.position.top >= maxTop) {
             let key;
             event.hidden = true;
-            event.dates.forEach(date => {
-                key = formatter(date, "YYYYMMDD");
-                if (!mapHidden[key]) {
-                    mapHidden[key] = 1;
-                } else {
-                    mapHidden[key]++;
-                }
-            });
+
             events.forEach(item => {
                 if (
                     item.position.top >= maxTop - this.eventHeight &&
@@ -258,11 +292,19 @@ class MonthView extends Component {
                     item.dates.forEach(date => {
                         key = formatter(date, "YYYYMMDD");
                         if (!mapHidden[key]) {
-                            mapHidden[key] = 1;
+                            mapHidden[key] = [item];
                         } else {
-                            mapHidden[key]++;
+                            mapHidden[key].push(item);
                         }
                     });
+                }
+            });
+            event.dates.forEach(date => {
+                key = formatter(date, "YYYYMMDD");
+                if (!mapHidden[key]) {
+                    mapHidden[key] = [event];
+                } else {
+                    mapHidden[key].push(event);
                 }
             });
         }
@@ -284,12 +326,14 @@ class MonthView extends Component {
     componentDidMount() {
         this.setPosition();
         window.addEventListener("resize", this.setPosition);
+        document.addEventListener("click", this.handleClose);
     }
     componentWillReceiveProps(nextProps) {
         this.init(nextProps);
     }
     componentWillUnmount() {
         window.removeEventListener("resize", this.setPosition);
+        document.removeEventListener("click", this.handleClose);
     }
     renderHeader(prefixCls) {
         const { lang } = this.props;
@@ -327,7 +371,7 @@ class MonthView extends Component {
             cells = [],
             rows = [],
             arrDate = [];
-
+        this.nextEvents = [];
         for (let i = 1, className; i <= 42; i++) {
             className = classnames({
                 "body-cell": true,
@@ -349,7 +393,6 @@ class MonthView extends Component {
             arrDate.push(tmpDate);
             tmpDate = addDays(startDate, i);
         }
-
         for (let i = 0; i < 6; i++) {
             rows.push(
                 <div key={`row-${i}`} className={`${prefixCls}-row`}>
@@ -365,7 +408,8 @@ class MonthView extends Component {
         return <div className={`${prefixCls}-body`}>{rows}</div>;
     }
     renderGridCells(arrDate, index) {
-        const { mapData } = this.state;
+        const { mapData, active } = this.state;
+        const { prefixCls } = this.props;
         let formatStr = "YYYYMMDD",
             startDate = arrDate[0],
             endDate = arrDate[arrDate.length - 1],
@@ -407,16 +451,56 @@ class MonthView extends Component {
             });
 
             if (mapHidden[key]) {
+                let popTitle = formatter(date, "YYYY-MM-DD");
                 progressItems.push(
-                    <div className="grid-cell-more" key={guid()}>
-                        还有
-                        {mapHidden[key]}项
-                    </div>
+                    <PopPanel
+                        transitionName="scale"
+                        open={active == key}
+                        input={
+                            <div
+                                data-key={key}
+                                className="grid-cell-more"
+                                onClick={this.handleMoreClick}
+                            >
+                                还有
+                                {mapHidden[key].length}项
+                            </div>
+                        }
+                        key={`popPanel_${key}`}
+                    >
+                        <Popover
+                            title={popTitle}
+                            prefixCls={prefixCls}
+                            onClose={this.handleClose}
+                        >
+                            {mapHidden[key].map((hidden, index) => {
+                                return (
+                                    <Event
+                                        key={`hiddenEvent_${
+                                            hidden.id
+                                        }_${index}`}
+                                        data={hidden}
+                                        prefixCls={prefixCls}
+                                        style={{
+                                            padding: 0,
+                                            position: "static",
+                                            width: "100%"
+                                        }}
+                                        progressStyle={hidden.style}
+                                        onClick={this.handleEventClick.bind(
+                                            this,
+                                            hidden
+                                        )}
+                                    />
+                                );
+                            })}
+                        </Popover>
+                    </PopPanel>
                 );
             }
 
             gridCells.push(
-                <div key={guid()} className="grid-cell">
+                <div key={`gridCell_${key}`} className="grid-cell">
                     {progressItems}
                 </div>
             );
@@ -432,7 +516,6 @@ class MonthView extends Component {
             <div className={prefixCls} ref="month">
                 {this.renderHeader(prefixCls)}
                 {this.renderBody(prefixCls)}
-                <Popover open={true} />
             </div>
         );
     }

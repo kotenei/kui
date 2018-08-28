@@ -14,7 +14,7 @@ class PopPanel extends Component {
         super(props);
         this.state = {
             open: false,
-            position: {
+            position: props.position || {
                 left: -999,
                 top: -999
             }
@@ -43,6 +43,7 @@ class PopPanel extends Component {
             "rightBottom"
         ]),
         open: PropTypes.bool,
+        position: PropTypes.object,
         timeout: PropTypes.number,
         transitionName: PropTypes.string,
         trigger: PropTypes.oneOf(["hover", "click"]),
@@ -91,13 +92,16 @@ class PopPanel extends Component {
     /**
      * 定位
      */
-    setPosition = () => {
+    setPosition = position => {
         const { placement } = this.props;
-        let position = getPosition({
-            trigger: this.refs.trigger,
-            placement: placement,
-            ...this.orgSize
-        });
+        position =
+            position ||
+            this.props.position ||
+            getPosition({
+                trigger: this.refs.trigger,
+                placement: placement,
+                ...this.orgSize
+            });
         this.setState({
             position
         });
@@ -154,6 +158,9 @@ class PopPanel extends Component {
         window.addEventListener("resize", this.setPosition);
     }
     componentWillReceiveProps(nextProps) {
+        if (nextProps.position) {
+            this.setPosition(nextProps.position);
+        }
         if ("open" in nextProps) {
             if (nextProps.open) {
                 this.open();

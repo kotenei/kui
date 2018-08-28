@@ -102,7 +102,7 @@ class YearView extends Component {
                         >
                             {dates[lang].month}
                         </Button>
-                        <Button
+                        {/* <Button
                             raised
                             active={view == 2}
                             onClick={this.handleViewClick.bind(this, 2)}
@@ -115,7 +115,7 @@ class YearView extends Component {
                             onClick={this.handleViewClick.bind(this, 3)}
                         >
                             {dates[lang].week}
-                        </Button>
+                        </Button> */}
                     </Button.Group>
                 </div>
             </div>

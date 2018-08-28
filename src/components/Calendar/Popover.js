@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import PopPanel from "../PopPanel";
+import Icon from "../Icon";
 
 class Popover extends Component {
     static propTypes = {
         prefixCls: PropTypes.string,
-        position: PropTypes.object,
-        open: PropTypes.bool
+        title: PropTypes.node
     };
-    static defaultProps = {
-        prefixCls: "k-calendar",
-        open: false
-    };
+    static defaultProps = {};
     render() {
-        const { prefixCls, open, position } = this.props;
+        const { prefixCls, title, children,onClose } = this.props;
         return (
-            <PopPanel open={open}>
-                <div className={`${prefixCls}-popover`} />
-            </PopPanel>
+            <div className={`${prefixCls}-popover`}>
+                <div className={`${prefixCls}-popover-header`}>
+                    {title}
+                    <Icon type="close" onClick={onClose} />
+                </div>
+                <div className={`${prefixCls}-popover-body`}>{children}</div>
+            </div>
         );
     }
 }

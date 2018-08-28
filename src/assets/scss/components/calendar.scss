@@ -11,12 +11,58 @@
         }
         margin-bottom: torem(10px);
     }
+    &-year {
+        min-height: torem(400px);
+        display: flex;
+        flex-direction: column;
+        border: $border-width-base $border-style-base $border-color-base;
+        border-radius: $border-radius;
+        &-row {
+            display: flex;
+            flex: 1;
+            border-bottom: $border-width-base $border-style-base $border-color-base;
+            &:last-child {
+                border-bottom: none;
+            }
+            &-cell {
+                flex: 1;
+                position: relative;
+                padding: torem(10px);
+                border-right: $border-width-base $border-style-base $border-color-base;
+                cursor: pointer;
+                transition: background .3s ease;
+                color: rgba(0, 0, 0, .65);
+                &:hover {
+                    background: #E6F7FF;
+                }
+                &:last-child {
+                    border-right: none;
+                }
+                .month {
+                    position: absolute;
+                    right: torem(10px);
+                    top: torem(10px);
+                    font-size: $font-size-lg;
+                    &.active {
+                        color: $primary;
+                    }
+                }
+                .number {
+                    font-size: torem(28px);
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+    }
     &-month {
         border: $border-width-base $border-style-base $border-color-base;
         position: relative;
         display: flex;
         flex-direction: column;
-        min-height: 710px;
+        min-height: torem(710px);
         &-header {
             height: torem(35px);
             line-height: torem(35px);
@@ -76,22 +122,6 @@
                 .grid-cell {
                     flex: 1;
                     min-height: torem(20px);
-                    .event-container {
-                        height: torem(20px);
-                        padding-right: torem(3px);
-                        padding-left: torem(5px);
-                        position: absolute;
-                        .event-progress {
-                            height: torem(18px);
-                            line-height: torem(18px);
-                            background: #7986CB;
-                            border-radius: $border-radius;
-                            cursor: pointer;
-                            padding: 0 torem(5px);
-                            color: white;
-                            font-size: $font-size-sm;
-                        }
-                    }
                     &-more {
                         position: absolute;
                         bottom: 0;
@@ -100,11 +130,54 @@
                         padding: 0 torem(5px);
                         cursor: pointer;
                         height: torem(18px);
-                        line-height: torem(18px);
-                        width:14.29%
+                        line-height: torem(18px); // width:14.29%
                     }
                 }
             }
         }
+    }
+}
+
+.k-calendar-popover {
+    position: absolute;
+    background: white;
+    height: torem(160px);
+    top: 0;
+    left: 0;
+    width: torem(200px);
+    margin-left: torem(-30px);
+    margin-top: torem(-60px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    padding: torem(10px);
+    border-radius: $border-radius;
+    &-header {
+        position: relative;
+        .k-icon {
+            position: absolute;
+            right: 0;
+            cursor: pointer;
+        }
+    }
+    &-body {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: torem(120px);
+    }
+}
+
+.k-calendar-event {
+    height: torem(20px);
+    padding-right: torem(3px);
+    padding-left: torem(5px);
+    position: absolute;
+    &-progress {
+        height: torem(18px);
+        line-height: torem(18px);
+        background: #7986CB;
+        border-radius: $border-radius;
+        cursor: pointer;
+        padding: 0 torem(5px);
+        color: white;
+        font-size: $font-size-sm;
     }
 }

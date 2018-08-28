@@ -64,3 +64,19 @@
 }
 
 
+.scale-enter,
+.scale-exit-active {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.scale-enter-active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.scale-enter-active,
+.scale-exit-active {
+    transition: all .3s ease;
+}
+

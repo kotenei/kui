@@ -9,16 +9,24 @@ class YearView extends Component {
         prefixCls: PropTypes.string,
         date: PropTypes.object,
         data: PropTypes.array,
-        lang: PropTypes.string
+        lang: PropTypes.string,
+        onClick: PropTypes.func
     };
     static defaultProps = {
         prefixCls: "k-calendar",
         date: new Date(),
         lang: "zh-cn"
     };
+    handleClick = date => {
+        const { onClick } = this.props;
+        if (onClick) {
+            onClick(date);
+        }
+    };
     renderBody() {
         const { date, data, lang, prefixCls } = this.props;
-        let rows = [],
+        let formatStr = "YYYYMMDD",
+            rows = [],
             flag = 0,
             now = new Date();
         for (let i = 0; i < 3; i++) {
@@ -27,11 +35,11 @@ class YearView extends Component {
                 let monthText = dates[lang].months[j],
                     start = formatter(
                         new Date(date.getFullYear(), j, 1),
-                        "YYYYMMDD"
+                        formatStr
                     ),
                     end = formatter(
                         new Date(date.getFullYear(), j + 1, 0),
-                        "YYYYMMDD"
+                        formatStr
                     ),
                     number = 0;
                 if (data && data.length > 0) {
@@ -44,7 +52,14 @@ class YearView extends Component {
                     });
                 }
                 cells.push(
-                    <div className={`${prefixCls}-year-row-cell`} key={j}>
+                    <div
+                        className={`${prefixCls}-year-row-cell`}
+                        key={j}
+                        onClick={this.handleClick.bind(
+                            this,
+                            new Date(date.getFullYear(), j, 1)
+                        )}
+                    >
                         <div
                             className={classnames({
                                 month: true,

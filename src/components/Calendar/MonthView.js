@@ -62,7 +62,6 @@ class MonthView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tmpData: null,
             mapData: null,
             maxTop: 0,
             position: { top: 0, left: 0 },
@@ -123,12 +122,12 @@ class MonthView extends Component {
 
             tmpData.forEach(item => {
                 if (
-                    item.startDate.getTime() < startDate.getTime() &&
-                    item.endDate.getTime() >= startDate.getTime()
+                    item.tmpStartDate.getTime() < startDate.getTime() &&
+                    item.tmpEndDate.getTime() >= startDate.getTime()
                 ) {
-                    item.startNumber = formatter(startDate, formatStr);
-                    if (item.endDate.getTime() > endDate.getTime()) {
-                        item.endNumber = formatter(endDate, formatStr);
+                    item.tmpStartDate = startDate;
+                    if (item.tmpEndDate.getTime() > endDate.getTime()) {
+                        item.tmpEndDate = endDate;
                     }
                 }
                 key = formatter(item.tmpStartDate, formatStr);
@@ -139,7 +138,6 @@ class MonthView extends Component {
                 }
             });
             this.setState({
-                tmpData,
                 mapData
             });
         }
@@ -171,7 +169,7 @@ class MonthView extends Component {
             events.forEach((event, index) => {
                 key = `${event.id}-${index}`;
                 style = {
-                    width: this.getWidth(event.startDate, event.endDate),
+                    width: this.getWidth(event.tmpStartDate, event.tmpEndDate),
                     top: index * height
                 };
                 if (rows.length == 0) {
@@ -182,7 +180,12 @@ class MonthView extends Component {
                         let row = rows[i];
                         rIndex = row.findIndex(item => {
                             return (
-                                event.startNumber==item
+                                event.tmpStartDate.getFullYear() +
+                                    event.tmpStartDate.getMonth() +
+                                    event.tmpStartDate.getDate() ==
+                                item.getFullYear() +
+                                    item.getMonth() +
+                                    item.getDate()
                             );
                         });
                         if (rIndex == -1) {
@@ -198,20 +201,20 @@ class MonthView extends Component {
                 }
 
                 if (
-                    formatter(event.endDate, formatStr) >
+                    formatter(event.tmpEndDate, formatStr) >
                     formatter(endDate, formatStr)
                 ) {
                     let newEvent = {
                         ...event,
-                        endDate
+                        tmpEndDate: endDate
                     };
                     nextEvents.push({
                         ...event,
-                        startDate: addDays(endDate, 1)
+                        tmpStartDate: addDays(endDate, 1)
                     });
                     style.width = this.getWidth(
-                        newEvent.startDate,
-                        newEvent.endDate
+                        newEvent.tmpStartDate,
+                        newEvent.tmpEndDate
                     );
                     if (style.top >= maxTop) {
                         newEvent.position = style;
@@ -259,19 +262,21 @@ class MonthView extends Component {
     setHidden(event, events, mapHidden) {
         const { maxTop } = this.state;
         if (event.position.top >= maxTop) {
-            let key;
+            let formatStr = "YYYYMMDD",
+                key;
             event.hidden = true;
 
             events.forEach(item => {
                 if (
                     item.position.top >= maxTop - this.eventHeight &&
                     !item.hidden &&
-                    event.startDate.getTime() >= item.startDate.getTime() &&
-                    event.startDate.getTime() <= item.endDate.getTime()
+                    event.tmpStartDate.getTime() >=
+                        item.tmpStartDate.getTime() &&
+                    event.tmpStartDate.getTime() <= item.tmpEndDate.getTime()
                 ) {
                     item.hidden = true;
                     item.dates.forEach(date => {
-                        key = formatter(date, "YYYYMMDD");
+                        key = formatter(date, formatStr);
                         if (!mapHidden[key]) {
                             mapHidden[key] = [item];
                         } else {
@@ -281,7 +286,7 @@ class MonthView extends Component {
                 }
             });
             event.dates.forEach(date => {
-                key = formatter(date, "YYYYMMDD");
+                key = formatter(date, formatStr);
                 if (!mapHidden[key]) {
                     mapHidden[key] = [event];
                 } else {
@@ -408,29 +413,30 @@ class MonthView extends Component {
         arrDate.forEach(date => {
             key = formatter(date, formatStr);
             progressItems = [];
-            if (this.nextEvents && this.nextEvents.length > 0 && !flag) {
+            if (mapData) {
+                if (this.nextEvents && this.nextEvents.length > 0 && !flag) {
+                    this.setProgress({
+                        endDate,
+                        progressItems,
+                        rows,
+                        events: this.nextEvents,
+                        nextEvents,
+                        tmpEvents,
+                        mapHidden
+                    });
+                    flag = true;
+                }
+                events = mapData[key];
                 this.setProgress({
                     endDate,
                     progressItems,
                     rows,
-                    events: this.nextEvents,
+                    events,
                     nextEvents,
                     tmpEvents,
                     mapHidden
                 });
-                flag = true;
             }
-            events = mapData[key];
-            this.setProgress({
-                endDate,
-                progressItems,
-                rows,
-                events,
-                nextEvents,
-                tmpEvents,
-                mapHidden
-            });
-
             if (mapHidden[key]) {
                 let popTitle = formatter(date, "YYYY-MM-DD");
                 progressItems.push(

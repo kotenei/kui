@@ -1002,6 +1002,21 @@ select:-webkit-autofill {
 .slide-down-exit-active {
   transition: all .3s ease; }
 
+.scale-enter,
+.scale-exit-active {
+  opacity: 0;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5); }
+
+.scale-enter-active {
+  opacity: 1;
+  -webkit-transform: scale(1);
+          transform: scale(1); }
+
+.scale-enter-active,
+.scale-exit-active {
+  transition: all .3s ease; }
+
 .k-alert {
   padding: .9375rem;
   padding-right: 2.1875rem;
@@ -1363,9 +1378,151 @@ input[type="button"].k-btn-block {
   display: flex;
   justify-content: space-between;
   height: 2.8125rem;
-  line-height: 2.8125rem; }
+  line-height: 2.8125rem;
+  margin-bottom: 0.625rem; }
   .k-calendar-header-middle span {
     font-size: 1.5rem; }
+
+.k-calendar-year {
+  min-height: 25rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.25rem; }
+  .k-calendar-year-row {
+    display: flex;
+    flex: 1;
+    border-bottom: 1px solid #d9d9d9; }
+    .k-calendar-year-row:last-child {
+      border-bottom: none; }
+    .k-calendar-year-row-cell {
+      flex: 1;
+      position: relative;
+      padding: 0.625rem;
+      border-right: 1px solid #d9d9d9;
+      cursor: pointer;
+      transition: background .3s ease;
+      color: rgba(0, 0, 0, 0.65); }
+      .k-calendar-year-row-cell:hover {
+        background: #E6F7FF; }
+      .k-calendar-year-row-cell:last-child {
+        border-right: none; }
+      .k-calendar-year-row-cell .month {
+        position: absolute;
+        right: 0.625rem;
+        top: 0.625rem;
+        font-size: 1rem; }
+        .k-calendar-year-row-cell .month.active {
+          color: #2196f3; }
+      .k-calendar-year-row-cell .number {
+        font-size: 1.75rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%); }
+
+.k-calendar-month {
+  border: 1px solid #d9d9d9;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 44.375rem; }
+  .k-calendar-month-header {
+    height: 2.1875rem;
+    line-height: 2.1875rem; }
+  .k-calendar-month-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1; }
+  .k-calendar-month-row {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    border-bottom: 1px solid #d9d9d9;
+    flex: 1; }
+    .k-calendar-month-row:first-child {
+      border-top: 1px solid #d9d9d9; }
+    .k-calendar-month-row:last-child {
+      border-bottom: none; }
+    .k-calendar-month-row-cell {
+      border-right: 1px solid #d9d9d9;
+      flex: 1;
+      padding: 0.5rem; }
+      .k-calendar-month-row-cell.gray {
+        color: #c0c4cc; }
+      .k-calendar-month-row-cell .active {
+        color: #2196f3; }
+      .k-calendar-month-row-cell.head-cell {
+        padding: 0;
+        text-align: center;
+        font-weight: bold; }
+      .k-calendar-month-row-cell:last-child {
+        border-right: none; }
+    .k-calendar-month-row-cell-container {
+      position: absolute;
+      display: flex;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 100%; }
+    .k-calendar-month-row-event-container {
+      position: relative;
+      flex: 1;
+      margin-top: 2.1875rem;
+      display: flex; }
+      .k-calendar-month-row-event-container .grid-cell {
+        flex: 1;
+        min-height: 1.25rem; }
+        .k-calendar-month-row-event-container .grid-cell-more {
+          position: absolute;
+          bottom: 0;
+          font-size: 0.75rem;
+          color: #757575;
+          padding: 0 0.3125rem;
+          cursor: pointer;
+          height: 1.125rem;
+          line-height: 1.125rem; }
+
+.k-calendar-popover {
+  position: absolute;
+  background: white;
+  height: 10rem;
+  top: 0;
+  left: 0;
+  width: 12.5rem;
+  margin-left: -1.875rem;
+  margin-top: -3.75rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  padding: 0.625rem;
+  border-radius: 0.25rem; }
+  .k-calendar-popover-header {
+    position: relative; }
+    .k-calendar-popover-header .k-icon {
+      position: absolute;
+      right: 0;
+      cursor: pointer; }
+  .k-calendar-popover-body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 7.5rem; }
+
+.k-calendar-event {
+  height: 1.25rem;
+  padding-right: 0.1875rem;
+  padding-left: 0.3125rem;
+  position: absolute; }
+  .k-calendar-event-progress {
+    height: 1.125rem;
+    line-height: 1.125rem;
+    background: #7986CB;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    padding: 0 0.3125rem;
+    color: white;
+    font-size: 0.75rem; }
 
 .k-card {
   border-radius: 0.25rem;

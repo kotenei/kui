@@ -15,62 +15,73 @@ class Calendar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tmpDate: new Date(),
-            tmpView: props.view,
+            date: new Date(),
+            tmpView: props.view || props.defaultView,
             tmpData: null
         };
     }
     static propTypes = {
+        defaultView: PropTypes.oneOf([0, 1, 2, 3]),
         view: PropTypes.oneOf([0, 1, 2, 3]),
         lang: PropTypes.string,
-        data: PropTypes.array
+        data: PropTypes.array,
+        onChangeView: PropTypes.func,
+        onEventClick: PropTypes.func
     };
     static defaultProps = {
-        view: 1,
         lang: "zh-cn",
-        data: [
-            { id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },
-            { id: 2, title: "event2", start: "2018-08-15", end: "2018-08-16" },
-            { id: 3, title: "event3", start: "2018-08-15", end: "2018-08-18" },
-            { id: 4, title: "event4", start: "2018-08-16", end: "2018-08-19" },
-            { id: 5, title: "event5", start: "2018-08-17", end: "2018-08-17" },
-            { id: 6, title: "event6", start: "2018-06-17", end: "2018-08-20" },
-            { id: 7, title: "event7", start: "2018-08-18", end: "2018-08-19" },
-            { id: 8, title: "event8", start: "2018-08-19", end: "2018-08-25" },
-            { id: 9, title: "event9", start: "2018-08-20", end: "2018-08-22" }
-            // { id: 3, title: "event3", start: "2018-08-17", end: "2018-08-18" },
-            // { id: 4, title: "event4", start: "2018-08-17", end: "2018-08-18" },
-            // { id: 5, title: "event5", start: "2018-08-18", end: "2018-08-18" }
-        ]
+        defaultView: 1
     };
     handlePrevNextClick = type => {
-        const { tmpView, tmpDate } = this.state;
-        let newDate = tmpDate,
+        const { tmpView, date } = this.state;
+        let newDate = date,
             num = type == "prev" ? -1 : 1;
         switch (tmpView) {
             case 0:
-                newDate = addYears(tmpDate, num);
+                newDate = addYears(date, num);
                 break;
             case 1:
-                newDate = addMonths(tmpDate, num);
+                newDate = addMonths(date, num);
                 break;
             case 2:
-                newDate = addDays(tmpDate, num);
+                newDate = addDays(date, num);
                 break;
         }
         this.setState({
-            tmpDate: newDate
+            date: newDate
         });
     };
     handleTodayClick = () => {
         this.setState({
-            tmpDate: new Date()
+            date: new Date()
         });
     };
     handleViewClick = view => {
+        const { onChangeView } = this.props;
+        if (onChangeView) {
+            onChangeView(view);
+        }
+        if (!("view" in this.props)) {
+            this.setState({
+                tmpView: view
+            });
+        }
+    };
+    handleMonthClick = date => {
         this.setState({
-            tmpView: view
+            date
         });
+        if (!("view" in this.props)) {
+            this.setState({
+                tmpView: 1
+            });
+        }
+    };
+    handleEventClick = event => {
+        const { onEventClick } = this.props;
+        if (onEventClick) {
+            onEventClick(event);
+        }
     };
     init(props) {
         const { data } = props || this.props;
@@ -88,20 +99,34 @@ class Calendar extends Component {
                 return diff;
             });
             tmpData.forEach(item => {
-                item.startDate = new Date(item.start + " 00:00:00");
-                item.endDate = new Date(item.end + " 00:00:00");
-                days = getDiffDay(item.startDate, item.endDate);
-                item.dates = [item.startDate];
-                item.datesNumber = [formatter(item.startDate, formatStr)];
+                item.startDate = new Date(item.start);
+                item.endDate = new Date(item.end);
+                item.tmpStartDate = new Date(
+                    item.startDate.getFullYear(),
+                    item.startDate.getMonth(),
+                    item.startDate.getDate(),
+                    0,
+                    0,
+                    0
+                );
+                item.tmpEndDate = new Date(
+                    item.endDate.getFullYear(),
+                    item.endDate.getMonth(),
+                    item.endDate.getDate(),
+                    0,
+                    0,
+                    0
+                );
+                days = getDiffDay(item.tmpStartDate, item.endDate);
+                item.dates = [item.tmpStartDate];
+                item.datesNumber = [formatter(item.tmpStartDate, formatStr)];
                 if (days > 0) {
                     for (let i = 1, d; i <= days; i++) {
-                        d = addDays(item.startDate, i);
+                        d = addDays(item.tmpStartDate, i);
                         item.dates.push(d);
                         item.datesNumber.push(formatter(d, formatStr));
                     }
                 }
-                item.startNumber = item.datesNumber[0];
-                item.endNumber = item.datesNumber[item.datesNumber.length - 1];
             });
             this.setState({
                 tmpData
@@ -116,13 +141,13 @@ class Calendar extends Component {
     }
     render() {
         const { lang } = this.props;
-        const { tmpView, tmpDate, tmpData } = this.state;
+        const { tmpView, date, tmpData } = this.state;
         return (
             <div className={prefixCls}>
                 <Header
                     prefixCls={prefixCls}
                     view={tmpView}
-                    date={tmpDate}
+                    date={date}
                     onPrevNextClick={this.handlePrevNextClick}
                     onTodayClick={this.handleTodayClick}
                     onViewClick={this.handleViewClick}
@@ -131,22 +156,24 @@ class Calendar extends Component {
                     {tmpView == 0 ? (
                         <YearView
                             prefixCls={prefixCls}
-                            date={tmpDate}
+                            date={date}
                             data={tmpData}
+                            onClick={this.handleMonthClick}
                         />
                     ) : null}
                     {tmpView == 1 ? (
                         <MonthView
                             prefixCls={prefixCls}
-                            date={tmpDate}
+                            date={date}
                             data={tmpData}
+                            onEventClick={this.handleEventClick}
                         />
                     ) : null}
                     {/* {tmpView == 2 ? (
-                        <DayView prefixCls={prefixCls} date={tmpDate} />
+                        <DayView prefixCls={prefixCls} date={date} />
                     ) : null}
                     {tmpView == 3 ? (
-                        <WeekView prefixCls={prefixCls} date={tmpDate} />
+                        <WeekView prefixCls={prefixCls} date={date} />
                     ) : null} */}
                 </div>
             </div>

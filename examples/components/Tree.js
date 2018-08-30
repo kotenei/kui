@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import { Tree } from "main";
 
+const TreeNode = Tree.TreeNode;
+
 class CalendarView extends Component {
+    static displayName = "TreeNode";
     render() {
         return (
             <div>
                 <h1>Tree 树型</h1>
-                <div className="k-example" />
+                <div className="k-example">
+                    <Tree>
+                        <TreeNode />
+                    </Tree>
+                </div>
                 <h1>API</h1>
                 <table className="k-table k-table-hover k-table-striped">
                     <thead>

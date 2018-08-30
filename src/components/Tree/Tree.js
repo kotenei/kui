@@ -6,25 +6,40 @@ const prefixCls = "k-tree";
 
 class Tree extends Component {
     static propTypes = {
-        defaultValue: PropTypes.array,
+        checkable: PropTypes.bool,
+        checkedKeys: PropTypes.array,
+        defaultCheckedKeys: PropTypes.array,
+        defaultExpandAll: PropTypes.bool,
+        defaultExpandedKeys: PropTypes.array,
+        defaultSelectedKeys: PropTypes.array,
         disabled: PropTypes.bool,
+        expandedKeys: PropTypes.array,
         multiple: PropTypes.bool,
+        selectedKeys: PropTypes.bool,
         showIcon: PropTypes.bool,
         showLine: PropTypes.bool,
-        value: PropTypes.array,
         onCheck: PropTypes.func,
+        onDragStart: PropTypes.func,
+        onDragOver: PropTypes.func,
+        onDragEnd: PropTypes.func,
         onExpand: PropTypes.func,
         onSelect: PropTypes.func,
         onLoad: PropTypes.func
     };
     static defaultProps = {
+        checkable: false,
+        defaultCheckedKeys: [],
+        defaultExpandAll: false,
+        defaultExpandedKeys: [],
+        defaultSelectedKeys: [],
         disabled: false,
         multiple: false,
         showIcon: false,
         showLine: true
     };
     render() {
-        return <div className={prefixCls} />;
+        const { children } = this.props;
+        return <ul className={prefixCls}>{children}</ul>;
     }
 }
 

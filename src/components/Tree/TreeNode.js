@@ -20,8 +20,17 @@ class TreeNode extends Component {
         selectable: true
     };
     render() {
-        const { prefixCls } = this.props;
-        return <div className={prefixCls} />;
+        const { prefixCls, disabled } = this.props;
+        return (
+            <li
+                className={classnames({
+                    [`${prefixCls}-treenode`]: true,
+                    [`${prefixCls}-treenode-disabled`]: disabled
+                })}
+            >
+                <span>节点</span>
+            </li>
+        );
     }
 }
 

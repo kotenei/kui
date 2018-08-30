@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { Calendar } from "main";
-
-const data = [
-    { id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },
-    { id: 2, title: "event2", start: "2018-08-15", end: "2018-08-16" },
-    { id: 3, title: "event3", start: "2018-08-15", end: "2018-08-18" },
-    { id: 4, title: "event4", start: "2018-08-16", end: "2018-08-19" },
-    { id: 5, title: "event5", start: "2018-08-17", end: "2018-08-17" },
-    { id: 6, title: "event6", start: "2018-06-17", end: "2018-08-20" },
-    { id: 7, title: "event7", start: "2018-08-18", end: "2018-08-19" },
-    { id: 8, title: "event8", start: "2018-08-19", end: "2018-08-25" },
-    { id: 9, title: "event9", start: "2018-08-20", end: "2018-08-22" }
-];
+import { format as formatter, addDays } from "date-fns";
 
 class CalendarView extends Component {
     render() {
+        let now = new Date();
+        let data = [];
+        now = addDays(now, -(Math.random() * 30 + 1));
+        for (let i = 1; i <= 8; i++) {
+            let num1 = Math.floor(Math.random() * 10 + 1),
+                num2 = Math.floor(Math.random() * 10 + 1) + num1;
+            data.push({
+                id: i,
+                title: `event${i}`,
+                start: formatter(addDays(now, num1), "YYYY-MM-DD"),
+                end: formatter(addDays(now, num2), "YYYY-MM-DD")
+            });
+        }
         return (
             <div>
                 <h1>Calendar 日历</h1>
@@ -40,7 +42,10 @@ class CalendarView extends Component {
                         </tr>
                         <tr>
                             <td>data</td>
-                            <td>事件数据，格式：{`[{ id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },...]`}</td>
+                            <td>
+                                事件数据，格式：
+                                {`[{ id: 1, title: "event1", start: "2018-07-17", end: "2018-08-17" },...]`}
+                            </td>
                             <td>array</td>
                             <td>无</td>
                         </tr>

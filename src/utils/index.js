@@ -134,3 +134,10 @@ export const guid = () => {
         S4()
     );
 };
+
+export const random = (min, max) => {
+    var Range = max - min;
+    var Rand = Math.random();
+    var num = min + Math.round(Rand * Range); //四舍五入
+    return num;
+};

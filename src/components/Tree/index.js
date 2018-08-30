@@ -1,16 +1,6 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import Tree from "./Tree";
+import TreeNode from "./TreeNode";
 
-const prefixCls = "k-tree";
-
-class Tree extends Component {
-    static propTypes = {
-        start:PropTypes.string
-    };
-    static defaultProps = {};
-    render() {
-        return <div className={prefixCls} />;
-    }
-}
+Tree.TreeNode = TreeNode;
 
 export default Tree;

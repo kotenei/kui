@@ -152,6 +152,7 @@
     border-radius: $border-radius;
     &-header {
         position: relative;
+        margin-bottom: torem(6px);
         .k-icon {
             position: absolute;
             right: 0;

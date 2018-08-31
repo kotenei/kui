@@ -13,6 +13,7 @@ class CheckboxView extends Component {
         this.handleCheckAll = this.handleCheckAll.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
+            indeterminate: false,
             checkAll: false,
             checkedList: []
         };
@@ -20,17 +21,20 @@ class CheckboxView extends Component {
     handleCheckAll(e) {
         this.setState({
             checkAll: !this.state.checkAll,
+            indeterminate:false,
             checkedList: e.target.checked ? options : []
         });
     }
     handleChange(checkedList) {
         this.setState({
             checkAll: checkedList.length == options.length,
+            indeterminate:
+                checkedList.length > 0 && checkedList.length != options.length,
             checkedList
         });
     }
     render() {
-        const { checkAll, checkedList } = this.state;
+        const { checkAll, checkedList, indeterminate } = this.state;
         return (
             <div>
                 <h1>Checkbox 多选框</h1>
@@ -53,7 +57,11 @@ class CheckboxView extends Component {
                 </div>
                 <h3>全选/反选</h3>
                 <div className="k-example">
-                    <Checkbox checked={checkAll} onChange={this.handleCheckAll}>
+                    <Checkbox
+                        checked={checkAll}
+                        indeterminate={indeterminate}
+                        onChange={this.handleCheckAll}
+                    >
                         全选
                     </Checkbox>
                     <CheckboxGroup

@@ -1,6 +1,5 @@
 $prefixCls:'.k-datepicker';
 #{$prefixCls} {
-    //border: $border-width-base $border-style-base $border-color-base;
     background: white;
     z-index: 1050;
     min-width: torem(250px);
@@ -10,7 +9,7 @@ $prefixCls:'.k-datepicker';
         height: torem(40px);
         line-height: torem(40px);
         padding-left: torem(10px);
-        padding-right: torem(10px); // border-bottom: $border-width-base $border-style-base $border-color-base;
+        padding-right: torem(10px);
         .k-icon {
             cursor: pointer;
             flex: 0;

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
+import Icon from "../Icon";
+import CheckBox from "../Checkbox";
 
 class TreeNode extends Component {
     static propTypes = {
@@ -19,6 +21,28 @@ class TreeNode extends Component {
         prefixCls: "k-tree",
         selectable: true
     };
+    renderSwitcher() {
+        const { prefixCls } = this.props;
+        return (
+            <Icon
+                type="caretright"
+                className={`${prefixCls}-treenode-switcher`}
+            />
+        );
+    }
+    renderCheckBox() {
+        return <CheckBox inline />;
+    }
+    renderContent() {
+        const { prefixCls } = this.props;
+        return (
+            <span className={`${prefixCls}-treenode-content`}>
+                <span className={`${prefixCls}-treenode-content-title`}>
+                    这里是节点
+                </span>
+            </span>
+        );
+    }
     render() {
         const { prefixCls, disabled } = this.props;
         return (
@@ -28,7 +52,9 @@ class TreeNode extends Component {
                     [`${prefixCls}-treenode-disabled`]: disabled
                 })}
             >
-                <span>节点</span>
+                {this.renderSwitcher()}
+                {this.renderCheckBox()}
+                {this.renderContent()}
             </li>
         );
     }

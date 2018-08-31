@@ -7,4 +7,33 @@
         margin: 0;
         list-style: none;
     }
+
+    li ul{
+        padding-left:torem(18px);
+    }
+
+    &-treenode {
+        line-height: torem(20px);
+        &-switcher {
+            font-size: torem(8px);
+            cursor: pointer;
+            margin-right: torem(5px)
+        }
+        .k-checkbox {
+            margin: 0;
+        }
+        &-content {
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 torem(5px);
+            cursor: pointer;
+            margin-left: torem(-2px);
+            &:hover{
+                background: $hover-bgColor;
+             }
+            &-title{
+                font-size: 14px;
+            }
+        }
+    }
 }

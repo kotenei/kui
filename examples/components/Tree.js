@@ -11,7 +11,7 @@ class CalendarView extends Component {
                 <h1>Tree 树型</h1>
                 <div className="k-example">
                     <Tree>
-                        <TreeNode />
+                        <TreeNode title="哈哈哈" />
                     </Tree>
                 </div>
                 <h1>API</h1>

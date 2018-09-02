@@ -5,6 +5,7 @@ import Icon from "../Icon";
 import CheckBox from "../Checkbox";
 
 class TreeNode extends Component {
+    static displayName="TreeNode";
     static propTypes = {
         disabledCheckbox: PropTypes.bool,
         disabled: PropTypes.bool,
@@ -21,6 +22,33 @@ class TreeNode extends Component {
         prefixCls: "k-tree",
         selectable: true
     };
+    renderNode() {
+        const { prefixCls, disabled, children } = this.props;
+
+        // React.Children.map(children, child => {
+        //     if (!child || child.type.displayName != "TreeNode") {
+        //         return;
+        //     }
+        //     if(child.children){
+
+        //     }else{
+                
+        //     }
+        // });
+
+        return (
+            <li
+                className={classnames({
+                    [`${prefixCls}-treenode`]: true,
+                    [`${prefixCls}-treenode-disabled`]: disabled
+                })}
+            >
+                {this.renderSwitcher()}
+                {this.renderCheckBox()}
+                {this.renderContent()}
+            </li>
+        );
+    }
     renderSwitcher() {
         const { prefixCls } = this.props;
         return (
@@ -34,29 +62,17 @@ class TreeNode extends Component {
         return <CheckBox inline />;
     }
     renderContent() {
-        const { prefixCls } = this.props;
+        const { prefixCls, title } = this.props;
         return (
             <span className={`${prefixCls}-treenode-content`}>
                 <span className={`${prefixCls}-treenode-content-title`}>
-                    这里是节点
+                    {title}
                 </span>
             </span>
         );
     }
     render() {
-        const { prefixCls, disabled } = this.props;
-        return (
-            <li
-                className={classnames({
-                    [`${prefixCls}-treenode`]: true,
-                    [`${prefixCls}-treenode-disabled`]: disabled
-                })}
-            >
-                {this.renderSwitcher()}
-                {this.renderCheckBox()}
-                {this.renderContent()}
-            </li>
-        );
+        return this.renderNode();
     }
 }
 

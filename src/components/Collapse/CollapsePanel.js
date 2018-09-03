@@ -32,7 +32,7 @@ class CollapsePanel extends Component {
         let body = isShow ? (
             <CSSTransition
                 timeout={300}
-                classNames='collapse'>
+                classNames='slide'>
                 <div className={`${prefixCls}-body`}>
                     {children}
                 </div>

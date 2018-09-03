@@ -31,25 +31,3 @@
     }
 }
 
-.collapse-enter {
-    max-height: torem(0px);
-    transition-duration: 1s!important;
-    overflow: hidden;
-    opacity: 0;
-}
-
-.collapse-enter.collapse-enter-active {
-    max-height: torem(1000px);
-    opacity: 1;
-}
-
-.collapse-exit {
-    max-height: torem(1000px);
-    overflow: hidden;
-    opacity: 1;
-}
-
-.collapse-exit.collapse-exit-active {
-    max-height: torem(0px);
-    opacity: 0;
-}

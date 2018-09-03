@@ -24,7 +24,7 @@ class TreeNode extends Component {
         prefixCls: PropTypes.string,
         selectable: PropTypes.bool,
         title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-        onSwitch: PropTypes.func,
+        onExpand: PropTypes.func,
         onCheck: PropTypes.func
     };
     static defaultProps = {
@@ -35,11 +35,10 @@ class TreeNode extends Component {
         prefixCls: "k-tree",
         selectable: true
     };
-    handleSwitch = () => {
-        const { onSwitch, id, parentId, rootId } = this.props;
-
-        if (onSwitch) {
-            onSwitch(id);
+    handleExpand = () => {
+        const { onExpand, id, parentId, rootId } = this.props;
+        if (onExpand) {
+            onExpand(id);
         }
     };
     handleCheck = e => {
@@ -58,7 +57,7 @@ class TreeNode extends Component {
         );
     }
     componentDidMount(){
-        console.log(this.props.id)
+       
     }
     renderNode() {
         const { prefixCls, disabled, children, id, rootId } = this.props;
@@ -70,7 +69,7 @@ class TreeNode extends Component {
             "checkedIds",
             "expandedIds",
             "selectedIds",
-            "onSwitch",
+            "onExpand",
             "onCheck"
         ]);
         return (
@@ -111,7 +110,7 @@ class TreeNode extends Component {
                 style={{
                     cursor: children ? "pointer" : "default"
                 }}
-                onClick={children ? this.handleSwitch : null}
+                onClick={children ? this.handleExpand : null}
             >
                 {children ? <Icon type={iconType} /> : null}
             </span>

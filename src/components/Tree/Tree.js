@@ -48,7 +48,7 @@ class Tree extends Component {
         showIcon: false,
         showLine: true
     };
-    handleSwitch = id => {
+    handleExpand = id => {
         const { expandedIds } = this.state;
         if (!("expandedIds" in this.props)) {
             let newExpandedIds = [...expandedIds],
@@ -64,10 +64,11 @@ class Tree extends Component {
         }
     };
     handleCheck = (isChecked, id) => {};
-    componentDidMount() {
-        const { chidlren } = this.props;
+
+    componentWillMount() {
         
     }
+    componentDidMount() {}
     render() {
         const { children } = this.props;
         const { checkedIds, expandedIds, selectedIds } = this.state;
@@ -98,7 +99,7 @@ class Tree extends Component {
                         checkedIds,
                         expandedIds,
                         selectedIds,
-                        onSwitch: this.handleSwitch,
+                        onExpand: this.handleExpand,
                         onCheck: this.handleCheck
                     });
                 })}

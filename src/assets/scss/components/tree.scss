@@ -6,18 +6,22 @@
         padding: 0;
         margin: 0;
         list-style: none;
+        transition: all .3s ease;
     }
-
-    li ul{
-        padding-left:torem(18px);
+    li ul {
+        padding-left: torem(18px);
     }
-
     &-treenode {
         line-height: torem(20px);
         &-switcher {
             font-size: torem(8px);
             cursor: pointer;
-            margin-right: torem(5px)
+            vertical-align: middle;
+            width: torem(24px);
+            height:torem(24px);
+            display: inline-block;
+            text-align: center;
+
         }
         .k-checkbox {
             margin: 0;
@@ -28,10 +32,10 @@
             padding: 0 torem(5px);
             cursor: pointer;
             margin-left: torem(-2px);
-            &:hover{
+            &:hover {
                 background: $hover-bgColor;
-             }
-            &-title{
+            }
+            &-title {
                 font-size: 14px;
             }
         }

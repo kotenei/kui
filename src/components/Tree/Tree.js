@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import omit from "object.omit";
+import pick from "object.pick";
+import { guid } from "../../utils";
 
 const prefixCls = "k-tree";
 
@@ -9,22 +11,22 @@ class Tree extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkedKeys: [],
-            expandedKeys: [],
-            selectedKeys: []
+            checkedIds: props.checkedIds || props.defaultCheckedIds,
+            expandedIds: props.expandedIds || props.defaultExpandedIds,
+            selectedIds: props.selectedIds || props.defaultSelectedIds
         };
     }
     static propTypes = {
         checkable: PropTypes.bool,
-        checkedKeys: PropTypes.array,
-        defaultCheckedKeys: PropTypes.array,
+        checkedIds: PropTypes.array,
+        defaultCheckedIds: PropTypes.array,
         defaultExpandAll: PropTypes.bool,
-        defaultExpandedKeys: PropTypes.array,
-        defaultSelectedKeys: PropTypes.array,
+        defaultExpandedIds: PropTypes.array,
+        defaultSelectedIds: PropTypes.array,
         disabled: PropTypes.bool,
-        expandedKeys: PropTypes.array,
+        expandedIds: PropTypes.array,
         multiple: PropTypes.bool,
-        selectedKeys: PropTypes.bool,
+        selectedIds: PropTypes.bool,
         showIcon: PropTypes.bool,
         showLine: PropTypes.bool,
         onCheck: PropTypes.func,
@@ -37,37 +39,67 @@ class Tree extends Component {
     };
     static defaultProps = {
         checkable: false,
-        defaultCheckedKeys: [],
+        defaultCheckedIds: [],
         defaultExpandAll: false,
-        defaultExpandedKeys: [],
-        defaultSelectedKeys: [],
+        defaultExpandedIds: [],
+        defaultSelectedIds: [],
         disabled: false,
         multiple: false,
         showIcon: false,
         showLine: true
     };
+    handleSwitch = id => {
+        const { expandedIds } = this.state;
+        if (!("expandedIds" in this.props)) {
+            let newExpandedIds = [...expandedIds],
+                index = newExpandedIds.indexOf(id);
+            if (index == -1) {
+                newExpandedIds.push(id);
+            } else {
+                newExpandedIds.splice(index, 1);
+            }
+            this.setState({
+                expandedIds: newExpandedIds
+            });
+        }
+    };
+    handleCheck = (isChecked, id) => {};
+    componentDidMount() {
+        const { chidlren } = this.props;
+        
+    }
     render() {
         const { children } = this.props;
-        const { checkedKeys, expandedKeys, selectedKeys } = this.state;
-        const props = omit(this.props, ["checkabled,showIcon,showLine"]);
+        const { checkedIds, expandedIds, selectedIds } = this.state;
+        const otherProps = pick(this.props, [
+            "checkable",
+            "showIcon",
+            "showLine"
+        ]);
         return (
             <ul className={prefixCls}>
                 {React.Children.map(children, (child, index) => {
                     if (
                         !child ||
-                        (child &&
-                            child.type &&
+                        (child.type &&
+                            child.type.displayName &&
                             child.type.displayName != "TreeNode")
                     ) {
                         return null;
                     }
+                    let id = child.props.id || guid();
                     return React.cloneElement(child, {
-                        ...props,
+                        id,
+                        rootId: id,
+                        parentIds: [],
+                        ...otherProps,
                         ...child.props,
                         prefixCls,
-                        checkedKeys,
-                        expandedKeys,
-                        selectedKeys
+                        checkedIds,
+                        expandedIds,
+                        selectedIds,
+                        onSwitch: this.handleSwitch,
+                        onCheck: this.handleCheck
                     });
                 })}
             </ul>

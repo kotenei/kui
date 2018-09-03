@@ -123,7 +123,7 @@ class Menu extends Component {
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
             >
-                {React.Children.map(children, (child, i, subIndex) => {
+                {React.Children.map(children, (child, i) => {
                     if (!child) {
                         return null;
                     }

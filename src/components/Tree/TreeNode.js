@@ -10,7 +10,10 @@ import { guid, FirstChild } from "../../utils";
 class TreeNode extends Component {
     constructor(props) {
         super(props);
-        this.childIds = [];
+        this.state = {
+            childCount: 0,
+            childCheckedCount: 0
+        };
     }
     static displayName = "TreeNode";
     static propTypes = {
@@ -56,8 +59,34 @@ class TreeNode extends Component {
             expandedIds.indexOf(id) != -1
         );
     }
-    componentDidMount(){
-       
+    componentDidMount() {}
+    setChildInfo(props = this.props) {
+        const { children, checkedIds } = props;
+        let info = { count: 0, checked: 0 },
+            set = function(children, checkedIds, info) {
+                React.Children.map(children, child => {
+                    const { children, id } = child.props;
+                    info.count++;
+                    if (checkedIds.indexOf(id) != -1) {
+                        info.checked++;
+                    }
+                    if (children) {
+                        set(children, checkedIds, info);
+                    }
+                });
+            };
+
+        if (children) {
+            set(children, checkedIds, info);
+        }
+
+        this.setState({
+            childCount: info.count,
+            childCheckedCount: info.checked
+        });
+    }
+    componentWillMount() {
+        this.setChildInfo();
     }
     renderNode() {
         const { prefixCls, disabled, children, id, rootId } = this.props;
@@ -117,9 +146,25 @@ class TreeNode extends Component {
         );
     }
     renderCheckBox() {
-        const { checkable } = this.props;
+        const { checkable, checkedIds, id, children } = this.props;
+        const { childCount, childCheckedCount } = this.state;
+        let checked = false,
+            indeterminate = false;
+
+        if (checkedIds.indexOf(id) != -1) {
+            checked = true;
+        } else {
+            checked = childCount == childCheckedCount && childCount > 0;
+            indeterminate = childCheckedCount > 0 && !checked;
+        }
+
         return checkable ? (
-            <CheckBox inline onChange={this.handleCheck} />
+            <CheckBox
+                inline
+                onChange={this.handleCheck}
+                checked={checked}
+                indeterminate={indeterminate}
+            />
         ) : null;
     }
     renderContent() {

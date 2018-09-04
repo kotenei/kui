@@ -11,9 +11,12 @@ class Tree extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            halfCheckedIds: [],
             checkedIds: props.checkedIds || props.defaultCheckedIds,
             expandedIds: props.expandedIds || props.defaultExpandedIds,
-            selectedIds: props.selectedIds || props.defaultSelectedIds
+            selectedIds: props.selectedIds || props.defaultSelectedIds,
+            nodes: [],
+            dicNodes: {}
         };
     }
     static propTypes = {
@@ -64,11 +67,92 @@ class Tree extends Component {
         }
     };
     handleCheck = (isChecked, id) => {};
+    init(callback) {
+        const { children } = this.props;
+        const { checkedIds, halfCheckedIds } = this.state;
+        let nodes = [],
+            dicNodes = {},
+            newCheckIds = [...checkedIds],
+            set = function(nodes, dicNodes, children, parentNode, checkedIds) {
+                React.Children.map(children, child => {
+                    const { id, children } = child.props;
+                    let node = {
+                        id,
+                        parentId: parentNode ? parentNode.id : 0,
+                        checked: checkedIds.indexOf(id) != -1
+                    };
 
-    componentWillMount() {
-        
+                    if (parentNode) {
+                        if (
+                            parentNode.checked ||
+                            checkedIds.indexOf(id) != -1
+                        ) {
+                            node.checked = true;
+                        }
+                        if (
+                            parentNode.checked &&
+                            checkedIds.indexOf(id) == -1
+                        ) {
+                            checkedIds.push(id);
+                        }
+                    }
+                    nodes.push(node);
+                    dicNodes[id] = node;
+                    if (children) {
+                        set(nodes, dicNodes, children, node, checkedIds);
+                    }
+                });
+            };
+        set(nodes, dicNodes, children, null, newCheckIds);
+        if (!("value" in this.props)) {
+            this.setState({
+                checkedIds: newCheckIds
+            });
+        }
+        this.setState({
+            nodes,
+            dicNodes
+        });
     }
-    componentDidMount() {}
+    getNodes(nodeId, type = "s") {
+        const { nodes, dicNodes } = this.state;
+        let ret = [],
+            curNode = dicNodes[nodeId],
+            get = function(curNode, nodes, ret, type) {
+                nodes.forEach((node, index) => {
+                    if (type == "p") {
+                        //取父节点
+                        if (node.id == curNode.parentId) {
+                            let tmpNodes = nodes.slice(0, index);
+                            ret.push(node);
+                            get(node, tmpNodes, ret, type);
+                        }
+                    } else if (type == "s") {
+                        //取子节点
+                        if (node.parentId == curNode.id) {
+                            let tmpNodes = nodes.slice(index, nodes.length);
+                            ret.push(node);
+                            get(node, tmpNodes, ret, type);
+                        }
+                    } else if (type == "b") {
+                        //兄弟节点
+                        if (
+                            node.parentId == curNode.parentId &&
+                            node.id != curNode.id
+                        ) {
+                            ret.push(node);
+                        }
+                    }
+                });
+            };
+        if (curNode) {
+            get(curNode, nodes, ret, type);
+        }
+        return ret;
+    }
+    componentWillMount() {
+        this.init();
+    }
     render() {
         const { children } = this.props;
         const { checkedIds, expandedIds, selectedIds } = this.state;

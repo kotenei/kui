@@ -11,7 +11,6 @@ class Tree extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            halfCheckedIds: [],
             checkedIds: props.checkedIds || props.defaultCheckedIds,
             expandedIds: props.expandedIds || props.defaultExpandedIds,
             selectedIds: props.selectedIds || props.defaultSelectedIds,
@@ -69,10 +68,11 @@ class Tree extends Component {
     handleCheck = (isChecked, id) => {};
     init(callback) {
         const { children } = this.props;
-        const { checkedIds, halfCheckedIds } = this.state;
+        const { checkedIds, expandedIds } = this.state;
         let nodes = [],
             dicNodes = {},
             newCheckIds = [...checkedIds],
+            newExpandedIds = [...expandedIds],
             set = function(nodes, dicNodes, children, parentNode, checkedIds) {
                 React.Children.map(children, child => {
                     const { id, children } = child.props;

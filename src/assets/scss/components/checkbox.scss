@@ -160,6 +160,13 @@
                     border-color: $disabled-color;
                     background: $disabled-bgColor;
                 }
+                &.indeterminate {
+                    .check {
+                        &::before {
+                            background: $disabled-color;
+                        }
+                    }
+                }
             }
             input[type="checkbox"][disabled] {
                 &:checked {

@@ -10,16 +10,11 @@ import { guid, FirstChild } from "../../utils";
 class TreeNode extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            childCount: 0,
-            childCheckedCount: 0
-        };
     }
     static displayName = "TreeNode";
     static propTypes = {
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         parentId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        rootId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         disabledCheckbox: PropTypes.bool,
         disabled: PropTypes.bool,
         icon: PropTypes.node,
@@ -53,40 +48,66 @@ class TreeNode extends Component {
     };
     isExpanded() {
         const { expandedIds, id } = this.props;
-        return (
+        let expanded =
             expandedIds &&
             expandedIds.length > 0 &&
-            expandedIds.indexOf(id) != -1
+            expandedIds.indexOf(id) != -1;
+        return expanded;
+    }
+    renderSwitcher() {
+        const { prefixCls, expandedIds, id, children } = this.props;
+        let iconType = this.isExpanded() ? "caretdown" : "caretright";
+        return (
+            <span
+                className={`${prefixCls}-treenode-switcher`}
+                style={{
+                    cursor: children ? "pointer" : "default"
+                }}
+                onClick={children ? this.handleExpand : null}
+            >
+                {children ? <Icon type={iconType} /> : null}
+            </span>
         );
     }
-    componentDidMount() {}
-    setChildInfo(props = this.props) {
-        const { children, checkedIds } = props;
-        let info = { count: 0, checked: 0 },
-            set = function(children, checkedIds, info) {
-                React.Children.map(children, child => {
-                    const { children, id } = child.props;
-                    info.count++;
-                    if (checkedIds.indexOf(id) != -1) {
-                        info.checked++;
-                    }
-                    if (children) {
-                        set(children, checkedIds, info);
-                    }
-                });
-            };
+    renderCheckBox() {
+        const {
+            checkable,
+            checkedIds,
+            halfCheckedIds,
+            id,
+            children,
+            disabledCheckbox,
+            disabled
+        } = this.props;
 
-        if (children) {
-            set(children, checkedIds, info);
+        let checked = false,
+            indeterminate = false;
+
+        if (checkedIds.indexOf(id) != -1) {
+            checked = true;
+        } else if (halfCheckedIds.indexOf(id) != -1) {
+            indeterminate = true;
         }
 
-        this.setState({
-            childCount: info.count,
-            childCheckedCount: info.checked
-        });
+        return checkable ? (
+            <CheckBox
+                inline
+                onChange={this.handleCheck}
+                checked={checked}
+                indeterminate={indeterminate}
+                disabled={disabledCheckbox || disabled}
+            />
+        ) : null;
     }
-    componentWillMount() {
-        this.setChildInfo();
+    renderContent() {
+        const { prefixCls, title } = this.props;
+        return (
+            <span className={`${prefixCls}-treenode-content`}>
+                <span className={`${prefixCls}-treenode-content-title`}>
+                    {title}
+                </span>
+            </span>
+        );
     }
     renderNode() {
         const { prefixCls, disabled, children, id, rootId } = this.props;
@@ -98,6 +119,7 @@ class TreeNode extends Component {
             "checkedIds",
             "expandedIds",
             "selectedIds",
+            "halfCheckedIds",
             "onExpand",
             "onCheck"
         ]);
@@ -128,53 +150,6 @@ class TreeNode extends Component {
                     ) : null}
                 </TransitionGroup>
             </li>
-        );
-    }
-    renderSwitcher() {
-        const { prefixCls, expandedIds, id, children } = this.props;
-        let iconType = this.isExpanded() ? "caretdown" : "caretright";
-        return (
-            <span
-                className={`${prefixCls}-treenode-switcher`}
-                style={{
-                    cursor: children ? "pointer" : "default"
-                }}
-                onClick={children ? this.handleExpand : null}
-            >
-                {children ? <Icon type={iconType} /> : null}
-            </span>
-        );
-    }
-    renderCheckBox() {
-        const { checkable, checkedIds, id, children } = this.props;
-        const { childCount, childCheckedCount } = this.state;
-        let checked = false,
-            indeterminate = false;
-
-        if (checkedIds.indexOf(id) != -1) {
-            checked = true;
-        } else {
-            checked = childCount == childCheckedCount && childCount > 0;
-            indeterminate = childCheckedCount > 0 && !checked;
-        }
-
-        return checkable ? (
-            <CheckBox
-                inline
-                onChange={this.handleCheck}
-                checked={checked}
-                indeterminate={indeterminate}
-            />
-        ) : null;
-    }
-    renderContent() {
-        const { prefixCls, title } = this.props;
-        return (
-            <span className={`${prefixCls}-treenode-content`}>
-                <span className={`${prefixCls}-treenode-content-title`}>
-                    {title}
-                </span>
-            </span>
         );
     }
     render() {

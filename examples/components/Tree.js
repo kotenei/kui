@@ -10,12 +10,12 @@ class CalendarView extends Component {
                 <h1>Tree 树型</h1>
                 <div className="k-example">
                     <Tree
-                        defaultExpandedIds={["1"]}
-                        defaultCheckedIds={["1-1"]}
+                        defaultExpandedIds={["1-1-1"]}
+                        defaultCheckedIds={['1-1']}
                         checkable
                     >
                         <TreeNode title="parent 1" id="1">
-                            <TreeNode title="parent 1-1" id="1-1">
+                            <TreeNode title="parent 1-1" id="1-1" disabledCheckbox>
                                 <TreeNode title="parent 1-1-1" id="1-1-1">
                                     <TreeNode
                                         title="leaf 1-1-1-1"

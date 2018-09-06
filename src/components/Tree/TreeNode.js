@@ -15,7 +15,7 @@ class TreeNode extends Component {
     static propTypes = {
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         parentId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        disabledCheckbox: PropTypes.bool,
+        disableCheckbox: PropTypes.bool,
         disabled: PropTypes.bool,
         icon: PropTypes.node,
         isLeaf: PropTypes.bool,
@@ -27,7 +27,7 @@ class TreeNode extends Component {
     };
     static defaultProps = {
         id: guid(),
-        disabledCheckbox: false,
+        disableCheckbox: false,
         disabled: false,
         isLeaf: false,
         prefixCls: "k-tree",
@@ -44,6 +44,15 @@ class TreeNode extends Component {
         const { onCheck, id, parentId, rootId } = this.props;
         if (onCheck) {
             onCheck(target.checked, id);
+        }
+    };
+    handleSelect = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        const { id, onSelect, disabled } = this.props;
+        if (disabled) return;
+        if (onSelect) {
+            onSelect(id);
         }
     };
     isExpanded() {
@@ -76,7 +85,7 @@ class TreeNode extends Component {
             halfCheckedIds,
             id,
             children,
-            disabledCheckbox,
+            disableCheckbox,
             disabled
         } = this.props;
 
@@ -95,7 +104,7 @@ class TreeNode extends Component {
                 onChange={this.handleCheck}
                 checked={checked}
                 indeterminate={indeterminate}
-                disabled={disabledCheckbox || disabled}
+                disabled={disableCheckbox || disabled}
             />
         ) : null;
     }
@@ -110,7 +119,14 @@ class TreeNode extends Component {
         );
     }
     renderNode() {
-        const { prefixCls, disabled, children, id, rootId } = this.props;
+        const {
+            prefixCls,
+            disabled,
+            children,
+            id,
+            rootId,
+            selectedIds
+        } = this.props;
         const otherProps = pick(this.props, [
             "parentIds",
             "checkable",
@@ -121,14 +137,17 @@ class TreeNode extends Component {
             "selectedIds",
             "halfCheckedIds",
             "onExpand",
-            "onCheck"
+            "onCheck",
+            "onSelect"
         ]);
         return (
             <li
                 className={classnames({
                     [`${prefixCls}-treenode`]: true,
-                    [`${prefixCls}-treenode-disabled`]: disabled
+                    [`${prefixCls}-treenode-disabled`]: disabled,
+                    active: selectedIds.indexOf(id) != -1
                 })}
+                onClick={this.handleSelect}
             >
                 {this.renderSwitcher()}
                 {this.renderCheckBox()}

@@ -18,10 +18,9 @@
             cursor: pointer;
             vertical-align: middle;
             width: torem(24px);
-            height:torem(24px);
+            height: torem(24px);
             display: inline-block;
             text-align: center;
-
         }
         .k-checkbox {
             margin: 0;
@@ -37,6 +36,22 @@
             }
             &-title {
                 font-size: 14px;
+            }
+            transition: background .3s;
+        }
+        &-disabled {
+            >.k-tree-treenode-content {
+                background: none !important;
+                color: $disabled-color;
+                cursor: $cursor-disabled;
+                &:hover {
+                    background: none;
+                }
+            }
+        }
+        &.active {
+            >.k-tree-treenode-content {
+                background:darken($hover-bgColor, 5%) ;
             }
         }
     }

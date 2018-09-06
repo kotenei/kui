@@ -73,6 +73,28 @@ class Tree extends Component {
     handleCheck = (isChecked, id) => {
         this.setChecked(id, isChecked);
     };
+    handleSelect = id => {
+        const { multiple, onSelect } = this.props;
+        let newSelectedIds = [...this.state.selectedIds];
+        if (multiple) {
+            let index = newSelectedIds.indexOf(id);
+            if (index == -1) {
+                newSelectedIds.push(id);
+            } else {
+                newSelectedIds.splice(index, 1);
+            }
+        } else {
+            newSelectedIds = [id];
+        }
+        if (onselect) {
+            onselect(newSelectedIds);
+        }
+        if (!("selectedIds" in this.props)) {
+            this.setState({
+                selectedIds: newSelectedIds
+            });
+        }
+    };
     /**
      *
      * @param {object} props 组件输入参数
@@ -95,18 +117,24 @@ class Tree extends Component {
                         id,
                         children,
                         disabled,
-                        disabledCheckbox
+                        disableCheckbox
                     } = child.props;
                     let path = parentNode
-                        ? parentNode.path + id + "/"
-                        : `/${id}/`;
-                    let node = {
-                        id,
-                        parentId: parentNode ? parentNode.id : "",
-                        path,
-                        disabled,
-                        disabledCheckbox
-                    };
+                            ? parentNode.path + id + "/"
+                            : `/${id}/`,
+                        parentIds = parentNode
+                            ? parentNode.parentIds.length > 0
+                                ? [...parentNode.parentIds, parentNode.id]
+                                : [parentNode.id]
+                            : [],
+                        node = {
+                            id,
+                            parentId: parentNode ? parentNode.id : "",
+                            parentIds,
+                            path,
+                            disabled: disabled || disableCheckbox,
+                            level: parentNode ? parentNode.level + 1 : 1
+                        };
                     nodes.push(node);
                     dicNodes[id] = node;
                     if (children) {
@@ -128,23 +156,30 @@ class Tree extends Component {
             halfCheckedIds = [];
 
         checkedIds.forEach(id => {
-            if (
-                this.dicNodes[id].disabled ||
-                this.dicNodes[id].disabledCheckbox
-            ) {
-                return;
-            }
+            let curNode = this.dicNodes[id],
+                isDisabled = curNode.disabled,
+                childNodes = isDisabled
+                    ? []
+                    : this.getNodes(
+                          id,
+                          "s",
+                          node => newCheckIds.indexOf(node.id) == -1
+                      ),
+                disabled = childNodes.filter(node => node.disabled),
+                parentNodes = isDisabled ? [] : this.getNodes(id, "p");
 
-            let childNodes = this.getNodes(
-                    id,
-                    "s",
-                    node => newCheckIds.indexOf(node.id) == -1
-                ),
-                parentNode = this.getNodes(id, "p");
+            disabled.forEach(node => {
+                childNodes = childNodes.filter(child => {
+                    return child.path.indexOf(node.path) == -1;
+                });
+            });
+
             if (childNodes.length > 0) {
                 newCheckIds.push(...childNodes.map(child => child.id));
             }
-            parentNode.forEach(parent => {
+
+            parentNodes.every(parent => {
+                if (parent.disabled) return false;
                 let tmpCount = 0;
                 let childNodes = this.getNodes(parent.id);
                 childNodes.forEach(child => {
@@ -152,14 +187,19 @@ class Tree extends Component {
                         tmpCount++;
                     }
                 });
+
                 if (
                     tmpCount == childNodes.length &&
                     newCheckIds.indexOf(parent.id) == -1
                 ) {
                     newCheckIds.push(parent.id);
-                } else if (halfCheckedIds.indexOf(parent.id) == -1) {
+                } else if (
+                    newCheckIds.indexOf(parent.id) == -1 &&
+                    halfCheckedIds.indexOf(parent.id) == -1
+                ) {
                     halfCheckedIds.push(parent.id);
                 }
+                return true;
             });
         });
         this.setState({
@@ -197,25 +237,28 @@ class Tree extends Component {
             childNodes = this.getNodes(id),
             parentNodes = this.getNodes(id, "p"),
             index = -1,
-            tmpCount;
+            tmpCount = 0,
+            disabledNodes;
 
         //如果当前节点有半选状态则取消
         index = newHalfCheckedIds.indexOf(id);
         if (index != -1) {
             newHalfCheckedIds.splice(index, 1);
         }
+
         index = newCheckIds.indexOf(id);
         if (checked) {
             //选中当前节点
             if (index == -1) {
                 newCheckIds.push(id);
             }
-            //如果当前节点有半选状态则取消
-            index = newHalfCheckedIds.indexOf(id);
-            if (index != -1) {
-                newHalfCheckedIds.splice(index, 1);
-            }
-
+            //过滤被禁用的子节点
+            disabledNodes = childNodes.filter(node => node.disabled);
+            disabledNodes.forEach(node => {
+                childNodes = childNodes.filter(child => {
+                    return child.path.indexOf(node.path) == -1;
+                });
+            });
             //选中当前节点所有子节点
             childNodes.forEach(child => {
                 index = newCheckIds.indexOf(child.id);
@@ -224,16 +267,24 @@ class Tree extends Component {
                 }
             });
             //遍历父节点，
-            parentNodes.forEach(parent => {
+            parentNodes.every(parent => {
+                if (parent.disabled) return false;
                 tmpCount = 0;
-                childNodes = this.getNodes(parent.id, "s");
+                childNodes = this.getNodes(
+                    parent.id,
+                    "s",
+                    node =>
+                        node.level == parent.level + 1 &&
+                        node.id != id &&
+                        !node.disabled
+                );
                 childNodes.forEach(child => {
                     index = newCheckIds.indexOf(child.id);
                     if (index != -1) {
                         tmpCount++;
                     }
                 });
-                //如果父节点的所有子节点都选中,并且父节点没有选中，则选中其父节点
+                //如果父节点的所有子节点都选中,并且父节点没有全选，则全选其父节点
                 if (
                     tmpCount == childNodes.length &&
                     newCheckIds.indexOf(parent.id) == -1
@@ -243,12 +294,20 @@ class Tree extends Component {
                     //如果父节点没有半选状态，则添加半选状态
                     newHalfCheckedIds.push(parent.id);
                 }
+                return true;
             });
         } else {
             //取消当前选中的节点
             if (index != -1) {
                 newCheckIds.splice(index, 1);
             }
+            //过滤被禁用的子节点
+            disabledNodes = childNodes.filter(node => node.disabled);
+            disabledNodes.forEach(node => {
+                childNodes = childNodes.filter(child => {
+                    return child.path.indexOf(node.path) == -1;
+                });
+            });
             //取消当前节点下所有选中的子节点
             childNodes.forEach(child => {
                 index = newCheckIds.indexOf(child.id);
@@ -257,29 +316,34 @@ class Tree extends Component {
                 }
             });
             //遍历所有父节点
-            parentNodes.forEach(parent => {
-                tmpCount = 0;
-                childNodes = this.getNodes(parent.id, "s");
-                childNodes.forEach(child => {
-                    index = newCheckIds.indexOf(child.id);
-                    if (index == -1) {
-                        tmpCount++;
-                    }
-                });
+            parentNodes.every(parent => {
+                if (parent.disabled) return false;
                 //取消父节点的选中状态
                 index = newCheckIds.indexOf(parent.id);
                 if (index != -1) {
                     newCheckIds.splice(index, 1);
                 }
-
+                //获取父节点的一级子节点（非禁用且有全选或半选状态的子节点）
+                childNodes = this.getNodes(
+                    parent.id,
+                    "s",
+                    node =>
+                        node.level == parent.level + 1 &&
+                        node.id != id &&
+                        !node.disabled &&
+                        (newCheckIds.indexOf(node.id) != -1 ||
+                            newHalfCheckedIds.indexOf(node.id) != -1)
+                );
+                //检查父节点的半选状态
                 index = newHalfCheckedIds.indexOf(parent.id);
-                //如果未选中数量与所有子节点数量相同，并且父节点有半选状态则取消半选状态
-                if (tmpCount == childNodes.length && index != -1) {
-                    newHalfCheckedIds.splice(index, 1);
-                } else if (childNodes.length > tmpCount && index == -1) {
-                    //如果未选中数量少于所有子节点，并且父节点没有半选状态，则为父节点添加半选状态
+                //如果子节点数量大于0，并且没有半选状态则添加半选状态
+                if (childNodes.length > 0 && index == -1) {
                     newHalfCheckedIds.push(parent.id);
+                } else if (childNodes.length == 0 && index != -1) {
+                    //如果子节点数量为0，并且有半选状态，则取消半选状态
+                    newHalfCheckedIds.splice(index, 1);
                 }
+                return true;
             });
         }
         if (onCheck) {
@@ -302,48 +366,47 @@ class Tree extends Component {
         let nodes = this.nodes,
             dicNodes = this.dicNodes,
             ret = [],
-            curNode = dicNodes[nodeId],
-            get = function(curNode, nodes, ret, type) {
-                nodes.forEach((node, index) => {
-                    if (type == "p") {
-                        //取父节点
-                        if (node.id == curNode.parentId) {
-                            let tmpNodes = nodes.slice(0, index);
-                            if (condition && condition(node) == true) {
-                                ret.push(node);
-                            } else if (!condition) {
-                                ret.push(node);
-                            }
-                            get(node, tmpNodes, ret, type);
-                        }
-                    } else if (type == "s") {
-                        //取子节点
-                        if (node.parentId == curNode.id) {
-                            let tmpNodes = nodes.slice(index, nodes.length);
-                            if (condition && condition(node) == true) {
-                                ret.push(node);
-                            } else if (!condition) {
-                                ret.push(node);
-                            }
-                            get(node, tmpNodes, ret, type);
-                        }
-                    } else if (type == "b") {
-                        //兄弟节点
-                        if (
-                            node.parentId == curNode.parentId &&
-                            node.id != curNode.id
-                        ) {
-                            if (condition && condition(node) == true) {
-                                ret.push(node);
-                            } else if (!condition) {
+            curNode = dicNodes[nodeId];
+
+        if (curNode) {
+            switch (type) {
+                case "p":
+                    if (curNode.parentId) {
+                        let parentIds = curNode.parentIds;
+                        for (let i = parentIds.length - 1; i >= 0; i--) {
+                            let node = this.dicNodes[parentIds[i]];
+                            if (
+                                !condition ||
+                                (condition && condition(node) == true)
+                            ) {
                                 ret.push(node);
                             }
                         }
                     }
-                });
-            };
-        if (curNode) {
-            get(curNode, nodes, ret, type);
+                    break;
+                case "b":
+                    ret = nodes.filter(node => {
+                        let result =
+                            node.parentId == curNode.parentId &&
+                            node.id != curNode.id;
+                        if (result && condition) {
+                            result = condition(node);
+                        }
+                        return result == true;
+                    });
+                    break;
+                default:
+                    ret = nodes.filter(node => {
+                        let result =
+                            node.path.indexOf(curNode.path) != -1 &&
+                            node.id != curNode.id;
+                        if (result && condition) {
+                            result = condition(node);
+                        }
+                        return result == true;
+                    });
+                    break;
+            }
         }
         return ret;
     }
@@ -390,7 +453,8 @@ class Tree extends Component {
                         selectedIds,
                         halfCheckedIds,
                         onExpand: this.handleExpand,
-                        onCheck: this.handleCheck
+                        onCheck: this.handleCheck,
+                        onSelect: this.handleSelect
                     });
                 })}
             </ul>

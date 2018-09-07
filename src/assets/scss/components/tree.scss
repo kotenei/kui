@@ -15,12 +15,19 @@
         line-height: torem(20px);
         &-switcher {
             font-size: torem(8px);
-            cursor: pointer;
             vertical-align: middle;
             width: torem(24px);
             height: torem(24px);
             display: inline-block;
             text-align: center;
+            .expand{
+                cursor: pointer;
+            }
+
+            .k-icon.k-spin{
+                font-size: torem(10px);
+                color:$primary;
+            }
         }
         .k-checkbox {
             margin: 0;

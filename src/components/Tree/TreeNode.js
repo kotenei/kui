@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Icon from "../Icon";
@@ -10,6 +10,10 @@ import { guid, FirstChild } from "../../utils";
 class TreeNode extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isLoading: false,
+            loaded: false
+        };
     }
     static displayName = "TreeNode";
     static propTypes = {
@@ -34,9 +38,34 @@ class TreeNode extends Component {
         selectable: true
     };
     handleExpand = () => {
-        const { onExpand, id, parentId, rootId } = this.props;
+        const {
+            onExpand,
+            id,
+            parentId,
+            rootId,
+            loadData,
+            children
+        } = this.props;
+        const { isLoading, loaded } = this.state;
+
         if (onExpand) {
             onExpand(id);
+        }
+
+        if (!children && loadData && !isLoading && !loaded) {
+            this.setState(
+                {
+                    isLoading: true
+                },
+                () => {
+                    loadData(this).then(d => {
+                        this.setState({
+                            isLoading: false,
+                            loaded: true
+                        });
+                    });
+                }
+            );
         }
     };
     handleCheck = e => {
@@ -64,17 +93,27 @@ class TreeNode extends Component {
         return expanded;
     }
     renderSwitcher() {
-        const { prefixCls, expandedIds, id, children } = this.props;
+        const {
+            prefixCls,
+            expandedIds,
+            id,
+            children,
+            isLeaf,
+            loadData
+        } = this.props;
+        const { isLoading, loaded } = this.state;
         let iconType = this.isExpanded() ? "caretdown" : "caretright";
         return (
-            <span
-                className={`${prefixCls}-treenode-switcher`}
-                style={{
-                    cursor: children ? "pointer" : "default"
-                }}
-                onClick={children ? this.handleExpand : null}
-            >
-                {children ? <Icon type={iconType} /> : null}
+            <span className={`${prefixCls}-treenode-switcher`}>
+                {isLoading ? (
+                    <Icon type={"loading"} />
+                ) : children || (loadData && !isLeaf && !loaded) ? (
+                    <Icon
+                        type={iconType}
+                        className="expand"
+                        onClick={this.handleExpand}
+                    />
+                ) : null}
             </span>
         );
     }
@@ -111,7 +150,10 @@ class TreeNode extends Component {
     renderContent() {
         const { prefixCls, title } = this.props;
         return (
-            <span className={`${prefixCls}-treenode-content`}>
+            <span
+                className={`${prefixCls}-treenode-content`}
+                onClick={this.handleSelect}
+            >
                 <span className={`${prefixCls}-treenode-content-title`}>
                     {title}
                 </span>
@@ -136,6 +178,7 @@ class TreeNode extends Component {
             "expandedIds",
             "selectedIds",
             "halfCheckedIds",
+            "loadData",
             "onExpand",
             "onCheck",
             "onSelect"
@@ -147,7 +190,6 @@ class TreeNode extends Component {
                     [`${prefixCls}-treenode-disabled`]: disabled,
                     active: selectedIds.indexOf(id) != -1
                 })}
-                onClick={this.handleSelect}
             >
                 {this.renderSwitcher()}
                 {this.renderCheckBox()}
@@ -170,6 +212,9 @@ class TreeNode extends Component {
                 </TransitionGroup>
             </li>
         );
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return true;
     }
     render() {
         return this.renderNode();

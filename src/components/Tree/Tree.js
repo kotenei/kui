@@ -28,6 +28,7 @@ class Tree extends Component {
         defaultSelectedIds: PropTypes.array,
         disabled: PropTypes.bool,
         expandedIds: PropTypes.array,
+        loadData: PropTypes.func,
         multiple: PropTypes.bool,
         selectedIds: PropTypes.bool,
         showIcon: PropTypes.bool,
@@ -64,6 +65,7 @@ class Tree extends Component {
         if (onExpand) {
             onExpand(id, index != -1, newExpandedIds);
         }
+
         if (!("expandedIds" in this.props)) {
             this.setState({
                 expandedIds: newExpandedIds
@@ -100,17 +102,11 @@ class Tree extends Component {
      * @param {object} props 组件输入参数
      */
     init(props = this.props) {
-        const {
-            children,
-            checkedIds,
-            defaultCheckedIds,
-            defaultExpandedIds,
-            expandedIds
-        } = props;
+        const { children, checkedIds, expandedIds, selectedIds } = props;
         let nodes = [],
             dicNodes = {},
-            tmpCheckedIds = checkedIds || defaultCheckedIds,
-            tmpExpandedIds = expandedIds || defaultExpandedIds,
+            tmpCheckedIds = checkedIds || this.state.checkedIds,
+            tmpExpandedIds = expandedIds || this.state.expandedIds,
             set = function(nodes, dicNodes, children, parentNode) {
                 React.Children.map(children, child => {
                     const {
@@ -146,7 +142,15 @@ class Tree extends Component {
         this.nodes = nodes;
         this.dicNodes = dicNodes;
         this.initChecked(tmpCheckedIds);
-        this.initExpanded(tmpExpandedIds);
+        if (!this.isInitExpanded && !expandedIds) {
+            this.initExpanded(tmpExpandedIds);
+            this.isInitExpanded = true;
+        }
+        if (selectedIds) {
+            this.setState({
+                selectedIds
+            });
+        }
     }
     /**
      * 初始化选中
@@ -156,6 +160,7 @@ class Tree extends Component {
             halfCheckedIds = [];
 
         checkedIds.forEach(id => {
+            if (!this.dicNodes[id]) return;
             let curNode = this.dicNodes[id],
                 isDisabled = curNode.disabled,
                 childNodes = isDisabled
@@ -265,6 +270,10 @@ class Tree extends Component {
                 if (index == -1) {
                     newCheckIds.push(child.id);
                 }
+                index = newHalfCheckedIds.indexOf(child.id);
+                if (index != -1) {
+                    newHalfCheckedIds.splice(index, 1);
+                }
             });
             //遍历父节点，
             parentNodes.every(parent => {
@@ -313,6 +322,10 @@ class Tree extends Component {
                 index = newCheckIds.indexOf(child.id);
                 if (index != -1) {
                     newCheckIds.splice(index, 1);
+                }
+                index = newHalfCheckedIds.indexOf(child.id);
+                if (index != -1) {
+                    newHalfCheckedIds.splice(index, 1);
                 }
             });
             //遍历所有父节点
@@ -427,7 +440,8 @@ class Tree extends Component {
         const otherProps = pick(this.props, [
             "checkable",
             "showIcon",
-            "showLine"
+            "showLine",
+            "loadData"
         ]);
         return (
             <ul className={prefixCls}>

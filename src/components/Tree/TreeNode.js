@@ -13,7 +13,15 @@ import domUtils from "../../utils/domUtils";
 @DropTarget(
     "TreeNodeContent",
     {
-        drop(props, monitor, component) {},
+        canDrop(props) {
+            return !props.disabled && props.dragable;
+        },
+        drop(props, monitor, component) {
+            const { onDragEnd } = props;
+            if (onDragEnd) {
+                onDragEnd();
+            }
+        },
         hover(props, monitor, component) {
             if (!component) {
                 return;
@@ -49,6 +57,9 @@ import domUtils from "../../utils/domUtils";
 @DragSource(
     "TreeNodeContent",
     {
+        canDrag(props) {
+            return !props.disabled && props.dragable;
+        },
         beginDrag(props, monitor, component) {
             const { onDragStart, id } = props;
             if (onDragStart) {
@@ -57,6 +68,10 @@ import domUtils from "../../utils/domUtils";
             return {
                 id
             };
+        },
+        endDrag(props,monitor){
+            let result=monitor.getDropResult();
+            console.log(result)
         }
     },
     (connect, monitor) => ({
@@ -129,7 +144,7 @@ class TreeNode extends Component {
         disabled: false,
         isLeaf: false,
         prefixCls: "k-tree",
-        selectable: true
+        selectable: false
     };
     handleExpand = () => {
         const {
@@ -172,8 +187,8 @@ class TreeNode extends Component {
     handleSelect = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        const { id, onSelect, disabled } = this.props;
-        if (disabled) return;
+        const { id, onSelect, disabled, selectable } = this.props;
+        if (disabled || !selectable) return;
         if (onSelect) {
             onSelect(id);
         }
@@ -257,6 +272,8 @@ class TreeNode extends Component {
         const otherProps = pick(this.props, [
             "parentIds",
             "checkable",
+            "dragable",
+            "selectable",
             "showIcon",
             "showLine",
             "checkedIds",

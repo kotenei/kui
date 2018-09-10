@@ -35,6 +35,7 @@ class Tree extends Component {
         expandedIds: PropTypes.array,
         loadData: PropTypes.func,
         multiple: PropTypes.bool,
+        selectable: PropTypes.bool,
         selectedIds: PropTypes.bool,
         showIcon: PropTypes.bool,
         showLine: PropTypes.bool,
@@ -55,6 +56,7 @@ class Tree extends Component {
         disabled: false,
         dragable: false,
         multiple: false,
+        selectable: false,
         showIcon: false,
         showLine: true
     };
@@ -125,7 +127,16 @@ class Tree extends Component {
             onDragOver(info);
         }
     };
-    handleDragEnd = () => {};
+    handleDragEnd = () => {
+        const { onDragEnd } = this.props;
+        const { dragOverInfo } = this.state;
+        if (onDragEnd) {
+            onDragEnd(dragOverInfo);
+        }
+        this.setState({
+            dragOverInfo: null
+        });
+    };
     /**
      *
      * @param {object} props 组件输入参数
@@ -469,6 +480,8 @@ class Tree extends Component {
         } = this.state;
         const otherProps = pick(this.props, [
             "checkable",
+            "dragable",
+            "selectable",
             "showIcon",
             "showLine",
             "loadData"

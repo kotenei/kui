@@ -61,7 +61,7 @@ class CalendarView extends Component {
                         // defaultCheckedIds={["1-1", "1-1-2"]}
                         // defaultSelectedIds={["1-1"]}
                         checkable
-                        multiple
+                        dragable
                         loadData={this.handlLoad}
                     >
                         {/* <TreeNode title="parent 1" id="1">

@@ -56,6 +56,12 @@
             &.drag-over-gap-bottom {
                 border-bottom-color: $primary;
             }
+            &.drag-over-gap-middle{
+                border-color: transparent;
+                background: $primary;
+                color:white;
+                border-radius: $border-radius-sm;
+            }
         }
         &-disabled {
             >.k-tree-treenode-content {

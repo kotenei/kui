@@ -4,9 +4,12 @@ import classnames from "classnames";
 import omit from "object.omit";
 import pick from "object.pick";
 import { guid } from "../../utils";
+import { DragDropContext, DropTarget, DragSource } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 
 const prefixCls = "k-tree";
 
+@DragDropContext(HTML5Backend)
 class Tree extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +17,8 @@ class Tree extends Component {
             checkedIds: props.checkedIds || props.defaultCheckedIds,
             expandedIds: props.expandedIds || props.defaultExpandedIds,
             selectedIds: props.selectedIds || props.defaultSelectedIds,
-            halfCheckedIds: []
+            halfCheckedIds: [],
+            dragOverInfo: null
         };
         this.nodes = [];
         this.dicNodes = {};
@@ -27,6 +31,7 @@ class Tree extends Component {
         defaultExpandedIds: PropTypes.array,
         defaultSelectedIds: PropTypes.array,
         disabled: PropTypes.bool,
+        dragable: PropTypes.bool,
         expandedIds: PropTypes.array,
         loadData: PropTypes.func,
         multiple: PropTypes.bool,
@@ -48,6 +53,7 @@ class Tree extends Component {
         defaultExpandedIds: [],
         defaultSelectedIds: [],
         disabled: false,
+        dragable: false,
         multiple: false,
         showIcon: false,
         showLine: true
@@ -97,6 +103,29 @@ class Tree extends Component {
             });
         }
     };
+    handleDragStart = id => {
+        //const { dragOverInfo } = this.state;
+        //console.log(id);
+    };
+    handleDragOver = (dragId, dropId, type) => {
+        const { dragOverInfo } = this.state;
+        const { onDragOver } = this.props;
+        if (
+            dragOverInfo &&
+            dragOverInfo.dropId == dropId &&
+            dragOverInfo.type == type
+        ) {
+            return;
+        }
+        let info = { dragId, dropId, type };
+        this.setState({
+            dragOverInfo: info
+        });
+        if (onDragOver) {
+            onDragOver(info);
+        }
+    };
+    handleDragEnd = () => {};
     /**
      *
      * @param {object} props 组件输入参数
@@ -435,7 +464,8 @@ class Tree extends Component {
             checkedIds,
             expandedIds,
             selectedIds,
-            halfCheckedIds
+            halfCheckedIds,
+            dragOverInfo
         } = this.state;
         const otherProps = pick(this.props, [
             "checkable",
@@ -444,34 +474,40 @@ class Tree extends Component {
             "loadData"
         ]);
         return (
-            <ul className={prefixCls}>
-                {React.Children.map(children, (child, index) => {
-                    if (
-                        !child ||
-                        (child.type &&
-                            child.type.displayName &&
-                            child.type.displayName != "TreeNode")
-                    ) {
-                        return null;
-                    }
-                    let id = child.props.id || guid();
-                    return React.cloneElement(child, {
-                        id,
-                        rootId: id,
-                        parentIds: [],
-                        ...otherProps,
-                        ...child.props,
-                        prefixCls,
-                        checkedIds,
-                        expandedIds,
-                        selectedIds,
-                        halfCheckedIds,
-                        onExpand: this.handleExpand,
-                        onCheck: this.handleCheck,
-                        onSelect: this.handleSelect
-                    });
-                })}
-            </ul>
+            <div>
+                <ul className={prefixCls}>
+                    {React.Children.map(children, (child, index) => {
+                        if (
+                            !child ||
+                            (child.type &&
+                                child.type.displayName &&
+                                child.type.displayName != "TreeNode")
+                        ) {
+                            return null;
+                        }
+                        let id = child.props.id || guid();
+                        return React.cloneElement(child, {
+                            id,
+                            rootId: id,
+                            parentIds: [],
+                            ...otherProps,
+                            ...child.props,
+                            prefixCls,
+                            checkedIds,
+                            expandedIds,
+                            selectedIds,
+                            halfCheckedIds,
+                            dragOverInfo,
+                            onExpand: this.handleExpand,
+                            onCheck: this.handleCheck,
+                            onSelect: this.handleSelect,
+                            onDragStart: this.handleDragStart,
+                            onDragOver: this.handleDragOver,
+                            onDragEnd: this.handleDragEnd
+                        });
+                    })}
+                </ul>
+            </div>
         );
     }
 }

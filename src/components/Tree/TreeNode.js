@@ -1,4 +1,5 @@
 import React, { Component, PureComponent } from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Icon from "../Icon";
@@ -6,6 +7,99 @@ import CheckBox from "../Checkbox";
 import pick from "object.pick";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { guid, FirstChild } from "../../utils";
+import { DragSource, DropTarget } from "react-dnd";
+import domUtils from "../../utils/domUtils";
+
+@DropTarget(
+    "TreeNodeContent",
+    {
+        drop(props, monitor, component) {},
+        hover(props, monitor, component) {
+            if (!component) {
+                return;
+            }
+            const dragId = monitor.getItem().id;
+            const hoverId = props.id;
+            // if (dragId == hoverId) {
+            //     return;
+            // }
+            const elmTarget = ReactDOM.findDOMNode(component);
+            const offset = domUtils.offset(elmTarget);
+            const hoverMiddleY = domUtils.outerHeight(elmTarget) / 2;
+            const clientOffset = monitor.getClientOffset();
+            const hoverClientY = clientOffset.y - offset.top;
+            let diff = 2,
+                type = "middle";
+            if (hoverClientY > hoverMiddleY + diff) {
+                type = "bottom";
+            } else if (hoverClientY < hoverMiddleY - diff) {
+                type = "top";
+            }
+
+            if (props.onDragOver) {
+                props.onDragOver(dragId, hoverId, type);
+            }
+        }
+    },
+    (connect, monitor) => ({
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    })
+)
+@DragSource(
+    "TreeNodeContent",
+    {
+        beginDrag(props, monitor, component) {
+            const { onDragStart, id } = props;
+            if (onDragStart) {
+                onDragStart(id);
+            }
+            return {
+                id
+            };
+        }
+    },
+    (connect, monitor) => ({
+        connectDragSource: connect.dragSource(),
+        connectDragPreview: connect.dragPreview(),
+        isDragging: monitor.isDragging()
+    })
+)
+class TreeNodeContent extends Component {
+    render() {
+        const {
+            id,
+            prefixCls,
+            title,
+            onClick,
+            connectDragSource,
+            connectDropTarget,
+            isDragging,
+            dragOverInfo
+        } = this.props;
+        let isCurrent = dragOverInfo && dragOverInfo.dropId == id;
+        return connectDragSource(
+            connectDropTarget(
+                <span
+                    className={classnames({
+                        [`${prefixCls}-treenode-content`]: true,
+                        "drag-over-gap-top":
+                            isCurrent && dragOverInfo.type == "top",
+                        "drag-over-gap-bottom":
+                            isCurrent && dragOverInfo.type == "bottom",
+                        "drag-over-gap-middle":
+                            isCurrent && dragOverInfo.type == "middle"
+                    })}
+                    onClick={onClick}
+                >
+                    <span className={`${prefixCls}-treenode-content-title`}>
+                        {title}
+                    </span>
+                </span>
+            )
+        );
+    }
+}
 
 class TreeNode extends Component {
     constructor(props) {
@@ -148,17 +242,8 @@ class TreeNode extends Component {
         ) : null;
     }
     renderContent() {
-        const { prefixCls, title } = this.props;
-        return (
-            <span
-                className={`${prefixCls}-treenode-content`}
-                onClick={this.handleSelect}
-            >
-                <span className={`${prefixCls}-treenode-content-title`}>
-                    {title}
-                </span>
-            </span>
-        );
+        const { prefixCls, title, id } = this.props;
+        return <TreeNodeContent {...this.props} onClick={this.handleSelect} />;
     }
     renderNode() {
         const {
@@ -178,10 +263,14 @@ class TreeNode extends Component {
             "expandedIds",
             "selectedIds",
             "halfCheckedIds",
+            "dragOverInfo",
             "loadData",
             "onExpand",
             "onCheck",
-            "onSelect"
+            "onSelect",
+            "onDragStart",
+            "onDragOver",
+            "onDragEnd"
         ]);
         return (
             <li

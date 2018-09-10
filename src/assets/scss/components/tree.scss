@@ -11,8 +11,12 @@
     li ul {
         padding-left: torem(18px);
     }
+    li {
+        padding: torem(3px) 0;
+    }
     &-treenode {
         line-height: torem(20px);
+        
         &-switcher {
             font-size: torem(8px);
             vertical-align: middle;
@@ -20,13 +24,12 @@
             height: torem(24px);
             display: inline-block;
             text-align: center;
-            .expand{
+            .expand {
                 cursor: pointer;
             }
-
-            .k-icon.k-spin{
+            .k-icon.k-spin {
                 font-size: torem(10px);
-                color:$primary;
+                color: $primary;
             }
         }
         .k-checkbox {
@@ -45,6 +48,14 @@
                 font-size: 14px;
             }
             transition: background .3s;
+            border-top: 1px solid transparent;
+            border-bottom: 1px solid transparent;
+            &.drag-over-gap-top {
+                border-top-color: $primary;
+            }
+            &.drag-over-gap-bottom {
+                border-bottom-color: $primary;
+            }
         }
         &-disabled {
             >.k-tree-treenode-content {
@@ -58,7 +69,7 @@
         }
         &.active {
             >.k-tree-treenode-content {
-                background:darken($hover-bgColor, 5%) ;
+                background: darken($hover-bgColor, 5%);
             }
         }
     }

@@ -1499,7 +1499,8 @@ input[type="button"].k-btn-block {
   padding: 0.625rem;
   border-radius: 0.25rem; }
   .k-calendar-popover-header {
-    position: relative; }
+    position: relative;
+    margin-bottom: 0.375rem; }
     .k-calendar-popover-header .k-icon {
       position: absolute;
       right: 0;
@@ -1626,10 +1627,10 @@ input[type="button"].k-btn-block {
       height: 1.125rem; }
 
 .k-checkbox.k-checkbox-inline.toggleButton {
-  margin-right: .625rem; }
+  margin-right: 0.625rem; }
 
 .k-checkbox label .material {
-  padding-right: .1875rem; }
+  padding-right: 0.1875rem; }
   .k-checkbox label .material::before {
     content: " ";
     position: absolute;
@@ -1642,9 +1643,9 @@ input[type="button"].k-btn-block {
     opacity: 0;
     -webkit-transform: scale(0);
             transform: scale(0);
-    transition: -webkit-transform .3s;
-    transition: transform .3s;
-    transition: transform .3s, -webkit-transform .3s; }
+    transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+    transition: transform 0.3s, -webkit-transform 0.3s; }
   .k-checkbox label .material .check {
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 2px;
@@ -1652,7 +1653,7 @@ input[type="button"].k-btn-block {
     height: 1rem;
     display: inline-block;
     position: absolute;
-    top: .2rem;
+    top: 0.2rem;
     margin-left: -1.15rem;
     z-index: 1;
     transition: background 0.3s ease;
@@ -1663,15 +1664,27 @@ input[type="button"].k-btn-block {
       position: absolute;
       border-left: 2px solid white;
       border-bottom: 2px solid white;
-      left: .0875rem;
+      left: 0.0875rem;
       top: 0.1875rem;
       height: 0.375rem;
       width: 0.75rem;
       -webkit-transform: rotate(-45deg) scale(0);
               transform: rotate(-45deg) scale(0);
-      transition: -webkit-transform .3s;
-      transition: transform .3s;
-      transition: transform .3s, -webkit-transform .3s; }
+      opacity: 0;
+      transition: all .2s; }
+  .k-checkbox label .material.indeterminate .check {
+    background: #2196f3;
+    border-color: #2196f3; }
+    .k-checkbox label .material.indeterminate .check::before {
+      top: 50%;
+      left: 50%;
+      border: none;
+      background: white;
+      -webkit-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+      height: 2px;
+      width: 80%;
+      opacity: 1; }
 
 .k-checkbox label .toggle {
   display: inline-block;
@@ -1682,20 +1695,20 @@ input[type="button"].k-btn-block {
   position: relative;
   margin-left: -1.25rem;
   margin-right: 0.5rem;
-  transition: background .3s; }
+  transition: background 0.3s; }
   .k-checkbox label .toggle::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 1.375rem;
     height: 1.375rem;
     border-radius: 50%;
-    left: -.3125rem;
-    top: -.25rem;
+    left: -0.3125rem;
+    top: -0.25rem;
     box-shadow: 0 0px 3px 1px rgba(0, 0, 0, 0.4);
-    transition: left .3s,background .3s;
+    transition: left 0.3s, background 0.3s;
     z-index: 1; }
   .k-checkbox label .toggle::after {
-    content: '';
+    content: "";
     width: 3.25rem;
     height: 3.25rem;
     border-radius: 50%;
@@ -1704,15 +1717,16 @@ input[type="button"].k-btn-block {
     top: -1.25rem;
     -webkit-transform: scale(0);
             transform: scale(0);
-    transition: left .3s,-webkit-transform .5s;
-    transition: left .3s,transform .5s;
-    transition: left .3s,transform .5s,-webkit-transform .5s;
+    transition: left 0.3s, -webkit-transform 0.5s;
+    transition: left 0.3s, transform 0.5s;
+    transition: left 0.3s, transform 0.5s, -webkit-transform 0.5s;
     z-index: 0; }
 
 .k-checkbox label input[type="checkbox"]:checked + .material .check {
   border-color: #2196f3;
   background: #2196f3; }
   .k-checkbox label input[type="checkbox"]:checked + .material .check::before {
+    opacity: 1;
     -webkit-transform: rotate(-45deg) scale(1);
             transform: rotate(-45deg) scale(1); }
 
@@ -1722,7 +1736,7 @@ input[type="button"].k-btn-block {
     left: 15px;
     background: #2196f3; }
   .k-checkbox label input[type="checkbox"]:checked + .toggle::after {
-    left: -.125rem;
+    left: -0.125rem;
     background: #2196f3; }
 
 .k-checkbox label input[type="checkbox"]:not(:checked) + .toggle {
@@ -1734,16 +1748,19 @@ input[type="button"].k-btn-block {
     background: black; }
 
 .k-checkbox label input[type="checkbox"]:focus:checked + .material::before {
-  -webkit-animation: rippleOn .7s;
-          animation: rippleOn .7s; }
+  -webkit-animation: rippleOn 0.7s;
+          animation: rippleOn 0.7s; }
 
 .k-checkbox label input[type="checkbox"]:focus:not(:checked) + .material::before {
-  -webkit-animation: rippleOff .7s;
-          animation: rippleOff .7s; }
+  -webkit-animation: rippleOff 0.7s;
+          animation: rippleOff 0.7s; }
 
 .k-checkbox.disabled label .material .check {
   border-color: #bdbdbd;
   background: #f7f7f7; }
+
+.k-checkbox.disabled label .material.indeterminate .check::before {
+  background: #bdbdbd; }
 
 .k-checkbox.disabled label input[type="checkbox"][disabled]:checked + .material::before {
   -webkit-transform: scale(0);
@@ -1793,25 +1810,6 @@ input[type="button"].k-btn-block {
       transition: all .3s ease; }
     .k-collapse .k-collapse-item:first-child {
       border-top: none; }
-
-.collapse-enter {
-  max-height: 0rem;
-  transition-duration: 1s !important;
-  overflow: hidden;
-  opacity: 0; }
-
-.collapse-enter.collapse-enter-active {
-  max-height: 62.5rem;
-  opacity: 1; }
-
-.collapse-exit {
-  max-height: 62.5rem;
-  overflow: hidden;
-  opacity: 1; }
-
-.collapse-exit.collapse-exit-active {
-  max-height: 0rem;
-  opacity: 0; }
 
 .k-confirm {
   padding: 1.25rem 1.875rem; }
@@ -4259,6 +4257,84 @@ input[type="button"].k-btn-block {
   .k-tooltip.leftBottom .k-tooltip-arrow, .k-tooltip.rightBottom .k-tooltip-arrow {
     top: auto;
     bottom: 0.625rem; }
+
+.k-tree {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+  .k-tree ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    transition: all .3s ease; }
+  .k-tree li ul {
+    padding-left: 1.125rem; }
+  .k-tree li {
+    padding: 0.1875rem 0; }
+  .k-tree-treenode {
+    line-height: 1.25rem; }
+    .k-tree-treenode-switcher {
+      font-size: 0.625rem;
+      vertical-align: middle;
+      width: 1.5rem;
+      height: 1.5rem;
+      display: inline-block;
+      text-align: center;
+      background: white; }
+      .k-tree-treenode-switcher .expand {
+        cursor: pointer; }
+      .k-tree-treenode-switcher .k-icon {
+        margin-top: 0.125rem; }
+        .k-tree-treenode-switcher .k-icon.k-spin {
+          color: #2196f3; }
+        .k-tree-treenode-switcher .k-icon.icon-minussquareo, .k-tree-treenode-switcher .k-icon.icon-plussquareo, .k-tree-treenode-switcher .k-icon.icon-file {
+          font-size: 0.875rem; }
+        .k-tree-treenode-switcher .k-icon.icon-file {
+          cursor: default; }
+    .k-tree-treenode .k-checkbox {
+      margin: 0; }
+    .k-tree-treenode-content {
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 0.3125rem;
+      cursor: pointer;
+      margin-left: -0.125rem;
+      transition: background .3s;
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent; }
+      .k-tree-treenode-content .k-icon {
+        font-size: 1rem; }
+      .k-tree-treenode-content:hover {
+        background: #ECF6FD; }
+      .k-tree-treenode-content-title {
+        font-size: 14px; }
+      .k-tree-treenode-content.drag-over-gap-top {
+        border-top-color: #2196f3; }
+      .k-tree-treenode-content.drag-over-gap-bottom {
+        border-bottom-color: #2196f3; }
+      .k-tree-treenode-content.drag-over-gap-middle {
+        border-color: transparent;
+        background: #2196f3;
+        color: white;
+        border-radius: 0.125rem; }
+    .k-tree-treenode-disabled > .k-tree-treenode-content {
+      background: none !important;
+      color: #bdbdbd;
+      cursor: not-allowed; }
+      .k-tree-treenode-disabled > .k-tree-treenode-content:hover {
+        background: none; }
+    .k-tree-treenode.active > .k-tree-treenode-content {
+      background: #d5ebfb; }
+  .k-tree.k-tree-showLine li {
+    position: relative; }
+    .k-tree.k-tree-showLine li:not(:last-child):before {
+      content: ' ';
+      width: 1px;
+      border-left: 1px solid #d9d9d9;
+      height: 100%;
+      position: absolute;
+      left: 0.75rem;
+      margin: 1.375rem 0; }
 
 .k-divider {
   height: 1px;

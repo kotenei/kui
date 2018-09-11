@@ -7,114 +7,7 @@ import CheckBox from "../Checkbox";
 import pick from "object.pick";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { guid, FirstChild } from "../../utils";
-import { DragSource, DropTarget } from "react-dnd";
-import domUtils from "../../utils/domUtils";
-
-@DropTarget(
-    "TreeNodeContent",
-    {
-        canDrop(props) {
-            return !props.disabled && props.dragable;
-        },
-        drop(props, monitor, component) {
-            const { onDragEnd } = props;
-            if (onDragEnd) {
-                onDragEnd();
-            }
-        },
-        hover(props, monitor, component) {
-            if (!component) {
-                return;
-            }
-            const dragId = monitor.getItem().id;
-            const hoverId = props.id;
-            // if (dragId == hoverId) {
-            //     return;
-            // }
-            const elmTarget = ReactDOM.findDOMNode(component);
-            const offset = domUtils.offset(elmTarget);
-            const hoverMiddleY = domUtils.outerHeight(elmTarget) / 2;
-            const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - offset.top;
-            let diff = 2,
-                type = "middle";
-            if (hoverClientY > hoverMiddleY + diff) {
-                type = "bottom";
-            } else if (hoverClientY < hoverMiddleY - diff) {
-                type = "top";
-            }
-
-            if (props.onDragOver) {
-                props.onDragOver(dragId, hoverId, type);
-            }
-        }
-    },
-    (connect, monitor) => ({
-        connectDropTarget: connect.dropTarget(),
-        isOver: monitor.isOver()
-    })
-)
-@DragSource(
-    "TreeNodeContent",
-    {
-        canDrag(props) {
-            return !props.disabled && props.dragable;
-        },
-        beginDrag(props, monitor, component) {
-            const { onDragStart, id } = props;
-            if (onDragStart) {
-                onDragStart(id);
-            }
-            return {
-                id
-            };
-        },
-        endDrag(props,monitor){
-            let result=monitor.getDropResult();
-            console.log(result)
-        }
-    },
-    (connect, monitor) => ({
-        connectDragSource: connect.dragSource(),
-        connectDragPreview: connect.dragPreview(),
-        isDragging: monitor.isDragging()
-    })
-)
-class TreeNodeContent extends Component {
-    render() {
-        const {
-            id,
-            prefixCls,
-            title,
-            onClick,
-            connectDragSource,
-            connectDropTarget,
-            isDragging,
-            dragOverInfo
-        } = this.props;
-        let isCurrent = dragOverInfo && dragOverInfo.dropId == id;
-        return connectDragSource(
-            connectDropTarget(
-                <span
-                    className={classnames({
-                        [`${prefixCls}-treenode-content`]: true,
-                        "drag-over-gap-top":
-                            isCurrent && dragOverInfo.type == "top",
-                        "drag-over-gap-bottom":
-                            isCurrent && dragOverInfo.type == "bottom",
-                        "drag-over-gap-middle":
-                            isCurrent && dragOverInfo.type == "middle"
-                    })}
-                    onClick={onClick}
-                >
-                    <span className={`${prefixCls}-treenode-content-title`}>
-                        {title}
-                    </span>
-                </span>
-            )
-        );
-    }
-}
+import TreeNodeContent from "./TreeNodeContent";
 
 class TreeNode extends Component {
     constructor(props) {
@@ -153,7 +46,8 @@ class TreeNode extends Component {
             parentId,
             rootId,
             loadData,
-            children
+            children,
+            isLeaf
         } = this.props;
         const { isLoading, loaded } = this.state;
 
@@ -161,7 +55,7 @@ class TreeNode extends Component {
             onExpand(id);
         }
 
-        if (!children && loadData && !isLoading && !loaded) {
+        if (!children && loadData && !isLoading && !loaded && !isLeaf) {
             this.setState(
                 {
                     isLoading: true
@@ -181,7 +75,7 @@ class TreeNode extends Component {
         const { target } = e;
         const { onCheck, id, parentId, rootId } = this.props;
         if (onCheck) {
-            onCheck(target.checked, id);
+            onCheck(id,target.checked);
         }
     };
     handleSelect = e => {
@@ -208,15 +102,25 @@ class TreeNode extends Component {
             id,
             children,
             isLeaf,
-            loadData
+            loadData,
+            showLine,
+            icon
         } = this.props;
         const { isLoading, loaded } = this.state;
         let iconType = this.isExpanded() ? "caretdown" : "caretright";
+        if (showLine) {
+            iconType = this.isExpanded() ? "minussquareo" : "plussquareo";
+            if ((isLeaf && loadData) || (!children && !loadData)) {
+                iconType = "file";
+            }
+        }
         return (
             <span className={`${prefixCls}-treenode-switcher`}>
                 {isLoading ? (
                     <Icon type={"loading"} />
-                ) : children || (loadData && !isLeaf && !loaded) ? (
+                ) : children ||
+                (loadData && !isLeaf && !loaded) ||
+                (!children && showLine) ? (
                     <Icon
                         type={iconType}
                         className="expand"
@@ -255,10 +159,6 @@ class TreeNode extends Component {
                 disabled={disableCheckbox || disabled}
             />
         ) : null;
-    }
-    renderContent() {
-        const { prefixCls, title, id } = this.props;
-        return <TreeNodeContent {...this.props} onClick={this.handleSelect} />;
     }
     renderNode() {
         const {
@@ -299,7 +199,11 @@ class TreeNode extends Component {
             >
                 {this.renderSwitcher()}
                 {this.renderCheckBox()}
-                {this.renderContent()}
+                <TreeNodeContent
+                    {...this.props}
+                    onClick={this.handleSelect}
+                    refInstance={this}
+                />
                 <TransitionGroup component={FirstChild}>
                     {children && this.isExpanded() ? (
                         <CSSTransition timeout={300} classNames="slide">

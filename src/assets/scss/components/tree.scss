@@ -16,20 +16,30 @@
     }
     &-treenode {
         line-height: torem(20px);
-        
         &-switcher {
-            font-size: torem(8px);
+            font-size: torem(10px);
             vertical-align: middle;
             width: torem(24px);
             height: torem(24px);
             display: inline-block;
             text-align: center;
+            background: white;
             .expand {
                 cursor: pointer;
             }
-            .k-icon.k-spin {
-                font-size: torem(10px);
-                color: $primary;
+            .k-icon {
+                margin-top: torem(2px);
+                &.k-spin {
+                    color: $primary;
+                }
+                &.icon-minussquareo,
+                &.icon-plussquareo,
+                &.icon-file {
+                    font-size: torem(14px);
+                }
+                &.icon-file{
+                    cursor: default;
+                }
             }
         }
         .k-checkbox {
@@ -41,6 +51,9 @@
             padding: 0 torem(5px);
             cursor: pointer;
             margin-left: torem(-2px);
+            .k-icon{
+                font-size: torem(16px)
+            }
             &:hover {
                 background: $hover-bgColor;
             }
@@ -56,10 +69,10 @@
             &.drag-over-gap-bottom {
                 border-bottom-color: $primary;
             }
-            &.drag-over-gap-middle{
+            &.drag-over-gap-middle {
                 border-color: transparent;
                 background: $primary;
-                color:white;
+                color: white;
                 border-radius: $border-radius-sm;
             }
         }
@@ -76,6 +89,20 @@
         &.active {
             >.k-tree-treenode-content {
                 background: darken($hover-bgColor, 5%);
+            }
+        }
+    }
+    &.k-tree-showLine {
+        li {
+            position: relative;
+            &:not(:last-child):before {
+                content: ' ';
+                width: 1px;
+                border-left: 1px solid #d9d9d9;
+                height: 100%;
+                position: absolute;
+                left: torem(12px);
+                margin: torem(22px) 0;
             }
         }
     }

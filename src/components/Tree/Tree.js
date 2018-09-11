@@ -58,7 +58,7 @@ class Tree extends Component {
         multiple: false,
         selectable: false,
         showIcon: false,
-        showLine: true
+        showLine: false
     };
     handleExpand = id => {
         const { onExpand } = this.props;
@@ -80,7 +80,7 @@ class Tree extends Component {
             });
         }
     };
-    handleCheck = (isChecked, id) => {
+    handleCheck = (id, isChecked) => {
         this.setChecked(id, isChecked);
     };
     handleSelect = id => {
@@ -105,37 +105,34 @@ class Tree extends Component {
             });
         }
     };
-    handleDragStart = id => {
-        //const { dragOverInfo } = this.state;
-        //console.log(id);
-    };
-    handleDragOver = (dragId, dropId, type) => {
+    handleDragStart = id => {};
+    handleDragOver = overInfo => {
         const { dragOverInfo } = this.state;
         const { onDragOver } = this.props;
         if (
             dragOverInfo &&
-            dragOverInfo.dropId == dropId &&
-            dragOverInfo.type == type
+            dragOverInfo.dropId == overInfo.dropId &&
+            dragOverInfo.type == overInfo.type
         ) {
             return;
         }
-        let info = { dragId, dropId, type };
+
         this.setState({
-            dragOverInfo: info
+            dragOverInfo: overInfo
         });
         if (onDragOver) {
-            onDragOver(info);
+            onDragOver(overInfo);
         }
     };
-    handleDragEnd = () => {
+    handleDragEnd = result => {
         const { onDragEnd } = this.props;
         const { dragOverInfo } = this.state;
-        if (onDragEnd) {
-            onDragEnd(dragOverInfo);
-        }
         this.setState({
             dragOverInfo: null
         });
+        if (onDragEnd) {
+            onDragEnd(result && dragOverInfo ? dragOverInfo : null);
+        }
     };
     /**
      *
@@ -400,7 +397,7 @@ class Tree extends Component {
             });
         }
         if (onCheck) {
-            onCheck(id, isChecked, newCheckIds);
+            onCheck(id, checked, newCheckIds);
         }
         if (!("checkedIds" in this.props)) {
             this.setState({
@@ -470,7 +467,7 @@ class Tree extends Component {
         this.init(nextProps);
     }
     render() {
-        const { children } = this.props;
+        const { children, showLine } = this.props;
         const {
             checkedIds,
             expandedIds,
@@ -486,9 +483,13 @@ class Tree extends Component {
             "showLine",
             "loadData"
         ]);
+        let classString = classnames({
+            [prefixCls]: true,
+            [`${prefixCls}-showLine`]: showLine
+        });
         return (
             <div>
-                <ul className={prefixCls}>
+                <ul className={classString}>
                     {React.Children.map(children, (child, index) => {
                         if (
                             !child ||

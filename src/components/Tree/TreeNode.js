@@ -37,7 +37,7 @@ class TreeNode extends Component {
         disabled: false,
         isLeaf: false,
         prefixCls: "k-tree",
-        selectable: false
+        selectable: true
     };
     handleExpand = () => {
         const {
@@ -47,7 +47,8 @@ class TreeNode extends Component {
             rootId,
             loadData,
             children,
-            isLeaf
+            isLeaf,
+            onLoad
         } = this.props;
         const { isLoading, loaded } = this.state;
 
@@ -61,7 +62,10 @@ class TreeNode extends Component {
                     isLoading: true
                 },
                 () => {
-                    loadData(this).then(d => {
+                    loadData(this).then(data => {
+                        if (onLoad) {
+                            onLoad(id,data);
+                        }
                         this.setState({
                             isLoading: false,
                             loaded: true
@@ -75,7 +79,7 @@ class TreeNode extends Component {
         const { target } = e;
         const { onCheck, id, parentId, rootId } = this.props;
         if (onCheck) {
-            onCheck(id,target.checked);
+            onCheck(id, target.checked);
         }
     };
     handleSelect = e => {
@@ -187,7 +191,8 @@ class TreeNode extends Component {
             "onSelect",
             "onDragStart",
             "onDragOver",
-            "onDragEnd"
+            "onDragEnd",
+            "onLoad"
         ]);
         return (
             <li

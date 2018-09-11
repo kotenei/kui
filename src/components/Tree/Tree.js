@@ -105,7 +105,12 @@ class Tree extends Component {
             });
         }
     };
-    handleDragStart = id => {};
+    handleDragStart = (id, treeNode) => {
+        const { onDragStart } = this.props;
+        if (onDragStart) {
+            onDragStart(id, treeNode);
+        }
+    };
     handleDragOver = overInfo => {
         const { dragOverInfo } = this.state;
         const { onDragOver } = this.props;
@@ -481,7 +486,8 @@ class Tree extends Component {
             "selectable",
             "showIcon",
             "showLine",
-            "loadData"
+            "loadData",
+            "onLoad"
         ]);
         let classString = classnames({
             [prefixCls]: true,

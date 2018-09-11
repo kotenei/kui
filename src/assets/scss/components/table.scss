@@ -17,6 +17,10 @@
         border-bottom: 2px solid $table-border-color;
         border-top: none;
     }
+
+    td{
+        word-wrap:break-word;
+    }
 }
 
 .k-table-bordered{

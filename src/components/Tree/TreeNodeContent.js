@@ -58,7 +58,7 @@ import domUtils from "../../utils/domUtils";
         beginDrag(props, monitor, component) {
             const { onDragStart, id } = props;
             if (onDragStart) {
-                onDragStart(id);
+                onDragStart(id,props.refInstance);
             }
             return {
                 id

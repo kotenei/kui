@@ -5,6 +5,8 @@ import TableColumn from "./TableColumn";
 import TableRow from "./TableRow";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
+import { deepClone } from "../../utils";
+import omit from "object.omit";
 
 const prefixCls = "k-table";
 
@@ -37,31 +39,35 @@ class Table extends Component {
     };
     init(props = this.props) {
         const { children, columns } = this.props;
-        // let headerRows = [[]],
-        //     colspan = 1,
-        //     rowspan = 1,
-        //     level = 1,
-        //     loop;
-        // if (children) {
-        //     loop = function(children, parent) {
-        //         React.Children.map(children, (child, index) => {
-        //             if (child.props.children) {
-        //                 loop(child.props.children, child);
-        //             }
-        //         });
-        //     };
-        //     loop(children, null);
-        // } else if (columns) {
-        //     loop = function(children, paernt) {
-        //         children.forEach(item => {
-        //             if (item.children) {
-        //                 loop(item.children, item);
-        //             }
-        //         });
-        //     };
-        //     loop(columns, null);
-        // }
-    
+        let headerRows = [[]],
+            colspan = 1,
+            rowspan = 1,
+            level = 1,
+            loop;
+        this.columns = [];
+        if (children) {
+            loop = function(columns, children, parent) {
+                React.Children.map(children, (child, index) => {
+                    if (child.props.children) {
+                        loop(columns, child.props.children, child);
+                    } else {
+                        columns.push(deepClone(child.props));
+                    }
+                });
+            };
+            loop(this.columns, children, null);
+        } else if (columns) {
+            loop = function(columns, children, paernt) {
+                children.forEach(item => {
+                    if (item.children) {
+                        loop(columns, item.children, item);
+                    } else {
+                        columns.push(deepClone(omit(item, ["children"])));
+                    }
+                });
+            };
+            loop(this.columns, columns, null);
+        }
     }
     componentWillMount() {
         this.init();

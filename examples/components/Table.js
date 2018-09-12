@@ -5,7 +5,7 @@ const { TableColumn } = Table;
 
 const data = [
     {
-        key: "1",
+        dataIndex: "1",
         firstName: "John",
         lastName: "Brown",
         age: 32,
@@ -13,7 +13,7 @@ const data = [
         tags: ["nice", "developer"]
     },
     {
-        key: "2",
+        dataIndex: "2",
         firstName: "Jim",
         lastName: "Green",
         age: 42,
@@ -21,7 +21,7 @@ const data = [
         tags: ["loser"]
     },
     {
-        key: "3",
+        dataIndex: "3",
         firstName: "Joe",
         lastName: "Black",
         age: 32,
@@ -38,13 +38,13 @@ class CalendarView extends Component {
                 <div className="k-example">
                     <Table data={data}>
                         <TableColumn title="name">
-                            <TableColumn title="first name">
-                                <TableColumn title="aname" />
+                            <TableColumn title="first name" >
+                                <TableColumn title="aname" dataIndex="1" />
                             </TableColumn>
-                            <TableColumn title="last name" />
+                            <TableColumn title="last name" dataIndex="2" />
                         </TableColumn>
-                        <TableColumn title="age" />
-                        <TableColumn title="address" />
+                        <TableColumn title="age" dataIndex="3" />
+                        <TableColumn title="address" dataIndex="4"/>
                     </Table>
                 </div>
                 <h1>API</h1>

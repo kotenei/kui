@@ -88,7 +88,7 @@ class DatePickerView extends Component {
 
                 <h1>API</h1>
                 <h3>DatePicker</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -228,7 +228,7 @@ class DatePickerView extends Component {
                 </table>
                 <br />
                 <h3>YearPicker，MonthPicker，WeekPicker</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -278,7 +278,7 @@ class DatePickerView extends Component {
                 </table>
                 <br/>
                 <h3>RangePicker</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

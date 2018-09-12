@@ -3625,113 +3625,22 @@ input[type="button"].k-btn-block {
     position: absolute; }
 
 .k-table {
-  width: 100%;
-  max-width: 100%;
-  table-layout: fixed; }
-  .k-table th,
-  .k-table td {
-    line-height: 1.5;
-    vertical-align: top;
-    padding: 0.5rem;
-    border-top: 1px solid #ddd; }
-  .k-table th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #ddd;
-    border-top: none; }
-  .k-table td {
-    word-wrap: break-word; }
-
-.k-table-bordered {
-  border: 1px solid #ddd; }
-  .k-table-bordered th,
-  .k-table-bordered td {
-    border: 1px solid #ddd; }
-  .k-table-bordered thead th,
-  .k-table-bordered thead td {
-    border-bottom-width: 2px; }
-
-.k-table-striped tbody tr:nth-of-type(odd) {
-  background-color: #f9f9f9; }
-
-.k-table-hover tbody tr:hover {
-  background-color: #f5f5f5; }
-
-.k-table tr.active th,
-.k-table tr.active td {
-  background-color: #f5f5f5;
-  color: #333; }
-
-.k-table tr th.active,
-.k-table tr td.active {
-  background-color: #f5f5f5;
-  color: #333; }
-
-.k-table-hover tbody tr:hover.active td {
-  background-color: #e8e8e8; }
-
-.k-table tr.success th,
-.k-table tr.success td {
-  background-color: #dff0d8;
-  color: #333; }
-
-.k-table tr th.success,
-.k-table tr td.success {
-  background-color: #dff0d8;
-  color: #333; }
-
-.k-table-hover tbody tr:hover.success td {
-  background-color: #d0e9c6; }
-
-.k-table tr.info th,
-.k-table tr.info td {
-  background-color: #d9edf7;
-  color: #333; }
-
-.k-table tr th.info,
-.k-table tr td.info {
-  background-color: #d9edf7;
-  color: #333; }
-
-.k-table-hover tbody tr:hover.info td {
-  background-color: #c4e3f3; }
-
-.k-table tr.warning th,
-.k-table tr.warning td {
-  background-color: #fcf8e3;
-  color: #333; }
-
-.k-table tr th.warning,
-.k-table tr td.warning {
-  background-color: #fcf8e3;
-  color: #333; }
-
-.k-table-hover tbody tr:hover.warning td {
-  background-color: #faf2cc; }
-
-.k-table tr.danger th,
-.k-table tr.danger td {
-  background-color: #f2dede;
-  color: #333; }
-
-.k-table tr th.danger,
-.k-table tr td.danger {
-  background-color: #f2dede;
-  color: #333; }
-
-.k-table-hover tbody tr:hover.danger td {
-  background-color: #ebcccc; }
-
-.k-table-container {
-  overflow-x: auto;
-  overflow-y: hidden; }
-  .k-table-container .k-table-head-box .k-table thead th {
-    border-bottom-width: 1px; }
-    .k-table-container .k-table-head-box .k-table thead th.scroll-flag {
-      padding: 0;
-      width: 1.0625rem; }
-  .k-table-container .k-table-body-box {
-    overflow-y: auto;
+  position: relative; }
+  .k-table .k-table-scroll {
+    overflow: auto;
     overflow-x: hidden; }
+  .k-table .k-table-fixed-left,
+  .k-table .k-table-fixed-right {
+    position: absolute;
+    overflow: hidden; }
+  .k-table .k-table-fixed-left {
+    left: 0;
+    top: 0;
+    bottom: 0; }
+  .k-table .k-table-fixed-right {
+    right: 0;
+    top: 0;
+    bottom: 0; }
 
 .k-tabs {
   overflow: hidden; }

@@ -210,7 +210,7 @@ class CalendarView extends Component {
                 <br />
                 <h1>API</h1>
                 <h3>Tree</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -365,7 +365,7 @@ class CalendarView extends Component {
                 </table>
                 <br />
                 <h3>TreeNode</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

@@ -29,7 +29,7 @@ class RadioView extends Component {
                 </div>
                 <h1>API</h1>
                 <h2>Radio</h2>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -85,7 +85,7 @@ class RadioView extends Component {
                 </table>
                 <br />
                 <h2>Checkbox Group</h2>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

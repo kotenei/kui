@@ -106,7 +106,7 @@ class TooltipView extends Component {
                     </div>
                 </div>
                 <h1>API</h1>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -135,7 +135,7 @@ class TooltipView extends Component {
                 </table>
                 <h1>公共API</h1>
                 <h3>以下API为Tooltip、Popover共享的API</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

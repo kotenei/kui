@@ -24,7 +24,7 @@ class CalendarView extends Component {
                     <Calendar data={data} />
                 </div>
                 <h1>API</h1>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

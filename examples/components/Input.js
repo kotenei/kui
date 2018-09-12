@@ -35,7 +35,7 @@ class InpurtView extends Component {
                 </div>
                 <h1>API</h1>
                 <h2>Input</h2>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -127,7 +127,7 @@ class InpurtView extends Component {
                 </table>
                 <br />
                 <h2>Input.TextArea</h2>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

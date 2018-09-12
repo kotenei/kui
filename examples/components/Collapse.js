@@ -44,7 +44,7 @@ class CollapseView extends Component {
                 </div>
                 <h1>API</h1>
                 <h3>Collapse</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -83,7 +83,7 @@ class CollapseView extends Component {
                 <br />
                 <br />
                 <h3>Collapse.Panel</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

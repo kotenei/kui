@@ -28,7 +28,7 @@ class TimelineView extends Component {
                 </div>
                 <h1>API</h1>
                 <h2>Timeline.Item</h2>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

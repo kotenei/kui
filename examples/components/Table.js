@@ -1,14 +1,54 @@
 import React, { Component } from "react";
 import { Table } from "main";
 
+const { TableColumn } = Table;
+
+const data = [
+    {
+        key: "1",
+        firstName: "John",
+        lastName: "Brown",
+        age: 32,
+        address: "New York No. 1 Lake Park",
+        tags: ["nice", "developer"]
+    },
+    {
+        key: "2",
+        firstName: "Jim",
+        lastName: "Green",
+        age: 42,
+        address: "London No. 1 Lake Park",
+        tags: ["loser"]
+    },
+    {
+        key: "3",
+        firstName: "Joe",
+        lastName: "Black",
+        age: 32,
+        address: "Sidney No. 1 Lake Park",
+        tags: ["cool", "teacher"]
+    }
+];
+
 class CalendarView extends Component {
     render() {
         return (
             <div>
                 <h1>Table 表格</h1>
-                <div className="k-example" />
+                <div className="k-example">
+                    <Table data={data}>
+                        <TableColumn title="name">
+                            <TableColumn title="first name">
+                                <TableColumn title="aname" />
+                            </TableColumn>
+                            <TableColumn title="last name" />
+                        </TableColumn>
+                        <TableColumn title="age" />
+                        <TableColumn title="address" />
+                    </Table>
+                </div>
                 <h1>API</h1>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

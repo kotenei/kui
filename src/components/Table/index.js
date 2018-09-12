@@ -1,16 +1,6 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import Table from './Table';
+import TableColumn from './TableColumn';
 
-const prefixCls = "k-table";
-
-class Table extends Component {
-    static propTypes = {
-        start:PropTypes.string
-    };
-    static defaultProps = {};
-    render() {
-        return <div className={prefixCls} />;
-    }
-}
+Table.TableColumn=TableColumn;
 
 export default Table;

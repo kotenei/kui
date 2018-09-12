@@ -166,7 +166,7 @@ class MenuView extends Component {
                 </div>
                 <h1>API</h1>
                 <h3>Menus</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -220,7 +220,7 @@ class MenuView extends Component {
                 <br />
                 <br />
                 <h3>Menus.Item</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>
@@ -247,7 +247,7 @@ class MenuView extends Component {
                 <br />
                 <br />
                 <h3>Menus.SubMenu</h3>
-                <table className="k-table k-table-hover k-table-striped">
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
                             <th>属性</th>

@@ -183,3 +183,148 @@ pre code {
     border-radius: 6px;
     cursor: pointer;
 }
+
+.k-example-table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+}
+
+.k-example-table th,
+.k-example-table td {
+    line-height: 1.5;
+    vertical-align: top;
+    padding: 0.5rem;
+    border-top: 1px solid #ddd;
+}
+
+.k-example-table th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+    border-top: none;
+}
+
+.k-example-table td {
+    word-wrap: break-word;
+}
+
+.k-example-table-bordered {
+    border: 1px solid #ddd;
+}
+
+.k-example-table-bordered th,
+.k-example-table-bordered td {
+    border: 1px solid #ddd;
+}
+
+.k-example-table-bordered thead th,
+.k-example-table-bordered thead td {
+    border-bottom-width: 2px;
+}
+
+.k-example-table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.k-example-table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.k-example-table tr.active th,
+.k-example-table tr.active td {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.k-example-table tr th.active,
+.k-example-table tr td.active {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.k-example-table-hover tbody tr:hover.active td {
+    background-color: #e8e8e8;
+}
+
+.k-example-table tr.success th,
+.k-example-table tr.success td {
+    background-color: #dff0d8;
+    color: #333;
+}
+
+.k-example-table tr th.success,
+.k-example-table tr td.success {
+    background-color: #dff0d8;
+    color: #333;
+}
+
+.k-example-table-hover tbody tr:hover.success td {
+    background-color: #d0e9c6;
+}
+
+.k-example-table tr.info th,
+.k-example-table tr.info td {
+    background-color: #d9edf7;
+    color: #333;
+}
+
+.k-example-table tr th.info,
+.k-example-table tr td.info {
+    background-color: #d9edf7;
+    color: #333;
+}
+
+.k-example-table-hover tbody tr:hover.info td {
+    background-color: #c4e3f3;
+}
+
+.k-example-table tr.warning th,
+.k-example-table tr.warning td {
+    background-color: #fcf8e3;
+    color: #333;
+}
+
+.k-example-table tr th.warning,
+.k-example-table tr td.warning {
+    background-color: #fcf8e3;
+    color: #333;
+}
+
+.k-example-table-hover tbody tr:hover.warning td {
+    background-color: #faf2cc;
+}
+
+.k-example-table tr.danger th,
+.k-example-table tr.danger td {
+    background-color: #f2dede;
+    color: #333;
+}
+
+.k-example-table tr th.danger,
+.k-example-table tr td.danger {
+    background-color: #f2dede;
+    color: #333;
+}
+
+.k-example-table-hover tbody tr:hover.danger td {
+    background-color: #ebcccc;
+}
+
+.k-example-table-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.k-example-table-container .k-example-table-head-box .k-example-table thead th {
+    border-bottom-width: 1px;
+}
+
+.k-example-table-container .k-example-table-head-box .k-example-table thead th.scroll-flag {
+    padding: 0;
+    width: 1.0625rem;
+}
+
+.k-example-table-container .k-example-table-body-box {
+    overflow-y: auto;
+    overflow-x: hidden;
+}

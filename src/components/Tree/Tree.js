@@ -162,7 +162,7 @@ class Tree extends Component {
                             : `/${id}/`,
                         parentIds = parentNode
                             ? parentNode.parentIds.length > 0
-                                ? [...parentNode.parentIds, parentNode.id]
+                                ? [parentNode.id, ...parentNode.parentIds]
                                 : [parentNode.id]
                             : [],
                         node = {
@@ -428,7 +428,7 @@ class Tree extends Component {
                 case "p":
                     if (curNode.parentId) {
                         let parentIds = curNode.parentIds;
-                        for (let i = parentIds.length - 1; i >= 0; i--) {
+                        for (let i = 0; i < parentIds.length; i++) {
                             let node = this.dicNodes[parentIds[i]];
                             if (
                                 !condition ||

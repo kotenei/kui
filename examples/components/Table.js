@@ -37,14 +37,30 @@ class CalendarView extends Component {
                 <h1>Table 表格</h1>
                 <div className="k-example">
                     <Table data={data}>
-                        <TableColumn title="name">
-                            <TableColumn title="first name" >
-                                <TableColumn title="aname" dataIndex="1" />
+                        {/* <TableColumn title="name">
+                            <TableColumn title="first name">
+                                <TableColumn title="aname">
+                                    <TableColumn title="bname" dataIndex="3" />
+                                    <TableColumn title="cname" dataIndex="3" />
+                                </TableColumn>
                             </TableColumn>
-                            <TableColumn title="last name" dataIndex="2" />
+                            <TableColumn title="last name A" dataIndex="2" />
+                            <TableColumn title="last name B" dataIndex="4" />
+                        </TableColumn> */}
+                        {/* <TableColumn title="age" dataIndex="3" />
+                        <TableColumn title="address" dataIndex="4"/> */}
+
+                        <TableColumn title="Test">
+                            <TableColumn title="Test">
+                                <TableColumn title="Age" dataIndex="age" key="age" />
+                                <TableColumn
+                                    title="Address"
+                                    dataIndex="address"
+                                    key="address"
+                                />
+                            </TableColumn>
+                            <TableColumn title="Age" dataIndex="age" key="age" />
                         </TableColumn>
-                        <TableColumn title="age" dataIndex="3" />
-                        <TableColumn title="address" dataIndex="4"/>
                     </Table>
                 </div>
                 <h1>API</h1>

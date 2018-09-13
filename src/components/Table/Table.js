@@ -5,7 +5,7 @@ import TableColumn from "./TableColumn";
 import TableRow from "./TableRow";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
-import { deepClone } from "../../utils";
+import { deepClone, guid } from "../../utils";
 import omit from "object.omit";
 
 const prefixCls = "k-table";
@@ -13,7 +13,6 @@ const prefixCls = "k-table";
 class Table extends Component {
     static propTypes = {
         bordered: PropTypes.bool,
-        columns: PropTypes.array,
         checkbox: PropTypes.bool,
         data: PropTypes.array,
         defaultExpandedRowIds: PropTypes.array,
@@ -38,36 +37,65 @@ class Table extends Component {
         showHeader: true
     };
     init(props = this.props) {
-        const { children, columns } = this.props;
-        let headerRows = [[]],
-            colspan = 1,
-            rowspan = 1,
-            level = 1,
-            loop;
-        this.columns = [];
-        if (children) {
-            loop = function(columns, children, parent) {
-                React.Children.map(children, (child, index) => {
-                    if (child.props.children) {
-                        loop(columns, child.props.children, child);
-                    } else {
-                        columns.push(deepClone(child.props));
-                    }
-                });
+        const { children } = this.props;
+        let maxLevel = 1,
+            nodes = [],
+            rows = [],
+            columns = [],
+            initNode = function(node, parentNode) {
+                node.id = node.id || guid();
+                node.level = parentNode ? parentNode.level + 1 : 1;
+                node.parentIds = parentNode
+                    ? parentNode.parentIds.length > 0
+                        ? [parentNode.id, ...parentNode.parentIds]
+                        : [parentNode.id]
+                    : [];
+                node.path = parentNode
+                    ? parentNode.path + node.id + "/"
+                    : `/${node.id}/`;
+                node.parentId = parentNode ? parentNode.id : "";
+            },
+            loop = function(child, curNode, parentNode) {
+                if (maxLevel < curNode.level) {
+                    maxLevel = curNode.level;
+                }
+                if (child.props.children) {
+                    let colSpan = 0;
+                    React.Children.map(child.props.children, subChild => {
+                        let subNode = omit(subChild.props, ["children"]);
+                        initNode(subNode, curNode);
+                        nodes.push(subNode);
+                        loop(subChild, subNode, curNode);
+                        colSpan += subNode.colSpan;
+                    });
+                    curNode.hasChild = true;
+                    curNode.colSpan = colSpan;
+                } else {
+                    curNode.hasChild = false;
+                    curNode.colSpan = 1;
+                    columns.push(curNode);
+                }
             };
-            loop(this.columns, children, null);
-        } else if (columns) {
-            loop = function(columns, children, paernt) {
-                children.forEach(item => {
-                    if (item.children) {
-                        loop(columns, item.children, item);
-                    } else {
-                        columns.push(deepClone(omit(item, ["children"])));
-                    }
-                });
-            };
-            loop(this.columns, columns, null);
+
+        React.Children.map(children, child => {
+            let node = omit(child.props, ["children"]);
+            initNode(node);
+            nodes.push(node);
+            loop(child, node);
+        });
+
+        for (let i = 0; i < maxLevel; i++) {
+            rows.push([]);
         }
+        nodes.forEach(node => {
+            if (!node.hasChild) {
+                node.rowSpan = maxLevel - node.level + 1;
+            } else {
+                node.rowSpan = 1;
+            }
+            rows[node.level - 1].push(node);
+        });
+        this.rows = rows;
     }
     componentWillMount() {
         this.init();
@@ -75,9 +103,7 @@ class Table extends Component {
     componentWillReceiveProps(nextProps) {
         this.init(nextProps);
     }
-    renderHeader() {
-        //const { children, columns } = this.props;
-    }
+    renderHeader() {}
     renderBody() {}
     render() {
         const { columns, pagination, bordered, children } = this.props;

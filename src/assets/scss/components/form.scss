@@ -54,13 +54,13 @@
 
     label{
         margin-bottom: 0;
-        padding-left: 1.25rem;
+        //padding-left: 1.25rem;
         cursor:pointer;
         height: 1.25rem;
         line-height: 1.25rem;
 
         span{
-            vertical-align: middle;
+            //vertical-align: middle;
         }
     }
 
@@ -75,14 +75,18 @@
 
 .k-radio input[type="radio"],
 .k-checkbox input[type="checkbox"] {
-    position: absolute;
-    margin-top: .3rem;
-    margin-left: -1.05rem;
+    //position: absolute;
+    //margin-top: .3rem;
+    //margin-left: -1.05rem;
+    
     padding:0;
     opacity: 1;
     overflow: hidden;
     pointer-events: none;
     z-index: 0;
+    vertical-align: middle;
+    width: torem(15px);
+    height:torem(15px);
 }
 
 

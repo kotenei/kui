@@ -23,12 +23,13 @@
             .check {
                 border: 1px solid rgba(#000, (50/100));
                 @include border-radius(2px);
-                width: 1rem;
-                height: 1rem;
+                width: torem(16px);
+                height: torem(16px);
                 display: inline-block;
                 position: absolute;
-                top: 0.2rem;
-                margin-left: -1.15rem;
+                top: torem(2px);
+                top: 0.1875rem\0;
+                left:torem(-1px);
                 z-index: 1;
                 transition: background 0.3s ease;
                 z-index: 1;

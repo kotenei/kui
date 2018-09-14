@@ -1,94 +1,75 @@
 .k-radio {
     label {
-        .material{
-
+        .material {
             padding-right: .1875rem;
             display: inline;
-
-            &::before{
-                content:" ";
-                position: absolute;
-                width: 3.25rem;
-                height:3.25rem;
-                border-radius: 50%;
-                background: $checked-color;
-                left:-1rem;
-                top:-1rem;
-                opacity: 0;
-                transform: scale(0);
-            }
-
-            .check{
+            
+            .check {
                 display: inline-block;
-                width: torem(18px);
-                height:torem(18px);
+                width: torem(16px);
+                height: torem(16px);
                 border-radius: 50%;
                 background: white;
                 position: absolute;
-                border:2px solid $primary;
-                margin-left: torem(-20px);
-                top:torem(2px);
-
-                &::before{
-                    content:'';
+                border: 2px solid $primary; //margin-left: torem(-20px);
+                //top:torem(2px);
+                top: torem(2px);
+                top: 0.1875rem\0;
+                left: torem(-1px);
+                &::before {
+                    content: '';
                     position: absolute;
-                    width: torem(8px);
-                    height:torem(8px);
+                    width: torem(6px);
+                    height: torem(6px);
                     border-radius: 50%;
                     background: $primary;
-                    left:torem(3px);
-                    top:torem(3px);
-                    transform:scale(0);
+                    left: torem(3px);
+                    top: torem(3px);
+                    transform: scale(0);
                     transition: transform .3s;
                 }
-
             }
         }
-
-        input[type='radio']{
-            &:checked{
-                &+.material{
-                    .check{
-                        &::before{
+        input[type='radio'] {
+            &:checked {
+                &+.material {
+                    .check {
+                        &::before {
                             transform:scale(1);
                         }
                     }
                 }
             }
-
-            &:focus{
-                &:checked{
-                    &+.material{
-                        &::before{
+            &:focus {
+                &:checked {
+                    &+.material {
+                        &::before {
                             animation: rippleOn .7s;
                         }
                     }
                 }
-
-                &:not(:checked){
-                   &+.material{
-                        .check{
-                            &::before{
-                                transform:scale(0);
+                &:not(:checked) {
+                    &+.material {
+                        .check {
+                            &::before {
+                                transform: scale(0);
                             }
-                        }
-                    }
-                } 
-
-            }
-        }
-    }
-
-     &.disabled{
-            label{
-                .material {
-                    .check{    
-                        border-color: $disabled-color;
-                        &::before{
-                            background:$disabled-color;
                         }
                     }
                 }
             }
         }
+    }
+    &.disabled {
+        label {
+            .material {
+                .check {
+                    border-color: $disabled-color;
+                    &::before {
+                        background: $disabled-color;
+                    }
+                }
+            }
+        }
+    }
 }

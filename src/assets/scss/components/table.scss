@@ -20,11 +20,83 @@ $prefixCls:'.k-table';
         top: 0;
         bottom: 0;
     }
-    #{$prefixCls}-header {}
+    #{$prefixCls}-header {
+        overflow: hidden;
+    }
     #{$prefixCls}-body {}
     //表格样式
     #{$prefixCls}-fixed {
-        #{$prefixCls}-thead {}
-        #{$prefixCls}-tbody {}
+        #{$prefixCls}-thead {
+            >tr {
+                >th {
+                    background: #fafafa;
+                    padding: torem(16px);
+                    word-break: break-word;
+                    border-bottom: $border-width-base $border-style-base $border-color-base;
+                    &[colspan] {
+                        text-align: center;
+                    }
+                }
+                &:not(:last-child) {
+                    >th {
+                        &[colspan] {
+                            border-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+        #{$prefixCls}-tbody {
+            >tr {
+                >td {
+                    padding: torem(16px);
+                    word-break: break-word;
+                    border-bottom: $border-width-base $border-style-base $border-color-base;
+                }
+            }
+        }
+        .checkbox-cell,
+        .expand-cell {
+            text-align: center;
+            width: torem(50px);
+            height: torem(50px);
+            padding: 0;
+            .k-checkbox {
+                margin: 0;
+                // label .material{
+                //     padding-right:0;
+                // }
+            }
+
+            .k-icon{
+                font-size: torem(16px);
+                cursor: pointer;
+            }
+        }
+    }
+    &#{$prefixCls}-bordered {
+        #{$prefixCls}-thead,
+        #{$prefixCls}-tbody {
+            >tr {
+                >th,
+                >td {
+                    border-right: $border-width-base $border-style-base $border-color-base;
+                }
+                >th[colspan] {
+                    border-bottom: $border-width-base $border-style-base $border-color-base !important;
+                }
+            }
+        }
+        table {
+            border: $border-width-base $border-style-base $border-color-base;
+            border-bottom: none;
+            border-right: none;
+        }
+    }
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        text-align: left;
     }
 }

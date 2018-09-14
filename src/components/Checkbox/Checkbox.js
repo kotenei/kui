@@ -124,7 +124,9 @@ class Checkbox extends Component {
                         onChange={checkboxProps.onChange || this.handleChange}
                     />
                     {this.renderMode(checkboxProps.checked)}
-                    <span>{children}</span>
+                    {children ? (
+                        <span className="content">{children}</span>
+                    ) : null}
                 </label>
             </div>
         );

@@ -1,6 +1,6 @@
 .k-loading {
     position: relative;
-    color: $primary;
+    
     overflow: hidden;
     &:before {
         content: ' ';
@@ -37,9 +37,11 @@
         opacity: 0;
         .k-icon {
             font-size: 1.5rem;
+            color: $primary;
         }
         .k-loading-text {
             font-size: $font-size-lg;
+            color: $primary;
         }
     }
 }

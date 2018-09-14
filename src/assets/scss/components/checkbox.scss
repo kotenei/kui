@@ -6,7 +6,7 @@
     }
     label {
         .material {
-            padding-right: 0.1875rem;
+            //padding-right: 0.1875rem;
             &::before {
                 content: " ";
                 position: absolute;
@@ -151,6 +151,9 @@
                     }
                 }
             }
+        }
+        .content{
+            padding:0 torem(3px)
         }
     }
     &.disabled {

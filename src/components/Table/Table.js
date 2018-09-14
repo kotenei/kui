@@ -2,15 +2,22 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import TableColumn from "./TableColumn";
-import TableRow from "./TableRow";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
 import { deepClone, guid } from "../../utils";
 import omit from "object.omit";
+import Checkbox from "../Checkbox";
+import Icon from "../Icon";
 
 const prefixCls = "k-table";
 
 class Table extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: props.loading
+        };
+    }
     static propTypes = {
         bordered: PropTypes.bool,
         checkbox: PropTypes.bool,
@@ -37,7 +44,7 @@ class Table extends Component {
         showHeader: true
     };
     init(props = this.props) {
-        const { children } = this.props;
+        const { children, loading, data, checkbox } = props;
         let maxLevel = 1,
             nodes = [],
             rows = [],
@@ -95,7 +102,24 @@ class Table extends Component {
             }
             rows[node.level - 1].push(node);
         });
-        this.rows = rows;
+
+        // if(checkbox){
+        //     rows[rows.length-1].splice()
+        // }
+
+        this.columns = columns;
+        this.theadRows = rows;
+
+        if ("loading" in this.props) {
+            this.setState({
+                loading
+            });
+        }
+        if ("data" in this.props) {
+            this.setState({
+                data: deepClone(data)
+            });
+        }
     }
     componentWillMount() {
         this.init();
@@ -103,16 +127,116 @@ class Table extends Component {
     componentWillReceiveProps(nextProps) {
         this.init(nextProps);
     }
-    renderHeader() {}
-    renderBody() {}
+    renderHeader() {
+        return (
+            <div className={`${prefixCls}-header`}>{this.renderTable()}</div>
+        );
+    }
+    renderBody() {
+        return <div className={`${prefixCls}-body`} />;
+    }
+    renderTable() {
+        const { checkbox, expandedRowRender } = this.props;
+        const { data } = this.state;
+        let theadRows = [],
+            tbodyRows = [];
+        this.theadRows.forEach((row, rowIndex) => {
+            let cells = [];
+            row.forEach((cell, cellIndex) => {
+                if (
+                    (checkbox || expandedRowRender) &&
+                    rowIndex == 0 &&
+                    cellIndex == 0
+                ) {
+                    if (checkbox) {
+                        cells.push(
+                            <th
+                                className="checkbox-cell"
+                                key={`thCell-checkbox-${cellIndex}`}
+                                rowSpan={this.theadRows.length}
+                            >
+                                <Checkbox />
+                            </th>
+                        );
+                    }
+                    if (expandedRowRender) {
+                        cells.push(
+                            <th
+                                className="expand-cell"
+                                key={`thCell-expand-${cellIndex}`}
+                                rowSpan={this.theadRows.length}
+                            />
+                        );
+                    }
+                }
+                cells.push(
+                    <th
+                        key={`thCell-${cellIndex}`}
+                        colSpan={cell.colSpan == 1 ? null : cell.colSpan}
+                        rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
+                    >
+                        {cell.title}
+                    </th>
+                );
+            });
+            theadRows.push(<tr key={`thRow-${rowIndex}`}>{cells}</tr>);
+        });
+
+        data.forEach((item, rowIndex) => {
+            let cells = [];
+            this.columns.forEach((column, cellIndex) => {
+                if ((checkbox || expandedRowRender) && cellIndex == 0) {
+                    if (checkbox) {
+                        cells.push(
+                            <td
+                                key={`tbCell-checkbox-${cellIndex}`}
+                                className="checkbox-cell"
+                            >
+                                <Checkbox />
+                            </td>
+                        );
+                    }
+                    if (expandedRowRender) {
+                        //minussquareo
+                        cells.push(
+                            <td
+                                key={`tbCell-expand-${cellIndex}`}
+                                className="expand-cell"
+                            >
+                                <Icon type="plussquareo" />
+                            </td>
+                        );
+                    }
+                }
+
+                cells.push(
+                    <td key={`tbCell-${cellIndex}`}>
+                        {column.render
+                            ? column.render(item[column.dataIndex], item)
+                            : item[column.dataIndex]}
+                    </td>
+                );
+            });
+            tbodyRows.push(<tr key={`tbRow-${rowIndex}`}>{cells}</tr>);
+        });
+
+        return (
+            <table className={`${prefixCls}-fixed`}>
+                <thead className={`${prefixCls}-thead`}>{theadRows}</thead>
+                <tbody className={`${prefixCls}-tbody`}>{tbodyRows}</tbody>
+            </table>
+        );
+    }
+
     render() {
         const { columns, pagination, bordered, children } = this.props;
+        const { loading } = this.state;
         let classString = classnames({
             [prefixCls]: true,
             [`${prefixCls}-bordered`]: bordered
         });
         return (
-            <Loading>
+            <Loading show={loading}>
                 <div className={classString}>
                     <div className={`${prefixCls}-content`}>
                         <div className={`${prefixCls}-scroll`}>

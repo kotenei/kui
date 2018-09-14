@@ -5,28 +5,44 @@ const { TableColumn } = Table;
 
 const data = [
     {
-        dataIndex: "1",
+        id: 1,
         firstName: "John",
         lastName: "Brown",
-        age: 32,
+        age: 30,
         address: "New York No. 1 Lake Park",
-        tags: ["nice", "developer"]
+        status: "Employed"
     },
     {
-        dataIndex: "2",
+        id: 2,
         firstName: "Jim",
         lastName: "Green",
         age: 42,
         address: "London No. 1 Lake Park",
-        tags: ["loser"]
+        status: "Employed"
     },
     {
-        dataIndex: "3",
+        id: 3,
         firstName: "Joe",
         lastName: "Black",
         age: 32,
         address: "Sidney No. 1 Lake Park",
-        tags: ["cool", "teacher"]
+        status: "Unemployed"
+    },
+    {
+        id: 4,
+        firstName: "Steve",
+        lastName: "Brown",
+        age: 28,
+        address: "Sidney No. 2 Lake Park",
+        status: "Unemployed"
+    },
+    {
+        id: 5,
+        firstName: "Stephanie",
+        lastName: "Sanders",
+        age: 50,
+        address: "London, Park Lane no. 3",
+        status: "Employed"
     }
 ];
 
@@ -36,31 +52,20 @@ class CalendarView extends Component {
             <div>
                 <h1>Table 表格</h1>
                 <div className="k-example">
-                    <Table data={data}>
-                        {/* <TableColumn title="name">
-                            <TableColumn title="first name">
-                                <TableColumn title="aname">
-                                    <TableColumn title="bname" dataIndex="3" />
-                                    <TableColumn title="cname" dataIndex="3" />
-                                </TableColumn>
-                            </TableColumn>
-                            <TableColumn title="last name A" dataIndex="2" />
-                            <TableColumn title="last name B" dataIndex="4" />
-                        </TableColumn> */}
-                        {/* <TableColumn title="age" dataIndex="3" />
-                        <TableColumn title="address" dataIndex="4"/> */}
-
-                        <TableColumn title="Test">
-                            <TableColumn title="Test">
-                                <TableColumn title="Age" dataIndex="age" key="age" />
-                                <TableColumn
-                                    title="Address"
-                                    dataIndex="address"
-                                    key="address"
-                                />
-                            </TableColumn>
-                            <TableColumn title="Age" dataIndex="age" key="age" />
+                    <Table data={data} bordered checkbox expandedRowRender={(item)=>{}}>
+                        <TableColumn title="Name">
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                            />
                         </TableColumn>
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
                     </Table>
                 </div>
                 <h1>API</h1>

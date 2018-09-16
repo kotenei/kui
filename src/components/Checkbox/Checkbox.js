@@ -117,6 +117,7 @@ class Checkbox extends Component {
                 <label>
                     <input
                         type="checkbox"
+                        className={mode == "none" ? "normal" : "" }
                         name={name}
                         value={value}
                         disabled={disabled}

@@ -11,8 +11,7 @@
                 border-radius: 50%;
                 background: white;
                 position: absolute;
-                border: 2px solid $primary; //margin-left: torem(-20px);
-                //top:torem(2px);
+                border: 2px solid $primary; 
                 top: torem(2px);
                 top: 0.1875rem\0;
                 left: torem(-1px);
@@ -58,6 +57,9 @@
                     }
                 }
             }
+        }
+        .content{
+            vertical-align: middle\0;
         }
     }
     &.disabled {

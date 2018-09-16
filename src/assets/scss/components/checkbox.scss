@@ -28,7 +28,6 @@
                 display: inline-block;
                 position: absolute;
                 top: torem(2px);
-                top: 0.1875rem\0;
                 left:torem(-1px);
                 z-index: 1;
                 transition: background 0.3s ease;
@@ -154,7 +153,8 @@
             }
         }
         .content{
-            padding:0 torem(3px)
+            padding:0 torem(3px);
+            //vertical-align: text-bottom
         }
     }
     &.disabled {

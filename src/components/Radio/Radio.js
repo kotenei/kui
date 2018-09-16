@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
 
 class Radio extends Component {
     constructor(props, context) {
@@ -13,19 +13,19 @@ class Radio extends Component {
         disabled: PropTypes.bool,
         checked: PropTypes.bool,
         defaultChecked: PropTypes.bool,
-        mode: PropTypes.oneOf(['none', 'normal']),
+        mode: PropTypes.oneOf(["none", "normal"]),
         name: PropTypes.string,
         value: PropTypes.string,
         onChange: PropTypes.func
-    }
+    };
     static defaultProps = {
         inline: false,
-        mode: 'normal',
-        onChange: () => { }
-    }
+        mode: "normal",
+        onChange: () => {}
+    };
     static contextTypes = {
         radioGroup: PropTypes.any
-    }
+    };
     handleChange(e) {
         const { onChange, option } = this.props;
         onChange(e, option);
@@ -33,9 +33,9 @@ class Radio extends Component {
     renderMaterinal() {
         return (
             <span className="material">
-                <span className="check"></span>
+                <span className="check" />
             </span>
-        )
+        );
     }
     render() {
         const { radioGroup } = this.context;
@@ -45,32 +45,48 @@ class Radio extends Component {
             radioProps.inline = radioGroup.inline;
             radioProps.checked = this.props.value == radioGroup.value;
             radioProps.disabled = this.props.disabled || radioGroup.disabled;
-            radioProps.onChange = (e) => radioGroup.onChange(e, { text: radioProps.children, value: radioProps.value });
+            radioProps.onChange = e =>
+                radioGroup.onChange(e, {
+                    text: radioProps.children,
+                    value: radioProps.value
+                });
         }
-        const { children, inline, mode, disabled, name, checked, value } = radioProps;
-       
-        let prefixCls = 'k-radio';
+        const {
+            children,
+            inline,
+            mode,
+            disabled,
+            name,
+            checked,
+            value
+        } = radioProps;
+
+        let prefixCls = "k-radio";
         let classString = classnames({
             [prefixCls]: true,
-            [`${prefixCls}-material`]: mode == 'material',
+            [`${prefixCls}-material`]: mode == "material",
             [`${prefixCls}-inline`]: inline,
-            'disabled': disabled
+            disabled: disabled
         });
         return (
             <div className={classString}>
                 <label>
                     <input
                         type="radio"
+                        className={mode == "none" ? "normal" : "" }
                         name={name}
                         disabled={disabled}
                         checked={checked}
                         value={value}
-                        onChange={radioProps.onChange || this.handleChange} />
-                    {mode == 'normal' ? this.renderMaterinal() : null}
-                    <span>{children}</span>
+                        onChange={radioProps.onChange || this.handleChange}
+                    />
+                    {mode == "normal" ? this.renderMaterinal() : null}
+                    {children ? (
+                        <span className="content">{children}</span>
+                    ) : null}
                 </label>
             </div>
-        )
+        );
     }
 }
 

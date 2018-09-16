@@ -32,6 +32,7 @@ class Table extends Component {
         pagination: PropTypes.object,
         scroll: PropTypes.object,
         showHeader: PropTypes.bool,
+        stripe: PropTypes.bool,
         title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
         onChange: PropTypes.func,
         onExpand: PropTypes.func
@@ -41,7 +42,8 @@ class Table extends Component {
         checkbox: false,
         defaultExpandedRowIds: [],
         fixedHeader: false,
-        showHeader: true
+        showHeader: true,
+        stripe: false
     };
     init(props = this.props) {
         const { children, loading, data, checkbox } = props;
@@ -103,10 +105,6 @@ class Table extends Component {
             rows[node.level - 1].push(node);
         });
 
-        // if(checkbox){
-        //     rows[rows.length-1].splice()
-        // }
-
         this.columns = columns;
         this.theadRows = rows;
 
@@ -136,7 +134,7 @@ class Table extends Component {
         return <div className={`${prefixCls}-body`} />;
     }
     renderTable() {
-        const { checkbox, expandedRowRender } = this.props;
+        const { checkbox, expandedRowRender, stripe } = this.props;
         const { data } = this.state;
         let theadRows = [],
             tbodyRows = [];
@@ -183,7 +181,8 @@ class Table extends Component {
         });
 
         data.forEach((item, rowIndex) => {
-            let cells = [];
+            let cells = [],
+                isEven = rowIndex % 2 == 0;
             this.columns.forEach((column, cellIndex) => {
                 if ((checkbox || expandedRowRender) && cellIndex == 0) {
                     if (checkbox) {
@@ -217,7 +216,37 @@ class Table extends Component {
                     </td>
                 );
             });
-            tbodyRows.push(<tr key={`tbRow-${rowIndex}`}>{cells}</tr>);
+            tbodyRows.push(
+                <tr
+                    className={!isEven && stripe ? "stripe-row" : ""}
+                    key={`tbRow-${rowIndex}`}
+                >
+                    {cells}
+                </tr>
+            );
+            if (expandedRowRender) {
+                cells = [];
+                if (checkbox) {
+                    cells.push(<td key={guid()} />);
+                }
+                cells.push(<td key={guid()} />);
+                cells.push(
+                    <td
+                        key={`tbCell-expand-${rowIndex}`}
+                        colSpan={this.columns.length}
+                    >
+                        {expandedRowRender(item)}
+                    </td>
+                );
+                tbodyRows.push(
+                    <tr
+                        className={"expand-row"}
+                        key={`tbRow-expand-${rowIndex}`}
+                    >
+                        {cells}
+                    </tr>
+                );
+            }
         });
 
         return (

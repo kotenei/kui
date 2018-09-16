@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Checkbox } from "main";
+import { Checkbox,Radio } from "main";
 
 let CheckboxGroup = Checkbox.CheckboxGroup;
 

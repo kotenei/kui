@@ -6,7 +6,9 @@ class CalendarView extends Component {
         return (
             <div>
                 <h1>Upload 上传</h1>
-                <div className="k-example" />
+                <div className="k-example">
+                    <Upload />
+                </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>

@@ -118,6 +118,7 @@ class Table extends Component {
                 data: deepClone(data)
             });
         }
+        
     }
     componentWillMount() {
         this.init();

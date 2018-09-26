@@ -1,27 +1,27 @@
-.k-progress{
+.k-progress {
     display: inline-block;
     position: relative;
-    
     margin-bottom: .625rem;
-
-    .k-progress-bar{
+    .k-progress-bar {
         vertical-align: middle;
         padding-right: 2.75rem;
-        margin-right:-2.75rem;
+        margin-right: -2.75rem;
         display: inline-block;
         width: 100%;
-        
-
-        .k-progress-bar-outer{
+        &--hideText {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+        .k-progress-bar-outer {
             position: relative;
             overflow: hidden;
             vertical-align: middle;
             background: #e4e8f1;
             border-radius: 6.25rem;
-
-            .k-progress-bar-inner{
+            .k-progress-bar-inner {
                 left: 0;
-                top:0;
+                top: 0;
                 height: 100%;
                 text-align: right;
                 line-height: 1;
@@ -30,66 +30,53 @@
                 transition: width .6s ease;
                 color: white;
                 line-height: $line-height;
-
-                .k-progress-bar-inner-text{
-                    margin:0 .3125rem
+                .k-progress-bar-inner-text {
+                    margin: 0 .3125rem
                 }
             }
         }
     }
-
-    .k-progress-text{
+    .k-progress-text {
         vertical-align: middle;
         display: inline-block;
-        margin-left:.5rem;
-        
+        margin-left: .5rem;
         .icon-checkcircle,
-        .icon-check{
+        .icon-check {
             color: $success;
         }
-
         .icon-closecircle,
-        .icon-close{
+        .icon-close {
             color: $danger;
         }
     }
-
-    &.k-progress-text-inside{
-        .k-progress-bar{
+    &.k-progress-text-inside {
+        .k-progress-bar {
             margin: 0;
             padding: 0;
         }
     }
-
-    &.k-progress-line{
+    &.k-progress-line {
         width: 100%;
     }
-
-    &.k-progress-circle{
-        margin-right:.625rem;
+    &.k-progress-circle {
+        margin-right: .625rem;
     }
-
-    .k-progress-circle{
+    .k-progress-circle {
         position: relative;
-
-        .k-progress-text{
+        .k-progress-text {
             text-align: center;
             position: absolute;
-            left:0;
-            top:50%;
+            left: 0;
+            top: 50%;
             transform: translateY(-50%);
             width: 100%;
             line-height: $line-height;
             margin: 0;
         }
-
     }
-
-
-
-    @include progress-variant('primary',$primary);
-    @include progress-variant('info',$info);
-    @include progress-variant('warning',$warning);
-    @include progress-variant('success',$success);
-    @include progress-variant('danger',$danger);
+    @include progress-variant('primary', $primary);
+    @include progress-variant('info', $info);
+    @include progress-variant('warning', $warning);
+    @include progress-variant('success', $success);
+    @include progress-variant('danger', $danger);
 }

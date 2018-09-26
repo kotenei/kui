@@ -9,7 +9,7 @@ class ProgressView extends Component {
                 <h1>Progress 进度条</h1>
                 <h3>线形进度条 — 百分比外显</h3>
                 <div className="k-example">
-                    <Progress percent={10} kStyle="primary" />
+                    <Progress percent={10} kStyle="primary" showText={false} />
                     <Progress percent={40} kStyle="warning" />
                     <Progress percent={100} kStyle="success" status="success" />
                     <Progress percent={80} kStyle="danger" status="error" />
@@ -67,6 +67,12 @@ class ProgressView extends Component {
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td>color</td>
+                            <td>颜色</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
                         <tr>
                             <td>percent</td>
                             <td>百分比</td>

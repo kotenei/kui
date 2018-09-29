@@ -15,7 +15,8 @@ class Progress extends Component {
         strokeWidth: PropTypes.number,
         textInside: PropTypes.bool,
         showText: PropTypes.bool,
-        width: PropTypes.number
+        width: PropTypes.number,
+        indeterminate: PropTypes.bool
     };
     static defaultProps = {
         percent: 0,
@@ -23,7 +24,8 @@ class Progress extends Component {
         strokeWidth: 6,
         textInside: false,
         showText: true,
-        width: 100
+        width: 100,
+        indeterminate:false
     };
     renderContainer(prefixCls) {
         const { type } = this.props;

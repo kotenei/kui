@@ -20,8 +20,15 @@ class ProgressLine extends Component {
         return null;
     }
     renderText() {
-        const { prefixCls, textInside, status, percent, showText } = this.props;
-        if (textInside || !showText) {
+        const {
+            prefixCls,
+            textInside,
+            status,
+            percent,
+            showText,
+            indeterminate
+        } = this.props;
+        if (textInside || !showText || indeterminate) {
             return null;
         }
         return (
@@ -30,41 +37,74 @@ class ProgressLine extends Component {
             </span>
         );
     }
-    render() {
+    renderInner() {
         const {
             prefixCls,
             textInside,
-            strokeWidth,
             percent,
-            showText,
-            color
+            indeterminate,
+            color,
+            showText
         } = this.props;
+        if (indeterminate) {
+            return null;
+        }
+        let innerText = textInside &&
+            showText && (
+                <span className={`${prefixCls}-bar-inner-text`}>
+                    {percent}%
+                </span>
+            );
         return (
-            <div>
+            <div
+                className={`${prefixCls}-bar-inner`}
+                style={{ width: `${percent}%`, background: color }}
+            >
+                {innerText}
+            </div>
+        );
+    }
+    renderIndeterminate() {
+        const { indeterminate, prefixCls, color } = this.props;
+        if (!indeterminate) {
+            return;
+        }
+        let firstClass = classnames({
+            [`${prefixCls}-bar-inner`]: true,
+            [`${prefixCls}-bar-inner--indeterminate1`]: true
+        });
+        let secondClass = classnames({
+            [`${prefixCls}-bar-inner`]: true,
+            [`${prefixCls}-bar-inner--indeterminate2`]: true
+        });
+        return (
+            <React.Fragment>
+                <div className={firstClass} style={{ background: color }} />
+                <div className={secondClass} style={{ background: color }} />
+            </React.Fragment>
+        );
+    }
+    render() {
+        const { prefixCls, strokeWidth, showText, indeterminate } = this.props;
+        return (
+            <React.Fragment>
                 <div
                     className={classnames({
                         [`${prefixCls}-bar`]: true,
-                        [`${prefixCls}-bar--hideText`]: !showText
+                        [`${prefixCls}-bar--hideText`]:
+                            !showText || indeterminate
                     })}
                 >
                     <div
                         className={`${prefixCls}-bar-outer`}
                         style={{ height: strokeWidth }}
                     >
-                        <div
-                            className={`${prefixCls}-bar-inner`}
-                            style={{ width: `${percent}%`, background: color }}
-                        >
-                            {textInside && showText ? (
-                                <span className={`${prefixCls}-bar-inner-text`}>
-                                    {percent}%
-                                </span>
-                            ) : null}
-                        </div>
+                        {this.renderInner()}
+                        {this.renderIndeterminate()}
                     </div>
                 </div>
                 {this.renderText()}
-            </div>
+            </React.Fragment>
         );
     }
 }

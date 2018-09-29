@@ -7,6 +7,10 @@ class ProgressView extends Component {
         return (
             <div>
                 <h1>Progress 进度条</h1>
+                <h3>线形进度条 — 不确定进度</h3>
+                <div className="k-example">
+                    <Progress indeterminate/>
+                </div>
                 <h3>线形进度条 — 百分比外显</h3>
                 <div className="k-example">
                     <Progress percent={10} kStyle="primary" showText={false} />
@@ -72,6 +76,12 @@ class ProgressView extends Component {
                             <td>颜色</td>
                             <td>string</td>
                             <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>indeterminate</td>
+                            <td>是否不确定进度</td>
+                            <td>boolean</td>
+                            <td>false</td>
                         </tr>
                         <tr>
                             <td>percent</td>

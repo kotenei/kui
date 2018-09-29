@@ -33,7 +33,7 @@ class StepsView extends Component {
                 </div>
                 <h3>居中步骤条</h3>
                 <div className="k-example">
-                    <Steps current={1} status="process" alignCenter>
+                    <Steps current={1} status="process" alignCenter kSize="sm">
                         <Step
                             title="第一步"
                             description="这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述这里是描述"

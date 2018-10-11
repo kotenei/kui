@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "main";
 import { NavLink } from "react-router-dom";
+import code, { CodeBox } from "../code";
 
 const ButtonGroup = Button.Group;
 
@@ -11,52 +12,74 @@ class ButtonView extends React.Component {
                 <h1>Button 按钮</h1>
                 <h3>Flat Button</h3>
                 <div className="k-example">
-                    <Button kStyle="primary">default</Button>&nbsp;&nbsp;
-                    <Button kStyle="primary">primary</Button>&nbsp;&nbsp;
-                    <Button kStyle="info">info</Button>&nbsp;&nbsp;
-                    <Button kStyle="success">success</Button>&nbsp;&nbsp;
-                    <Button kStyle="warning">warning</Button>&nbsp;&nbsp;
-                    <Button kStyle="danger">danger</Button>&nbsp;&nbsp;
+                    <Button kStyle="primary">default</Button>
+                    &nbsp;&nbsp;
+                    <Button kStyle="primary">primary</Button>
+                    &nbsp;&nbsp;
+                    <Button kStyle="info">info</Button>
+                    &nbsp;&nbsp;
+                    <Button kStyle="success">success</Button>
+                    &nbsp;&nbsp;
+                    <Button kStyle="warning">warning</Button>
+                    &nbsp;&nbsp;
+                    <Button kStyle="danger">danger</Button>
+                    &nbsp;&nbsp;
                     <Button disabled>disabled</Button>
+                    <CodeBox source={code.button.basic} />
                 </div>
+
                 <h3>Raised Button</h3>
                 <div className="k-example">
-                    <Button raised>default</Button>&nbsp;&nbsp;
+                    <Button raised>default</Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="primary" raised>
                         primary
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="info" raised>
                         info
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="success" raised>
                         success
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="warning" raised>
                         warning
-                    </Button>&nbsp;&nbsp;
-                    <Button kStyle="danger" raised >
+                    </Button>
+                    &nbsp;&nbsp;
+                    <Button kStyle="danger" raised>
                         danger
-                    </Button>&nbsp;&nbsp;
-                    <Button raised disabled>disabled</Button>
+                    </Button>
+                    &nbsp;&nbsp;
+                    <Button raised disabled>
+                        disabled
+                    </Button>
                 </div>
                 <h3>Floating Action Button</h3>
                 <div className="k-example">
-                    <Button fab>+</Button>&nbsp;&nbsp;
+                    <Button fab>+</Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="primary" fab>
                         +
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="info" fab>
                         +
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="success" fab>
                         +
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="warning" fab>
                         +
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="danger" fab>
                         +
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button disabled fab>
                         +
                     </Button>
@@ -65,16 +88,20 @@ class ButtonView extends React.Component {
                 <div className="k-example">
                     <Button kStyle="primary" raised kSize="xs">
                         xs button
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="primary" raised kSize="sm">
                         sm button
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="primary" raised>
                         default
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                     <Button kStyle="primary" raised kSize="lg">
                         lg button
-                    </Button>&nbsp;&nbsp;
+                    </Button>
+                    &nbsp;&nbsp;
                 </div>
                 <h3>Button Group</h3>
                 <div className="k-example">
@@ -125,10 +152,8 @@ class ButtonView extends React.Component {
                         <tr>
                             <td>icon</td>
                             <td>
-                                图标，<NavLink
-                                    to="/Icon"
-                                    activeClassName="selected"
-                                >
+                                图标，
+                                <NavLink to="/Icon" activeClassName="selected">
                                     参考图标页
                                 </NavLink>
                             </td>

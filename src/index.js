@@ -16,6 +16,7 @@ export Collapse from "./components/Collapse";
 export DatePicker from "./components/DatePicker";
 export Dropdown from "./components/Dropdown";
 export Form from "./components/Form";
+export Grid from './components/Grid';
 export Icon from "./components/Icon";
 export InfiniteScroll from "./components/InfiniteScroll";
 export Input from "./components/Input";

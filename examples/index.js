@@ -16,6 +16,7 @@ import Checkbox from "./components/Checkbox";
 import DatePicker from "./components/Datepicker";
 import Dropdown from "./components/Dropdown";
 import Form from './components/Form';
+import Grid from './components/Grid';
 import Icon from "./components/Icon";
 import InfiniteScroll from "./components/InfiniteScroll";
 import Input from "./components/Input";
@@ -75,6 +76,15 @@ ReactDOM.render(
                                         activeClassName="selected"
                                     >
                                         Icon 图标
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="###"
+                                        className="disabled"
+                                        activeClassName="selected"
+                                    >
+                                        Grid 栅格
                                     </NavLink>
                                 </li>
                             </ul>
@@ -427,6 +437,7 @@ ReactDOM.render(
                     <Route path="/DatePicker" exact component={DatePicker} />
                     <Route path="/Dropdown" exact component={Dropdown} />
                     <Route path="/Form" exact component={Form} />
+                    <Route path="/Grid" exact component={Grid} />
                     <Route path="/Icon" exact component={Icon} />
                     <Route
                         path="/InfiniteScroll"

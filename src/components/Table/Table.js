@@ -5,17 +5,27 @@ import TableColumn from "./TableColumn";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
 import { deepClone, guid } from "../../utils";
+import domUtils from "../../utils/domUtils";
 import omit from "object.omit";
 import Checkbox from "../Checkbox";
 import Icon from "../Icon";
 
 const prefixCls = "k-table";
+const TABLE_STYLE = {
+    header: 0,
+    body: 1,
+    all: 2
+};
+const FLEX_WIDTH = 50;
 
 class Table extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: props.loading
+            loading: props.loading,
+            expandedRowIds: props.expandedRowIds || props.defaultExpandedRowIds,
+            width: "100%",
+            columnsWidth: []
         };
     }
     static propTypes = {
@@ -45,12 +55,14 @@ class Table extends Component {
         showHeader: true,
         stripe: false
     };
+    handleExpand = id => {};
     init(props = this.props) {
         const { children, loading, data, checkbox } = props;
         let maxLevel = 1,
             nodes = [],
             rows = [],
             columns = [],
+            tmpWidth = 0,
             initNode = function(node, parentNode) {
                 node.id = node.id || guid();
                 node.level = parentNode ? parentNode.level + 1 : 1;
@@ -80,8 +92,18 @@ class Table extends Component {
                     curNode.hasChild = true;
                     curNode.colSpan = colSpan;
                 } else {
+                    const { width, style } = child.props;
                     curNode.hasChild = false;
                     curNode.colSpan = 1;
+                    if (width != undefined) {
+                        curNode.width = width;
+                    }
+                    if (style && typeof style.width == "number") {
+                        curNode.width = style.width;
+                    }
+                    if (curNode.width) {
+                        tmpWidth += curNode.width;
+                    }
                     columns.push(curNode);
                 }
             };
@@ -118,27 +140,93 @@ class Table extends Component {
                 data: deepClone(data)
             });
         }
-        
+    }
+    setWidth() {
+        const { checkbox, expandedRowRender } = this.props;
+        let totalWidth = domUtils.width(this.refs.table);
+        let tmpWidth = 0;
+        let columnsWidth = [];
+        let columns = this.columns.filter(item => {
+            if (item.width) {
+                tmpWidth += item.width;
+                columnsWidth.push(item.width);
+                return false;
+            } else {
+                columnsWidth.push(0);
+                return true;
+            }
+        });
+        if (checkbox) {
+            tmpWidth += FLEX_WIDTH;
+        }
+        if (expandedRowRender) {
+            tmpWidth += FLEX_WIDTH;
+        }
+        let diff = totalWidth - tmpWidth;
+        let width = diff / columns.length;
+        columnsWidth = columnsWidth.map(item => {
+            return item == 0 ? width : item;
+        });
+        this.setState({
+            columnsWidth
+        });
     }
     componentWillMount() {
         this.init();
+    }
+    componentDidMount() {
+        this.setWidth();
     }
     componentWillReceiveProps(nextProps) {
         this.init(nextProps);
     }
     renderHeader() {
         return (
-            <div className={`${prefixCls}-header`}>{this.renderTable()}</div>
+            <div className={`${prefixCls}-header`}>
+                {this.renderTable(TABLE_STYLE.header)}
+            </div>
         );
     }
     renderBody() {
-        return <div className={`${prefixCls}-body`} />;
+        return (
+            <div className={`${prefixCls}-body`}>
+                {this.renderTable(TABLE_STYLE.body)}
+            </div>
+        );
     }
-    renderTable() {
+    renderTable(type = TABLE_STYLE.all) {
         const { checkbox, expandedRowRender, stripe } = this.props;
-        const { data } = this.state;
-        let theadRows = [],
+        const { data, columnsWidth } = this.state;
+        let colGroup = [],
+            theadRows = [],
             tbodyRows = [];
+
+        this.columns.forEach((column, index) => {
+            let width = (columnsWidth && columnsWidth[index]) || column.width;
+            console.log(width, column);
+            let colStyle = { width };
+            if (checkbox && index == 0) {
+                colGroup.push(
+                    <col
+                        key={`col_checkbox_${index}`}
+                        style={{ width: FLEX_WIDTH }}
+                    />
+                );
+            }
+            if (expandedRowRender && index == 0) {
+                colGroup.push(
+                    <col
+                        key={`col_expand_${index}`}
+                        style={{ width: FLEX_WIDTH }}
+                    />
+                );
+            }
+            if (column.style) {
+                colStyle = column.style;
+            }
+            colGroup.push(<col key={index} style={colStyle} />);
+        });
+
         this.theadRows.forEach((row, rowIndex) => {
             let cells = [];
             row.forEach((cell, cellIndex) => {
@@ -202,13 +290,13 @@ class Table extends Component {
                             <td
                                 key={`tbCell-expand-${cellIndex}`}
                                 className="expand-cell"
+                                onClick={this.handleExpand}
                             >
                                 <Icon type="plussquareo" />
                             </td>
                         );
                     }
                 }
-
                 cells.push(
                     <td key={`tbCell-${cellIndex}`}>
                         {column.render
@@ -252,12 +340,16 @@ class Table extends Component {
 
         return (
             <table className={`${prefixCls}-fixed`}>
-                <thead className={`${prefixCls}-thead`}>{theadRows}</thead>
-                <tbody className={`${prefixCls}-tbody`}>{tbodyRows}</tbody>
+                <colgroup>{colGroup}</colgroup>
+                {type == TABLE_STYLE.all || type == TABLE_STYLE.header ? (
+                    <thead className={`${prefixCls}-thead`}>{theadRows}</thead>
+                ) : null}
+                {type == TABLE_STYLE.all || type == TABLE_STYLE.body ? (
+                    <tbody className={`${prefixCls}-tbody`}>{tbodyRows}</tbody>
+                ) : null}
             </table>
         );
     }
-
     render() {
         const { columns, pagination, bordered, children } = this.props;
         const { loading } = this.state;
@@ -267,7 +359,7 @@ class Table extends Component {
         });
         return (
             <Loading show={loading}>
-                <div className={classString}>
+                <div className={classString} ref="table">
                     <div className={`${prefixCls}-content`}>
                         <div className={`${prefixCls}-scroll`}>
                             {this.renderHeader()}

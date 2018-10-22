@@ -52,7 +52,12 @@ class CalendarView extends Component {
             <div>
                 <h1>Table 表格</h1>
                 <div className="k-example">
-                    <Table data={data}  checkbox expandedRowRender={(item)=>item.address} stripe>
+                    <Table
+                        data={data}
+                        checkbox
+                        expandedRowRender={item => item.address}
+                        stripe
+                    >
                         <TableColumn title="Name">
                             <TableColumn
                                 title="FirstName"

@@ -14,7 +14,7 @@ class TableColumn extends Component {
         render: PropTypes.func,
         sorter: PropTypes.bool,
         title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        width: PropTypes.number,
         onSort: PropTypes.func
     };
     static defaultProps = {

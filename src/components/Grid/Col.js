@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const prefixCls = "k-grid__col";
 
 class Col extends Component {
+    static displayName = "Col";
     static propTypes = {
         start: PropTypes.string
     };

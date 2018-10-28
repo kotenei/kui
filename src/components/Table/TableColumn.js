@@ -21,7 +21,6 @@ class TableColumn extends Component {
         align: "left",
         disabledCheckbox: false,
         filter: false,
-        fixed: "left",
         id: guid()
     };
     render() {

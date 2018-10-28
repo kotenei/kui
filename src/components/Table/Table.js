@@ -40,6 +40,7 @@ class Table extends Component {
         indentSize: PropTypes.number,
         loading: PropTypes.bool,
         pagination: PropTypes.object,
+        rowClassName: PropTypes.func,
         scroll: PropTypes.object,
         showHeader: PropTypes.bool,
         stripe: PropTypes.bool,
@@ -62,6 +63,8 @@ class Table extends Component {
             nodes = [],
             rows = [],
             columns = [],
+            fixedLeft = [],
+            fixedRight = [],
             tmpWidth = 0,
             initNode = function(node, parentNode) {
                 node.id = node.id || guid();
@@ -117,17 +120,37 @@ class Table extends Component {
 
         for (let i = 0; i < maxLevel; i++) {
             rows.push([]);
+            fixedLeft.push([]);
+            fixedRight.push([]);
         }
+
+        let fixed;
         nodes.forEach(node => {
+            let rowIndex = node.level - 1;
             if (!node.hasChild) {
                 node.rowSpan = maxLevel - node.level + 1;
             } else {
                 node.rowSpan = 1;
             }
-            rows[node.level - 1].push(node);
+            rows[rowIndex].push(node);
+            if (!node.fixed && !node.parentId) {
+                fixed = "";
+            }
+            if ((node.fixed && !node.parentId) || fixed) {
+                if (!fixed || !node.parentId) {
+                    fixed = node.fixed;
+                }
+                if (fixed == "left") {
+                    fixedLeft[rowIndex].push(node);
+                } else {
+                    fixedRight[rowIndex].push(node);
+                }
+            }
         });
 
         this.columns = columns;
+        this.fixedLeft = fixedLeft;
+        this.fixedRight = fixedRight;
         this.theadRows = rows;
 
         if ("loading" in this.props) {
@@ -195,7 +218,12 @@ class Table extends Component {
         );
     }
     renderTable(type = TABLE_STYLE.all) {
-        const { checkbox, expandedRowRender, stripe } = this.props;
+        const {
+            checkbox,
+            expandedRowRender,
+            stripe,
+            rowClassName
+        } = this.props;
         const { data, columnsWidth } = this.state;
         let colGroup = [],
             theadRows = [],
@@ -203,7 +231,6 @@ class Table extends Component {
 
         this.columns.forEach((column, index) => {
             let width = (columnsWidth && columnsWidth[index]) || column.width;
-            console.log(width, column);
             let colStyle = { width };
             if (checkbox && index == 0) {
                 colGroup.push(
@@ -271,7 +298,9 @@ class Table extends Component {
 
         data.forEach((item, rowIndex) => {
             let cells = [],
-                isEven = rowIndex % 2 == 0;
+                isEven = rowIndex % 2 == 0,
+                tableRowClassName =
+                    rowClassName && rowClassName(item, rowIndex);
             this.columns.forEach((column, cellIndex) => {
                 if ((checkbox || expandedRowRender) && cellIndex == 0) {
                     if (checkbox) {
@@ -307,8 +336,10 @@ class Table extends Component {
             });
             tbodyRows.push(
                 <tr
-                    className={!isEven && stripe ? "stripe-row" : ""}
                     key={`tbRow-${rowIndex}`}
+                    className={classnames(tableRowClassName, {
+                        "stripe-row": !isEven && stripe
+                    })}
                 >
                     {cells}
                 </tr>

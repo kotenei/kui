@@ -56,9 +56,11 @@ class CalendarView extends Component {
                         data={data}
                         checkbox
                         expandedRowRender={item => item.address}
-                        stripe
+                        rowClassName={(record, index) => {
+                            return 'asdfasf'
+                        }}
                     >
-                        <TableColumn title="Name">
+                        <TableColumn title="Name" fixed="left">
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
@@ -68,7 +70,7 @@ class CalendarView extends Component {
                                 dataIndex="lastName"
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Age" dataIndex="age"  fixed="right"/>
                         <TableColumn title="Address" dataIndex="address" />
                         <TableColumn title="Status" dataIndex="status" />
                     </Table>

@@ -6,21 +6,21 @@ class Dragger extends Component {
     static defaultProps = {
         prefixCls: "k-upload"
     };
-    handleDragover = (e) => {
-        console.log('a')
+    handleDragover = e => {
+        console.log("a");
     };
-    handleDragend = (e) => {
-        console,log('b')
+    handleDragend = e => {
+        console, log("b");
     };
-    handleDrop = (e) => {
+    handleDrop = e => {
         e.preventDefault();
-        console.log('c')
+        console.log("c");
     };
     render() {
         const { prefixCls } = this.props;
         return (
             <div
-                className={`${prefixCls}-dragger`}
+                className={`${prefixCls}__dragger`}
                 onDragOver={this.handleDragover}
                 onDragEnd={this.handleDragend}
                 onDrop={this.handledrop}

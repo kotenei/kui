@@ -33,8 +33,9 @@ class Col extends Component {
                 [`${prefixCls}-${size}-${sizeSpan}`]: sizeSpan !== undefined
             };
         });
-        const classes = classNames(
+        const classes = classnames(
             {
+                [`${prefixCls}`]: true,
                 [`${prefixCls}-${span}`]: span !== undefined,
                 [`${prefixCls}-offset-${offset}`]: offset !== undefined
             },

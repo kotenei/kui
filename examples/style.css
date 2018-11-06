@@ -7,7 +7,8 @@ body {
     margin: 0 auto;
 }
 
-.main-wrapper {}
+.main-wrapper {
+}
 
 .main-nav {
     width: 240px;
@@ -35,7 +36,7 @@ body {
     font-size: 13px;
 }
 
-.main-nav>ul>li {
+.main-nav > ul > li {
     font-size: 16px;
     line-height: 40px;
 }
@@ -92,19 +93,18 @@ body {
     position: relative;
     text-align: center;
     border-top: 1px solid #ccc;
-    padding-top:10px;
-
+    padding-top: 10px;
 }
 
-.k-codebox-header>span{
+.k-codebox-header > span {
     cursor: pointer;
 }
 
-.k-codebox-body{
+.k-codebox-body {
     display: none;
 }
 
-.k-codebox-body.in{
+.k-codebox-body.in {
     display: block;
 }
 
@@ -126,7 +126,7 @@ body {
     cursor: pointer;
     height: 100px;
     color: #555;
-    transition: all .3s;
+    transition: all 0.3s;
     position: relative;
     margin: 3px 0;
     border-radius: 4px;
@@ -152,12 +152,12 @@ body {
 }
 
 .icon-list li:hover {
-    background: #03A9F4;
+    background: #03a9f4;
     color: white;
 }
 
 a.selected {
-    color: #03A9F4;
+    color: #03a9f4;
 }
 
 pre {
@@ -342,7 +342,11 @@ pre code {
     border-bottom-width: 1px;
 }
 
-.k-example-table-container .k-example-table-head-box .k-example-table thead th.scroll-flag {
+.k-example-table-container
+    .k-example-table-head-box
+    .k-example-table
+    thead
+    th.scroll-flag {
     padding: 0;
     width: 1.0625rem;
 }
@@ -350,4 +354,23 @@ pre code {
 .k-example-table-container .k-example-table-body-box {
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.k-example .k-row {
+}
+
+.k-example .k-col .gutter-box {
+    padding: 16px;
+    background: rgba(0, 160, 233, 0.7);
+    color: white;
+    text-align: center;
+}
+
+.k-example .k-col:nth-child(even) .gutter-box {
+    background: #00a0e9;
+}
+
+.k-example h4{
+    margin-top: 20px;
+    margin-bottom:0;
 }

@@ -28,7 +28,8 @@ class Row extends Component {
             justify,
             style,
             className,
-            children
+            children,
+            ...others
         } = this.props;
         const gutterStyle = gutter
             ? {
@@ -37,7 +38,7 @@ class Row extends Component {
               }
             : null;
         const _style = { ...gutterStyle, ...style };
-        const classes = classNames(prefixCls, className, {
+        const classes = classnames(prefixCls, className, {
             [`${prefixCls}--${justify}`]: !!justify,
             [`${prefixCls}--${align}`]: !!align
         });

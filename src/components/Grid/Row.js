@@ -44,7 +44,7 @@ class Row extends Component {
         });
 
         const cols = React.Children.map(children, child => {
-            if (child.type && child.type.displayName == "Col") {
+            if (child && child.type && child.type.displayName == "Col") {
                 if (child.props && gutter > 0) {
                     return React.cloneElement(child, {
                         style: {

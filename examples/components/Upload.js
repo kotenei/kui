@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Upload } from "main";
+import { Upload, Button, Icon } from "main";
+
+const fileList = [
+    {
+        id: 1,
+        name: "xxx.png",
+        status: "done",
+        response: "success",
+        url: "http://www.baidu.com"
+    }
+];
 
 class CalendarView extends Component {
     render() {
@@ -7,7 +17,12 @@ class CalendarView extends Component {
             <div>
                 <h1>Upload 上传</h1>
                 <div className="k-example">
-                    <Upload />
+                    <Upload defaultFileList={fileList}>
+                        <Button raised>
+                            <Icon type="upload" />
+                            上传
+                        </Button>
+                    </Upload>
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

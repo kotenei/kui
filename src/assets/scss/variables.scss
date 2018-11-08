@@ -1,4 +1,8 @@
 @import "colors";
+
+$namespace: "k";
+$element-separator: "__";
+$modifier-separator: "--";
                
 //全局变量快速修改样式
 $enable-flex:               false !default;

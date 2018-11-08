@@ -4,9 +4,17 @@ import { Upload, Button, Icon } from "main";
 const fileList = [
     {
         id: 1,
-        name: "xxx.png",
+        name: "aaaa.png",
         status: "done",
         response: "success",
+        url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+        thumbUrl:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    },
+    {
+        id: 2,
+        name: "bbbb.png",
+        status: "error",
+        response: "error",
         url: "http://www.baidu.com"
     }
 ];
@@ -17,7 +25,7 @@ class CalendarView extends Component {
             <div>
                 <h1>Upload 上传</h1>
                 <div className="k-example">
-                    <Upload defaultFileList={fileList}>
+                    <Upload defaultFileList={fileList} listType='picture-card'>
                         <Button raised>
                             <Icon type="upload" />
                             上传

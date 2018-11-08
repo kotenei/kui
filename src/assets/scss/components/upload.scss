@@ -1,10 +1,14 @@
-$prefix:'upload';
+$prefix: "upload";
+$prefix-list: "#{$prefix}-list";
+$prefix-list-text: "#{$prefix-list}-text";
+$prefix-list-picture: "#{$prefix-list}-picture";
+$prefix-list-picture-card: "#{$prefix-list}-picture-card";
 @include block($prefix) {
-    @include element('container') {}
-    @include element('file') {
+    @include element("container") {}
+    @include element("file") {
         display: none;
     }
-    @include element('dragger') {
+    @include element("dragger") {
         border: 1px dashed #d9d9d9;
         position: relative;
         width: 100%;
@@ -14,12 +18,120 @@ $prefix:'upload';
     }
 }
 
-@include block('#{$prefix}-list-text') {
-    @include element('item'){
-        display: flex;
-        line-height: torem(25px);
+@include block($prefix-list) {
+    transition: all 0.3s ease;
+    @include element("item") {
+        position: relative;
+        color: #606266;
+        margin-top: torem(8px);
+        @include modifier("error") {
+            @include kStyle(#{$prefix-list}__info) {
+                a {
+                    color: $danger !important;
+                }
+            }
+            @include kStyle(#{$prefix-list}__icon) {
+                color: $danger !important;
+            }
+        }
     }
-    @include element('info'){
+    @include element("info") {}
+    @include element("icon") {
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+    }
+    @include element("text") {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@include block($prefix-list-text) {
+    @include kStyle(#{$prefix-list}__item) {
+        line-height: torem(25px);
+        color: #606266;
+        &:hover {
+            background: #f5f7fa;
+            @include kStyle(#{$prefix-list}__icon) {
+                display: block;
+            }
+        }
+    }
+    @include kStyle(#{$prefix-list}__info) {
+        display: flex;
+        i {
+            margin-right: torem(5px);
+        }
+        a {
+            flex: 1;
+            display: block;
+            color: $primary;
+        }
+    }
+    @include kStyle(#{$prefix-list}__icon) {
+        top: 50%;
+        transform: translateY(-50%);
+        display: none;
+    }
+}
+
+@include block($prefix-list-picture) {
+    @include kStyle(#{$prefix-list}__item) {
+        border: $border-width-base $border-style-base $border-color-base;
+        border-radius: $border-radius;
+        padding: torem(8px);
+        height: torem(66px);
+    }
+    @include kStyle(#{$prefix-list}__info) {
+        display: flex;
+    }
+    @include kStyle(#{$prefix-list}__icon) {
+        top: torem(8px);
+        right: torem(8px);
+    }
+    @include kStyle(#{$prefix-list}__thumb) {
+        overflow: hidden;
+        text-align: center;
+        display: block;
+        margin-right: torem(8px);
+        img {
+            width: torem(48px);
+            height: torem(48px);
+        }
+    }
+}
+
+@include block($prefix-list-picture-card) {
+    overflow: hidden;
+    @include kStyle(#{$prefix-list}__item) {
+        border: $border-width-base $border-style-base $border-color-base;
+        border-radius: $border-radius-lg;
+        padding: torem(8px);
+        float: left;
+        width: torem(104px);
+        height: torem(104px);
+        overflow: hidden;
+        margin-right: torem(8px);
+        margin-bottom: torem(8px);
+    }
+    @include kStyle(#{$prefix-list}__info) {
         
+    }
+    @include kStyle(#{$prefix-list}__icon) {
+        display: none;
+    }
+    @include kStyle(#{$prefix-list}__thumb) {
+        overflow: hidden;
+        text-align: center;
+        display: block;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    @include kStyle(#{$prefix-list}__text) {
+        display: none;
     }
 }

@@ -83,7 +83,7 @@ class Upload extends Component {
         }
         let files = [];
         fileList.forEach((file, index) => {
-            files.push(<UploadListItem key={index} {...file} />);
+            files.push(<UploadListItem key={index} {...file} {...listProps} />);
         });
         return (
             <UploadList prefixCls={prefixCls} {...listProps}>

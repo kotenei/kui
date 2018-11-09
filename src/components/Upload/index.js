@@ -6,6 +6,8 @@ import pick from "object.pick";
 import Dragger from "./Dragger";
 import UploadList from "./UploadList";
 import UploadListItem from "./UploadListItem";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { guid, FirstChild } from "../../utils";
 
 const prefixCls = "k-upload";
 
@@ -53,7 +55,16 @@ class Upload extends Component {
     /**
      * 删除文件
      */
-    handleRemove = () => {};
+    handleRemove = index => {
+        const { fileList } = this.state;
+        let newFileList = [...fileList];
+        newFileList.splice(index, 1);
+        if (!("fileList" in this.props)) {
+            this.setState({
+                fileList: newFileList
+            });
+        }
+    };
     /**
      * 上传文件
      * @param {array} files
@@ -78,52 +89,67 @@ class Upload extends Component {
         const { showUploadList } = this.props;
         const { fileList } = this.state;
         const listProps = pick(this.props, ["listType"]);
-        if (!showUploadList || !fileList || fileList.length == 0) {
+        let files = [];
+        if (!showUploadList ) {
             return null;
         }
-        let files = [];
         fileList.forEach((file, index) => {
-            files.push(<UploadListItem key={index} {...file} {...listProps} />);
+            files.push(
+                <CSSTransition key={index} timeout={300} classNames="fade">
+                    <UploadListItem
+                        key={index}
+                        index={index}
+                        {...file}
+                        {...listProps}
+                        onRemove={this.handleRemove}
+                    />
+                </CSSTransition>
+            );
         });
         return (
             <UploadList prefixCls={prefixCls} {...listProps}>
-                {files}
+                <TransitionGroup component={React.Fragment}>
+                    {files}
+                </TransitionGroup>
             </UploadList>
         );
     }
-    render() {
-        const {
-            className,
-            children,
-            dragger,
-            name,
-            accept,
-            showUploadList
-        } = this.props;
-        const classString = classnames(className, {
-            [prefixCls]: true
+    renderSelect() {
+        const { children, dragger, name, accept, listType } = this.props;
+        const classString = classnames({
+            [`${prefixCls}-select`]: true,
+            [`${prefixCls}-select-${listType}`]: listType
         });
         return (
-            <div className={classString}>
-                <span
-                    className={`${prefixCls}__container`}
-                    onClick={this.handleClick}
-                >
+            <div className={classString} onClick={this.handleClick}>
+                <span>
                     {dragger ? (
                         <Dragger prefixCls={prefixCls}>{children}</Dragger>
                     ) : (
                         children
                     )}
-                    <input
-                        ref="file"
-                        type="file"
-                        className={`${prefixCls}__file`}
-                        name={name}
-                        accept={accept}
-                        onChange={this.handleChange}
-                    />
                 </span>
+                <input
+                    ref="file"
+                    type="file"
+                    className={`${prefixCls}__file`}
+                    name={name}
+                    accept={accept}
+                    onChange={this.handleChange}
+                />
+            </div>
+        );
+    }
+    render() {
+        const { className, listType } = this.props;
+        const classString = classnames(className, {
+            [prefixCls]: true
+        });
+        return (
+            <div className={classString}>
+                {listType != "picture-card" ? this.renderSelect() : null}
                 {this.renderFileList()}
+                {listType == "picture-card" ? this.renderSelect() : null}
             </div>
         );
     }

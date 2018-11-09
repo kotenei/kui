@@ -2,24 +2,46 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Icon from "../Icon";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { guid, FirstChild } from "../../utils";
 
 class UploadListItem extends Component {
     static displayName = "UploadListItem";
     static propTypes = {
+        index: PropTypes.number,
         listType: PropTypes.oneOf(["text", "picture", "picture-card"]),
         name: PropTypes.string,
         prefixCls: PropTypes.string,
         response: PropTypes.string,
         status: PropTypes.oneOf(["done", "error"]),
         thumbUrl: PropTypes.string,
-        url: PropTypes.string
+        url: PropTypes.string,
+        previewTitle: PropTypes.string,
+        removeTitle: PropTypes.string,
+        onRemove: PropTypes.func
     };
     static defaultProps = {
         listType: "text",
-        prefixCls: "k-upload-list"
+        prefixCls: "k-upload-list",
+        previewTitle: "预览文件",
+        removeTitle: "删除文件"
+    };
+    handleRemove = () => {
+        const { onRemove, index } = this.props;
+        if (onRemove) {
+            onRemove(index);
+        }
     };
     renderPicture() {
-        const { listType, url, name, thumbUrl, prefixCls } = this.props;
+        const {
+            listType,
+            url,
+            name,
+            thumbUrl,
+            prefixCls,
+            previewTitle,
+            removeTitle
+        } = this.props;
         switch (listType) {
             case "picture":
                 return (
@@ -36,10 +58,10 @@ class UploadListItem extends Component {
                             <img src={thumbUrl} />
                         </a>
                         <span className={`${prefixCls}__action`}>
-                            <a href={url} target="_blank">
-                                <Icon type="eve" />
+                            <a href={url} target="_blank" title={previewTitle}>
+                                <Icon type="eyeo" />
                             </a>
-                            <a href="">
+                            <a title={removeTitle} onClick={this.handleRemove}>
                                 <Icon type="delete" />
                             </a>
                         </span>
@@ -50,7 +72,7 @@ class UploadListItem extends Component {
         }
     }
     render() {
-        const { prefixCls, listType, status, url, name } = this.props;
+        const { prefixCls, listType, status, url, name, id } = this.props;
         const classString = classnames({
             [`${prefixCls}__item`]: true,
             [`${prefixCls}__item--${status}`]: status
@@ -70,7 +92,7 @@ class UploadListItem extends Component {
                     </a>
                 </span>
                 {listType != "picture-card" ? (
-                    <span className={`${prefixCls}__icon`}>
+                    <span className={`${prefixCls}__icon`} onClick={this.handleRemove}>
                         <Icon className={`${prefixCls}__close`} type="close" />
                     </span>
                 ) : null}

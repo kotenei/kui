@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { getClassSet, kClass, kSize } from "../../utils/kUtils";
 import { Sizes } from "../../utils/styleMaps";
 import Icon from "../Icon";

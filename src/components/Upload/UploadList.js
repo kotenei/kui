@@ -13,18 +13,6 @@ class UploadList extends Component {
         listType: "text",
         prefixCls: "k-upload"
     };
-    renderChildren() {
-        const { children } = this.props;
-        return React.Children.map(children, child => {
-            if (
-                child &&
-                child.type &&
-                child.type.displayName == "UploadListItem"
-            ) {
-                return child;
-            }
-        });
-    }
     render() {
         const { listType, children } = this.props;
         const prefixCls = `${this.props.prefixCls}-list`;
@@ -32,7 +20,7 @@ class UploadList extends Component {
             [prefixCls]: true,
             [`${prefixCls}-${listType}`]: listType != undefined
         });
-        return <div className={classString}>{this.renderChildren()}</div>;
+        return <div className={classString}>{children}</div>;
     }
 }
 

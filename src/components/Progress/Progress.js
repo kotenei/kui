@@ -25,7 +25,7 @@ class Progress extends Component {
         textInside: false,
         showText: true,
         width: 100,
-        indeterminate:false
+        indeterminate: false
     };
     renderContainer(prefixCls) {
         const { type } = this.props;
@@ -39,10 +39,10 @@ class Progress extends Component {
         }
     }
     render() {
-        const { type, textInside } = this.props;
+        const { type, textInside, className } = this.props;
         let prefixCls = "k-progress";
         let classString = getClassSet(this.props);
-        classString = classnames(classString, {
+        classString = classnames(className, classString, {
             [`${prefixCls}-line`]: type == "line",
             [`${prefixCls}-text-inside`]: textInside,
             [`${prefixCls}-circle`]: type == "circle"

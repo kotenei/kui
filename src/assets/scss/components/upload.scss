@@ -29,6 +29,9 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         position: relative;
         color: #606266;
         margin-top: torem(8px);
+        &:last-child{
+            margin-bottom: torem(8px);
+        }
         @include modifier("error") {
             @include kStyle(#{$prefix-list}__text) {
                 color: $danger !important;
@@ -36,6 +39,11 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
             @include kStyle(#{$prefix-list}__icon) {
                 color: $danger !important;
             }
+        }
+        @include kStyle(#{$prefix-list}__progress) {
+            position: absolute;
+            margin: 0;
+            line-height: 0;
         }
     }
     @include element("info") {
@@ -56,17 +64,24 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
 
 @include block($prefix-list-text) {
     @include kStyle(#{$prefix-list}__item) {
-        line-height: torem(25px);
+        
         color: #606266;
+        position: relative;
         &:hover {
-            background: #f5f7fa;
+            @include kStyle(#{$prefix-list}__info) {
+                background: #f5f7fa;
+            }
             @include kStyle(#{$prefix-list}__icon) {
                 display: block;
             }
         }
+        @include kStyle(#{$prefix-list}__progress) {
+            bottom:-4px;
+        }
     }
     @include kStyle(#{$prefix-list}__info) {
         display: flex;
+        line-height: torem(25px);
         i {
             margin-right: torem(5px);
         }
@@ -75,6 +90,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
             display: block;
             color: $primary;
         }
+        
     }
     @include kStyle(#{$prefix-list}__icon) {
         top: 50%;
@@ -205,3 +221,4 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         text-align: center;
     }
 }
+

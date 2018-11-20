@@ -4,6 +4,7 @@ import classnames from "classnames";
 import Icon from "../Icon";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { guid, FirstChild } from "../../utils";
+import Progress from "../Progress";
 
 class UploadListItem extends Component {
     static displayName = "UploadListItem";
@@ -11,9 +12,10 @@ class UploadListItem extends Component {
         index: PropTypes.number,
         listType: PropTypes.oneOf(["text", "picture", "picture-card"]),
         name: PropTypes.string,
+        percent: PropTypes.number,
         prefixCls: PropTypes.string,
         response: PropTypes.string,
-        status: PropTypes.oneOf(["done", "error"]),
+        status: PropTypes.oneOf(["done", "error", "uploading"]),
         thumbUrl: PropTypes.string,
         url: PropTypes.string,
         previewTitle: PropTypes.string,
@@ -22,6 +24,7 @@ class UploadListItem extends Component {
     };
     static defaultProps = {
         listType: "text",
+        percent: 0,
         prefixCls: "k-upload-list",
         previewTitle: "预览文件",
         removeTitle: "删除文件"
@@ -46,7 +49,11 @@ class UploadListItem extends Component {
             case "picture":
                 return (
                     <React.Fragment>
-                        <a className={`${prefixCls}__thumb`} href={url}>
+                        <a
+                            className={`${prefixCls}__thumb`}
+                            href={url}
+                            target="_blank"
+                        >
                             <img src={thumbUrl} />
                         </a>
                     </React.Fragment>
@@ -54,7 +61,11 @@ class UploadListItem extends Component {
             case "picture-card":
                 return (
                     <React.Fragment>
-                        <a className={`${prefixCls}__thumb`} href={url}>
+                        <a
+                            className={`${prefixCls}__thumb`}
+                            href={url}
+                            target="_blank"
+                        >
                             <img src={thumbUrl} />
                         </a>
                         <span className={`${prefixCls}__action`}>
@@ -72,7 +83,16 @@ class UploadListItem extends Component {
         }
     }
     render() {
-        const { prefixCls, listType, status, url, name, id } = this.props;
+        const {
+            prefixCls,
+            listType,
+            status,
+            url,
+            name,
+            id,
+            uploading,
+            percent
+        } = this.props;
         const classString = classnames({
             [`${prefixCls}__item`]: true,
             [`${prefixCls}__item--${status}`]: status
@@ -92,9 +112,20 @@ class UploadListItem extends Component {
                     </a>
                 </span>
                 {listType != "picture-card" ? (
-                    <span className={`${prefixCls}__icon`} onClick={this.handleRemove}>
+                    <span
+                        className={`${prefixCls}__icon`}
+                        onClick={this.handleRemove}
+                    >
                         <Icon className={`${prefixCls}__close`} type="close" />
                     </span>
+                ) : null}
+                {uploading && percent < 100 ? (
+                    <Progress
+                        className={`${prefixCls}__progress`}
+                        percent={percent}
+                        showText={false}
+                        strokeWidth={2}
+                    />
                 ) : null}
             </div>
         );

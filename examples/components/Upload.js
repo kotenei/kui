@@ -17,7 +17,7 @@ class CalendarView extends Component {
             {
                 id: 2,
                 name: "pic2.png",
-                status: "done",
+                status: "error",
                 response: "success",
                 url:
                     "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",

@@ -29,7 +29,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         position: relative;
         color: #606266;
         margin-top: torem(8px);
-        &:last-child{
+        &:last-child {
             margin-bottom: torem(8px);
         }
         @include modifier("error") {
@@ -40,10 +40,35 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
                 color: $danger !important;
             }
         }
+
+        @include modifier('uploading'){
+            @include kStyle(#{$prefix-list}__thumb){
+                cursor: default;
+                pointer-events: none;
+            }
+            @include kStyle(#{$prefix-list}__text) {
+                color: #666 !important;
+                cursor: default;
+                pointer-events: none;
+            }
+        }
+
         @include kStyle(#{$prefix-list}__progress) {
             position: absolute;
             margin: 0;
             line-height: 0;
+            width: 100%;
+            @include kStyle(#{$prefix-list}__progressText) {
+                color: #666;
+                text-align: center;
+                line-height: 25px;
+                margin-bottom: 5px;
+                display: none;
+            }
+            .k-progress {
+                margin-bottom: 0;
+                display: block;
+            }
         }
     }
     @include element("info") {
@@ -64,7 +89,6 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
 
 @include block($prefix-list-text) {
     @include kStyle(#{$prefix-list}__item) {
-        
         color: #606266;
         position: relative;
         &:hover {
@@ -76,7 +100,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
             }
         }
         @include kStyle(#{$prefix-list}__progress) {
-            bottom:-4px;
+            bottom: -4px;
         }
     }
     @include kStyle(#{$prefix-list}__info) {
@@ -90,7 +114,6 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
             display: block;
             color: $primary;
         }
-        
     }
     @include kStyle(#{$prefix-list}__icon) {
         top: 50%;
@@ -105,6 +128,11 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         border-radius: $border-radius;
         padding: torem(8px);
         height: torem(66px);
+        @include kStyle(#{$prefix-list}__progress) {
+            bottom: torem(15px);
+            left: torem(65px);
+            width: calc(100% - 95px);
+        }
     }
     @include kStyle(#{$prefix-list}__info) {
         display: flex;
@@ -152,6 +180,28 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
                 a {
                     opacity: 1;
                 }
+            }
+        }
+        @include kStyle(#{$prefix-list}__progress) {
+            width: 80%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        &--uploading {
+            background: #FAFAFA;
+            @include kStyle(#{$prefix-list}__info) {
+                &::after {
+                    display: none;
+                }
+            }
+            @include kStyle(#{$prefix-list}__icon) {
+                display: block;
+                top:torem(5px);
+                right:torem(5px);
+            }
+            @include kStyle(#{$prefix-list}__progressText) {
+                display: block;
             }
         }
     }
@@ -221,4 +271,3 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         text-align: center;
     }
 }
-

@@ -28,6 +28,7 @@ class Upload extends Component {
         name: PropTypes.string,
         showUploadList: PropTypes.bool,
         withCredentials: PropTypes.bool,
+        uploadingText: PropTypes.string,
         onChange: PropTypes.func,
         onPreview: PropTypes.func,
         onRemove: PropTypes.func
@@ -36,7 +37,8 @@ class Upload extends Component {
         dragger: false,
         listType: "text",
         name: "file",
-        showUploadList: true
+        showUploadList: true,
+        uploadingText: "上传中..."
     };
     state = {
         fileList: []
@@ -88,9 +90,9 @@ class Upload extends Component {
     renderFileList() {
         const { showUploadList } = this.props;
         const { fileList } = this.state;
-        const listProps = pick(this.props, ["listType"]);
+        const listProps = pick(this.props, ["listType", "uploadingText"]);
         let files = [];
-        if (!showUploadList ) {
+        if (!showUploadList) {
             return null;
         }
         fileList.forEach((file, index) => {

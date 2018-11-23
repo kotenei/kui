@@ -17,12 +17,13 @@ class CalendarView extends Component {
             {
                 id: 2,
                 name: "pic2.png",
-                status: "error",
+                status: "done",
                 response: "success",
                 url:
                     "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
                 thumbUrl:
-                    "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                    "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+                percent: 50
             }
         ]
     };
@@ -32,7 +33,10 @@ class CalendarView extends Component {
             <div>
                 <h1>Upload 上传</h1>
                 <div className="k-example">
-                    <Upload defaultFileList={this.state.fileList} >
+                    <Upload
+                        defaultFileList={this.state.fileList}
+                        listType="picture-card"
+                    >
                         <Button raised>
                             <Icon type="upload" />
                             上传

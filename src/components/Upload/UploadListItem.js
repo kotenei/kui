@@ -43,7 +43,8 @@ class UploadListItem extends Component {
             thumbUrl,
             prefixCls,
             previewTitle,
-            removeTitle
+            removeTitle,
+            status
         } = this.props;
         switch (listType) {
             case "picture":
@@ -60,27 +61,54 @@ class UploadListItem extends Component {
                 );
             case "picture-card":
                 return (
-                    <React.Fragment>
-                        <a
-                            className={`${prefixCls}__thumb`}
-                            href={url}
-                            target="_blank"
-                        >
-                            <img src={thumbUrl} />
-                        </a>
-                        <span className={`${prefixCls}__action`}>
-                            <a href={url} target="_blank" title={previewTitle}>
-                                <Icon type="eyeo" />
+                    status !== "uploading" && (
+                        <React.Fragment>
+                            <a
+                                className={`${prefixCls}__thumb`}
+                                href={url}
+                                target="_blank"
+                            >
+                                <img src={thumbUrl} />
                             </a>
-                            <a title={removeTitle} onClick={this.handleRemove}>
-                                <Icon type="delete" />
-                            </a>
-                        </span>
-                    </React.Fragment>
+                            <span className={`${prefixCls}__action`}>
+                                <a
+                                    href={url}
+                                    target="_blank"
+                                    title={previewTitle}
+                                >
+                                    <Icon type="eyeo" />
+                                </a>
+                                <a
+                                    title={removeTitle}
+                                    onClick={this.handleRemove}
+                                >
+                                    <Icon type="delete" />
+                                </a>
+                            </span>
+                        </React.Fragment>
+                    )
                 );
             default:
                 return null;
         }
+    }
+    renderProgress() {
+        const { prefixCls, status, percent, uploadingText } = this.props;
+        return (
+            status === "uploading" &&
+            percent < 100 && (
+                <div className={`${prefixCls}__progress`}>
+                    <div className={`${prefixCls}__progressText`}>
+                        {uploadingText}
+                    </div>
+                    <Progress
+                        percent={percent}
+                        showText={false}
+                        strokeWidth={2}
+                    />
+                </div>
+            )
+        );
     }
     render() {
         const {
@@ -90,7 +118,6 @@ class UploadListItem extends Component {
             url,
             name,
             id,
-            uploading,
             percent
         } = this.props;
         const classString = classnames({
@@ -101,7 +128,11 @@ class UploadListItem extends Component {
         return (
             <div className={classString}>
                 <span className={`${prefixCls}__info`}>
-                    {listType == "text" ? <Icon type="file" /> : null}
+                    {listType == "text" ? (
+                        <Icon
+                            type={status === "uploading" ? "loading" : "file"}
+                        />
+                    ) : null}
                     {this.renderPicture()}
                     <a
                         className={`${prefixCls}__text`}
@@ -111,22 +142,13 @@ class UploadListItem extends Component {
                         {name}
                     </a>
                 </span>
-                {listType != "picture-card" ? (
-                    <span
-                        className={`${prefixCls}__icon`}
-                        onClick={this.handleRemove}
-                    >
-                        <Icon className={`${prefixCls}__close`} type="close" />
-                    </span>
-                ) : null}
-                {uploading && percent < 100 ? (
-                    <Progress
-                        className={`${prefixCls}__progress`}
-                        percent={percent}
-                        showText={false}
-                        strokeWidth={2}
-                    />
-                ) : null}
+                <span
+                    className={`${prefixCls}__icon`}
+                    onClick={this.handleRemove}
+                >
+                    <Icon className={`${prefixCls}__close`} type="close" />
+                </span>
+                {this.renderProgress()}
             </div>
         );
     }

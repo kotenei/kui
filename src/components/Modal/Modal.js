@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import Icon from '../Icon';
 import Button from '../Button';
 import domUtils from '../../utils/domUtils';
-import { FirstChild, guid } from '../../utils';
+import { guid } from '../../utils';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 let seed = 1;

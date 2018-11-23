@@ -7,7 +7,7 @@ import {
     kSize,
     getClassSet
 } from "../../utils/kUtils";
-import {guid,FirstChild} from "../../utils";
+import {guid} from "../../utils";
 import { State, Sizes, PRIMARY } from "../../utils/styleMaps";
 import Icon from "../Icon";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -116,7 +116,7 @@ class Alert extends Component {
         );
 
         return (
-            <TransitionGroup in={this.state.closed} component={FirstChild}>
+            <TransitionGroup in={this.state.closed} component={React.Fragment}>
                 {alert}
             </TransitionGroup>
         );

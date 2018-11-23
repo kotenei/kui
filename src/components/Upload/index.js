@@ -7,7 +7,7 @@ import Dragger from "./Dragger";
 import UploadList from "./UploadList";
 import UploadListItem from "./UploadListItem";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { guid, FirstChild } from "../../utils";
+import { guid } from "../../utils";
 
 const prefixCls = "k-upload";
 

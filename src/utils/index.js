@@ -2,10 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import domUtils from "./domUtils";
 
-export const FirstChild = props => {
-    const childrenArray = React.Children.toArray(props.children);
-    return childrenArray[0] || null;
-};
+
 
 export const Empty = props => {
     return props.children;

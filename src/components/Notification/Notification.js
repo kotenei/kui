@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import omit from 'object.omit';
 import classnames from 'classnames';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { guid, FirstChild } from '../../utils';
+import { guid } from '../../utils';
 
 class Notification extends Component {
     constructor(props) {

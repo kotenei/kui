@@ -9,7 +9,7 @@ import {
     prefix,
     getClassSet
 } from "../../utils/kUtils";
-import { guid, FirstChild } from "../../utils";
+import { guid } from "../../utils";
 import { State, DEFAULT, PRIMARY, Sizes } from "../../utils/styleMaps";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
@@ -58,7 +58,7 @@ class Tag extends Component {
             </CSSTransition>
         );
         return (
-            <TransitionGroup component={FirstChild} in={closed}>
+            <TransitionGroup component={React.Fragment} in={closed}>
                 {tag}
             </TransitionGroup>
         );

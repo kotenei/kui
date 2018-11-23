@@ -6,7 +6,7 @@ import Icon from "../Icon";
 import CheckBox from "../Checkbox";
 import pick from "object.pick";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { guid, FirstChild } from "../../utils";
+import { guid } from "../../utils";
 import TreeNodeContent from "./TreeNodeContent";
 
 class TreeNode extends Component {
@@ -209,7 +209,7 @@ class TreeNode extends Component {
                     onClick={this.handleSelect}
                     refInstance={this}
                 />
-                <TransitionGroup component={FirstChild}>
+                <TransitionGroup component={React.Fragment}>
                     {children && this.isExpanded() ? (
                         <CSSTransition timeout={300} classNames="slide">
                             <ul>

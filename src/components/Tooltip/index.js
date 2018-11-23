@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
 import { kStyles, kClass, kSize, getClassSet } from "../../utils/kUtils";
-import { guid, FirstChild } from "../../utils";
+import { guid } from "../../utils";
 import { State, PRIMARY, Sizes } from "../../utils/styleMaps";
 import domUtils from "../../utils/domUtils";
 

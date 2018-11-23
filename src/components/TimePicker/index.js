@@ -6,7 +6,7 @@ import TimePickerSelect from "./TimePickerSelect";
 import Input from "../Input";
 import Icon from "../Icon";
 import Button from "../Button";
-import { Empty, getPosition, FirstChild } from "../../utils";
+import { Empty, getPosition } from "../../utils";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import domUtils from "../../utils/domUtils";
 
@@ -391,7 +391,7 @@ class TimePicker extends Component {
         ) : null;
 
         return ReactDOM.createPortal(
-            <TransitionGroup component={FirstChild}>{picker}</TransitionGroup>,
+            <TransitionGroup component={React.Fragment}>{picker}</TransitionGroup>,
             document.body
         );
     }

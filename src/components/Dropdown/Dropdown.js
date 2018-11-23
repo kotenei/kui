@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import domUtils from "../../utils/domUtils";
 import classnames from "classnames";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { guid, FirstChild } from "../../utils";
+import { guid } from "../../utils";
 
 let seed = 1;
 let instances = {};
@@ -222,7 +222,7 @@ class Dropdown extends Component {
             ) : null;
 
         return (
-            <TransitionGroup component={FirstChild}>{newMenu}</TransitionGroup>
+            <TransitionGroup component={React.Fragment}>{newMenu}</TransitionGroup>
         );
     }
     renderChilren() {

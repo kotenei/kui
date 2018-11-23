@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { Empty, getPosition, FirstChild } from "../../utils";
+import { Empty, getPosition } from "../../utils";
 import domUtils from "../../utils/domUtils";
 
 const prefixCls = "k-popPanel";
@@ -180,7 +180,7 @@ class PopPanel extends Component {
         const { children, style, timeout, transitionName } = this.props;
         const { open, position } = this.state;
         return ReactDOM.createPortal(
-            <TransitionGroup component={FirstChild}>
+            <TransitionGroup component={React.Fragment}>
                 {open ? (
                     <CSSTransition
                         timeout={timeout}

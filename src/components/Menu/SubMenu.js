@@ -6,7 +6,7 @@ import Icon from "../Icon";
 import omit from "object.omit";
 import domUtils from "../../utils/domUtils";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { guid, FirstChild } from "../../utils";
+import { guid } from "../../utils";
 import Tooltip from "../Tooltip";
 
 class SubMenu extends Component {
@@ -230,7 +230,7 @@ class SubMenu extends Component {
             </CSSTransition>
         ) : null;
 
-        return <TransitionGroup component={FirstChild}>{menu}</TransitionGroup>;
+        return <TransitionGroup component={React.Fragment}>{menu}</TransitionGroup>;
     }
     render() {
         const {

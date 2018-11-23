@@ -116,7 +116,7 @@ class Alert extends Component {
         );
 
         return (
-            <TransitionGroup in={this.state.closed} component={React.Fragment}>
+            <TransitionGroup  component={React.Fragment}>
                 {alert}
             </TransitionGroup>
         );

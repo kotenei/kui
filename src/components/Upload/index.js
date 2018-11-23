@@ -8,6 +8,7 @@ import UploadList from "./UploadList";
 import UploadListItem from "./UploadListItem";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { guid } from "../../utils";
+import upload from "./upload";
 
 const prefixCls = "k-upload";
 
@@ -73,6 +74,7 @@ class Upload extends Component {
      */
     upload(files) {
         const { beforeUpload } = this.props;
+        console.log(files)
     }
     componentWillMount() {
         const { defaultFileList, fileList } = this.props;

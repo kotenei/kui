@@ -2,12 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import domUtils from "./domUtils";
 
-
-
-export const Empty = props => {
-    return props.children;
-};
-
 export const getPosition = props => {
     let parent = ReactDOM.findDOMNode(props.trigger),
         ew = domUtils.outerWidth(parent),

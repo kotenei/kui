@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { Empty, getPosition } from "../../utils";
+import {  getPosition } from "../../utils";
 import domUtils from "../../utils/domUtils";
 
 const prefixCls = "k-popPanel";
@@ -202,12 +202,12 @@ class PopPanel extends Component {
     render() {
         const { input } = this.props;
         return (
-            <Empty>
+            <React.Fragment>
                 <div ref="trigger" onClick={this.handleClick}>
                     {input}
                 </div>
                 {this.renderWrapper()}
-            </Empty>
+            </React.Fragment>
         );
     }
 }

@@ -6,7 +6,7 @@ import TimePickerSelect from "./TimePickerSelect";
 import Input from "../Input";
 import Icon from "../Icon";
 import Button from "../Button";
-import { Empty, getPosition } from "../../utils";
+import { getPosition } from "../../utils";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import domUtils from "../../utils/domUtils";
 
@@ -413,7 +413,7 @@ class TimePicker extends Component {
         const { value } = this.state;
         const { kSize, disabled, placeholder, onClick } = this.props;
         return (
-            <Empty>
+            <React.Fragment>
                 <Input
                     type="text"
                     ref="input"
@@ -426,7 +426,7 @@ class TimePicker extends Component {
                     onChange={() => {}}
                 />
                 {this.renderPicker()}
-            </Empty>
+            </React.Fragment>
         );
     }
 }

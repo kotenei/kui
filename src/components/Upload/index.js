@@ -54,6 +54,7 @@ class Upload extends Component {
     };
     handleChange = e => {
         let files = e.target.files;
+        this.uploadFiles(files);
     };
     /**
      * 删除文件
@@ -72,9 +73,49 @@ class Upload extends Component {
      * 上传文件
      * @param {array} files
      */
-    upload(files) {
+    uploadFiles(files) {
+        let postFiles = Array.prototype.slice.call(files);
+        postFiles.forEach(file => {
+            let uploadFile = {
+                id: guid(),
+                name: file.name,
+                lastModified: file.lastModified,
+                originFileObj: file,
+                size: file.size,
+                type: file.type,
+                percent: 0,
+                status: "pending"
+            };
+            this.upload(uploadFile);
+        });
+    }
+    upload(uploadFile) {
         const { beforeUpload } = this.props;
-        console.log(files)
+        const before = beforeUpload ? beforeUpload(uploadFile) : true;
+        if (before) {
+            uploadFile.status = "uploading";
+            this.post(uploadFile);
+        }
+    }
+    post(uploadFile) {
+        const { headers, withCredentials, data, name, action } = this.props;
+        const options = {
+            headers,
+            withCredentials,
+            file,
+            data,
+            filename: name,
+            action,
+            onProgress: e => {
+                uploadFile.percent = e.percent;
+            },
+            onSuccess: res => {
+                uploadFile.status = "success";
+            },
+            onError: err => {
+                uploadFile.status = "error";
+            }
+        };
     }
     componentWillMount() {
         const { defaultFileList, fileList } = this.props;

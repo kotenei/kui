@@ -39,7 +39,8 @@ class Upload extends Component {
         listType: "text",
         name: "file",
         showUploadList: true,
-        uploadingText: "上传中..."
+        uploadingText: "上传中...",
+        multiple: true
     };
     state = {
         fileList: []
@@ -74,48 +75,89 @@ class Upload extends Component {
      * @param {array} files
      */
     uploadFiles(files) {
-        let postFiles = Array.prototype.slice.call(files);
-        postFiles.forEach(file => {
-            let uploadFile = {
+        const { beforeUpload } = this.props;
+        const { fileList } = this.state;
+        let postFiles = Array.prototype.slice.call(files).map(file => {
+            return {
                 id: guid(),
                 name: file.name,
                 lastModified: file.lastModified,
                 originFileObj: file,
                 size: file.size,
                 type: file.type,
-                percent: 0,
-                status: "pending"
+                percent: 0
             };
-            this.upload(uploadFile);
         });
-    }
-    upload(uploadFile) {
-        const { beforeUpload } = this.props;
-        const before = beforeUpload ? beforeUpload(uploadFile) : true;
-        if (before) {
-            uploadFile.status = "uploading";
-            this.post(uploadFile);
-        }
+        let newFileList = [...this.state.fileList];
+
+        postFiles.forEach(file => {
+            const before = beforeUpload ? beforeUpload(postFiles) : true;
+            if (before) {
+                file.status = "uploading";
+                newFileList.push(file);
+                this.onChange({ file, fileList: newFileList });
+                this.post(file);
+            }
+        });
     }
     post(uploadFile) {
         const { headers, withCredentials, data, name, action } = this.props;
         const options = {
             headers,
             withCredentials,
-            file,
+            file: uploadFile.originFileObj,
             data,
             filename: name,
             action,
             onProgress: e => {
-                uploadFile.percent = e.percent;
+                this.onProgress(e, uploadFile);
             },
             onSuccess: res => {
-                uploadFile.status = "success";
+                this.onSuccess(res, uploadFile);
             },
             onError: err => {
-                uploadFile.status = "error";
+                this.onError(err, uploadFile);
             }
         };
+        upload(options);
+    }
+    onChange(info) {
+        if (!("fileList" in this.props)) {
+            this.setState({
+                fileList: info.fileList
+            });
+        }
+    }
+    onProgress(e, uploadFile) {
+        const { fileList } = this.state;
+        let targetFile = this.getFileItem(uploadFile, fileList);
+        targetFile.percent = e.percent;
+        this.onChange({
+            file: targetFile,
+            fileList
+        });
+    }
+    onSuccess(res, uploadFile) {
+        const { fileList } = this.state;
+    }
+    onError(err, uploadFile) {
+        const { fileList } = this.state;
+        let targetFile = this.getFileItem(uploadFile, fileList);
+        targetFile.status = "error";
+        targetFile.response =
+            typeof err === "string" ? err : err.msg || "error";
+        this.onChange({
+            file: targetFile,
+            fileList
+        });
+    }
+
+    getFileItem(file, fileList) {
+        return (
+            fileList &&
+            fileList.length > 0 &&
+            fileList.find(item => item.id == file.id)
+        );
     }
     componentWillMount() {
         const { defaultFileList, fileList } = this.props;
@@ -160,7 +202,14 @@ class Upload extends Component {
         );
     }
     renderSelect() {
-        const { children, dragger, name, accept, listType } = this.props;
+        const {
+            children,
+            dragger,
+            name,
+            accept,
+            listType,
+            multiple
+        } = this.props;
         const classString = classnames({
             [`${prefixCls}-select`]: true,
             [`${prefixCls}-select-${listType}`]: listType
@@ -180,6 +229,7 @@ class Upload extends Component {
                     className={`${prefixCls}__file`}
                     name={name}
                     accept={accept}
+                    multiple={multiple}
                     onChange={this.handleChange}
                 />
             </div>

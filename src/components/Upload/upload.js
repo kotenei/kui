@@ -7,7 +7,7 @@ function getError(action, option, xhr) {
     } else {
         msg = `fail to post ${action} ${xhr.status}`;
     }
-
+   
     const err = new Error(msg);
     err.status = xhr.status;
     err.method = "post";
@@ -54,7 +54,7 @@ export default function upload(option) {
 
     formData.append(option.filename, option.file, option.file.name);
 
-    xhr.onerror = function error(e) {
+    xhr.onerror = function error(e,b) {
         option.onError(e);
     };
 

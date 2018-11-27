@@ -46,6 +46,9 @@ class UploadListItem extends Component {
             removeTitle,
             status
         } = this.props;
+
+        let imgUrl = thumbUrl;
+
         switch (listType) {
             case "picture":
                 return (
@@ -55,7 +58,11 @@ class UploadListItem extends Component {
                             href={url}
                             target="_blank"
                         >
-                            <img src={thumbUrl} />
+                            {imgUrl ? (
+                                <img src={imgUrl} />
+                            ) : (
+                                <Icon type="file" />
+                            )}
                         </a>
                     </React.Fragment>
                 );
@@ -68,7 +75,11 @@ class UploadListItem extends Component {
                                 href={url}
                                 target="_blank"
                             >
-                                <img src={thumbUrl} />
+                                {imgUrl ? (
+                                    <img src={imgUrl} />
+                                ) : (
+                                    <Icon type="file" />
+                                )}
                             </a>
                             <span className={`${prefixCls}__action`}>
                                 <a

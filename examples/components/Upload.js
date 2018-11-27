@@ -36,7 +36,8 @@ class CalendarView extends Component {
                     <Upload
                         action="https://jsonplaceholder.typicode.com/posts/"
                         defaultFileList={this.state.fileList}
-                        listType="picture"
+                        listType="picture-card"
+                        limit={3}
                     >
                         <Button raised>
                             <Icon type="upload" />

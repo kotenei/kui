@@ -24,6 +24,7 @@ class Upload extends Component {
         disabled: PropTypes.bool,
         fileList: PropTypes.array,
         headers: PropTypes.object,
+        limit: PropTypes.number,
         listType: PropTypes.oneOf(["text", "picture", "picture-card"]),
         multiple: PropTypes.bool,
         name: PropTypes.string,
@@ -75,7 +76,7 @@ class Upload extends Component {
      * @param {array} files
      */
     uploadFiles(files) {
-        const { beforeUpload } = this.props;
+        const { beforeUpload, listType } = this.props;
         const { fileList } = this.state;
         let postFiles = Array.prototype.slice.call(files).map(file => {
             return {
@@ -94,6 +95,14 @@ class Upload extends Component {
             const before = beforeUpload ? beforeUpload(postFiles) : true;
             if (before) {
                 file.status = "uploading";
+                if (listType !== "text" && file.type.indexOf("image") != -1) {
+                    try {
+                        file.thumbUrl = URL.createObjectURL(file.originFileObj);
+                    } catch (err) {
+                        console.error(err);
+                        return;
+                    }
+                }
                 newFileList.push(file);
                 this.onChange({ file, fileList: newFileList });
                 this.post(file);
@@ -131,6 +140,7 @@ class Upload extends Component {
     onProgress(e, uploadFile) {
         const { fileList } = this.state;
         let targetFile = this.getFileItem(uploadFile, fileList);
+        // targetFile.status = "done";
         targetFile.percent = e.percent;
         this.onChange({
             file: targetFile,
@@ -139,6 +149,12 @@ class Upload extends Component {
     }
     onSuccess(res, uploadFile) {
         const { fileList } = this.state;
+        let targetFile = this.getFileItem(uploadFile, fileList);
+        targetFile.status = "done";
+        this.onChange({
+            file: targetFile,
+            fileList
+        });
     }
     onError(err, uploadFile) {
         const { fileList } = this.state;
@@ -208,13 +224,16 @@ class Upload extends Component {
             name,
             accept,
             listType,
-            multiple
+            multiple,
+            limit
         } = this.props;
+        const { fileList } = this.state;
         const classString = classnames({
             [`${prefixCls}-select`]: true,
             [`${prefixCls}-select-${listType}`]: listType
         });
-        return (
+
+        let content = (
             <div className={classString} onClick={this.handleClick}>
                 <span>
                     {dragger ? (
@@ -234,6 +253,16 @@ class Upload extends Component {
                 />
             </div>
         );
+
+        if (
+            typeof limit !== "undefined" &&
+            fileList &&
+            fileList.length >= limit
+        ) {
+            content = null;
+        }
+
+        return content;
     }
     render() {
         const { className, listType } = this.props;

@@ -230,18 +230,17 @@ class Upload extends Component {
         const { fileList } = this.state;
         const classString = classnames({
             [`${prefixCls}-select`]: true,
-            [`${prefixCls}-select-${listType}`]: listType
+            [`${prefixCls}-select-${listType}`]: listType,
+            [`${prefixCls}-select-dragger`]: dragger
         });
 
         let content = (
             <div className={classString} onClick={this.handleClick}>
-                <span>
-                    {dragger ? (
-                        <Dragger prefixCls={prefixCls}>{children}</Dragger>
-                    ) : (
-                        children
-                    )}
-                </span>
+                {dragger ? (
+                    <Dragger prefixCls={prefixCls} >{children}</Dragger>
+                ) : (
+                    <span>{children}</span>
+                )}
                 <input
                     ref="file"
                     type="file"
@@ -265,15 +264,19 @@ class Upload extends Component {
         return content;
     }
     render() {
-        const { className, listType } = this.props;
+        const { className, listType, dragger } = this.props;
         const classString = classnames(className, {
             [prefixCls]: true
         });
         return (
             <div className={classString}>
-                {listType != "picture-card" ? this.renderSelect() : null}
+                {listType != "picture-card" || dragger
+                    ? this.renderSelect()
+                    : null}
                 {this.renderFileList()}
-                {listType == "picture-card" ? this.renderSelect() : null}
+                {listType == "picture-card" && !dragger
+                    ? this.renderSelect()
+                    : null}
             </div>
         );
     }

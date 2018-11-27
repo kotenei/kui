@@ -38,6 +38,7 @@ class CalendarView extends Component {
                         defaultFileList={this.state.fileList}
                         listType="picture-card"
                         limit={3}
+                        dragger
                     >
                         <Button raised>
                             <Icon type="upload" />

@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 
 class Dragger extends Component {
     static propTypes = {
         accept: PropTypes.string,
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
+        onDragOver: PropTypes.func,
+        onDragLeave: PropTypes.func,
+        onDrop: PropTypes.func
     };
     static defaultProps = {
         disabled: false,
@@ -16,7 +20,7 @@ class Dragger extends Component {
             dragOver: false
         };
     }
-    handleDragover = e => {
+    handleDragOver = e => {
         e.preventDefault();
         const { disabled } = this.props;
         const { dragOver } = this.state;
@@ -27,11 +31,11 @@ class Dragger extends Component {
             dragOver: true
         });
     };
-    handleDragend = e => {
+    handleDragLeave = e => {
         e.preventDefault();
         const { disabled } = this.props;
         const { dragOver } = this.state;
-        if (dragOver || disabled) {
+        if (!dragOver || disabled) {
             return;
         }
         this.setState({
@@ -42,20 +46,25 @@ class Dragger extends Component {
         e.preventDefault();
         const { accept } = this.props;
         let files = e.dataTransfer.files;
+
         this.setState({
             dragOver: false
         });
     };
     render() {
         const { prefixCls, children } = this.props;
+        const { dragOver } = this.state;
         return (
             <div
-                className={`${prefixCls}__dragger`}
-                onDragOver={this.handleDragover}
-                onDragEnd={this.handleDragend}
+                className={classnames({
+                    [`${prefixCls}__dragger`]: true,
+                    [`${prefixCls}__dragger--dragover`]: dragOver
+                })}
+                onDragOver={this.handleDragOver}
+                onDragLeave={this.handleDragLeave}
                 onDrop={this.handledrop}
             >
-                {children}
+                <span>{children}</span>
             </div>
         );
     }

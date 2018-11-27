@@ -8,7 +8,10 @@ class TableHeader extends Component {
         expandedRowRender: PropTypes.func,
         prefixCls: PropTypes.string
     };
+    getCols
     render() {
+        const { rows } = this.props;
+
         return null;
     }
 }

@@ -1,21 +1,32 @@
 $prefix: "upload";
 $prefix-list: "#{$prefix}-list";
-$prefix-select:#{$prefix}-select;
+$prefix-select: #{$prefix}-select;
 $prefix-list-text: "#{$prefix-list}-text";
 $prefix-list-picture: "#{$prefix-list}-picture";
 $prefix-list-picture-card: "#{$prefix-list}-picture-card";
+$prefix-select-dragger: #{$prefix-select}-dragger;
 @include block($prefix) {
     overflow: hidden;
     @include element("file") {
         display: none;
     }
     @include element("dragger") {
+        width: 100%;
+        height: 100%;
         border: 1px dashed #d9d9d9;
         position: relative;
-        width: 100%;
-        height: 200px;
         background: #fafafa;
         cursor: pointer;
+        padding: torem(16px) 0;
+        display: table;
+        > span {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+        &--dragover{
+            border-color:$primary;
+        }
     }
 }
 
@@ -40,7 +51,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
                 color: $danger !important;
             }
         }
-        @include modifier('uploading') {
+        @include modifier("uploading") {
             @include kStyle(#{$prefix-list}__thumb) {
                 cursor: default;
                 pointer-events: none;
@@ -150,7 +161,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         }
         .k-icon {
             font-size: torem(34px);
-            color: rgba(0, 0, 0, .25);
+            color: rgba(0, 0, 0, 0.25);
         }
     }
     @include kStyle(#{$prefix-list}__text) {
@@ -175,7 +186,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         &:hover {
             @include kStyle(#{$prefix-list}__info) {
                 &::after {
-                    opacity: .7;
+                    opacity: 0.7;
                 }
             }
             @include kStyle(#{$prefix-list}__action) {
@@ -191,7 +202,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
             transform: translate(-50%, -50%);
         }
         &--uploading {
-            background: #FAFAFA;
+            background: #fafafa;
             @include kStyle(#{$prefix-list}__info) {
                 &::after {
                     display: none;
@@ -210,9 +221,9 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
     @include kStyle(#{$prefix-list}__info) {
         height: 100%;
         &::after {
-            transition: all .3s ease;
-            content: ' ';
-            background: rgba(0, 0, 0, .7);
+            transition: all 0.3s ease;
+            content: " ";
+            background: rgba(0, 0, 0, 0.7);
             position: absolute;
             left: 0;
             top: 0;
@@ -234,7 +245,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         }
         .k-icon {
             font-size: torem(40px);
-            color: rgba(0, 0, 0, .25);
+            color: rgba(0, 0, 0, 0.25);
             position: absolute;
             top: 50%;
             left: 50%;
@@ -253,7 +264,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
         z-index: 10;
         width: 100%;
         a {
-            transition: all .3s ease;
+            transition: all 0.3s ease;
             color: white;
             cursor: pointer;
             margin: 0 torem(2px);
@@ -263,7 +274,7 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
     }
 }
 
-@include block('#{$prefix-select}-picture-card') {
+@include block("#{$prefix-select}-picture-card") {
     border-radius: $border-radius-lg;
     float: left;
     width: torem(104px);
@@ -275,9 +286,16 @@ $prefix-list-picture-card: "#{$prefix-list}-picture-card";
     display: table;
     margin-right: torem(8px);
     margin-bottom: torem(8px);
-    >span {
+    > span {
         display: table-cell;
         vertical-align: middle;
         text-align: center;
     }
+}
+
+@include block($prefix-select-dragger) {
+    float: none;
+    border: none;
+    margin-right: 0;
+    width: 100%;
 }

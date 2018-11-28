@@ -235,8 +235,7 @@ ReactDOM.render(
                                 </li>
                                 <li>
                                     <NavLink
-                                        to="###"
-                                        className="disabled"
+                                        to="/Upload"
                                         activeClassName="selected"
                                     >
                                         Upload 上传

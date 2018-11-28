@@ -22,7 +22,7 @@ class Dragger extends Component {
     }
     handleDragOver = e => {
         e.preventDefault();
-        const { disabled } = this.props;
+        const { disabled, onDragOver } = this.props;
         const { dragOver } = this.state;
         if (dragOver || disabled) {
             return;
@@ -30,10 +30,13 @@ class Dragger extends Component {
         this.setState({
             dragOver: true
         });
+        if (onDragOver) {
+            onDragOver(e);
+        }
     };
     handleDragLeave = e => {
         e.preventDefault();
-        const { disabled } = this.props;
+        const { disabled, onDragLeave } = this.props;
         const { dragOver } = this.state;
         if (!dragOver || disabled) {
             return;
@@ -41,15 +44,19 @@ class Dragger extends Component {
         this.setState({
             dragOver: false
         });
+        if (onDragLeave) {
+            onDragLeave(e);
+        }
     };
     handleDrop = e => {
         e.preventDefault();
-        const { accept } = this.props;
-        let files = e.dataTransfer.files;
-
+        const { onDrop } = this.props;
         this.setState({
             dragOver: false
         });
+        if (onDrop) {
+            onDrop(e);
+        }
     };
     render() {
         const { prefixCls, children } = this.props;
@@ -62,7 +69,7 @@ class Dragger extends Component {
                 })}
                 onDragOver={this.handleDragOver}
                 onDragLeave={this.handleDragLeave}
-                onDrop={this.handledrop}
+                onDrop={this.handleDrop}
             >
                 <span>{children}</span>
             </div>

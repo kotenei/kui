@@ -120,7 +120,7 @@ class CalendarView extends Component {
         return (
             <div>
                 <h1>Tree 树型</h1>
-                <h3>基本使用</h3>
+                <h3>基本用法</h3>
                 <div className="k-example">
                     <Tree
                         defaultExpandedIds={["1-1-1"]}

@@ -16,7 +16,6 @@ class Upload extends Component {
     static propTypes = {
         accept: PropTypes.string,
         action: PropTypes.string,
-        beforeRemove: PropTypes.func,
         beforeUpload: PropTypes.func,
         data: PropTypes.object,
         defaultFileList: PropTypes.array,
@@ -24,7 +23,6 @@ class Upload extends Component {
         disabled: PropTypes.bool,
         fileList: PropTypes.array,
         headers: PropTypes.object,
-        limit: PropTypes.number,
         listType: PropTypes.oneOf(["text", "picture", "picture-card"]),
         multiple: PropTypes.bool,
         name: PropTypes.string,
@@ -32,20 +30,26 @@ class Upload extends Component {
         withCredentials: PropTypes.bool,
         uploadingText: PropTypes.string,
         onChange: PropTypes.func,
-        onPreview: PropTypes.func,
         onRemove: PropTypes.func
     };
     static defaultProps = {
+        defaultFileList: [],
         dragger: false,
         listType: "text",
         name: "file",
         showUploadList: true,
+        withCredentials: false,
         uploadingText: "上传中...",
         multiple: true
     };
     state = {
         fileList: []
     };
+    constructor(props) {
+        super(props);
+        this.reqs = {};
+    }
+
     handleClick = () => {
         const { disabled } = this.props;
         if (disabled) {
@@ -58,13 +62,30 @@ class Upload extends Component {
         let files = e.target.files;
         this.uploadFiles(files);
     };
+    handleDragOver = e => {};
+    handleDragLeave = e => {};
+    handleDrop = e => {
+        let files = e.dataTransfer.files;
+        this.uploadFiles(files);
+    };
     /**
      * 删除文件
      */
     handleRemove = index => {
+        const { onRemove } = this.props;
         const { fileList } = this.state;
+        let removeFile = fileList[index];
         let newFileList = [...fileList];
         newFileList.splice(index, 1);
+
+        if (this.reqs[removeFile.id]) {
+            this.reqs[removeFile.id].abort();
+        }
+
+        if (onRemove) {
+            onRemove(removeFile);
+        }
+
         if (!("fileList" in this.props)) {
             this.setState({
                 fileList: newFileList
@@ -76,8 +97,11 @@ class Upload extends Component {
      * @param {array} files
      */
     uploadFiles(files) {
-        const { beforeUpload, listType } = this.props;
+        const { beforeUpload, listType, multiple, disabled } = this.props;
         const { fileList } = this.state;
+        if (disabled) {
+            return;
+        }
         let postFiles = Array.prototype.slice.call(files).map(file => {
             return {
                 id: guid(),
@@ -91,7 +115,7 @@ class Upload extends Component {
         });
         let newFileList = [...this.state.fileList];
 
-        postFiles.forEach(file => {
+        postFiles.every(file => {
             const before = beforeUpload ? beforeUpload(postFiles) : true;
             if (before) {
                 file.status = "uploading";
@@ -107,6 +131,10 @@ class Upload extends Component {
                 this.onChange({ file, fileList: newFileList });
                 this.post(file);
             }
+            if (!multiple) {
+                return false;
+            }
+            return true;
         });
     }
     post(uploadFile) {
@@ -128,13 +156,18 @@ class Upload extends Component {
                 this.onError(err, uploadFile);
             }
         };
-        upload(options);
+        const req = upload(options);
+        this.reqs[uploadFile.id] = req;
     }
     onChange(info) {
+        const { onChange } = this.props;
         if (!("fileList" in this.props)) {
             this.setState({
                 fileList: info.fileList
             });
+        }
+        if (onChange) {
+            onChange(info);
         }
     }
     onProgress(e, uploadFile) {
@@ -178,13 +211,13 @@ class Upload extends Component {
     componentWillMount() {
         const { defaultFileList, fileList } = this.props;
         this.setState({
-            fileList: fileList || defaultFileList
+            fileList: fileList || defaultFileList || []
         });
     }
     componentWillReceiveProps(nextProps) {
         if ("fileList" in nextProps) {
             this.setState({
-                fileList: nextProps.fileList
+                fileList: nextProps.fileList || []
             });
         }
     }
@@ -193,7 +226,7 @@ class Upload extends Component {
         const { fileList } = this.state;
         const listProps = pick(this.props, ["listType", "uploadingText"]);
         let files = [];
-        if (!showUploadList) {
+        if (!showUploadList || !fileList) {
             return null;
         }
         fileList.forEach((file, index) => {
@@ -224,8 +257,7 @@ class Upload extends Component {
             name,
             accept,
             listType,
-            multiple,
-            limit
+            multiple
         } = this.props;
         const { fileList } = this.state;
         const classString = classnames({
@@ -234,10 +266,17 @@ class Upload extends Component {
             [`${prefixCls}-select-dragger`]: dragger
         });
 
-        let content = (
+        return (
             <div className={classString} onClick={this.handleClick}>
                 {dragger ? (
-                    <Dragger prefixCls={prefixCls} >{children}</Dragger>
+                    <Dragger
+                        prefixCls={prefixCls}
+                        onDragOver={this.handleDragOver}
+                        onDragLeave={this.handleDragLeave}
+                        onDrop={this.handleDrop}
+                    >
+                        {children}
+                    </Dragger>
                 ) : (
                     <span>{children}</span>
                 )}
@@ -252,16 +291,6 @@ class Upload extends Component {
                 />
             </div>
         );
-
-        if (
-            typeof limit !== "undefined" &&
-            fileList &&
-            fileList.length >= limit
-        ) {
-            content = null;
-        }
-
-        return content;
     }
     render() {
         const { className, listType, dragger } = this.props;

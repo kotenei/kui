@@ -19,13 +19,13 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
         cursor: pointer;
         padding: torem(16px) 0;
         display: table;
-        > span {
+        >span {
             display: table-cell;
             vertical-align: middle;
             text-align: center;
         }
-        &--dragover{
-            border-color:$primary;
+        &--dragover {
+            border-color: $primary;
         }
     }
 }
@@ -44,6 +44,7 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
             margin-bottom: torem(8px);
         }
         @include modifier("error") {
+            border-color: $danger !important;
             @include kStyle(#{$prefix-list}__text) {
                 color: $danger !important;
             }
@@ -110,6 +111,8 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
         }
         @include kStyle(#{$prefix-list}__progress) {
             bottom: -4px;
+            left: torem(22px);
+            width: calc(100% - 22px);
         }
     }
     @include kStyle(#{$prefix-list}__info) {
@@ -286,7 +289,7 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
     display: table;
     margin-right: torem(8px);
     margin-bottom: torem(8px);
-    > span {
+    >span {
         display: table-cell;
         vertical-align: middle;
         text-align: center;

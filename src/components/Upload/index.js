@@ -9,6 +9,7 @@ import UploadListItem from "./UploadListItem";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { guid } from "../../utils";
 import upload from "./upload";
+import { mimeTypeToExtensionMap } from "./mimeType";
 
 const prefixCls = "k-upload";
 
@@ -99,7 +100,8 @@ class Upload extends Component {
     uploadFiles(files) {
         const { beforeUpload, listType, multiple, disabled } = this.props;
         const { fileList } = this.state;
-        if (disabled) {
+        files = this.getAcceptFiles(files);
+        if (disabled || !files || files.length === 0) {
             return;
         }
         let postFiles = Array.prototype.slice.call(files).map(file => {
@@ -207,6 +209,24 @@ class Upload extends Component {
             fileList.length > 0 &&
             fileList.find(item => item.id == file.id)
         );
+    }
+    getAcceptFiles(files) {
+        const { accept } = this.props;
+        let acceptFiles = [].slice.call(files).filter(file => {
+            const { name } = file;
+            const ext =
+                name.indexOf(".") > -1 ? `${name.split(".").pop()}` : "";
+            if (accept) {
+                return accept.split(",").some(acceptType => {
+                    acceptType = acceptType.toLowerCase();
+                    return mimeTypeToExtensionMap.some(item => {
+                        return item[0] === acceptType && item[1] === ext;
+                    });
+                });
+            }
+            return true;
+        });
+        return acceptFiles;
     }
     componentWillMount() {
         const { defaultFileList, fileList } = this.props;

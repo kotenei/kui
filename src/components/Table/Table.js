@@ -11,7 +11,7 @@ import Checkbox from "../Checkbox";
 import Icon from "../Icon";
 
 const prefixCls = "k-table";
-const TABLE_STYLE = {
+const TABLE_TYPE = {
     header: 0,
     body: 1,
     all: 2
@@ -168,45 +168,48 @@ class Table extends Component {
         const { checkbox, expandedRowRender } = this.props;
         let totalWidth = domUtils.width(this.refs.table);
         let tmpWidth = 0;
-        let columnsWidth = {};
-        let columns = this.columns.filter((item, index) => {
-            if (item.width) {
-                tmpWidth += item.width;
-                columnsWidth[index] = item.width;
-                return false;
-            } else {
-                columnsWidth[index] = 0;
-                return true;
-            }
-        });
+        let count = 0;
+        let columnsWidth = [];
+
         if (checkbox) {
             tmpWidth += FLEX_WIDTH;
+            columnsWidth.push(FLEX_WIDTH);
         }
         if (expandedRowRender) {
             tmpWidth += FLEX_WIDTH;
+            columnsWidth.push(FLEX_WIDTH);
         }
-        let diff = totalWidth - tmpWidth;
-        let width = diff / columns.length;
-        for (let key in columnsWidth) {
-            if (columnsWidth[key] == 0) {
-                columnsWidth[key] = width;
+
+        this.columns.forEach((item, index) => {
+            if (item.width) {
+                tmpWidth += item.width;
+                columnsWidth.push(item.width);
+            } else {
+                columnsWidth.push(0);
+                count++;
             }
-        }
+        });
+
+        let diff = totalWidth - tmpWidth;
+        let width = count == 0 ? 0 : diff / count;
+
+        columnsWidth = columnsWidth.map(item => {
+            return item == 0 ? width : item;
+        });
+
         this.setState({
             columnsWidth
         });
     }
-    getColGroup(columns) {
+    getColGroup() {
         const { columnsWidth } = this.state;
         let colGroup = [];
-        columns.forEach((column, index) => {
-            let width = (columnsWidth && columnsWidth[index]) || column.width;
-            let colStyle = { width };
-            if (column.style) {
-                colStyle = column.style;
-            }
-            colGroup.push(<col key={index} style={colStyle} />);
-        });
+        if (columnsWidth && columnsWidth.length > 0) {
+            columnsWidth.forEach((width, index) => {
+                let colStyle = { width: width || "auto" };
+                colGroup.push(<col key={index} style={colStyle} />);
+            });
+        }
         return colGroup;
     }
     getTheadRows(rows) {
@@ -246,7 +249,7 @@ class Table extends Component {
     renderHeader() {
         return (
             <div className={`${prefixCls}-header`}>
-                {this.renderTable(TABLE_STYLE.header)}
+                {this.renderTable(TABLE_TYPE.header)}
             </div>
         );
     }
@@ -254,47 +257,22 @@ class Table extends Component {
     renderBody() {
         return (
             <div className={`${prefixCls}-body`}>
-                {this.renderTable(TABLE_STYLE.body)}
+                {this.renderTable(TABLE_TYPE.body)}
             </div>
         );
     }
 
-    renderTable(type = TABLE_STYLE.all) {
+    renderTable(type = TABLE_TYPE.all) {
         const {
             checkbox,
             expandedRowRender,
             stripe,
             rowClassName
         } = this.props;
-        const { data, columnsWidth } = this.state;
-        let colGroup = this.getColGroup(this.columns),
+        const { data } = this.state;
+        let colGroup = this.getColGroup(),
             theadRows = [],
             tbodyRows = [];
-
-        // this.columns.forEach((column, index) => {
-        //     let width = (columnsWidth && columnsWidth[index]) || column.width;
-        //     let colStyle = { width };
-        //     if (checkbox && index == 0) {
-        //         colGroup.push(
-        //             <col
-        //                 key={`col_checkbox_${index}`}
-        //                 style={{ width: FLEX_WIDTH }}
-        //             />
-        //         );
-        //     }
-        //     if (expandedRowRender && index == 0) {
-        //         colGroup.push(
-        //             <col
-        //                 key={`col_expand_${index}`}
-        //                 style={{ width: FLEX_WIDTH }}
-        //             />
-        //         );
-        //     }
-        //     if (column.style) {
-        //         colStyle = column.style;
-        //     }
-        //     colGroup.push(<col key={index} style={colStyle} />);
-        // });
 
         this.theadRows.forEach((row, rowIndex) => {
             let cells = [];
@@ -414,10 +392,10 @@ class Table extends Component {
         return (
             <table className={`${prefixCls}-fixed`}>
                 <colgroup>{colGroup}</colgroup>
-                {type == TABLE_STYLE.all || type == TABLE_STYLE.header ? (
+                {type == TABLE_TYPE.all || type == TABLE_TYPE.header ? (
                     <thead className={`${prefixCls}-thead`}>{theadRows}</thead>
                 ) : null}
-                {type == TABLE_STYLE.all || type == TABLE_STYLE.body ? (
+                {type == TABLE_TYPE.all || type == TABLE_TYPE.body ? (
                     <tbody className={`${prefixCls}-tbody`}>{tbodyRows}</tbody>
                 ) : null}
             </table>

@@ -55,7 +55,7 @@ class CalendarView extends Component {
                     <Table
                         data={data}
                         checkbox
-                        expandedRowRender={item => item.address}
+                        // expandedRowRender={item => item.address}
                         rowClassName={(record, index) => {
                             return 'asdfasf'
                         }}

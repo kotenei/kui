@@ -18,6 +18,14 @@ const TABLE_TYPE = {
 };
 const FLEX_WIDTH = 50;
 
+const HeaderContaienr = props => {
+    return <div className={`${prefixCls}-header`}>{props.children}</div>;
+};
+
+const BodyContainer = props => {
+    return <div className={`${prefixCls}-body`}>{props.children}</div>;
+};
+
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -28,6 +36,7 @@ class Table extends Component {
             columnsWidth: {}
         };
     }
+
     static propTypes = {
         bordered: PropTypes.bool,
         checkbox: PropTypes.bool,
@@ -48,6 +57,7 @@ class Table extends Component {
         onChange: PropTypes.func,
         onExpand: PropTypes.func
     };
+
     static defaultProps = {
         bordered: false,
         checkbox: false,
@@ -56,7 +66,7 @@ class Table extends Component {
         showHeader: true,
         stripe: false
     };
-    handleExpand = id => {};
+
     init(props = this.props) {
         const { children, loading, data, checkbox } = props;
         let maxLevel = 1,
@@ -127,15 +137,19 @@ class Table extends Component {
         let fixed;
         nodes.forEach(node => {
             let rowIndex = node.level - 1;
+
             if (!node.hasChild) {
                 node.rowSpan = maxLevel - node.level + 1;
             } else {
                 node.rowSpan = 1;
             }
+
             rows[rowIndex].push(node);
+
             if (!node.fixed && !node.parentId) {
                 fixed = "";
             }
+
             if ((node.fixed && !node.parentId) || fixed) {
                 if (!fixed || !node.parentId) {
                     fixed = node.fixed;
@@ -164,6 +178,7 @@ class Table extends Component {
             });
         }
     }
+
     setWidth() {
         const { checkbox, expandedRowRender } = this.props;
         let totalWidth = domUtils.width(this.refs.table);
@@ -201,6 +216,7 @@ class Table extends Component {
             columnsWidth
         });
     }
+
     getColGroup() {
         const { columnsWidth } = this.state;
         let colGroup = [];
@@ -212,27 +228,6 @@ class Table extends Component {
         }
         return colGroup;
     }
-    getTheadRows(rows) {
-        let theadRows = [];
-        rows.forEach((row, rowIndex) => {
-            let cells = [];
-            row.forEach((cell, cellIndex) => {
-                cells.push(
-                    <th
-                        key={`thCell-${cellIndex}`}
-                        colSpan={cell.colSpan == 1 ? null : cell.colSpan}
-                        rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
-                    >
-                        {cell.title}
-                    </th>
-                );
-            });
-            theadRows.push(<tr key={`thRow-${rowIndex}`}>{cells}</tr>);
-        });
-        return theadRows;
-    }
-
-    getTbody() {}
 
     componentWillMount() {
         this.init();
@@ -246,23 +241,7 @@ class Table extends Component {
         this.init(nextProps);
     }
 
-    renderHeader() {
-        return (
-            <div className={`${prefixCls}-header`}>
-                {this.renderTable(TABLE_TYPE.header)}
-            </div>
-        );
-    }
-
-    renderBody() {
-        return (
-            <div className={`${prefixCls}-body`}>
-                {this.renderTable(TABLE_TYPE.body)}
-            </div>
-        );
-    }
-
-    renderTable(type = TABLE_TYPE.all) {
+    renderTable(headRows = this.theadRows, type = TABLE_TYPE.all) {
         const {
             checkbox,
             expandedRowRender,
@@ -271,23 +250,22 @@ class Table extends Component {
         } = this.props;
         const { data } = this.state;
         let colGroup = this.getColGroup(),
+            rowColumns = [],
+            columns = [],
             theadRows = [],
             tbodyRows = [];
 
-        this.theadRows.forEach((row, rowIndex) => {
+        headRows.forEach((row, rowIndex) => {
             let cells = [];
+            let tmpColumns = [];
             row.forEach((cell, cellIndex) => {
-                if (
-                    (checkbox || expandedRowRender) &&
-                    rowIndex == 0 &&
-                    cellIndex == 0
-                ) {
+                if (rowIndex == 0 && cellIndex == 0) {
                     if (checkbox) {
                         cells.push(
                             <th
                                 className="checkbox-cell"
                                 key={`thCell-checkbox-${cellIndex}`}
-                                rowSpan={this.theadRows.length}
+                                rowSpan={headRows.length}
                             >
                                 <Checkbox />
                             </th>
@@ -298,7 +276,7 @@ class Table extends Component {
                             <th
                                 className="expand-cell"
                                 key={`thCell-expand-${cellIndex}`}
-                                rowSpan={this.theadRows.length}
+                                rowSpan={headRows.length}
                             />
                         );
                     }
@@ -312,17 +290,26 @@ class Table extends Component {
                         {cell.title}
                     </th>
                 );
+                if (!cell.hasChild) {
+                    tmpColumns.push(cell);
+                }
             });
             theadRows.push(<tr key={`thRow-${rowIndex}`}>{cells}</tr>);
+            rowColumns.push(tmpColumns);
         });
+
+        for (let i = rowColumns.length - 1; i >= 0; i--) {
+           console.log(rowColumns[i])
+        }
 
         data.forEach((item, rowIndex) => {
             let cells = [],
                 isEven = rowIndex % 2 == 0,
                 tableRowClassName =
                     rowClassName && rowClassName(item, rowIndex);
-            this.columns.forEach((column, cellIndex) => {
-                if ((checkbox || expandedRowRender) && cellIndex == 0) {
+
+            columns.forEach((column, cellIndex) => {
+                if (cellIndex == 0) {
                     if (checkbox) {
                         cells.push(
                             <td
@@ -334,7 +321,6 @@ class Table extends Component {
                         );
                     }
                     if (expandedRowRender) {
-                        //minussquareo
                         cells.push(
                             <td
                                 key={`tbCell-expand-${cellIndex}`}
@@ -346,6 +332,7 @@ class Table extends Component {
                         );
                     }
                 }
+
                 cells.push(
                     <td key={`tbCell-${cellIndex}`}>
                         {column.render
@@ -373,7 +360,7 @@ class Table extends Component {
                 cells.push(
                     <td
                         key={`tbCell-expand-${rowIndex}`}
-                        colSpan={this.columns.length}
+                        colSpan={columns.length}
                     >
                         {expandedRowRender(item)}
                     </td>
@@ -414,10 +401,34 @@ class Table extends Component {
                 <div className={classString} ref="table">
                     <div className={`${prefixCls}-content`}>
                         <div className={`${prefixCls}-scroll`}>
-                            {this.renderHeader()}
-                            {this.renderBody()}
+                            <HeaderContaienr>
+                                {this.renderTable(
+                                    this.theadRows,
+                                    TABLE_TYPE.header
+                                )}
+                            </HeaderContaienr>
+                            {/* <BodyContainer>
+                                {this.renderTable(
+                                    this.theadRows,
+                                    TABLE_TYPE.body
+                                )}
+                            </BodyContainer> */}
                         </div>
-                        <div className={`${prefixCls}-fixed-left`} />
+                        <div className={`${prefixCls}-fixed-left`}>
+                            {/* <HeaderContaienr>
+                                {this.renderTable(
+                                    this.fixedLeft,
+                                    TABLE_TYPE.header
+                                )}
+                            </HeaderContaienr> */}
+                            {/* <BodyContainer>
+                                {this.renderTable(
+                                    this.theadRows,
+                                    this.columns,
+                                    TABLE_TYPE.body
+                                )}
+                            </BodyContainer> */}
+                        </div>
                         <div className={`${prefixCls}-fixed-right`} />
                     </div>
                     {pagination ? <Pagination {...pagination} /> : null}

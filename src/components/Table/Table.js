@@ -298,8 +298,17 @@ class Table extends Component {
             rowColumns.push(tmpColumns);
         });
 
-        for (let i = rowColumns.length - 1; i >= 0; i--) {
-           console.log(rowColumns[i])
+        for (let i = rowColumns.length - 1, row; i >= 0; i--) {
+            row = rowColumns[i];
+            if (i > 0) {
+                for (let j = row.length - 1; j >= 0; j--) {
+                    columns.unshift(row[j]);
+                }
+            } else {
+                for (let j = 0; j < row.length; j++) {
+                    columns.push(row[j]);
+                }
+            }
         }
 
         data.forEach((item, rowIndex) => {
@@ -407,12 +416,12 @@ class Table extends Component {
                                     TABLE_TYPE.header
                                 )}
                             </HeaderContaienr>
-                            {/* <BodyContainer>
+                            <BodyContainer>
                                 {this.renderTable(
                                     this.theadRows,
                                     TABLE_TYPE.body
                                 )}
-                            </BodyContainer> */}
+                            </BodyContainer>
                         </div>
                         <div className={`${prefixCls}-fixed-left`}>
                             {/* <HeaderContaienr>

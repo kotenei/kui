@@ -241,7 +241,11 @@ class Table extends Component {
         this.init(nextProps);
     }
 
-    renderTable(headRows = this.theadRows, type = TABLE_TYPE.all) {
+    renderTable(
+        headRows = this.theadRows,
+        type = TABLE_TYPE.all,
+        showChkAndExpand = true
+    ) {
         const {
             checkbox,
             expandedRowRender,
@@ -260,7 +264,7 @@ class Table extends Component {
             let tmpColumns = [];
             row.forEach((cell, cellIndex) => {
                 if (rowIndex == 0 && cellIndex == 0) {
-                    if (checkbox) {
+                    if (checkbox && showChkAndExpand) {
                         cells.push(
                             <th
                                 className="checkbox-cell"
@@ -271,7 +275,7 @@ class Table extends Component {
                             </th>
                         );
                     }
-                    if (expandedRowRender) {
+                    if (expandedRowRender && showChkAndExpand) {
                         cells.push(
                             <th
                                 className="expand-cell"
@@ -319,7 +323,7 @@ class Table extends Component {
 
             columns.forEach((column, cellIndex) => {
                 if (cellIndex == 0) {
-                    if (checkbox) {
+                    if (checkbox && showChkAndExpand) {
                         cells.push(
                             <td
                                 key={`tbCell-checkbox-${cellIndex}`}
@@ -329,7 +333,7 @@ class Table extends Component {
                             </td>
                         );
                     }
-                    if (expandedRowRender) {
+                    if (expandedRowRender && showChkAndExpand) {
                         cells.push(
                             <td
                                 key={`tbCell-expand-${cellIndex}`}
@@ -360,7 +364,7 @@ class Table extends Component {
                     {cells}
                 </tr>
             );
-            if (expandedRowRender) {
+            if (expandedRowRender && showChkAndExpand) {
                 cells = [];
                 if (checkbox) {
                     cells.push(<td key={guid()} />);
@@ -429,11 +433,10 @@ class Table extends Component {
                                     this.fixedLeft,
                                     TABLE_TYPE.header
                                 )}
-                            </HeaderContaienr> */}
-                            {/* <BodyContainer>
+                            </HeaderContaienr>
+                            <BodyContainer>
                                 {this.renderTable(
-                                    this.theadRows,
-                                    this.columns,
+                                    this.fixedLeft,
                                     TABLE_TYPE.body
                                 )}
                             </BodyContainer> */}

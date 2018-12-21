@@ -184,9 +184,11 @@ class Dropdown extends Component {
     }
     componentWillReceiveProps(nextProps) {
         if ("show" in nextProps) {
-            this.setState({
-                show: nextProps.show
-            });
+            if (nextProps.show) {
+                this.show();
+            } else {
+                this.hide();
+            }
         }
     }
     componentWillUnmount() {
@@ -222,7 +224,9 @@ class Dropdown extends Component {
             ) : null;
 
         return (
-            <TransitionGroup component={React.Fragment}>{newMenu}</TransitionGroup>
+            <TransitionGroup component={React.Fragment}>
+                {newMenu}
+            </TransitionGroup>
         );
     }
     renderChilren() {

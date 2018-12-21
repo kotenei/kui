@@ -6,10 +6,13 @@ import { data } from "../data";
 class AutoCompleteView extends Component {
     state = {
         value: ["Ada"],
-        dataSource: data
+        dataSource: []
     };
     handleSelect = value => {
         console.log("selected", value);
+        this.setState({
+            dataSource: []
+        });
     };
     handleChange = e => {
         setTimeout(() => {
@@ -21,13 +24,10 @@ class AutoCompleteView extends Component {
     handleSearch = val => {
         let result = [];
         data.forEach(item => {
-            if (item.toLowerCase().indexOf(val.toLowerCase()) != -1) {
+            if (val && item.toLowerCase().indexOf(val.toLowerCase()) != -1) {
                 result.push(item);
             }
         });
-        if (result.length == 0) {
-            result = data;
-        }
         this.setState({
             dataSource: result
         });
@@ -52,7 +52,7 @@ class AutoCompleteView extends Component {
                         multiple
                         data={dataSource}
                         placeholder="请输入a-z"
-                        defaultValue={['Ada']}
+                        defaultValue={["Ada"]}
                         onSearch={this.handleSearch}
                         onSelect={this.handleSelect}
                     />

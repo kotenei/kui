@@ -33,7 +33,9 @@ class Table extends Component {
             loading: props.loading,
             expandedRowIds: props.expandedRowIds || props.defaultExpandedRowIds,
             width: "100%",
-            columnsWidth: {}
+            columnsWidth: {},
+            theadRowsHeight: [],
+            tbodyRowsHeight: []
         };
     }
 
@@ -179,28 +181,28 @@ class Table extends Component {
         }
     }
 
-    setWidth() {
+    setWidth = () => {
         const { checkbox, expandedRowRender } = this.props;
         let totalWidth = domUtils.width(this.refs.table);
         let tmpWidth = 0;
         let count = 0;
-        let columnsWidth = [];
+        let columnsWidth = {};
 
         if (checkbox) {
             tmpWidth += FLEX_WIDTH;
-            columnsWidth.push(FLEX_WIDTH);
+            columnsWidth["checkbox"] = FLEX_WIDTH;
         }
         if (expandedRowRender) {
             tmpWidth += FLEX_WIDTH;
-            columnsWidth.push(FLEX_WIDTH);
+            columnsWidth["expand"] = FLEX_WIDTH;
         }
 
         this.columns.forEach((item, index) => {
             if (item.width) {
                 tmpWidth += item.width;
-                columnsWidth.push(item.width);
+                columnsWidth[item.id] = item.width;
             } else {
-                columnsWidth.push(0);
+                columnsWidth[item.id] = 0;
                 count++;
             }
         });
@@ -208,24 +210,62 @@ class Table extends Component {
         let diff = totalWidth - tmpWidth;
         let width = count == 0 ? 0 : diff / count;
 
-        columnsWidth = columnsWidth.map(item => {
-            return item == 0 ? width : item;
-        });
+        for (let key in columnsWidth) {
+            if (columnsWidth[key] === 0) {
+                columnsWidth[key] = width;
+            }
+        }
 
         this.setState({
             columnsWidth
         });
-    }
+    };
 
-    getColGroup() {
-        const { columnsWidth } = this.state;
-        let colGroup = [];
-        if (columnsWidth && columnsWidth.length > 0) {
-            columnsWidth.forEach((width, index) => {
-                let colStyle = { width: width || "auto" };
-                colGroup.push(<col key={index} style={colStyle} />);
+    setHeight = () => {
+        let elTableScroll = this.refs.table.querySelector(".k-table-scroll");
+        let theadRows = elTableScroll.querySelectorAll(
+            `.${prefixCls}-header tr`
+        );
+        let tbodyRows = elTableScroll.querySelectorAll(`.${prefixCls}-body tr`);
+        let theadRowsHeight = this.getRowHeight(theadRows);
+        let tbodyRowsHeight = this.getRowHeight(tbodyRows);
+        this.setState({
+            theadRowsHeight,
+            tbodyRowsHeight
+        });
+    };
+
+    getRowHeight(elRows) {
+        let ret = [];
+        if (elRows && elRows.length > 0) {
+            elRows.forEach(row => {
+                let height = domUtils.height(row);
+                console.log(row, height);
+                ret.push(height);
             });
         }
+        return ret;
+    }
+
+    getColGroup(columns, showChkAndExpand) {
+        const { columnsWidth } = this.state;
+        const { checkbox, expandedRowRender } = this.props;
+        let colGroup = [];
+        let key = 0;
+        if (checkbox && showChkAndExpand) {
+            colGroup.push(
+                <col key={key++} style={{ width: columnsWidth["checkbox"] }} />
+            );
+        }
+        if (expandedRowRender && showChkAndExpand) {
+            colGroup.push(
+                <col key={key++} style={{ width: columnsWidth["expand"] }} />
+            );
+        }
+        columns.forEach(column => {
+            let colStyle = { width: columnsWidth[column.id] || "auto" };
+            colGroup.push(<col key={key++} style={colStyle} />);
+        });
         return colGroup;
     }
 
@@ -234,7 +274,10 @@ class Table extends Component {
     }
 
     componentDidMount() {
-        this.setWidth();
+        setTimeout(() => {
+            this.setWidth();
+            this.setHeight();
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -252,16 +295,18 @@ class Table extends Component {
             stripe,
             rowClassName
         } = this.props;
-        const { data } = this.state;
-        let colGroup = this.getColGroup(),
+        const { data, theadRowsHeight, tbodyRowsHeight } = this.state;
+        let colGroup = [],
             rowColumns = [],
             columns = [],
             theadRows = [],
-            tbodyRows = [];
+            tbodyRows = [],
+            rowStyle;
 
         headRows.forEach((row, rowIndex) => {
             let cells = [];
             let tmpColumns = [];
+            rowStyle = { height: "auto" };
             row.forEach((cell, cellIndex) => {
                 if (rowIndex == 0 && cellIndex == 0) {
                     if (checkbox && showChkAndExpand) {
@@ -298,7 +343,16 @@ class Table extends Component {
                     tmpColumns.push(cell);
                 }
             });
-            theadRows.push(<tr key={`thRow-${rowIndex}`}>{cells}</tr>);
+
+            if (theadRowsHeight && theadRowsHeight[rowIndex]) {
+                rowStyle = { height: theadRowsHeight[rowIndex] };
+            }
+
+            theadRows.push(
+                <tr key={`thRow-${rowIndex}`} style={rowStyle}>
+                    {cells}
+                </tr>
+            );
             rowColumns.push(tmpColumns);
         });
 
@@ -315,11 +369,15 @@ class Table extends Component {
             }
         }
 
+        colGroup = this.getColGroup(columns, showChkAndExpand);
+
         data.forEach((item, rowIndex) => {
             let cells = [],
                 isEven = rowIndex % 2 == 0,
                 tableRowClassName =
                     rowClassName && rowClassName(item, rowIndex);
+
+            rowStyle = { height: "auto" };
 
             columns.forEach((column, cellIndex) => {
                 if (cellIndex == 0) {
@@ -354,12 +412,18 @@ class Table extends Component {
                     </td>
                 );
             });
+
+            if (tbodyRowsHeight && tbodyRowsHeight[rowIndex]) {
+                rowStyle = { height: tbodyRowsHeight[rowIndex] };
+            }
+
             tbodyRows.push(
                 <tr
                     key={`tbRow-${rowIndex}`}
                     className={classnames(tableRowClassName, {
                         "stripe-row": !isEven && stripe
                     })}
+                    style={rowStyle}
                 >
                     {cells}
                 </tr>
@@ -428,7 +492,7 @@ class Table extends Component {
                             </BodyContainer>
                         </div>
                         <div className={`${prefixCls}-fixed-left`}>
-                            {/* <HeaderContaienr>
+                            <HeaderContaienr>
                                 {this.renderTable(
                                     this.fixedLeft,
                                     TABLE_TYPE.header
@@ -439,7 +503,7 @@ class Table extends Component {
                                     this.fixedLeft,
                                     TABLE_TYPE.body
                                 )}
-                            </BodyContainer> */}
+                            </BodyContainer>
                         </div>
                         <div className={`${prefixCls}-fixed-right`} />
                     </div>

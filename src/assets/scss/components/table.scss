@@ -16,18 +16,20 @@ $prefixCls:'.k-table';
         left: 0;
         top: 0;
         bottom: 0;
-        box-shadow: 6px 0 6px -4px rgba(0, 0, 0, 0.15);
+        // box-shadow: 6px 0 6px -4px rgba(0, 0, 0, 0.15);
     }
     #{$prefixCls}-fixed-right {
         right: 0;
         top: 0;
         bottom: 0;
-        box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
+        // box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
     }
     #{$prefixCls}-header {
-        overflow: hidden;
+        
     }
-    #{$prefixCls}-body {}
+    #{$prefixCls}-body {
+        
+    }
     //表格样式
     #{$prefixCls}-fixed {
         #{$prefixCls}-thead {

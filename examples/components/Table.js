@@ -60,18 +60,20 @@ class CalendarView extends Component {
                             return 'asdfasf'
                         }}
                     >
-                        <TableColumn title="Name" fixed="left">
+                        <TableColumn title="Name" >
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
+                                width={200}
                             />
                             <TableColumn
                                 title="LastName"
                                 dataIndex="lastName"
+                                width={200}
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age"  fixed="right"/>
-                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Age" dataIndex="age"  />
+                        <TableColumn title="Address" dataIndex="address"  fixed='left'/>
                         <TableColumn title="Status" dataIndex="status" />
                     </Table>
                 </div>

@@ -79,7 +79,7 @@ class Table extends Component {
             fixedRight = [],
             tmpWidth = 0,
             initNode = function(node, parentNode) {
-                node.id = node.id || guid();
+                node.id = guid();
                 node.level = parentNode ? parentNode.level + 1 : 1;
                 node.parentIds = parentNode
                     ? parentNode.parentIds.length > 0
@@ -146,8 +146,6 @@ class Table extends Component {
                 node.rowSpan = 1;
             }
 
-            rows[rowIndex].push(node);
-
             if (!node.fixed && !node.parentId) {
                 fixed = "";
             }
@@ -161,13 +159,22 @@ class Table extends Component {
                 } else {
                     fixedRight[rowIndex].push(node);
                 }
+            } else {
+                rows[rowIndex].push(node);
             }
+        });
+
+        rows.forEach((row, rowIndex) => {
+            row.push(...fixedRight[rowIndex]);
+            row.unshift(...fixedLeft[rowIndex]);
         });
 
         this.columns = columns;
         this.fixedLeft = fixedLeft;
         this.fixedRight = fixedRight;
         this.theadRows = rows;
+
+        console.log(this.theadRows, nodes);
 
         if ("loading" in this.props) {
             this.setState({
@@ -240,33 +247,37 @@ class Table extends Component {
         if (elRows && elRows.length > 0) {
             elRows.forEach(row => {
                 let height = domUtils.height(row);
-                console.log(row, height);
                 ret.push(height);
             });
         }
         return ret;
     }
 
-    getColGroup(columns, showChkAndExpand) {
+    getColGroupInfo(columns, showChkAndExpand) {
         const { columnsWidth } = this.state;
         const { checkbox, expandedRowRender } = this.props;
         let colGroup = [];
         let key = 0;
+        let totalWidth = 0;
         if (checkbox && showChkAndExpand) {
             colGroup.push(
                 <col key={key++} style={{ width: columnsWidth["checkbox"] }} />
             );
+            totalWidth += columnsWidth["checkbox"];
         }
         if (expandedRowRender && showChkAndExpand) {
             colGroup.push(
                 <col key={key++} style={{ width: columnsWidth["expand"] }} />
             );
+            totalWidth += columnsWidth["expand"];
         }
         columns.forEach(column => {
             let colStyle = { width: columnsWidth[column.id] || "auto" };
             colGroup.push(<col key={key++} style={colStyle} />);
+            totalWidth += columnsWidth[column.id] || 0;
         });
-        return colGroup;
+
+        return { colGroup, totalWidth: totalWidth || "auto" };
     }
 
     componentWillMount() {
@@ -278,6 +289,13 @@ class Table extends Component {
             this.setWidth();
             this.setHeight();
         });
+        window.addEventListener("resize", this.setWidth);
+        window.addEventListener("resize", this.setHeight);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.setWidth);
+        window.removeEventListener("resize", this.setHeight);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -296,7 +314,8 @@ class Table extends Component {
             rowClassName
         } = this.props;
         const { data, theadRowsHeight, tbodyRowsHeight } = this.state;
-        let colGroup = [],
+        let colGropInfo = {},
+            colGroup = [],
             rowColumns = [],
             columns = [],
             theadRows = [],
@@ -369,7 +388,8 @@ class Table extends Component {
             }
         }
 
-        colGroup = this.getColGroup(columns, showChkAndExpand);
+        colGropInfo = this.getColGroupInfo(columns, showChkAndExpand);
+        colGroup = colGropInfo.colGroup;
 
         data.forEach((item, rowIndex) => {
             let cells = [],
@@ -454,7 +474,10 @@ class Table extends Component {
         });
 
         return (
-            <table className={`${prefixCls}-fixed`}>
+            <table
+                className={`${prefixCls}-fixed`}
+                style={{ width: colGropInfo.totalWidth }}
+            >
                 <colgroup>{colGroup}</colgroup>
                 {type == TABLE_TYPE.all || type == TABLE_TYPE.header ? (
                     <thead className={`${prefixCls}-thead`}>{theadRows}</thead>
@@ -491,7 +514,7 @@ class Table extends Component {
                                 )}
                             </BodyContainer>
                         </div>
-                        <div className={`${prefixCls}-fixed-left`}>
+                        {/* <div className={`${prefixCls}-fixed-left`}>
                             <HeaderContaienr>
                                 {this.renderTable(
                                     this.fixedLeft,
@@ -505,7 +528,22 @@ class Table extends Component {
                                 )}
                             </BodyContainer>
                         </div>
-                        <div className={`${prefixCls}-fixed-right`} />
+                        <div className={`${prefixCls}-fixed-right`}>
+                            <HeaderContaienr>
+                                {this.renderTable(
+                                    this.fixedRight,
+                                    TABLE_TYPE.header,
+                                    false
+                                )}
+                            </HeaderContaienr>
+                            <BodyContainer>
+                                {this.renderTable(
+                                    this.fixedRight,
+                                    TABLE_TYPE.body,
+                                    false
+                                )}
+                            </BodyContainer>
+                        </div> */}
                     </div>
                     {pagination ? <Pagination {...pagination} /> : null}
                 </div>

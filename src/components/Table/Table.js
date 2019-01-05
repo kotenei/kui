@@ -174,8 +174,6 @@ class Table extends Component {
         this.fixedRight = fixedRight;
         this.theadRows = rows;
 
-        console.log(this.theadRows, nodes);
-
         if ("loading" in this.props) {
             this.setState({
                 loading
@@ -186,6 +184,21 @@ class Table extends Component {
                 data: deepClone(data)
             });
         }
+    }
+
+    getColumns(rows) {
+        let columns = [];
+        let loop = function(rows, columns, rowIndex = 0) {
+            rows[rowIndex].forEach(item => {
+                if (!item.hasChild) {
+                    columns.push(item);
+                } else {
+                    loop(rows, columns, rowIndex + 1);
+                }
+            });
+        };
+        loop(rows, columns);
+        return columns;
     }
 
     setWidth = () => {
@@ -314,17 +327,15 @@ class Table extends Component {
             rowClassName
         } = this.props;
         const { data, theadRowsHeight, tbodyRowsHeight } = this.state;
-        let colGropInfo = {},
+        let columns = this.getColumns(headRows),
+            colGropInfo = {},
             colGroup = [],
-            rowColumns = [],
-            columns = [],
             theadRows = [],
             tbodyRows = [],
             rowStyle;
 
         headRows.forEach((row, rowIndex) => {
             let cells = [];
-            let tmpColumns = [];
             rowStyle = { height: "auto" };
             row.forEach((cell, cellIndex) => {
                 if (rowIndex == 0 && cellIndex == 0) {
@@ -358,9 +369,7 @@ class Table extends Component {
                         {cell.title}
                     </th>
                 );
-                if (!cell.hasChild) {
-                    tmpColumns.push(cell);
-                }
+                
             });
 
             if (theadRowsHeight && theadRowsHeight[rowIndex]) {
@@ -372,22 +381,9 @@ class Table extends Component {
                     {cells}
                 </tr>
             );
-            rowColumns.push(tmpColumns);
         });
 
-        for (let i = rowColumns.length - 1, row; i >= 0; i--) {
-            row = rowColumns[i];
-            if (i > 0) {
-                for (let j = row.length - 1; j >= 0; j--) {
-                    columns.unshift(row[j]);
-                }
-            } else {
-                for (let j = 0; j < row.length; j++) {
-                    columns.push(row[j]);
-                }
-            }
-        }
-
+        
         colGropInfo = this.getColGroupInfo(columns, showChkAndExpand);
         colGroup = colGropInfo.colGroup;
 

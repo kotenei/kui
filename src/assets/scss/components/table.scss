@@ -4,6 +4,14 @@ $prefixCls:'.k-table';
     #{$prefixCls}-scroll {
         overflow: auto;
         overflow-x: hidden;
+
+        #{$prefixCls}-header {
+            overflow:scroll;
+        
+        }
+        #{$prefixCls}-body {
+            overflow:scroll;
+        }
     }
     #{$prefixCls}-fixed-left,
     #{$prefixCls}-fixed-right {

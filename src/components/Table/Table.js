@@ -19,11 +19,23 @@ const TABLE_TYPE = {
 const FLEX_WIDTH = 50;
 
 const HeaderContaienr = props => {
-    return <div className={`${prefixCls}-header`}>{props.children}</div>;
+    return (
+        <div className={`${prefixCls}-header`} style={props.style}>
+            {props.children}
+        </div>
+    );
 };
 
 const BodyContainer = props => {
-    return <div className={`${prefixCls}-body`}>{props.children}</div>;
+    return (
+        <div
+            className={`${prefixCls}-body`}
+            style={props.style}
+            onScroll={props.onScroll}
+        >
+            {props.children}
+        </div>
+    );
 };
 
 class Table extends Component {
@@ -369,7 +381,6 @@ class Table extends Component {
                         {cell.title}
                     </th>
                 );
-                
             });
 
             if (theadRowsHeight && theadRowsHeight[rowIndex]) {
@@ -383,7 +394,6 @@ class Table extends Component {
             );
         });
 
-        
         colGropInfo = this.getColGroupInfo(columns, showChkAndExpand);
         colGroup = colGropInfo.colGroup;
 
@@ -496,7 +506,10 @@ class Table extends Component {
             <Loading show={loading}>
                 <div className={classString} ref="table">
                     <div className={`${prefixCls}-content`}>
-                        <div className={`${prefixCls}-scroll`}>
+                        <div
+                            className={`${prefixCls}-scroll`}
+                            onScroll={this.handleScroll}
+                        >
                             <HeaderContaienr>
                                 {this.renderTable(
                                     this.theadRows,
@@ -546,6 +559,11 @@ class Table extends Component {
             </Loading>
         );
     }
+
+    handleScroll = e => {
+        let scrollLeft = e.target.scrollLeft;
+        document.querySelector('.k-table-header').scrollLeft=scrollLeft;
+    };
 }
 
 export default Table;

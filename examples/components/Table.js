@@ -72,9 +72,9 @@ class CalendarView extends Component {
                                 width={200}
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age"  />
-                        <TableColumn title="Address" dataIndex="address"  fixed='left'/>
-                        <TableColumn title="Status" dataIndex="status" />
+                        <TableColumn title="Age" dataIndex="age"  width={200}/>
+                        <TableColumn title="Address" dataIndex="address"  fixed='left' width={300}/>
+                        <TableColumn title="Status" dataIndex="status" width={200}/>
                     </Table>
                 </div>
                 <h1>API</h1>

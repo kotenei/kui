@@ -194,8 +194,6 @@ class Table extends Component {
         this.fixedRight = fixedRight;
         this.theadRows = rows;
 
-        console.log(this.fixedRight);
-
         if ("loading" in this.props) {
             this.setState({
                 loading
@@ -275,8 +273,6 @@ class Table extends Component {
             theadRowsHeight,
             tbodyRowsHeight
         });
-
-        console.log(tbodyRowsHeight,'ddddddddddd')
     };
 
     getRowHeight(elRows) {
@@ -510,13 +506,19 @@ class Table extends Component {
 
     render() {
         const { columns, pagination, bordered, children, height } = this.props;
-        const { loading } = this.state;
+        const { loading, tbodyRowsHeight } = this.state;
         let classString = classnames({
             [prefixCls]: true,
             [`${prefixCls}-bordered`]: bordered
         });
         let scrollY = false;
-
+        let bodyHeight = 0;
+        tbodyRowsHeight.forEach(item => {
+            bodyHeight += item;
+        });
+        if (height && height < bodyHeight) {
+            scrollY = true;
+        }
 
         return (
             <Loading show={loading}>
@@ -535,7 +537,8 @@ class Table extends Component {
                             </HeaderContaienr>
                             <BodyContainer
                                 style={{
-                                    maxHeight: height
+                                    maxHeight: height,
+                                    overflowY: scrollY ? "scroll" : "hidden"
                                 }}
                             >
                                 {this.renderTable(
@@ -555,7 +558,7 @@ class Table extends Component {
                                         TABLE_TYPE.header
                                     )}
                                 </HeaderContaienr>
-                                <BodyContainer scroll={height}>
+                                <BodyContainer scroll={scrollY}>
                                     <div
                                         className={`${prefixCls}-body-inner`}
                                         style={{
@@ -581,7 +584,7 @@ class Table extends Component {
                                         false
                                     )}
                                 </HeaderContaienr>
-                                <BodyContainer scroll={height}>
+                                <BodyContainer scroll={scrollY}>
                                     <div
                                         className={`${prefixCls}-body-inner`}
                                         style={{

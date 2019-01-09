@@ -4,13 +4,12 @@ $prefixCls:'.k-table';
     #{$prefixCls}-scroll {
         overflow: auto;
         overflow-x: hidden;
-
         #{$prefixCls}-header {
-            overflow:scroll;
-        
+            overflow: scroll;
+            margin-bottom: torem(-21px);
         }
         #{$prefixCls}-body {
-            overflow:scroll;
+            overflow: scroll;
         }
     }
     #{$prefixCls}-fixed-left,
@@ -19,26 +18,38 @@ $prefixCls:'.k-table';
         overflow: hidden;
         background: white;
         z-index: 10;
+
+        #{$prefixCls}-header {
+            background: #f5f5f5;
+        }
+
+        #{$prefixCls}-body__scroll {
+            margin-bottom: torem(-21px);
+            padding-bottom: 0;
+            #{$prefixCls}-body-inner {
+                overflow: scroll;
+            }
+        }
     }
     #{$prefixCls}-fixed-left {
         left: 0;
-        top: 0;
-        bottom: 0;
+        top: 0; // bottom: 0;
         // box-shadow: 6px 0 6px -4px rgba(0, 0, 0, 0.15);
+        #{$prefixCls}-body__scroll {
+            #{$prefixCls}-body-inner {
+                margin-right: torem(-21px);
+            }
+        }
     }
     #{$prefixCls}-fixed-right {
         right: 0;
-        top: 0;
-        bottom: 0;
+        top: 0; // bottom: 0;
         // box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
     }
-    #{$prefixCls}-header {
-        
-    }
+    #{$prefixCls}-header {}
     #{$prefixCls}-body {
-        
-    }
-    //表格样式
+        background: white;
+    } //表格样式
     #{$prefixCls}-fixed {
         #{$prefixCls}-thead {
             >tr {

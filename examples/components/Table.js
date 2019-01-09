@@ -57,10 +57,11 @@ class CalendarView extends Component {
                         checkbox
                         // expandedRowRender={item => item.address}
                         rowClassName={(record, index) => {
-                            return 'asdfasf'
+                            return "asdfasf";
                         }}
+                        scroll={{ x: 1300, y: 250 }}
                     >
-                        <TableColumn title="Name" >
+                        <TableColumn title="Name">
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
@@ -72,9 +73,19 @@ class CalendarView extends Component {
                                 width={200}
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age"  width={200}/>
-                        <TableColumn title="Address" dataIndex="address"  fixed='left' width={300}/>
-                        <TableColumn title="Status" dataIndex="status" width={200}/>
+                        <TableColumn title="Age" dataIndex="age" width={200} />
+                        <TableColumn
+                            title="Address"
+                            dataIndex="address"
+                            fixed="left"
+                            width={300}
+                        />
+                        <TableColumn
+                            title="Status"
+                            dataIndex="status"
+                            width={200}
+                            fixed="right"
+                        />
                     </Table>
                 </div>
                 <h1>API</h1>

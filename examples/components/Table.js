@@ -56,29 +56,34 @@ class CalendarView extends Component {
                         data={data}
                         checkbox
                         // expandedRowRender={item => item.address}
+                        rowClassName={(record, index) => {
+                            return "asdfasf";
+                        }}
                         height={200}
                     >
                         <TableColumn title="Name">
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
-                                
+                                width={200}
                             />
                             <TableColumn
                                 title="LastName"
                                 dataIndex="lastName"
-                                
+                                width={200}
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age"  />
+                        <TableColumn title="Age" dataIndex="age" width={200} />
                         <TableColumn
                             title="Address"
                             dataIndex="address"
                             fixed="left"
+                            width={300}
                         />
                         <TableColumn
                             title="Status"
                             dataIndex="status"
+                            width={200}
                             fixed="right"
                         />
                     </Table>

@@ -21,6 +21,7 @@ const FLEX_WIDTH = 50;
 const HeaderContaienr = props => {
     return (
         <div
+            ref={props.elRef}
             className={classnames(props.className, {
                 [`${prefixCls}-header`]: true
             })}
@@ -34,6 +35,7 @@ const HeaderContaienr = props => {
 const BodyContainer = props => {
     return (
         <div
+            ref={props.elRef}
             className={classnames(props.className, {
                 [`${prefixCls}-body`]: true,
                 [`${prefixCls}-body__scroll`]: props.scroll
@@ -52,10 +54,13 @@ class Table extends Component {
         this.state = {
             loading: props.loading,
             expandedRowIds: props.expandedRowIds || props.defaultExpandedRowIds,
-            width: "100%",
+            tableWidth: "100%",
+            tableContainerWidth: "100%",
             columnsWidth: {},
             theadRowsHeight: [],
-            tbodyRowsHeight: []
+            tbodyRowsHeight: [],
+            scrollY: 0,
+            scrollX: 0
         };
     }
 
@@ -199,11 +204,6 @@ class Table extends Component {
                 loading
             });
         }
-        if ("data" in this.props) {
-            this.setState({
-                data: deepClone(data)
-            });
-        }
     }
 
     getColumns(rows) {
@@ -247,7 +247,7 @@ class Table extends Component {
             }
         });
 
-        let diff = totalWidth - tmpWidth;
+        let diff = Math.abs(totalWidth - tmpWidth);
         let width = count == 0 ? 0 : diff / count;
 
         for (let key in columnsWidth) {
@@ -257,7 +257,9 @@ class Table extends Component {
         }
 
         this.setState({
-            columnsWidth
+            columnsWidth,
+            tableWidth: tmpWidth,
+            tableContainerWidth: totalWidth
         });
     };
 
@@ -345,9 +347,10 @@ class Table extends Component {
             checkbox,
             expandedRowRender,
             stripe,
-            rowClassName
+            rowClassName,
+            data
         } = this.props;
-        const { data, theadRowsHeight, tbodyRowsHeight } = this.state;
+        const { theadRowsHeight, tbodyRowsHeight } = this.state;
         let columns = this.getColumns(headRows),
             colGropInfo = {},
             colGroup = [],
@@ -506,19 +509,101 @@ class Table extends Component {
 
     render() {
         const { columns, pagination, bordered, children, height } = this.props;
-        const { loading, tbodyRowsHeight } = this.state;
+        const {
+            loading,
+            tbodyRowsHeight,
+            tableWidth,
+            tableContainerWidth
+        } = this.state;
         let classString = classnames({
             [prefixCls]: true,
             [`${prefixCls}-bordered`]: bordered
         });
         let scrollY = false;
-        let bodyHeight = 0;
-        tbodyRowsHeight.forEach(item => {
-            bodyHeight += item;
-        });
-        if (height && height < bodyHeight) {
-            scrollY = true;
+        let scrollX = tableWidth > tableContainerWidth;
+        let mainHeaderStyle = {};
+
+        if (height) {
+            let bodyHeight = 0;
+            tbodyRowsHeight.forEach(item => {
+                bodyHeight += item;
+            });
+            scrollY = height < bodyHeight;
         }
+
+        if (!scrollX) {
+            mainHeaderStyle.overflowX = "hidden";
+            mainHeaderStyle.marginBottom = "0";
+        }
+
+        let main = (
+            <React.Fragment>
+                <HeaderContaienr
+                    style={mainHeaderStyle}
+                    elRef={el => (this.elMainHeader = el)}
+                >
+                    {this.renderTable(this.theadRows, TABLE_TYPE.header, true)}
+                </HeaderContaienr>
+                <BodyContainer
+                    elRef={el => (this.elMainBody = el)}
+                    style={{
+                        maxHeight: height,
+                        overflowY: scrollY ? "scroll" : "hidden",
+                        overflowX: scrollX ? "scroll" : "hidden"
+                    }}
+                >
+                    {this.renderTable(this.theadRows, TABLE_TYPE.body, true)}
+                </BodyContainer>
+            </React.Fragment>
+        );
+
+        let left = (
+            <div className={`${prefixCls}-fixed-left`}>
+                <HeaderContaienr>
+                    {this.renderTable(this.fixedLeft, TABLE_TYPE.header)}
+                </HeaderContaienr>
+                <BodyContainer scroll={scrollY}>
+                    <div
+                        ref="elFixedLeftBody"
+                        className={`${prefixCls}-body-inner`}
+                        style={{
+                            maxHeight: height
+                        }}
+                        onScroll={this.handleFixedScroll}
+                    >
+                        {this.renderTable(this.fixedLeft, TABLE_TYPE.body)}
+                    </div>
+                </BodyContainer>
+            </div>
+        );
+
+        let right = (
+            <div className={`${prefixCls}-fixed-right`}>
+                <HeaderContaienr>
+                    {this.renderTable(
+                        this.fixedRight,
+                        TABLE_TYPE.header,
+                        false
+                    )}
+                </HeaderContaienr>
+                <BodyContainer scroll={scrollY}>
+                    <div
+                        ref="elFixedRightBody"
+                        className={`${prefixCls}-body-inner`}
+                        style={{
+                            maxHeight: height
+                        }}
+                        onScroll={this.handleFixedScroll}
+                    >
+                        {this.renderTable(
+                            this.fixedRight,
+                            TABLE_TYPE.body,
+                            false
+                        )}
+                    </div>
+                </BodyContainer>
+            </div>
+        );
 
         return (
             <Loading show={loading}>
@@ -526,80 +611,22 @@ class Table extends Component {
                     <div className={`${prefixCls}-content`}>
                         <div
                             className={`${prefixCls}-scroll`}
-                            onScroll={this.handleScroll}
+                            onScroll={this.handleMainScroll}
                         >
-                            <HeaderContaienr>
-                                {this.renderTable(
-                                    this.theadRows,
-                                    TABLE_TYPE.header,
-                                    true
-                                )}
-                            </HeaderContaienr>
-                            <BodyContainer
-                                style={{
-                                    maxHeight: height,
-                                    overflowY: scrollY ? "scroll" : "hidden"
-                                }}
-                            >
-                                {this.renderTable(
-                                    this.theadRows,
-                                    TABLE_TYPE.body,
-                                    true
-                                )}
-                            </BodyContainer>
+                            {main}
                         </div>
+
                         {this.fixedLeft &&
                         this.fixedLeft.length > 0 &&
-                        this.fixedLeft[0].length ? (
-                            <div className={`${prefixCls}-fixed-left`}>
-                                <HeaderContaienr>
-                                    {this.renderTable(
-                                        this.fixedLeft,
-                                        TABLE_TYPE.header
-                                    )}
-                                </HeaderContaienr>
-                                <BodyContainer scroll={scrollY}>
-                                    <div
-                                        className={`${prefixCls}-body-inner`}
-                                        style={{
-                                            maxHeight: height
-                                        }}
-                                    >
-                                        {this.renderTable(
-                                            this.fixedLeft,
-                                            TABLE_TYPE.body
-                                        )}
-                                    </div>
-                                </BodyContainer>
-                            </div>
-                        ) : null}
+                        this.fixedLeft[0].length
+                            ? left
+                            : null}
+
                         {this.fixedRight &&
                         this.fixedRight.length > 0 &&
-                        this.fixedRight[0].length > 0 ? (
-                            <div className={`${prefixCls}-fixed-right`}>
-                                <HeaderContaienr>
-                                    {this.renderTable(
-                                        this.fixedRight,
-                                        TABLE_TYPE.header,
-                                        false
-                                    )}
-                                </HeaderContaienr>
-                                <BodyContainer scroll={scrollY}>
-                                    <div
-                                        className={`${prefixCls}-body-inner`}
-                                        style={{
-                                            maxHeight: height
-                                        }}
-                                    >
-                                        {this.renderTable(
-                                            this.fixedRight,
-                                            TABLE_TYPE.body,
-                                            false
-                                        )}
-                                    </div>
-                                </BodyContainer>
-                            </div>
-                        ) : null}
+                        this.fixedRight[0].length > 0
+                            ? right
+                            : null}
                     </div>
                     {pagination ? <Pagination {...pagination} /> : null}
                 </div>
@@ -607,9 +634,28 @@ class Table extends Component {
         );
     }
 
-    handleScroll = e => {
+    handleMainScroll = e => {
+        console.log(e.target)
         let scrollLeft = e.target.scrollLeft;
-        document.querySelector(".k-table-header").scrollLeft = scrollLeft;
+        let scrollTop = e.target.scrollTop;
+        this.elMainHeader.scrollLeft = scrollLeft;
+        this.refs.elFixedLeftBody.scrollTop = scrollTop;
+        this.refs.elFixedRightBody.scrollTop = scrollTop;
+
+        // this.setState({
+        //     scrollX: scrollLeft,
+        //     scrollY: scrollLeft
+        // });
+    };
+
+    handleFixedScroll = e => {
+        // e.stopPropagation();
+        // e.nativeEvent.stopImmediatePropagation();
+        // let scrollTop = e.target.scrollTop;
+        // this.refs.elFixedLeftBody.scrollTop = scrollTop;
+        // this.elMainBody.scrollTop = scrollTop;
+        //console.log(this.refs.elMainBody)
+        //this.refs.elFixedRightBody.scrollTop = scrollTop;
     };
 }
 

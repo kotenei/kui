@@ -52,25 +52,26 @@ class Table extends Component {
         super(props);
         this.state = {
             loading: props.loading,
+            checkedIds: props.checkedIds || props.defaultCheckedIds,
             expandedRowIds: props.expandedRowIds || props.defaultExpandedRowIds,
             tableWidth: "100%",
             tableContainerWidth: "100%",
             columnsWidth: {},
             theadRowsHeight: [],
             tbodyRowsHeight: [],
-            scrollY: 0,
-            scrollX: 0
+            scrollLeft: 0
         };
     }
 
     static propTypes = {
         bordered: PropTypes.bool,
         checkbox: PropTypes.bool,
+        checkedIds: PropTypes.arrayOf(PropTypes.string),
         data: PropTypes.array,
-        defaultExpandedRowIds: PropTypes.array,
-        expandedRowIds: PropTypes.array,
+        defaultCheckedIds: PropTypes.arrayOf(PropTypes.string),
+        defaultExpandedRowIds: PropTypes.arrayOf(PropTypes.string),
+        expandedRowIds: PropTypes.arrayOf(PropTypes.string),
         expandedRowRender: PropTypes.func,
-        fixedHeader: PropTypes.bool,
         footer: PropTypes.object,
         height: PropTypes.number,
         indentSize: PropTypes.number,
@@ -80,6 +81,7 @@ class Table extends Component {
         showHeader: PropTypes.bool,
         stripe: PropTypes.bool,
         title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+        onCheck: PropTypes.func,
         onChange: PropTypes.func,
         onExpand: PropTypes.func
     };
@@ -87,14 +89,21 @@ class Table extends Component {
     static defaultProps = {
         bordered: false,
         checkbox: false,
+        defaultCheckedIds: [],
         defaultExpandedRowIds: [],
-        fixedHeader: false,
         showHeader: true,
         stripe: false
     };
 
     init(props = this.props) {
-        const { children, loading, data, checkbox } = props;
+        const {
+            children,
+            loading,
+            data,
+            checkbox,
+            checkedIds,
+            expandedRowIds
+        } = props;
         let maxLevel = 1,
             nodes = [],
             rows = [],
@@ -178,7 +187,7 @@ class Table extends Component {
                 if (!fixed || !node.parentId) {
                     fixed = node.fixed;
                 }
-                if (fixed == "left") {
+                if (fixed == "left" || fixed == true) {
                     fixedLeft[rowIndex].push(node);
                 } else {
                     fixedRight[rowIndex].push(node);
@@ -198,9 +207,21 @@ class Table extends Component {
         this.fixedRight = fixedRight;
         this.theadRows = rows;
 
-        if ("loading" in this.props) {
+        if ("loading" in props) {
             this.setState({
                 loading
+            });
+        }
+
+        if ("checkedIds" in props) {
+            this.setState({
+                checkedIds
+            });
+        }
+
+        if ("expandedRowIds" in props) {
+            this.setState({
+                expandedRowIds
             });
         }
     }
@@ -360,72 +381,36 @@ class Table extends Component {
             expandedRowRender,
             stripe,
             rowClassName,
-            data
+            data,
+            showHeader
         } = this.props;
-        const { theadRowsHeight, tbodyRowsHeight } = this.state;
+        const {
+            theadRowsHeight,
+            tbodyRowsHeight,
+            checkedIds,
+            expandedRowIds
+        } = this.state;
         let columns = this.getColumns(headRows),
-            colGropInfo = {},
-            colGroup = [],
+            colGropInfo = this.getColGroupInfo(columns, showChkAndExpand),
+            colGroup = colGropInfo.colGroup,
             theadRows = [],
             tbodyRows = [],
+            checkedCount = 0,
+            checkedAll = false,
+            indeterminate = false,
             rowStyle;
-
-        headRows.forEach((row, rowIndex) => {
-            let cells = [];
-            rowStyle = { height: "auto" };
-            row.forEach((cell, cellIndex) => {
-                if (rowIndex == 0 && cellIndex == 0) {
-                    if (checkbox && showChkAndExpand) {
-                        cells.push(
-                            <th
-                                className="checkbox-cell"
-                                key={`thCell-checkbox-${cellIndex}`}
-                                rowSpan={headRows.length}
-                            >
-                                <Checkbox />
-                            </th>
-                        );
-                    }
-                    if (expandedRowRender && showChkAndExpand) {
-                        cells.push(
-                            <th
-                                className="expand-cell"
-                                key={`thCell-expand-${cellIndex}`}
-                                rowSpan={headRows.length}
-                            />
-                        );
-                    }
-                }
-                cells.push(
-                    <th
-                        key={`thCell-${cellIndex}`}
-                        colSpan={cell.colSpan == 1 ? null : cell.colSpan}
-                        rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
-                    >
-                        {cell.title}
-                    </th>
-                );
-            });
-
-            if (theadRowsHeight && theadRowsHeight[rowIndex]) {
-                rowStyle = { height: theadRowsHeight[rowIndex] };
-            }
-
-            theadRows.push(
-                <tr key={`thRow-${rowIndex}`} style={rowStyle}>
-                    {cells}
-                </tr>
-            );
-        });
-
-        colGropInfo = this.getColGroupInfo(columns, showChkAndExpand);
-        colGroup = colGropInfo.colGroup;
 
         data.forEach((item, rowIndex) => {
             let cells = [],
                 isEven = rowIndex % 2 == 0,
+                checked = checkedIds.indexOf(item.id) > -1,
+                expanded = expandedRowIds.indexOf(item.id) > -1,
                 tableRowClassName =
                     rowClassName && rowClassName(item, rowIndex);
+
+            if (checked) {
+                checkedCount++;
+            }
 
             rowStyle = { height: "auto" };
 
@@ -437,7 +422,11 @@ class Table extends Component {
                                 key={`tbCell-checkbox-${cellIndex}`}
                                 className="checkbox-cell"
                             >
-                                <Checkbox />
+                                <Checkbox
+                                    checked={checked}
+                                    onChange={this.handleCheck}
+                                    value={item.id}
+                                />
                             </td>
                         );
                     }
@@ -503,13 +492,66 @@ class Table extends Component {
             }
         });
 
+        headRows.forEach((row, rowIndex) => {
+            let cells = [];
+            rowStyle = { height: "auto" };
+            row.forEach((cell, cellIndex) => {
+                if (rowIndex == 0 && cellIndex == 0) {
+                    if (checkbox && showChkAndExpand) {
+                        cells.push(
+                            <th
+                                className="checkbox-cell"
+                                key={`thCell-checkbox-${cellIndex}`}
+                                rowSpan={headRows.length}
+                            >
+                                <Checkbox
+                                    indeterminate={checkedCount > 0}
+                                    checked={checkedCount === data.length}
+                                    onChange={this.handleCheckAll}
+                                />
+                            </th>
+                        );
+                    }
+                    if (expandedRowRender && showChkAndExpand) {
+                        cells.push(
+                            <th
+                                className="expand-cell"
+                                key={`thCell-expand-${cellIndex}`}
+                                rowSpan={headRows.length}
+                            />
+                        );
+                    }
+                }
+                cells.push(
+                    <th
+                        key={`thCell-${cellIndex}`}
+                        colSpan={cell.colSpan == 1 ? null : cell.colSpan}
+                        rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
+                    >
+                        {cell.title}
+                    </th>
+                );
+            });
+
+            if (theadRowsHeight && theadRowsHeight[rowIndex]) {
+                rowStyle = { height: theadRowsHeight[rowIndex] };
+            }
+
+            theadRows.push(
+                <tr key={`thRow-${rowIndex}`} style={rowStyle}>
+                    {cells}
+                </tr>
+            );
+        });
+
         return (
             <table
                 className={`${prefixCls}-fixed`}
                 style={{ width: width || colGropInfo.totalWidth }}
             >
                 <colgroup>{colGroup}</colgroup>
-                {type == TABLE_TYPE.all || type == TABLE_TYPE.header ? (
+                {showHeader &&
+                (type == TABLE_TYPE.all || type == TABLE_TYPE.header) ? (
                     <thead className={`${prefixCls}-thead`}>{theadRows}</thead>
                 ) : null}
                 {type == TABLE_TYPE.all || type == TABLE_TYPE.body ? (
@@ -525,7 +567,8 @@ class Table extends Component {
             loading,
             tbodyRowsHeight,
             tableWidth,
-            tableContainerWidth
+            tableContainerWidth,
+            scrollLeft
         } = this.state;
         let classString = classnames({
             [prefixCls]: true,
@@ -534,6 +577,8 @@ class Table extends Component {
         let scrollY = false;
         let scrollX = tableWidth > tableContainerWidth;
         let mainHeaderStyle = {};
+        let positionClass;
+        let curWidth = scrollLeft + tableContainerWidth;
 
         if (height) {
             let bodyHeight = 0;
@@ -546,6 +591,29 @@ class Table extends Component {
         if (!scrollX) {
             mainHeaderStyle.overflowX = "hidden";
             mainHeaderStyle.marginBottom = "0";
+        }
+
+        if (scrollY) {
+            curWidth -= 21;
+        } else {
+            mainHeaderStyle.overflowY = "hidden";
+        }
+
+        if (scrollLeft > 0 && curWidth < tableWidth) {
+            positionClass = `${prefixCls}-position-middle`;
+        } else if (scrollLeft > 0 && curWidth == tableWidth) {
+            positionClass = `${prefixCls}-position-right`;
+        } else {
+            positionClass = `${prefixCls}-position-left`;
+        }
+
+        if (scrollX) {
+            classString = classnames(classString, positionClass);
+        } else {
+            classString = classnames(classString, {
+                [`${prefixCls}-position-left`]: true,
+                [`${prefixCls}-position-right`]: true
+            });
         }
 
         let main = (
@@ -644,6 +712,37 @@ class Table extends Component {
         );
     }
 
+    handleCheckAll = e => {
+        const { target } = e;
+        const { onCheck } = this.props;
+        const { checkedIds } = this.state;
+        let checked = target.checked;
+        
+    };
+
+    handleCheck = e => {
+        const { target } = e;
+        const { onCheck } = this.props;
+        const { checkedIds } = this.state;
+        let checked = target.checked;
+        let value = target.value;
+        let index = checkedIds.indexOf(value);
+        let newCheckedIds = [...checkedIds];
+        if (index > -1) {
+            newCheckedIds.splice(index, 1);
+        } else {
+            newCheckedIds.push(value);
+        }
+        if (!("checkedIds" in this.props)) {
+            this.setState({
+                checkedIds: newCheckedIds
+            });
+        }
+        if (onCheck) {
+            onCheck(newCheckedIds);
+        }
+    };
+
     handleScroll = e => {
         const { target } = e;
         const delay = 300;
@@ -660,21 +759,32 @@ class Table extends Component {
                 false
             );
             this.elMainHeader.scrollLeft = scrollLeft;
-            this.refs.elFixedLeftBody.scrollTop = scrollTop;
-            this.refs.elFixedRightBody.scrollTop = scrollTop;
+            if (this.refs.elFixedLeftBody) {
+                this.refs.elFixedLeftBody.scrollTop = scrollTop;
+            }
+            if (this.refs.elFixedRightBody) {
+                this.refs.elFixedRightBody.scrollTop = scrollTop;
+            }
             this.timer = setTimeout(() => {
                 this.scrollBind([
                     this.refs.elFixedLeftBody,
                     this.refs.elFixedRightBody
                 ]);
             }, delay);
+            if (this.state.scrollLeft !== scrollLeft) {
+                this.setState({
+                    scrollLeft: scrollLeft
+                });
+            }
         } else if (target === this.refs.elFixedLeftBody) {
             this.scrollBind(
                 [this.elMainBody, this.refs.elFixedRightBody],
                 false
             );
             this.elMainBody.scrollTop = scrollTop;
-            this.refs.elFixedRightBody.scrollTop = scrollTop;
+            if (this.refs.elFixedRightBody) {
+                this.refs.elFixedRightBody.scrollTop = scrollTop;
+            }
             this.timer = setTimeout(() => {
                 this.scrollBind([this.elMainBody, this.refs.elFixedRightBody]);
             }, delay);
@@ -684,7 +794,9 @@ class Table extends Component {
                 false
             );
             this.elMainBody.scrollTop = scrollTop;
-            this.refs.elFixedLeftBody.scrollTop = scrollTop;
+            if (this.refs.elFixedLeftBody) {
+                this.refs.elFixedLeftBody.scrollTop = scrollTop;
+            }
             this.timer = setTimeout(() => {
                 this.scrollBind([this.elMainBody, this.refs.elFixedLeftBody]);
             }, delay);
@@ -692,13 +804,17 @@ class Table extends Component {
     };
 
     scrollBind = (els, bind = true) => {
-        els.forEach(el => {
-            if (bind) {
-                el.addEventListener("scroll", this.handleScroll);
-            } else {
-                el.removeEventListener("scroll", this.handleScroll);
-            }
-        });
+        if (els && els.length > 0) {
+            els.forEach(el => {
+                if (el) {
+                    if (bind) {
+                        el.addEventListener("scroll", this.handleScroll);
+                    } else {
+                        el.removeEventListener("scroll", this.handleScroll);
+                    }
+                }
+            });
+        }
     };
 }
 

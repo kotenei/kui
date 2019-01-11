@@ -5,7 +5,8 @@ $prefixCls:'.k-table';
         overflow: auto;
         overflow-x: hidden;
         #{$prefixCls}-header {
-            overflow: scroll;
+            overflow:scroll;
+            overflow-x: scroll;
             margin-bottom: torem(-21px);
         }
         #{$prefixCls}-body {
@@ -33,8 +34,8 @@ $prefixCls:'.k-table';
     }
     #{$prefixCls}-fixed-left {
         left: 0;
-        top: 0; // bottom: 0;
-        // box-shadow: 6px 0 6px -4px rgba(0, 0, 0, 0.15);
+        top: 0;
+        box-shadow: 6px 0 6px -4px rgba(0, 0, 0, 0.15);
         #{$prefixCls}-body__scroll {
             #{$prefixCls}-body-inner {
                 margin-right: torem(-21px);
@@ -43,8 +44,8 @@ $prefixCls:'.k-table';
     }
     #{$prefixCls}-fixed-right {
         right: 0;
-        top: 0; // bottom: 0;
-        // box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
+        top: 0;
+        box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
     }
     #{$prefixCls}-header {}
     #{$prefixCls}-body {
@@ -125,11 +126,30 @@ $prefixCls:'.k-table';
             border-bottom: none;
             border-right: none;
         }
+
+        #{$prefixCls}-fixed-right{
+            table{
+                border-left: none;
+            }
+        }
+        
     }
     table {
         width: 100%;
         border-collapse: collapse;
         border-spacing: 0;
         text-align: left;
+    }
+
+    &-position-left{
+        #{$prefixCls}-fixed-left{
+            box-shadow:none;
+        }
+    }
+
+    &-position-right{
+        #{$prefixCls}-fixed-right{
+            box-shadow:none;
+        }
     }
 }

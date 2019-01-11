@@ -9,7 +9,7 @@ class TableColumn extends Component {
         dataIndex: PropTypes.string,
         disabledCheckbox: PropTypes.bool,
         filter: PropTypes.bool,
-        fixed: PropTypes.oneOf(["left", "right"]) || PropTypes.bool,
+        fixed: PropTypes.oneOf(["left", "right", true]),
         id: PropTypes.string,
         render: PropTypes.func,
         sorter: PropTypes.bool,

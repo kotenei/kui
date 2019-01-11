@@ -52,12 +52,11 @@ class Checkbox extends Component {
     }
     renderMaterial(checked) {
         const { indeterminate } = this.props;
-
         return (
             <span
                 className={classnames({
                     material: true,
-                    indeterminate: indeterminate,
+                    indeterminate: indeterminate && !checked,
                     checked: checked
                 })}
             >
@@ -117,7 +116,7 @@ class Checkbox extends Component {
                 <label>
                     <input
                         type="checkbox"
-                        className={mode == "none" ? "normal" : "" }
+                        className={mode == "none" ? "normal" : ""}
                         name={name}
                         value={value}
                         disabled={disabled}

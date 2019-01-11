@@ -5,7 +5,7 @@ const { TableColumn } = Table;
 
 const data = [
     {
-        id: 1,
+        id: '1',
         firstName: "John",
         lastName: "Brown",
         age: 30,
@@ -13,7 +13,7 @@ const data = [
         status: "Employed"
     },
     {
-        id: 2,
+        id: '2',
         firstName: "Jim",
         lastName: "Green",
         age: 42,
@@ -21,7 +21,7 @@ const data = [
         status: "Employed"
     },
     {
-        id: 3,
+        id: '3',
         firstName: "Joe",
         lastName: "Black",
         age: 32,
@@ -29,7 +29,7 @@ const data = [
         status: "Unemployed"
     },
     {
-        id: 4,
+        id: '4',
         firstName: "Steve",
         lastName: "Brown",
         age: 28,
@@ -37,7 +37,7 @@ const data = [
         status: "Unemployed"
     },
     {
-        id: 5,
+        id: '5',
         firstName: "Stephanie",
         lastName: "Sanders",
         age: 50,
@@ -51,17 +51,99 @@ class CalendarView extends Component {
         return (
             <div>
                 <h1>Table 表格</h1>
+                <h3>基本用法</h3>
                 <div className="k-example">
-                    <Table
-                        data={data}
-                        checkbox
-                        // expandedRowRender={item => item.address}
-                        rowClassName={(record, index) => {
-                            return "asdfasf";
-                        }}
-                        height={200}
-                    >
+                    <Table data={data}>
+                        <TableColumn title="FirstName" dataIndex="firstName" />
+                        <TableColumn title="LastName" dataIndex="lastName" />
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
+                    </Table>
+                </div>
+                <br />
+                <h3>多级表头</h3>
+                <div className="k-example">
+                    <Table data={data}>
                         <TableColumn title="Name">
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                            />
+                        </TableColumn>
+                        <TableColumn title="LastName" dataIndex="lastName" />
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
+                    </Table>
+                </div>
+
+                <br />
+                <h3>带斑马纹表格</h3>
+                <div className="k-example">
+                    <Table data={data} stripe>
+                        <TableColumn title="Name">
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                            />
+                        </TableColumn>
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
+                    </Table>
+                </div>
+                <br />
+                <h3>带边框线表格</h3>
+                <div className="k-example">
+                    <Table data={data} bordered>
+                        <TableColumn title="Name">
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                            />
+                        </TableColumn>
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
+                    </Table>
+                </div>
+                <br />
+                <h3>固定表头</h3>
+                <div className="k-example">
+                    <Table data={data} height={200}>
+                        <TableColumn title="Name">
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                            />
+                        </TableColumn>
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
+                    </Table>
+                </div>
+                <br />
+                <h3>固定列</h3>
+                <div className="k-example">
+                    <Table data={data}>
+                        <TableColumn title="Name" fixed>
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
@@ -77,14 +159,73 @@ class CalendarView extends Component {
                         <TableColumn
                             title="Address"
                             dataIndex="address"
-                            fixed="left"
-                            width={300}
+                            width={400}
                         />
                         <TableColumn
                             title="Status"
                             dataIndex="status"
-                            width={200}
                             fixed="right"
+                            width={150}
+                        />
+                    </Table>
+                </div>
+                <br />
+                <h3>固定表头和列</h3>
+                <div className="k-example">
+                    <Table data={data} height={250}>
+                        <TableColumn title="Name" fixed>
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
+                                width={200}
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                                width={200}
+                            />
+                        </TableColumn>
+                        <TableColumn title="Age" dataIndex="age" width={200} />
+                        <TableColumn
+                            title="Address"
+                            dataIndex="address"
+                            width={400}
+                        />
+                        <TableColumn
+                            title="Status"
+                            dataIndex="status"
+                            fixed="right"
+                            width={150}
+                        />
+                    </Table>
+                </div>
+                <br />
+                <h3>多选</h3>
+                <div className="k-example">
+                    <Table data={data} checkbox >
+                        <TableColumn title="Name" fixed>
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
+                                width={200}
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                                width={200}
+                            />
+                        </TableColumn>
+                        <TableColumn title="Age" dataIndex="age" width={200} />
+                        <TableColumn
+                            title="Address"
+                            dataIndex="address"
+                            width={400}
+                        />
+                        <TableColumn
+                            title="Status"
+                            dataIndex="status"
+                            fixed="right"
+                            width={150}
                         />
                     </Table>
                 </div>

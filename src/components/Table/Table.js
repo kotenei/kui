@@ -41,7 +41,6 @@ const BodyContainer = props => {
                 [`${prefixCls}-body__scroll`]: props.scroll
             })}
             style={props.style}
-            onScroll={props.onScroll}
         >
             {props.children}
         </div>
@@ -326,11 +325,24 @@ class Table extends Component {
         });
         window.addEventListener("resize", this.setWidth);
         window.addEventListener("resize", this.setHeight);
+        this.scrollBind([
+            this.elMainBody,
+            this.refs.elFixedLeftBody,
+            this.refs.elFixedRightBody
+        ]);
     }
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.setWidth);
         window.removeEventListener("resize", this.setHeight);
+        this.scrollBind(
+            [
+                this.elMainBody,
+                this.refs.elFixedLeftBody,
+                this.refs.elFixedRightBody
+            ],
+            false
+        );
     }
 
     componentWillReceiveProps(nextProps) {
@@ -569,7 +581,6 @@ class Table extends Component {
                         style={{
                             maxHeight: height
                         }}
-                        onScroll={this.handleFixedScroll}
                     >
                         {this.renderTable(this.fixedLeft, TABLE_TYPE.body)}
                     </div>
@@ -593,7 +604,6 @@ class Table extends Component {
                         style={{
                             maxHeight: height
                         }}
-                        onScroll={this.handleFixedScroll}
                     >
                         {this.renderTable(
                             this.fixedRight,
@@ -611,7 +621,7 @@ class Table extends Component {
                     <div className={`${prefixCls}-content`}>
                         <div
                             className={`${prefixCls}-scroll`}
-                            onScroll={this.handleMainScroll}
+                            ref="elMainScroll"
                         >
                             {main}
                         </div>
@@ -634,28 +644,61 @@ class Table extends Component {
         );
     }
 
-    handleMainScroll = e => {
-        console.log(e.target)
-        let scrollLeft = e.target.scrollLeft;
-        let scrollTop = e.target.scrollTop;
-        this.elMainHeader.scrollLeft = scrollLeft;
-        this.refs.elFixedLeftBody.scrollTop = scrollTop;
-        this.refs.elFixedRightBody.scrollTop = scrollTop;
+    handleScroll = e => {
+        const { target } = e;
+        const delay = 300;
+        let scrollLeft = target.scrollLeft;
+        let scrollTop = target.scrollTop;
 
-        // this.setState({
-        //     scrollX: scrollLeft,
-        //     scrollY: scrollLeft
-        // });
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
+
+        if (target === this.elMainBody) {
+            this.scrollBind(
+                [this.refs.elFixedLeftBody, this.refs.elFixedRightBody],
+                false
+            );
+            this.elMainHeader.scrollLeft = scrollLeft;
+            this.refs.elFixedLeftBody.scrollTop = scrollTop;
+            this.refs.elFixedRightBody.scrollTop = scrollTop;
+            this.timer = setTimeout(() => {
+                this.scrollBind([
+                    this.refs.elFixedLeftBody,
+                    this.refs.elFixedRightBody
+                ]);
+            }, delay);
+        } else if (target === this.refs.elFixedLeftBody) {
+            this.scrollBind(
+                [this.elMainBody, this.refs.elFixedRightBody],
+                false
+            );
+            this.elMainBody.scrollTop = scrollTop;
+            this.refs.elFixedRightBody.scrollTop = scrollTop;
+            this.timer = setTimeout(() => {
+                this.scrollBind([this.elMainBody, this.refs.elFixedRightBody]);
+            }, delay);
+        } else if (target === this.refs.elFixedRightBody) {
+            this.scrollBind(
+                [this.elMainBody, this.refs.elFixedLeftBody],
+                false
+            );
+            this.elMainBody.scrollTop = scrollTop;
+            this.refs.elFixedLeftBody.scrollTop = scrollTop;
+            this.timer = setTimeout(() => {
+                this.scrollBind([this.elMainBody, this.refs.elFixedLeftBody]);
+            }, delay);
+        }
     };
 
-    handleFixedScroll = e => {
-        // e.stopPropagation();
-        // e.nativeEvent.stopImmediatePropagation();
-        // let scrollTop = e.target.scrollTop;
-        // this.refs.elFixedLeftBody.scrollTop = scrollTop;
-        // this.elMainBody.scrollTop = scrollTop;
-        //console.log(this.refs.elMainBody)
-        //this.refs.elFixedRightBody.scrollTop = scrollTop;
+    scrollBind = (els, bind = true) => {
+        els.forEach(el => {
+            if (bind) {
+                el.addEventListener("scroll", this.handleScroll);
+            } else {
+                el.removeEventListener("scroll", this.handleScroll);
+            }
+        });
     };
 }
 

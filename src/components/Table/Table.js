@@ -47,6 +47,23 @@ const BodyContainer = props => {
     );
 };
 
+const ExpandIcon = props => {
+    let onClick = function() {
+        if (props.onClick) {
+            props.onClick(props.id);
+        }
+    };
+    return (
+        <span onClick={onClick}>
+            {props.expanded ? (
+                <Icon type="minussquareo" />
+            ) : (
+                <Icon type="plussquareo" />
+            )}
+        </span>
+    );
+};
+
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -70,6 +87,7 @@ class Table extends Component {
         data: PropTypes.array,
         defaultCheckedIds: PropTypes.arrayOf(PropTypes.string),
         defaultExpandedRowIds: PropTypes.arrayOf(PropTypes.string),
+        disabledCheckIds: PropTypes.arrayOf(PropTypes.string),
         expandedRowIds: PropTypes.arrayOf(PropTypes.string),
         expandedRowRender: PropTypes.func,
         footer: PropTypes.object,
@@ -382,7 +400,8 @@ class Table extends Component {
             stripe,
             rowClassName,
             data,
-            showHeader
+            showHeader,
+            disabledCheckIds
         } = this.props;
         const {
             theadRowsHeight,
@@ -396,6 +415,7 @@ class Table extends Component {
             theadRows = [],
             tbodyRows = [],
             checkedCount = 0,
+            disabledCheckCount = 0,
             checkedAll = false,
             indeterminate = false,
             rowStyle;
@@ -405,11 +425,17 @@ class Table extends Component {
                 isEven = rowIndex % 2 == 0,
                 checked = checkedIds.indexOf(item.id) > -1,
                 expanded = expandedRowIds.indexOf(item.id) > -1,
+                disabledCheck =
+                    disabledCheckIds && disabledCheckIds.indexOf(item.id) > -1,
                 tableRowClassName =
                     rowClassName && rowClassName(item, rowIndex);
 
             if (checked) {
                 checkedCount++;
+            }
+
+            if (disabledCheck) {
+                disabledCheckCount++;
             }
 
             rowStyle = { height: "auto" };
@@ -426,6 +452,7 @@ class Table extends Component {
                                     checked={checked}
                                     onChange={this.handleCheck}
                                     value={item.id}
+                                    disabled={disabledCheck}
                                 />
                             </td>
                         );
@@ -435,9 +462,12 @@ class Table extends Component {
                             <td
                                 key={`tbCell-expand-${cellIndex}`}
                                 className="expand-cell"
-                                onClick={this.handleExpand}
                             >
-                                <Icon type="plussquareo" />
+                                <ExpandIcon
+                                    expanded={expanded}
+                                    id={item.id}
+                                    onClick={this.handleExpand}
+                                />
                             </td>
                         );
                     }
@@ -483,13 +513,31 @@ class Table extends Component {
                 );
                 tbodyRows.push(
                     <tr
-                        className={"expand-row"}
+                        className={classnames({
+                            [`expand-row`]: true,
+                            [`expand-row--show`]: expanded
+                        })}
                         key={`tbRow-expand-${rowIndex}`}
                     >
                         {cells}
                     </tr>
                 );
             }
+
+            if(expandedRowRender&&!showChkAndExpand){
+                tbodyRows.push(
+                    <tr
+                        className={classnames({
+                            [`expand-row`]: true,
+                            [`expand-row--show`]: expanded
+                        })}
+                        key={`tbRow-expand-${rowIndex}`}
+                    >
+                       <td colSpan={columns.length}></td>
+                    </tr>
+                );
+            }
+
         });
 
         headRows.forEach((row, rowIndex) => {
@@ -506,7 +554,10 @@ class Table extends Component {
                             >
                                 <Checkbox
                                     indeterminate={checkedCount > 0}
-                                    checked={checkedCount === data.length}
+                                    checked={
+                                        checkedCount + disabledCheckCount ===
+                                        data.length
+                                    }
                                     onChange={this.handleCheckAll}
                                 />
                             </th>
@@ -714,10 +765,34 @@ class Table extends Component {
 
     handleCheckAll = e => {
         const { target } = e;
-        const { onCheck } = this.props;
+        const { onCheck, data, disabledCheckIds } = this.props;
         const { checkedIds } = this.state;
         let checked = target.checked;
-        
+        let newCheckedIds = [...checkedIds];
+        data.forEach(item => {
+            let index = newCheckedIds.indexOf(item.id);
+            let disabled =
+                disabledCheckIds && disabledCheckIds.indexOf(item.id) > -1;
+            if (!disabled) {
+                if (checked) {
+                    if (index == -1) {
+                        newCheckedIds.push(item.id);
+                    }
+                } else {
+                    if (index > -1) {
+                        newCheckedIds.splice(index, 1);
+                    }
+                }
+            }
+        });
+        if (!("checkedIds" in this.props)) {
+            this.setState({
+                checkedIds: newCheckedIds
+            });
+        }
+        if (onCheck) {
+            onCheck(newCheckedIds);
+        }
     };
 
     handleCheck = e => {
@@ -740,6 +815,27 @@ class Table extends Component {
         }
         if (onCheck) {
             onCheck(newCheckedIds);
+        }
+    };
+
+    handleExpand = (id, expanded) => {
+        const { onExpand } = this.props;
+        const { expandedRowIds } = this.state;
+        let newExpandedRowIds = [...expandedRowIds];
+        let index = newExpandedRowIds.indexOf(id);
+        if (index > -1) {
+            newExpandedRowIds.splice(index, 1);
+        } else {
+            newExpandedRowIds.push(id);
+        }
+        if (!("expandedRowIds" in this.props)) {
+            this.setState({
+                expandedRowIds: newExpandedRowIds
+            });
+        }
+
+        if (onExpand) {
+            onExpand(newExpandedRowIds);
         }
     };
 

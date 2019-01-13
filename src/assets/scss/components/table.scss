@@ -81,6 +81,9 @@ $prefixCls:'.k-table';
                 }
                 &.expand-row {
                     display: none;
+                    &--show{
+                        display: table-row;
+                    }
                 }
                 &.stripe-row {
                     background: #f5f5f5;

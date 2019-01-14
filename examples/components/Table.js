@@ -60,7 +60,7 @@ class CalendarView extends Component {
     render() {
         return (
             <div>
-                <h1>Table 表格</h1>
+                {/* <h1>Table 表格</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Table data={data}>
@@ -232,7 +232,7 @@ class CalendarView extends Component {
                         />
                     </Table>
                 </div>
-                <br />
+                <br /> */}
                 <h3>展开行</h3>
                 <div className="k-example">
                     <Table
@@ -240,23 +240,31 @@ class CalendarView extends Component {
                         expandedRowRender={item => {
                             return <div>{item.description}</div>;
                         }}
+                        height={250}
                     >
-                        <TableColumn title="Name" >
+                        <TableColumn title="Name" fixed>
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
+                                width={200}
                             />
                             <TableColumn
                                 title="LastName"
                                 dataIndex="lastName"
+                                width={200}
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age" />
-                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Age" dataIndex="age" width={200} />
+                        <TableColumn
+                            title="Address"
+                            dataIndex="address"
+                            width={400}
+                        />
                         <TableColumn
                             title="Status"
                             dataIndex="status"
                             fixed="right"
+                            width={150}
                         />
                     </Table>
                 </div>

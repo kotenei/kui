@@ -207,8 +207,10 @@ class Table extends Component {
                 }
                 if (fixed == "left" || fixed == true) {
                     fixedLeft[rowIndex].push(node);
+                    node.fixed = "left";
                 } else {
                     fixedRight[rowIndex].push(node);
+                    node.fixed = "right";
                 }
             } else {
                 rows[rowIndex].push(node);
@@ -326,19 +328,19 @@ class Table extends Component {
         return ret;
     }
 
-    getColGroupInfo(columns, showChkAndExpand) {
+    getColGroupInfo(columns) {
         const { columnsWidth } = this.state;
         const { checkbox, expandedRowRender } = this.props;
         let colGroup = [];
         let key = 0;
         let totalWidth = 0;
-        if (checkbox && showChkAndExpand) {
+        if (checkbox) {
             colGroup.push(
                 <col key={key++} style={{ width: columnsWidth["checkbox"] }} />
             );
             totalWidth += columnsWidth["checkbox"];
         }
-        if (expandedRowRender && showChkAndExpand) {
+        if (expandedRowRender) {
             colGroup.push(
                 <col key={key++} style={{ width: columnsWidth["expand"] }} />
             );
@@ -351,6 +353,25 @@ class Table extends Component {
         });
 
         return { colGroup, totalWidth: totalWidth || "auto" };
+    }
+
+    getFixedWidth(columns, fixed = "left") {
+        const { columnsWidth } = this.state;
+        const { checkbox, expandedRowRender } = this.props;
+        let totalWidth = 0;
+        if (fixed == "left") {
+            if (checkbox) {
+                totalWidth += columnsWidth["checkbox"];
+            }
+            if (expandedRowRender) {
+                totalWidth += columnsWidth["expand"];
+            }
+        }
+        columns.forEach(column => {
+            let width = columnsWidth[column.id] || 0;
+            totalWidth += width;
+        });
+        return totalWidth;
     }
 
     componentWillMount() {
@@ -438,8 +459,6 @@ class Table extends Component {
                 disabledCheckCount++;
             }
 
-            rowStyle = { height: "auto" };
-
             columns.forEach((column, cellIndex) => {
                 if (cellIndex == 0) {
                     if (checkbox && showChkAndExpand) {
@@ -482,8 +501,14 @@ class Table extends Component {
                 );
             });
 
-            if (tbodyRowsHeight && tbodyRowsHeight[rowIndex]) {
-                rowStyle = { height: tbodyRowsHeight[rowIndex] };
+            rowStyle = { height: "auto" };
+
+            if (tbodyRowsHeight) {
+                if (expandedRowRender) {
+                    rowStyle = { height: tbodyRowsHeight[rowIndex * 2] };
+                } else {
+                    rowStyle = { height: tbodyRowsHeight[rowIndex] };
+                }
             }
 
             tbodyRows.push(
@@ -497,6 +522,7 @@ class Table extends Component {
                     {cells}
                 </tr>
             );
+
             if (expandedRowRender && showChkAndExpand) {
                 cells = [];
                 if (checkbox) {
@@ -518,13 +544,14 @@ class Table extends Component {
                             [`expand-row--show`]: expanded
                         })}
                         key={`tbRow-expand-${rowIndex}`}
+                        style={{ height: tbodyRowsHeight[rowIndex + 1] }}
                     >
                         {cells}
                     </tr>
                 );
             }
 
-            if(expandedRowRender&&!showChkAndExpand){
+            if (expandedRowRender && !showChkAndExpand) {
                 tbodyRows.push(
                     <tr
                         className={classnames({
@@ -532,12 +559,12 @@ class Table extends Component {
                             [`expand-row--show`]: expanded
                         })}
                         key={`tbRow-expand-${rowIndex}`}
+                        style={{ height: tbodyRowsHeight[rowIndex + 1] }}
                     >
-                       <td colSpan={columns.length}></td>
+                        <td colSpan={columns.length} />
                     </tr>
                 );
             }
-
         });
 
         headRows.forEach((row, rowIndex) => {
@@ -612,10 +639,182 @@ class Table extends Component {
         );
     }
 
+    renderThead(headerRows, colGroupInfo) {
+        const { checkbox, data, expandedRowRender } = this.props;
+        const { checkedIds, expandedRowIds } = this.state;
+        let theadRows = [];
+        headerRows.forEach((row, rowIndex) => {
+            let cells = [];
+            row.forEach((cell, cellIndex) => {
+                if (rowIndex == 0 && cellIndex == 0) {
+                    if (checkbox) {
+                        cells.push(
+                            <th
+                                className="checkbox-cell"
+                                key={`thCell-checkbox-${cellIndex}`}
+                                rowSpan={headerRows.length}
+                            >
+                                <Checkbox
+                                    // indeterminate={checkedCount > 0}
+                                    // checked={
+                                    //     checkedCount + disabledCheckCount ===
+                                    //     data.length
+                                    // }
+                                    onChange={this.handleCheckAll}
+                                />
+                            </th>
+                        );
+                    }
+                    if (expandedRowRender) {
+                        cells.push(
+                            <th
+                                className="expand-cell"
+                                key={`thCell-expand-${cellIndex}`}
+                                rowSpan={headerRows.length}
+                            />
+                        );
+                    }
+                }
+                cells.push(
+                    <th
+                        key={`thCell-${cellIndex}`}
+                        colSpan={cell.colSpan == 1 ? null : cell.colSpan}
+                        rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
+                    >
+                        {cell.title}
+                    </th>
+                );
+            });
+
+            theadRows.push(<tr key={`thRow-${rowIndex}`}>{cells}</tr>);
+        });
+        return (
+            <table
+                className={`${prefixCls}-fixed`}
+                style={{ width: colGroupInfo.totalWidth }}
+            >
+                <colgroup>{colGroupInfo.colGroup}</colgroup>
+                <thead className={`${prefixCls}-thead`}>{theadRows}</thead>
+            </table>
+        );
+    }
+
+    renderTbody(columns, colGroupInfo) {
+        const {
+            checkbox,
+            data,
+            expandedRowRender,
+            disabledCheckIds,
+            rowClassName,
+            stripe
+        } = this.props;
+        const { checkedIds, expandedRowIds } = this.state;
+
+        let tbodyRows = [];
+
+        data.forEach((item, index) => {
+            let cells = [],
+                isEven = index % 2 == 0,
+                checked = checkedIds.indexOf(item.id) > -1,
+                expanded = expandedRowIds.indexOf(item.id) > -1,
+                disabledCheck =
+                    disabledCheckIds && disabledCheckIds.indexOf(item.id) > -1,
+                tableRowClassName = rowClassName && rowClassName(item, index);
+
+            columns.forEach((column, cellIndex) => {
+                if (cellIndex == 0) {
+                    if (checkbox) {
+                        cells.push(
+                            <td
+                                key={`tbCell-checkbox-${cellIndex}`}
+                                className="checkbox-cell"
+                            >
+                                <Checkbox
+                                    checked={checked}
+                                    onChange={this.handleCheck}
+                                    value={item.id}
+                                    disabled={disabledCheck}
+                                />
+                            </td>
+                        );
+                    }
+                    if (expandedRowRender) {
+                        cells.push(
+                            <td
+                                key={`tbCell-expand-${cellIndex}`}
+                                className="expand-cell"
+                            >
+                                <ExpandIcon
+                                    expanded={expanded}
+                                    id={item.id}
+                                    onClick={this.handleExpand}
+                                />
+                            </td>
+                        );
+                    }
+                }
+
+                cells.push(
+                    <td key={`tbCell-${cellIndex}`}>
+                        {column.render
+                            ? column.render(item[column.dataIndex], item)
+                            : item[column.dataIndex]}
+                    </td>
+                );
+            });
+
+            tbodyRows.push(
+                <tr
+                    key={`tbRow-${index}`}
+                    className={classnames(tableRowClassName, {
+                        "stripe-row": !isEven && stripe
+                    })}
+                >
+                    {cells}
+                </tr>
+            );
+
+            if (expandedRowRender) {
+                cells = [];
+                if (checkbox) {
+                    cells.push(<td key={guid()} />);
+                }
+                cells.push(<td key={guid()} />);
+                cells.push(
+                    <td key={`tbCell-expand-${index}`} colSpan={columns.length}>
+                        {expandedRowRender(item)}
+                    </td>
+                );
+                tbodyRows.push(
+                    <tr
+                        className={classnames({
+                            [`expand-row`]: true,
+                            [`expand-row--show`]: expanded
+                        })}
+                        key={`tbRow-expand-${index}`}
+                    >
+                        {cells}
+                    </tr>
+                );
+            }
+        });
+
+        return (
+            <table
+                className={`${prefixCls}-fixed`}
+                style={{ width: colGroupInfo.totalWidth }}
+            >
+                <colgroup>{colGroupInfo.colGroup}</colgroup>
+                <tbody className={`${prefixCls}-tbody`}>{tbodyRows}</tbody>
+            </table>
+        );
+    }
+
     render() {
-        const { columns, pagination, bordered, children, height } = this.props;
+        const { pagination, bordered, children, height } = this.props;
         const {
             loading,
+            theadRowsHeight,
             tbodyRowsHeight,
             tableWidth,
             tableContainerWidth,
@@ -630,6 +829,11 @@ class Table extends Component {
         let mainHeaderStyle = {};
         let positionClass;
         let curWidth = scrollLeft + tableContainerWidth;
+        let top = 0;
+
+        theadRowsHeight.forEach(item => {
+            top += item;
+        });
 
         if (height) {
             let bodyHeight = 0;
@@ -667,13 +871,18 @@ class Table extends Component {
             });
         }
 
+        let columns = this.getColumns(this.theadRows);
+        let colGropInfo = this.getColGroupInfo(columns);
+        let header = this.renderThead(this.theadRows, colGropInfo);
+        let body = this.renderTbody(columns, colGropInfo);
+
         let main = (
             <React.Fragment>
                 <HeaderContaienr
                     style={mainHeaderStyle}
                     elRef={el => (this.elMainHeader = el)}
                 >
-                    {this.renderTable(this.theadRows, TABLE_TYPE.header, true)}
+                    {header}
                 </HeaderContaienr>
                 <BodyContainer
                     elRef={el => (this.elMainBody = el)}
@@ -683,17 +892,18 @@ class Table extends Component {
                         overflowX: scrollX ? "scroll" : "hidden"
                     }}
                 >
-                    {this.renderTable(this.theadRows, TABLE_TYPE.body, true)}
+                    {body}
                 </BodyContainer>
             </React.Fragment>
         );
 
         let left = (
-            <div className={`${prefixCls}-fixed-left`}>
-                <HeaderContaienr>
-                    {this.renderTable(this.fixedLeft, TABLE_TYPE.header)}
-                </HeaderContaienr>
-                <BodyContainer scroll={scrollY}>
+            <div
+                className={`${prefixCls}-fixed-left`}
+                // style={{ width: colGropInfo.totalWidth, height: "100%" }}
+            >
+                <HeaderContaienr>{header}</HeaderContaienr>
+                <BodyContainer scroll={scrollY} style={{ top }}>
                     <div
                         ref="elFixedLeftBody"
                         className={`${prefixCls}-body-inner`}
@@ -701,38 +911,78 @@ class Table extends Component {
                             maxHeight: height
                         }}
                     >
-                        {this.renderTable(this.fixedLeft, TABLE_TYPE.body)}
+                        {body}
                     </div>
                 </BodyContainer>
             </div>
         );
 
-        let right = (
-            <div className={`${prefixCls}-fixed-right`}>
-                <HeaderContaienr>
-                    {this.renderTable(
-                        this.fixedRight,
-                        TABLE_TYPE.header,
-                        false
-                    )}
-                </HeaderContaienr>
-                <BodyContainer scroll={scrollY}>
-                    <div
-                        ref="elFixedRightBody"
-                        className={`${prefixCls}-body-inner`}
-                        style={{
-                            maxHeight: height
-                        }}
-                    >
-                        {this.renderTable(
-                            this.fixedRight,
-                            TABLE_TYPE.body,
-                            false
-                        )}
-                    </div>
-                </BodyContainer>
-            </div>
-        );
+        // let main = (
+        //     <React.Fragment>
+        //         <HeaderContaienr
+        //             style={mainHeaderStyle}
+        //             elRef={el => (this.elMainHeader = el)}
+        //         >
+        //             {this.renderTable(this.theadRows, TABLE_TYPE.header, true)}
+        //         </HeaderContaienr>
+        //         <BodyContainer
+        //             elRef={el => (this.elMainBody = el)}
+        //             style={{
+        //                 maxHeight: height,
+        //                 overflowY: scrollY ? "scroll" : "hidden",
+        //                 overflowX: scrollX ? "scroll" : "hidden"
+        //             }}
+        //         >
+        //             {this.renderTable(this.theadRows, TABLE_TYPE.body, true)}
+        //         </BodyContainer>
+        //     </React.Fragment>
+        // );
+
+        // let left = (
+        //     <div className={`${prefixCls}-fixed-left`}>
+        //         <HeaderContaienr>
+        //             {this.renderTable(this.fixedLeft, TABLE_TYPE.header)}
+        //         </HeaderContaienr>
+        //         <BodyContainer scroll={scrollY}>
+        //             <div
+        //                 ref="elFixedLeftBody"
+        //                 className={`${prefixCls}-body-inner`}
+        //                 style={{
+        //                     maxHeight: height
+        //                 }}
+        //             >
+        //                 {this.renderTable(this.fixedLeft, TABLE_TYPE.body)}
+        //             </div>
+        //         </BodyContainer>
+        //     </div>
+        // );
+
+        // let right = (
+        //     <div className={`${prefixCls}-fixed-right`}>
+        //         <HeaderContaienr>
+        //             {this.renderTable(
+        //                 this.fixedRight,
+        //                 TABLE_TYPE.header,
+        //                 false
+        //             )}
+        //         </HeaderContaienr>
+        //         <BodyContainer scroll={scrollY}>
+        //             <div
+        //                 ref="elFixedRightBody"
+        //                 className={`${prefixCls}-body-inner`}
+        //                 style={{
+        //                     maxHeight: height
+        //                 }}
+        //             >
+        //                 {this.renderTable(
+        //                     this.fixedRight,
+        //                     TABLE_TYPE.body,
+        //                     false
+        //                 )}
+        //             </div>
+        //         </BodyContainer>
+        //     </div>
+        // );
 
         return (
             <Loading show={loading}>
@@ -751,11 +1001,11 @@ class Table extends Component {
                             ? left
                             : null}
 
-                        {this.fixedRight &&
+                        {/* {this.fixedRight &&
                         this.fixedRight.length > 0 &&
                         this.fixedRight[0].length > 0
                             ? right
-                            : null}
+                            : null} */}
                     </div>
                     {pagination ? <Pagination {...pagination} /> : null}
                 </div>
@@ -829,9 +1079,14 @@ class Table extends Component {
             newExpandedRowIds.push(id);
         }
         if (!("expandedRowIds" in this.props)) {
-            this.setState({
-                expandedRowIds: newExpandedRowIds
-            });
+            this.setState(
+                {
+                    expandedRowIds: newExpandedRowIds
+                },
+                () => {
+                    // this.setHeight();
+                }
+            );
         }
 
         if (onExpand) {

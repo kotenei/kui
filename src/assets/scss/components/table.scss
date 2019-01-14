@@ -22,6 +22,15 @@ $prefixCls:'.k-table';
 
         #{$prefixCls}-header {
             background: #f5f5f5;
+            position: absolute;
+            top:0;
+            left:0;
+        }
+
+        #{$prefixCls}-body{
+            position: absolute;
+            top:0;
+            left:0;
         }
 
         #{$prefixCls}-body__scroll {
@@ -46,6 +55,10 @@ $prefixCls:'.k-table';
         right: 0;
         top: 0;
         box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
+        #{$prefixCls}-body{
+            right:0;
+            left:auto;
+        }
     }
     #{$prefixCls}-header {}
     #{$prefixCls}-body {

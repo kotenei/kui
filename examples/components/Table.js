@@ -60,7 +60,7 @@ class CalendarView extends Component {
     render() {
         return (
             <div>
-                {/* <h1>Table 表格</h1>
+                <h1>Table 表格</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Table data={data}>
@@ -212,7 +212,7 @@ class CalendarView extends Component {
                 <br />
                 <h3>多选</h3>
                 <div className="k-example">
-                    <Table data={data} checkbox>
+                    <Table data={data} checkbox disabledCheckIds={['1']}>
                         <TableColumn title="Name" fixed>
                             <TableColumn
                                 title="FirstName"
@@ -232,7 +232,7 @@ class CalendarView extends Component {
                         />
                     </Table>
                 </div>
-                <br /> */}
+                <br />
                 <h3>展开行</h3>
                 <div className="k-example">
                     <Table

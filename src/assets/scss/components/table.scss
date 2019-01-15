@@ -5,7 +5,7 @@ $prefixCls:'.k-table';
         overflow: auto;
         overflow-x: hidden;
         #{$prefixCls}-header {
-            overflow:scroll;
+            overflow: scroll;
             overflow-x: scroll;
             margin-bottom: torem(-21px);
         }
@@ -19,20 +19,17 @@ $prefixCls:'.k-table';
         overflow: hidden;
         background: white;
         z-index: 10;
-
         #{$prefixCls}-header {
             background: #f5f5f5;
             position: absolute;
-            top:0;
-            left:0;
+            top: 0;
+            left: 0;
         }
-
-        #{$prefixCls}-body{
+        #{$prefixCls}-body {
             position: absolute;
-            top:0;
-            left:0;
+            top: 0;
+            left: 0;
         }
-
         #{$prefixCls}-body__scroll {
             margin-bottom: torem(-21px);
             padding-bottom: 0;
@@ -55,9 +52,13 @@ $prefixCls:'.k-table';
         right: 0;
         top: 0;
         box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
-        #{$prefixCls}-body{
-            right:0;
-            left:auto;
+        #{$prefixCls}-header {
+            left: auto;
+            right: 0;
+        }
+        #{$prefixCls}-body {
+            right: 0;
+            left: auto;
         }
     }
     #{$prefixCls}-header {}
@@ -94,7 +95,7 @@ $prefixCls:'.k-table';
                 }
                 &.expand-row {
                     display: none;
-                    &--show{
+                    &--show {
                         display: table-row;
                     }
                 }
@@ -142,13 +143,11 @@ $prefixCls:'.k-table';
             border-bottom: none;
             border-right: none;
         }
-
-        #{$prefixCls}-fixed-right{
-            table{
+        #{$prefixCls}-fixed-right {
+            table {
                 border-left: none;
             }
         }
-        
     }
     table {
         width: 100%;
@@ -156,16 +155,14 @@ $prefixCls:'.k-table';
         border-spacing: 0;
         text-align: left;
     }
-
-    &-position-left{
-        #{$prefixCls}-fixed-left{
-            box-shadow:none;
+    &-position-left {
+        #{$prefixCls}-fixed-left {
+            box-shadow: none;
         }
     }
-
-    &-position-right{
-        #{$prefixCls}-fixed-right{
-            box-shadow:none;
+    &-position-right {
+        #{$prefixCls}-fixed-right {
+            box-shadow: none;
         }
     }
 }

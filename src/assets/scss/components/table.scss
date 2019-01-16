@@ -143,6 +143,11 @@ $prefixCls:'.k-table';
             border-bottom: none;
             border-right: none;
         }
+        #{$prefixCls}-fixed-left {
+            table {
+                border-right: none;
+            }
+        }
         #{$prefixCls}-fixed-right {
             table {
                 border-left: none;

@@ -212,7 +212,7 @@ class CalendarView extends Component {
                 <br />
                 <h3>多选</h3>
                 <div className="k-example">
-                    <Table data={data} checkbox disabledCheckIds={['1']}>
+                    <Table data={data} checkbox>
                         <TableColumn title="Name" fixed>
                             <TableColumn
                                 title="FirstName"
@@ -240,7 +240,6 @@ class CalendarView extends Component {
                         expandedRowRender={item => {
                             return <div>{item.description}</div>;
                         }}
-                        height={250}
                     >
                         <TableColumn title="Name" fixed>
                             <TableColumn
@@ -266,6 +265,15 @@ class CalendarView extends Component {
                             fixed="right"
                             width={150}
                         />
+                    </Table>
+                </div>
+                <br />
+                <h3>远程加载数据</h3>
+                <div className="k-example">
+                    <Table>
+                        <TableColumn title="Name" dataIndex="name" />
+                        <TableColumn title="Gender" dataIndex="gender" />
+                        <TableColumn title="Email" dataIndex="email" />
                     </Table>
                 </div>
                 <h1>API</h1>

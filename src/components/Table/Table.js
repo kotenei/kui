@@ -418,236 +418,6 @@ class Table extends Component {
         this.init(nextProps);
     }
 
-    renderTable(
-        headRows = this.theadRows,
-        type = TABLE_TYPE.all,
-        showChkAndExpand = true,
-        width
-    ) {
-        const {
-            checkbox,
-            expandedRowRender,
-            stripe,
-            rowClassName,
-            data,
-            showHeader,
-            disabledCheckIds
-        } = this.props;
-        const {
-            theadRowsHeight,
-            tbodyRowsHeight,
-            checkedIds,
-            expandedRowIds
-        } = this.state;
-        let columns = this.getColumns(headRows),
-            colGropInfo = this.getColGroupInfo(columns, showChkAndExpand),
-            colGroup = colGropInfo.colGroup,
-            theadRows = [],
-            tbodyRows = [],
-            checkedCount = 0,
-            disabledCheckCount = 0,
-            checkedAll = false,
-            indeterminate = false,
-            rowStyle;
-
-        data.forEach((item, rowIndex) => {
-            let cells = [],
-                isEven = rowIndex % 2 == 0,
-                checked = checkedIds.indexOf(item.id) > -1,
-                expanded = expandedRowIds.indexOf(item.id) > -1,
-                disabledCheck =
-                    disabledCheckIds && disabledCheckIds.indexOf(item.id) > -1,
-                tableRowClassName =
-                    rowClassName && rowClassName(item, rowIndex);
-
-            if (checked) {
-                checkedCount++;
-            }
-
-            if (disabledCheck) {
-                disabledCheckCount++;
-            }
-
-            columns.forEach((column, cellIndex) => {
-                if (cellIndex == 0) {
-                    if (checkbox && showChkAndExpand) {
-                        cells.push(
-                            <td
-                                key={`tbCell-checkbox-${cellIndex}`}
-                                className="checkbox-cell"
-                            >
-                                <Checkbox
-                                    checked={checked}
-                                    onChange={this.handleCheck}
-                                    value={item.id}
-                                    disabled={disabledCheck}
-                                />
-                            </td>
-                        );
-                    }
-                    if (expandedRowRender && showChkAndExpand) {
-                        cells.push(
-                            <td
-                                key={`tbCell-expand-${cellIndex}`}
-                                className="expand-cell"
-                            >
-                                <ExpandIcon
-                                    expanded={expanded}
-                                    id={item.id}
-                                    onClick={this.handleExpand}
-                                />
-                            </td>
-                        );
-                    }
-                }
-
-                cells.push(
-                    <td key={`tbCell-${cellIndex}`}>
-                        {column.render
-                            ? column.render(item[column.dataIndex], item)
-                            : item[column.dataIndex]}
-                    </td>
-                );
-            });
-
-            rowStyle = { height: "auto" };
-
-            if (tbodyRowsHeight) {
-                if (expandedRowRender) {
-                    rowStyle = { height: tbodyRowsHeight[rowIndex * 2] };
-                } else {
-                    rowStyle = { height: tbodyRowsHeight[rowIndex] };
-                }
-            }
-
-            tbodyRows.push(
-                <tr
-                    key={`tbRow-${rowIndex}`}
-                    className={classnames(tableRowClassName, {
-                        "stripe-row": !isEven && stripe
-                    })}
-                    style={rowStyle}
-                >
-                    {cells}
-                </tr>
-            );
-
-            if (expandedRowRender && showChkAndExpand) {
-                cells = [];
-                if (checkbox) {
-                    cells.push(<td key={guid()} />);
-                }
-                cells.push(<td key={guid()} />);
-                cells.push(
-                    <td
-                        key={`tbCell-expand-${rowIndex}`}
-                        colSpan={columns.length}
-                    >
-                        {expandedRowRender(item)}
-                    </td>
-                );
-                tbodyRows.push(
-                    <tr
-                        className={classnames({
-                            [`expand-row`]: true,
-                            [`expand-row--show`]: expanded
-                        })}
-                        key={`tbRow-expand-${rowIndex}`}
-                        style={{ height: tbodyRowsHeight[rowIndex + 1] }}
-                    >
-                        {cells}
-                    </tr>
-                );
-            }
-
-            if (expandedRowRender && !showChkAndExpand) {
-                tbodyRows.push(
-                    <tr
-                        className={classnames({
-                            [`expand-row`]: true,
-                            [`expand-row--show`]: expanded
-                        })}
-                        key={`tbRow-expand-${rowIndex}`}
-                        style={{ height: tbodyRowsHeight[rowIndex + 1] }}
-                    >
-                        <td colSpan={columns.length} />
-                    </tr>
-                );
-            }
-        });
-
-        headRows.forEach((row, rowIndex) => {
-            let cells = [];
-            rowStyle = { height: "auto" };
-            row.forEach((cell, cellIndex) => {
-                if (rowIndex == 0 && cellIndex == 0) {
-                    if (checkbox && showChkAndExpand) {
-                        cells.push(
-                            <th
-                                className="checkbox-cell"
-                                key={`thCell-checkbox-${cellIndex}`}
-                                rowSpan={headRows.length}
-                            >
-                                <Checkbox
-                                    indeterminate={checkedCount > 0}
-                                    checked={
-                                        checkedCount + disabledCheckCount ===
-                                        data.length
-                                    }
-                                    onChange={this.handleCheckAll}
-                                />
-                            </th>
-                        );
-                    }
-                    if (expandedRowRender && showChkAndExpand) {
-                        cells.push(
-                            <th
-                                className="expand-cell"
-                                key={`thCell-expand-${cellIndex}`}
-                                rowSpan={headRows.length}
-                            />
-                        );
-                    }
-                }
-                cells.push(
-                    <th
-                        key={`thCell-${cellIndex}`}
-                        colSpan={cell.colSpan == 1 ? null : cell.colSpan}
-                        rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
-                    >
-                        {cell.title}
-                    </th>
-                );
-            });
-
-            if (theadRowsHeight && theadRowsHeight[rowIndex]) {
-                rowStyle = { height: theadRowsHeight[rowIndex] };
-            }
-
-            theadRows.push(
-                <tr key={`thRow-${rowIndex}`} style={rowStyle}>
-                    {cells}
-                </tr>
-            );
-        });
-
-        return (
-            <table
-                className={`${prefixCls}-fixed`}
-                style={{ width: width || colGropInfo.totalWidth }}
-            >
-                <colgroup>{colGroup}</colgroup>
-                {showHeader &&
-                (type == TABLE_TYPE.all || type == TABLE_TYPE.header) ? (
-                    <thead className={`${prefixCls}-thead`}>{theadRows}</thead>
-                ) : null}
-                {type == TABLE_TYPE.all || type == TABLE_TYPE.body ? (
-                    <tbody className={`${prefixCls}-tbody`}>{tbodyRows}</tbody>
-                ) : null}
-            </table>
-        );
-    }
-
     renderThead(headerRows, colGroupInfo) {
         const {
             checkbox,
@@ -743,92 +513,99 @@ class Table extends Component {
 
         let tbodyRows = [];
 
-        data.forEach((item, index) => {
-            let cells = [],
-                isEven = index % 2 == 0,
-                checked = checkedIds.indexOf(item.id) > -1,
-                expanded = expandedRowIds.indexOf(item.id) > -1,
-                disabledCheck =
-                    disabledCheckIds && disabledCheckIds.indexOf(item.id) > -1,
-                tableRowClassName = rowClassName && rowClassName(item, index);
+        if (data && data.length > 0) {
+            data.forEach((item, index) => {
+                let cells = [],
+                    isEven = index % 2 == 0,
+                    checked = checkedIds.indexOf(item.id) > -1,
+                    expanded = expandedRowIds.indexOf(item.id) > -1,
+                    disabledCheck =
+                        disabledCheckIds &&
+                        disabledCheckIds.indexOf(item.id) > -1,
+                    tableRowClassName =
+                        rowClassName && rowClassName(item, index);
 
-            columns.forEach((column, cellIndex) => {
-                if (cellIndex == 0) {
-                    if (checkbox) {
-                        cells.push(
-                            <td
-                                key={`tbCell-checkbox-${cellIndex}`}
-                                className="checkbox-cell"
-                            >
-                                <Checkbox
-                                    checked={checked}
-                                    onChange={this.handleCheck}
-                                    value={item.id}
-                                    disabled={disabledCheck}
-                                />
-                            </td>
-                        );
+                columns.forEach((column, cellIndex) => {
+                    if (cellIndex == 0) {
+                        if (checkbox) {
+                            cells.push(
+                                <td
+                                    key={`tbCell-checkbox-${cellIndex}`}
+                                    className="checkbox-cell"
+                                >
+                                    <Checkbox
+                                        checked={checked}
+                                        onChange={this.handleCheck}
+                                        value={item.id}
+                                        disabled={disabledCheck}
+                                    />
+                                </td>
+                            );
+                        }
+                        if (expandedRowRender) {
+                            cells.push(
+                                <td
+                                    key={`tbCell-expand-${cellIndex}`}
+                                    className="expand-cell"
+                                >
+                                    <ExpandIcon
+                                        expanded={expanded}
+                                        id={item.id}
+                                        onClick={this.handleExpand}
+                                    />
+                                </td>
+                            );
+                        }
                     }
-                    if (expandedRowRender) {
-                        cells.push(
-                            <td
-                                key={`tbCell-expand-${cellIndex}`}
-                                className="expand-cell"
-                            >
-                                <ExpandIcon
-                                    expanded={expanded}
-                                    id={item.id}
-                                    onClick={this.handleExpand}
-                                />
-                            </td>
-                        );
-                    }
-                }
 
-                cells.push(
-                    <td key={`tbCell-${cellIndex}`}>
-                        {column.render
-                            ? column.render(item[column.dataIndex], item)
-                            : item[column.dataIndex]}
-                    </td>
-                );
-            });
+                    cells.push(
+                        <td key={`tbCell-${cellIndex}`}>
+                            {column.render
+                                ? column.render(item[column.dataIndex], item)
+                                : item[column.dataIndex]}
+                        </td>
+                    );
+                });
 
-            tbodyRows.push(
-                <tr
-                    key={`tbRow-${index}`}
-                    className={classnames(tableRowClassName, {
-                        "stripe-row": !isEven && stripe
-                    })}
-                >
-                    {cells}
-                </tr>
-            );
-
-            if (expandedRowRender) {
-                cells = [];
-                if (checkbox) {
-                    cells.push(<td key={guid()} />);
-                }
-                cells.push(<td key={guid()} />);
-                cells.push(
-                    <td key={`tbCell-expand-${index}`} colSpan={columns.length}>
-                        {expandedRowRender(item)}
-                    </td>
-                );
                 tbodyRows.push(
                     <tr
-                        className={classnames({
-                            [`expand-row`]: true,
-                            [`expand-row--show`]: expanded
+                        key={`tbRow-${index}`}
+                        className={classnames(tableRowClassName, {
+                            "stripe-row": !isEven && stripe
                         })}
-                        key={`tbRow-expand-${index}`}
                     >
                         {cells}
                     </tr>
                 );
-            }
-        });
+
+                if (expandedRowRender) {
+                    cells = [];
+                    if (checkbox) {
+                        cells.push(<td key={guid()} />);
+                    }
+                    cells.push(<td key={guid()} />);
+                    cells.push(
+                        <td
+                            key={`tbCell-expand-${index}`}
+                            colSpan={columns.length}
+                        >
+                            {expandedRowRender(item)}
+                        </td>
+                    );
+                    tbodyRows.push(
+                        <tr
+                            className={classnames({
+                                [`expand-row`]: true,
+                                [`expand-row--show`]: expanded
+                            })}
+                            key={`tbRow-expand-${index}`}
+                        >
+                            {cells}
+                        </tr>
+                    );
+                }
+            });
+        }
 
         return (
             <table
@@ -935,7 +712,7 @@ class Table extends Component {
                 <HeaderContaienr>{header}</HeaderContaienr>
                 <BodyContainer
                     scroll={scrollY}
-                    style={{ top: theadHeight + 1 }}
+                    style={{ top: bordered ? theadHeight : theadHeight + 1 }}
                 >
                     <div
                         ref="elFixedLeftBody"
@@ -959,13 +736,13 @@ class Table extends Component {
                 }}
             >
                 <HeaderContaienr
-                    style={{ right: scrollY ? scrollbarWidth : 0 }}
+                    style={{ overflowY: scrollY ? "scroll" : null }}
                 >
                     {header}
                 </HeaderContaienr>
                 <BodyContainer
                     scroll={scrollY}
-                    style={{ top: theadHeight + 1 }}
+                    style={{ top: bordered ? theadHeight : theadHeight + 1 }}
                 >
                     <div
                         ref="elFixedRightBody"

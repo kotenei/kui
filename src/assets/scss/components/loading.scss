@@ -7,7 +7,7 @@
         position: absolute;
         background: white;
         opacity: .0;
-        z-index: 4;
+        z-index: 99;
         left: 0;
         top: 0;
         right: 0;
@@ -30,7 +30,7 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        z-index: 5;
+        z-index: 100;
         text-align: center;
         visibility: hidden;
         transition: all .3s ease;

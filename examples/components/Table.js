@@ -299,37 +299,45 @@ class TableView extends Component {
                             return <div>{item.description}</div>;
                         }}
                     >
-                        <TableColumn title="Name" fixed>
+                        <TableColumn title="Name">
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
-                                width={200}
                             />
                             <TableColumn
                                 title="LastName"
                                 dataIndex="lastName"
-                                width={200}
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age" width={200} />
-                        <TableColumn
-                            title="Address"
-                            dataIndex="address"
-                            width={400}
-                        />
-                        <TableColumn
-                            title="Status"
-                            dataIndex="status"
-                            fixed="right"
-                            width={150}
-                        />
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
+                    </Table>
+                </div>
+                <br />
+                <h3>排序</h3>
+                <div className="k-example">
+                    <Table data={data}>
+                        <TableColumn title="Name">
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
+                                sorter
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                            />
+                        </TableColumn>
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
                     </Table>
                 </div>
                 <br />
                 <h3>远程加载数据</h3>
                 <div className="k-example">
                     <Table
-                        checkbox
                         data={this.state.data}
                         loading={isLoading}
                         pagination={paginationProps}

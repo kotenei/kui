@@ -64,6 +64,15 @@ const ExpandIcon = props => {
     );
 };
 
+const Sorter = props => {
+    return (
+        <div className={`${prefixCls}-sorter`}>
+            <Icon type="caretup" />
+            <Icon type="caretdown" />
+        </div>
+    );
+};
+
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -477,8 +486,14 @@ class Table extends Component {
                         key={`thCell-${cellIndex}`}
                         colSpan={cell.colSpan == 1 ? null : cell.colSpan}
                         rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
+                        style={{ textAlign: cell.align }}
                     >
-                        {cell.title}
+                        <div className={`${prefixCls}-thead-content`}>
+                            <div className={`${prefixCls}-thead-content__title`}>
+                                {cell.title}
+                            </div>
+                            {cell.sorter ? <Sorter /> : null}
+                        </div>
                     </th>
                 );
             });
@@ -753,7 +768,6 @@ class Table extends Component {
             </div>
         );
 
-
         return (
             <Loading show={loading}>
                 <div className={classString} ref="table">
@@ -779,7 +793,9 @@ class Table extends Component {
                             : null}
                     </div>
                     <div className={`${prefixCls}-bottom`}>
-                        {pagination ? <Pagination kStyle="primary" {...pagination} /> : null}
+                        {pagination ? (
+                            <Pagination kStyle="primary" {...pagination} />
+                        ) : null}
                     </div>
                 </div>
             </Loading>

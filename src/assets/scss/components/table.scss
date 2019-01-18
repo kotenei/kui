@@ -76,6 +76,10 @@ $prefixCls:'.k-table';
                     &[colspan] {
                         text-align: center;
                     }
+                    ::after {
+                        content: ' ';
+                        clear: both;
+                    }
                 }
                 &:not(:last-child) {
                     >th {
@@ -83,6 +87,14 @@ $prefixCls:'.k-table';
                             border-bottom: 0;
                         }
                     }
+                }
+            }
+            &-content {
+                display: flex;
+                &__title {
+                    // display: inline-block;
+                    // vertical-align: middle;
+                    flex: 1;
                 }
             }
         }
@@ -172,5 +184,11 @@ $prefixCls:'.k-table';
     }
     &-bottom {
         text-align: right;
+    }
+    &-sorter {
+        display: flex;
+        flex-direction: column;
+        font-size: torem(8px);
+        cursor: pointer;
     }
 }

@@ -56,8 +56,66 @@ const data = [
     }
 ];
 
-class CalendarView extends Component {
+const remoteData = [];
+
+for (let i = 0; i < 100; i++) {
+    let num = i + 1;
+    remoteData.push({
+        id: `${i}`,
+        name: `name ${num}`,
+        age: `age ${num}`,
+        address: `address ${num}`
+    });
+}
+
+class TableView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            pagination: { pageNumber: 1, pageSize: 5, total: 0 },
+            data: [],
+            isLoading: false
+        };
+    }
+    loadData(pageNumber = 1) {
+        const { pagination } = this.state;
+        this.setState(
+            {
+                isLoading: true
+            },
+            () => {
+                setTimeout(() => {
+                    let offset = (pageNumber - 1) * pagination.pageSize;
+                    let data = remoteData.slice(
+                        offset,
+                        offset + pagination.pageSize
+                    );
+                    this.setState({
+                        data,
+                        isLoading: false,
+                        pagination: {
+                            ...pagination,
+                            pageNumber,
+                            total: remoteData.length
+                        }
+                    });
+                }, 250);
+            }
+        );
+    }
+    componentDidMount() {
+        this.loadData();
+    }
     render() {
+        const { isLoading, pagination } = this.state;
+
+        const paginationProps = {
+            ...pagination,
+            onChange: pageNumber => {
+                this.loadData(pageNumber);
+            }
+        };
+
         return (
             <div>
                 <h1>Table 表格</h1>
@@ -270,10 +328,15 @@ class CalendarView extends Component {
                 <br />
                 <h3>远程加载数据</h3>
                 <div className="k-example">
-                    <Table>
+                    <Table
+                        checkbox
+                        data={this.state.data}
+                        loading={isLoading}
+                        pagination={paginationProps}
+                    >
                         <TableColumn title="Name" dataIndex="name" />
-                        <TableColumn title="Gender" dataIndex="gender" />
-                        <TableColumn title="Email" dataIndex="email" />
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
                     </Table>
                 </div>
                 <h1>API</h1>
@@ -300,4 +363,4 @@ class CalendarView extends Component {
     }
 }
 
-export default CalendarView;
+export default TableView;

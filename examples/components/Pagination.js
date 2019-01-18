@@ -8,7 +8,7 @@ class PaginationView extends Component {
             <div>
                 <h1>Pagination 分页</h1>
                 <div className="k-example">
-                    <Pagination total={200} kSize="xs" />
+                    <Pagination total={200} kSize="xs"/>
                     <br />
                     <Pagination total={200} kSize="sm" kStyle="primary" />
                     <br />
@@ -40,13 +40,13 @@ class PaginationView extends Component {
                             <td>20</td>
                         </tr>
                         <tr>
-                            <td>defaultCurrent</td>
+                            <td>pageNumber</td>
                             <td>当前页</td>
                             <td>number</td>
                             <td>1</td>
                         </tr>
                         <tr>
-                            <td>jumpNum</td>
+                            <td>jumpNumber</td>
                             <td>双箭头跳页数</td>
                             <td>number</td>
                             <td>5</td>

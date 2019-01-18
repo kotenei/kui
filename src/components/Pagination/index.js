@@ -11,50 +11,36 @@ class Pagination extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
-            current: 1
+            current: props.pageNumber || props.defaultPageNumber
         };
     }
     static propTypes = {
+        defaultPageNumber: PropTypes.number,
         total: PropTypes.number,
         pageSize: PropTypes.number,
-        defaultCurrent: PropTypes.number,
-        jumpNum: PropTypes.number,
+        pageNumber: PropTypes.number,
+        jumpNumber: PropTypes.number,
         showTotal: PropTypes.bool,
         onChange: PropTypes.func
     };
     static defaultProps = {
+        defaultPageNumber: 1,
         total: 0,
         pageSize: 20,
-        defaultCurrent: 1,
-        jumpNum: 5,
+        jumpNumber: 5,
         showTotal: false,
         onChange: () => {}
     };
-    componentWillMount() {
-        const { total, pageSize } = this.props;
-        let current = this.props.defaultCurrent;
-        if (current != this.state.current) {
-            let allPage = parseInt(total / pageSize);
-            allPage = total % pageSize !== 0 ? allPage + 1 : allPage;
-            allPage = allPage === 0 ? 1 : allPage;
-            if (current < 1) {
-                current = 1;
-            }
-            if (current > allPage) {
-                current = allPage;
-            }
-            this.setState({
-                current: current
-            });
-        }
-    }
+
     handleChange(current) {
         const { onChange } = this.props;
         if (current != this.state.current) {
             onChange(current);
-            this.setState({
-                current
-            });
+            if (!("pageNumber" in this.props)) {
+                this.setState({
+                    current
+                });
+            }
         }
     }
     getPageInfo() {
@@ -91,13 +77,44 @@ class Pagination extends Component {
             allPage
         };
     }
+    init(props = this.props) {
+        const { pageNumber, total, pageSize } = props;
+        const { current } = this.state;
+
+        if ("pageNumber" in props && current != pageNumber) {
+            this.setState({
+                current: pageNumber
+            });
+        } else {
+            let allPage = parseInt(total / pageSize);
+            let current = pageNumber;
+            allPage = total % pageSize !== 0 ? allPage + 1 : allPage;
+            allPage = allPage === 0 ? 1 : allPage;
+
+            if (current < 1) {
+                current = 1;
+            }
+            if (current > allPage) {
+                current = allPage;
+            }
+            this.setState({
+                current
+            });
+        }
+    }
+    componentWillMount() {
+        this.init();
+    }
+    componentWillReceiveProps(nextProps) {
+        this.init(nextProps);
+    }
     renderItems() {
         const { current } = this.state;
-        const { jumpNum } = this.props;
+        const { jumpNumber } = this.props;
         let info = this.getPageInfo(),
             items = [],
-            jumpPrev = current - jumpNum,
-            jumpNext = current + jumpNum,
+            jumpPrev = current - jumpNumber,
+            jumpNext = current + jumpNumber,
             key = 0,
             className;
 

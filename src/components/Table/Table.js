@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import TableColumn from "./TableColumn";
@@ -71,8 +71,8 @@ class Table extends Component {
             loading: props.loading,
             checkedIds: props.checkedIds || props.defaultCheckedIds,
             expandedRowIds: props.expandedRowIds || props.defaultExpandedRowIds,
-            tableWidth: "100%",
-            tableContainerWidth: "100%",
+            tableWidth: 0,
+            tableContainerWidth: 0,
             columnsWidth: {},
             theadRowsHeight: [],
             tbodyRowsHeight: [],
@@ -116,118 +116,114 @@ class Table extends Component {
     };
 
     init(props = this.props) {
-        const {
-            children,
-            loading,
-            data,
-            checkbox,
-            checkedIds,
-            expandedRowIds
-        } = props;
-        let maxLevel = 1,
-            nodes = [],
-            rows = [],
-            columns = [],
-            fixedLeft = [],
-            fixedRight = [],
-            tmpWidth = 0,
-            initNode = function(node, parentNode) {
-                node.id = guid();
-                node.level = parentNode ? parentNode.level + 1 : 1;
-                node.parentIds = parentNode
-                    ? parentNode.parentIds.length > 0
-                        ? [parentNode.id, ...parentNode.parentIds]
-                        : [parentNode.id]
-                    : [];
-                node.path = parentNode
-                    ? parentNode.path + node.id + "/"
-                    : `/${node.id}/`;
-                node.parentId = parentNode ? parentNode.id : "";
-            },
-            loop = function(child, curNode, parentNode) {
-                if (maxLevel < curNode.level) {
-                    maxLevel = curNode.level;
-                }
-                if (child.props.children) {
-                    let colSpan = 0;
-                    React.Children.map(child.props.children, subChild => {
-                        let subNode = omit(subChild.props, ["children"]);
-                        initNode(subNode, curNode);
-                        nodes.push(subNode);
-                        loop(subChild, subNode, curNode);
-                        colSpan += subNode.colSpan;
-                    });
-                    curNode.hasChild = true;
-                    curNode.colSpan = colSpan;
+        const { children, loading, checkedIds, expandedRowIds } = props;
+
+        if (!this.columns) {
+            let maxLevel = 1,
+                nodes = [],
+                rows = [],
+                columns = [],
+                fixedLeft = [],
+                fixedRight = [],
+                tmpWidth = 0,
+                initNode = function(node, parentNode) {
+                    node.id = guid();
+                    node.level = parentNode ? parentNode.level + 1 : 1;
+                    node.parentIds = parentNode
+                        ? parentNode.parentIds.length > 0
+                            ? [parentNode.id, ...parentNode.parentIds]
+                            : [parentNode.id]
+                        : [];
+                    node.path = parentNode
+                        ? parentNode.path + node.id + "/"
+                        : `/${node.id}/`;
+                    node.parentId = parentNode ? parentNode.id : "";
+                },
+                loop = function(child, curNode, parentNode) {
+                    if (maxLevel < curNode.level) {
+                        maxLevel = curNode.level;
+                    }
+                    if (child.props.children) {
+                        let colSpan = 0;
+                        React.Children.map(child.props.children, subChild => {
+                            let subNode = omit(subChild.props, ["children"]);
+                            initNode(subNode, curNode);
+                            nodes.push(subNode);
+                            loop(subChild, subNode, curNode);
+                            colSpan += subNode.colSpan;
+                        });
+                        curNode.hasChild = true;
+                        curNode.colSpan = colSpan;
+                    } else {
+                        const { width, style } = child.props;
+                        curNode.hasChild = false;
+                        curNode.colSpan = 1;
+                        if (width != undefined) {
+                            curNode.width = width;
+                        }
+                        if (style && typeof style.width == "number") {
+                            curNode.width = style.width;
+                        }
+                        if (curNode.width) {
+                            tmpWidth += curNode.width;
+                        }
+                        columns.push(curNode);
+                    }
+                };
+
+            React.Children.map(children, child => {
+                let node = omit(child.props, ["children"]);
+                initNode(node);
+                nodes.push(node);
+                loop(child, node);
+            });
+
+            for (let i = 0; i < maxLevel; i++) {
+                rows.push([]);
+                fixedLeft.push([]);
+                fixedRight.push([]);
+            }
+
+            let fixed;
+            nodes.forEach(node => {
+                let rowIndex = node.level - 1;
+
+                if (!node.hasChild) {
+                    node.rowSpan = maxLevel - node.level + 1;
                 } else {
-                    const { width, style } = child.props;
-                    curNode.hasChild = false;
-                    curNode.colSpan = 1;
-                    if (width != undefined) {
-                        curNode.width = width;
-                    }
-                    if (style && typeof style.width == "number") {
-                        curNode.width = style.width;
-                    }
-                    if (curNode.width) {
-                        tmpWidth += curNode.width;
-                    }
-                    columns.push(curNode);
+                    node.rowSpan = 1;
                 }
-            };
 
-        React.Children.map(children, child => {
-            let node = omit(child.props, ["children"]);
-            initNode(node);
-            nodes.push(node);
-            loop(child, node);
-        });
+                if (!node.fixed && !node.parentId) {
+                    fixed = "";
+                }
 
-        for (let i = 0; i < maxLevel; i++) {
-            rows.push([]);
-            fixedLeft.push([]);
-            fixedRight.push([]);
+                if ((node.fixed && !node.parentId) || fixed) {
+                    if (!fixed || !node.parentId) {
+                        fixed = node.fixed;
+                    }
+                    if (fixed == "left" || fixed == true) {
+                        fixedLeft[rowIndex].push(node);
+                        node.fixed = "left";
+                    } else {
+                        fixedRight[rowIndex].push(node);
+                        node.fixed = "right";
+                    }
+                } else {
+                    rows[rowIndex].push(node);
+                }
+            });
+
+            rows.forEach((row, rowIndex) => {
+                row.push(...fixedRight[rowIndex]);
+                row.unshift(...fixedLeft[rowIndex]);
+            });
+
+            this.columns = columns;
+            this.fixedLeft = fixedLeft;
+            this.fixedRight = fixedRight;
+            this.theadRows = rows;
         }
-
-        let fixed;
-        nodes.forEach(node => {
-            let rowIndex = node.level - 1;
-
-            if (!node.hasChild) {
-                node.rowSpan = maxLevel - node.level + 1;
-            } else {
-                node.rowSpan = 1;
-            }
-
-            if (!node.fixed && !node.parentId) {
-                fixed = "";
-            }
-
-            if ((node.fixed && !node.parentId) || fixed) {
-                if (!fixed || !node.parentId) {
-                    fixed = node.fixed;
-                }
-                if (fixed == "left" || fixed == true) {
-                    fixedLeft[rowIndex].push(node);
-                    node.fixed = "left";
-                } else {
-                    fixedRight[rowIndex].push(node);
-                    node.fixed = "right";
-                }
-            } else {
-                rows[rowIndex].push(node);
-            }
-        });
-
-        rows.forEach((row, rowIndex) => {
-            row.push(...fixedRight[rowIndex]);
-            row.unshift(...fixedLeft[rowIndex]);
-        });
-
-        this.columns = columns;
-        this.fixedLeft = fixedLeft;
-        this.fixedRight = fixedRight;
-        this.theadRows = rows;
 
         if ("loading" in props) {
             this.setState({
@@ -757,10 +753,12 @@ class Table extends Component {
             </div>
         );
 
+
         return (
             <Loading show={loading}>
                 <div className={classString} ref="table">
-                    <div className={`${prefixCls}-content`}>
+                    <div className={`${prefixCls}-top`} />
+                    <div className={`${prefixCls}-middle`}>
                         <div
                             className={`${prefixCls}-scroll`}
                             ref="elMainScroll"
@@ -780,7 +778,9 @@ class Table extends Component {
                             ? right
                             : null}
                     </div>
-                    {pagination ? <Pagination {...pagination} /> : null}
+                    <div className={`${prefixCls}-bottom`}>
+                        {pagination ? <Pagination kStyle="primary" {...pagination} /> : null}
+                    </div>
                 </div>
             </Loading>
         );

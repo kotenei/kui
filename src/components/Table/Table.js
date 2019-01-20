@@ -73,6 +73,14 @@ const Sorter = props => {
     );
 };
 
+const Filter = props => {
+    return (
+        <div className={`${prefixCls}-filter`}>
+            <Icon type="filter" />
+        </div>
+    );
+};
+
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -489,10 +497,13 @@ class Table extends Component {
                         style={{ textAlign: cell.align }}
                     >
                         <div className={`${prefixCls}-thead-content`}>
-                            <div className={`${prefixCls}-thead-content__title`}>
+                            <div
+                                className={`${prefixCls}-thead-content__title`}
+                            >
                                 {cell.title}
                             </div>
                             {cell.sorter ? <Sorter /> : null}
+                            {cell.filters ? <Filter  /> : null}
                         </div>
                     </th>
                 );
@@ -500,6 +511,7 @@ class Table extends Component {
 
             theadRows.push(<tr key={`thRow-${rowIndex}`}>{cells}</tr>);
         });
+
         return (
             <table
                 className={`${prefixCls}-fixed`}

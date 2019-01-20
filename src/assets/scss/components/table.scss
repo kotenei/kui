@@ -190,5 +190,19 @@ $prefixCls:'.k-table';
         flex-direction: column;
         font-size: torem(8px);
         cursor: pointer;
+        width: torem(16px);
+        .k-icon{
+            width:torem(8px);
+            height:torem(8px);
+            margin: 0;
+        }
+    }
+    &-filter{
+        font-size: torem(16px);
+        cursor: pointer;
+        width: torem(16px);
+        .k-icon{
+            margin: 0;
+        }
     }
 }

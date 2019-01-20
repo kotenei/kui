@@ -323,6 +323,7 @@ class TableView extends Component {
                                 title="FirstName"
                                 dataIndex="firstName"
                                 sorter
+                                filters={[{ text: "abc", value: "abc" }]}
                             />
                             <TableColumn
                                 title="LastName"

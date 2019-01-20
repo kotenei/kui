@@ -4,45 +4,21 @@ import classnames from "classnames";
 import omit from "object.omit";
 import { kStyles, kClass, getClassSet } from "../../utils/kUtils";
 import { State, PRIMARY, Sizes } from "../../utils/styleMaps";
-import outline from "./outline";
-import filled from "./filled";
 
 const prefixCls = "k-icon";
 
 class SvgIcon extends Component {
     static propTypes = {
-        theme: PropTypes.oneOf(["outline", "filled"]),
-        type: PropTypes.string,
         title: PropTypes.string,
         nativeColor: PropTypes.string,
         fontSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         onClick: PropTypes.func
     };
     static defaultProps = {
-        theme: "outline",
         viewBox: "0 0 1024 1024"
     };
-    renderPresetIcon() {
-        const { theme, type } = this.props;
-        let presetIcon;
-        switch (type) {
-            case "outline":
-                presetIcon = outline[type];
-                break;
-            case "filled":
-                presetIcon = filled[type];
-                break;
-            default:
-                break;
-        }
-        if (presetIcon) {
-            
-        }
-        return null;
-    }
     render() {
         const {
-            theme,
             children,
             className,
             fontSize,
@@ -66,7 +42,6 @@ class SvgIcon extends Component {
                 style={_style}
             >
                 {title ? <title>{title}</title> : null}
-                {this.renderPresetIcon()}
                 {children}
             </svg>
         );

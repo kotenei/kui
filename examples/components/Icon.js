@@ -318,13 +318,18 @@ class IconView extends Component {
             <div>
                 <h1>Icon 图标</h1>
                 <h3>方向性图标</h3>
-                <ul className="icon-list">{this.renderDirection()}</ul>
+                {/* <ul className="icon-list">{this.renderDirection()}</ul>
                 <h3>提示建议性图标</h3>
                 <ul className="icon-list">{this.renderSuggest()}</ul>
                 <h3>网站通用图标</h3>
                 <ul className="icon-list">{this.renderCommon()}</ul>
                 <h3>品牌和标识</h3>
-                <ul className="icon-list">{this.renderBrand()}</ul>
+                <ul className="icon-list">{this.renderBrand()}</ul> */}
+                <div style={{width:36,height:36}}>
+                <Icon>
+                <path d="M700.60432 80.576q10.848-10.848 18.272-7.424t7.424 18.272l0 841.152q0 14.848-7.424 18.272t-18.272-7.424l-405.728-405.728q-5.152-5.152-7.424-10.848l0 387.424q0 14.848-10.848 25.728t-25.728 10.848l-73.152 0q-14.848 0-25.728-10.848t-10.848-25.728l0-804.576q0-14.848 10.848-25.728t25.728-10.848l73.152 0q14.848 0 25.728 10.848t10.848 25.728l0 387.424q2.272-6.272 7.424-10.848z" p-id="739"/>
+                </Icon>
+                </div>
 
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

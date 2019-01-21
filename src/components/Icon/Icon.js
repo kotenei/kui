@@ -38,7 +38,7 @@ class Icon extends Component {
         }
         if (presetIcon) {
             return (
-                <SvgIcon viewBox={presetIcon.viewBox} nativeColor={color}>
+                <SvgIcon viewBox={presetIcon.viewBox} color={color}>
                     {presetIcon.path}
                 </SvgIcon>
             );

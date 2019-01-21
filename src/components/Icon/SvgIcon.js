@@ -6,11 +6,10 @@ const prefixCls = "k-icon-svg";
 
 class SvgIcon extends Component {
     static propTypes = {
-        type: PropTypes.string,
         title: PropTypes.string,
-        nativeColor: PropTypes.string,
+        color: PropTypes.string,
         fontSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        onClick: PropTypes.func
+        viewBox:PropTypes.string,
     };
     static defaultProps = {
         viewBox: "0 0 1024 1024"
@@ -23,13 +22,13 @@ class SvgIcon extends Component {
             fontSize,
             viewBox,
             title,
-            nativeColor,
+            color,
             style
         } = this.props;
         const _style = {
             fontSize,
             ...style,
-            fill: `${nativeColor ? nativeColor : null}`
+            fill: `${color ? color : null}`
         };
         const classString = classnames(prefixCls, className);
 
@@ -38,7 +37,7 @@ class SvgIcon extends Component {
                 className={classString}
                 focusable="false"
                 viewBox={viewBox}
-                fill={nativeColor}
+                fill={color}
                 aria-hidden={title ? "false" : "true"}
                 style={_style}
             >

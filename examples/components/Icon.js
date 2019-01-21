@@ -15,39 +15,11 @@ const icons = [
 
 class IconView extends Component {
     state = {
-        type: "outline"
+        theme: "outline"
     };
-    renderOutlineIcons() {
-        let content = [];
-        for (let i = 0; i < icons.length; i++) {
-            const item = icons[i];
-            let items = [];
-            content.push(<h3 key={`title_${i}`}>{item.title}</h3>);
-            for (const key in outline[item.key]) {
-                if (outline[item.key].hasOwnProperty(key)) {
-                    const element = outline[item.key][key];
-                    items.push(
-                        <li key={key}>
-                            <Icon type={key} className="anticon" />
-                            <span>{key}</span>
-                        </li>
-                    );
-                }
-            }
-            content.push(
-                <ul className="icon-list" key={`ul_${i}`}>
-                    {items}
-                </ul>
-            );
-        }
-        return content;
-    }
-
-    renderFilledIcons() {}
-
     renderIcons() {
-        const { type } = this.state;
-        let source = type == "outline" ? outline : filled;
+        const { theme } = this.state;
+        let source = theme == "outline" ? outline : filled;
         let content = [];
         for (let i = 0; i < icons.length; i++) {
             const item = icons[i];
@@ -58,7 +30,7 @@ class IconView extends Component {
                     const element = source[item.key][key];
                     items.push(
                         <li key={key}>
-                            <Icon type={key} className="anticon" />
+                            <Icon type={key} className="anticon" theme={theme} />
                             <span>{key}</span>
                         </li>
                     );
@@ -74,7 +46,7 @@ class IconView extends Component {
     }
 
     render() {
-        const { type } = this.state;
+        const { theme } = this.state;
         return (
             <div>
                 <h1>Icon 图标</h1>
@@ -82,18 +54,18 @@ class IconView extends Component {
                 <div style={{ marginBottom: 20 }}>
                     <Button
                         raised
-                        active={type === "outline"}
+                        active={theme === "outline"}
                         onClick={() => {
-                            this.setState({ type: "outline" });
+                            this.setState({ theme: "outline" });
                         }}
                     >
                         线框风格
                     </Button>{" "}
                     <Button
                         raised
-                        active={type == "filled"}
+                        active={theme == "filled"}
                         onClick={() => {
-                            this.setState({ type: "filled" });
+                            this.setState({ theme: "filled" });
                         }}
                     >
                         实底风格
@@ -102,6 +74,7 @@ class IconView extends Component {
 
                 {this.renderIcons()}
                 <h1>API</h1>
+                <h3>Icon</h3>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>
@@ -119,10 +92,54 @@ class IconView extends Component {
                             <td>—</td>
                         </tr>
                         <tr>
+                            <td>theme</td>
+                            <td>图标风格</td>
+                            <td>string，可选 'outline' 和 'filled'</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
                             <td>spin</td>
                             <td>是否旋转</td>
                             <td>boolean</td>
                             <td>false</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/>
+                <h3>Icon.SvgIcon</h3>
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
+                    <thead>
+                        <tr>
+                            <th>属性</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>默认值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>title</td>
+                            <td>SVG描述</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>color</td>
+                            <td>填充的颜色</td>
+                            <td>string|number</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>fontSize</td>
+                            <td>字体大小</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>viewBox</td>
+                            <td>图像容器</td>
+                            <td>string</td>
+                            <td>—</td>
                         </tr>
                     </tbody>
                 </table>

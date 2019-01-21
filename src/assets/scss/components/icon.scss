@@ -23,8 +23,8 @@
     @include icon-color('success', $success);
     @include icon-color('danger', $danger);
     svg {
-        width: 1em;
-        height: 1em;
+        width: 1rem;
+        height: 1rem;
         display: inline-block;
         vertical-align: middle;
         margin-top: torem(-2px);

@@ -87,7 +87,7 @@ class UploadListItem extends Component {
                                     target="_blank"
                                     title={previewTitle}
                                 >
-                                    <Icon type="eyeo" />
+                                    <Icon type="eye" />
                                 </a>
                                 <a
                                     title={removeTitle}

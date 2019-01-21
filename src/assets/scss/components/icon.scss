@@ -1,6 +1,9 @@
 @mixin icon-color($state, $color) {
     &.k-icon-#{$state} {
         color: $color;
+        svg {
+            fill: $color;
+        }
     }
 }
 
@@ -8,6 +11,9 @@
     font-size: inherit;
     vertical-align: middle;
     margin: 0 .185rem; //transition: all .3s;
+    text-align: center;
+    line-height: 0;
+    display: inline-block;
     &.k-spin {
         animation: loadingCircle 1s infinite linear;
     }
@@ -16,4 +22,12 @@
     @include icon-color('warning', $warning);
     @include icon-color('success', $success);
     @include icon-color('danger', $danger);
+    svg {
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: torem(-2px);
+        fill:#333
+    }
 }

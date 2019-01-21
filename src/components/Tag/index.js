@@ -24,6 +24,7 @@ class Tag extends Component {
     static propTypes = {
         color: PropTypes.string,
         closable: PropTypes.bool,
+        iconColor: PropTypes.string,
         onClose: PropTypes.func
     };
     static defaultProps = {
@@ -41,7 +42,7 @@ class Tag extends Component {
         }
     }
     render() {
-        const { closable, children, color } = this.props;
+        const { closable, children, color, iconColor } = this.props;
         const { closed } = this.state;
         let classString = getClassSet(this.props);
         const tag = closed ? null : (
@@ -52,13 +53,17 @@ class Tag extends Component {
                 >
                     <span className="k-tag-text">{children}</span>
                     {closable ? (
-                        <Icon type="close" onClick={this.handleClose} />
+                        <Icon
+                            type="close"
+                            color={iconColor}
+                            onClick={this.handleClose}
+                        />
                     ) : null}
                 </div>
             </CSSTransition>
         );
         return (
-            <TransitionGroup component={React.Fragment} in={closed}>
+            <TransitionGroup component={React.Fragment} >
                 {tag}
             </TransitionGroup>
         );

@@ -29,5 +29,8 @@
         margin-right:torem(15px);
         vertical-align: top;
         margin-top:torem(-10px);
+        svg{
+            fill: $color;
+        }
     }
 }

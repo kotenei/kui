@@ -2,12 +2,15 @@
     &.k-pagination-#{$state}{
         li{
 
-            a,span{
+            a{
                 color:$color;
+                .k-icon svg{
+                    fill:$color;
+                }
             }
 
             &.active{
-                a,span{
+                a{
                     background:$color;
                 }
             }

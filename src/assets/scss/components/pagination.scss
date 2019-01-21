@@ -14,8 +14,7 @@
 
     li{
         display: inline;
-        a,
-        span{
+        a{
             padding: 0 0.25rem;
             line-height: $line-height;
             text-align: center;
@@ -28,6 +27,9 @@
             min-width:2.5rem;
             height:2.5rem;
             line-height:2.5rem;
+            .k-icon svg{
+                fill:$teal;
+            }
         }
 
         a:hover{
@@ -36,18 +38,21 @@
         }
 
         &.active{
-            a,span{
+            a{
                 background: $teal;
                 color: white;
             }
         }
 
         &.disabled{
-            a,span{
+            a{
                 cursor:$cursor-disabled;
                 color:$disabled-color;
                 &:hover{
                     background:none;
+                }
+                svg{
+                    fill:$disabled-color;
                 }
             }
         }
@@ -61,13 +66,13 @@
 
 
         &:first-child{
-            a,span{
+            a{
                 border-radius: $border-radius 0 0 $border-radius;
             }
         }
 
         &:last-child{
-            a,span{
+            a{
                 border-radius: 0 $border-radius $border-radius 0;
             }
         }
@@ -95,7 +100,7 @@
 
     &.k-pagination-xs{
         li{
-            a,span{
+            a{
                 font-size:$font-size-xs;
                 min-width:1.75rem;
                 height:1.75rem;
@@ -110,7 +115,7 @@
 
     &.k-pagination-sm{
         li{
-            a,span{
+            a{
                 font-size:$font-size-sm;
                 min-width:1.875rem;
                 height:1.875rem;
@@ -124,7 +129,7 @@
 
     &.k-pagination-lg{
         li{
-            a,span{
+            a{
                 font-size:$font-size-lg;
                 min-width:2.8125rem;
                 height:2.8125rem;

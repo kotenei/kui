@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import omit from "object.omit";
-import { kStyles, kClass, getClassSet } from "../../utils/kUtils";
-import { State, PRIMARY, Sizes } from "../../utils/styleMaps";
 
-const prefixCls = "k-icon";
+const prefixCls = "k-icon-svg";
 
 class SvgIcon extends Component {
     static propTypes = {
+        type: PropTypes.string,
         title: PropTypes.string,
         nativeColor: PropTypes.string,
         fontSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -19,6 +17,7 @@ class SvgIcon extends Component {
     };
     render() {
         const {
+            theme,
             children,
             className,
             fontSize,
@@ -27,17 +26,19 @@ class SvgIcon extends Component {
             nativeColor,
             style
         } = this.props;
-        const _style = { fontSize, ...style };
-
-        let classes = getClassSet(this.props);
-        classes = classnames(classes, className);
+        const _style = {
+            fontSize,
+            ...style,
+            fill: `${nativeColor ? nativeColor : null}`
+        };
+        const classString = classnames(prefixCls, className);
 
         return (
             <svg
-                className={classes}
+                className={classString}
                 focusable="false"
                 viewBox={viewBox}
-                color={nativeColor}
+                fill={nativeColor}
                 aria-hidden={title ? "false" : "true"}
                 style={_style}
             >
@@ -48,6 +49,4 @@ class SvgIcon extends Component {
     }
 }
 
-const styles = State.values().concat(PRIMARY);
-
-export default kStyles(styles, kClass(prefixCls, SvgIcon));
+export default SvgIcon;

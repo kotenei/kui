@@ -43,6 +43,9 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
         &:last-child {
             margin-bottom: torem(8px);
         }
+        .k-icon svg{
+            fill:#606266;
+        }
         @include modifier("error") {
             border-color: $danger !important;
             @include kStyle(#{$prefix-list}__text) {
@@ -164,7 +167,9 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
         }
         .k-icon {
             font-size: torem(34px);
-            color: rgba(0, 0, 0, 0.25);
+            svg {
+                fill: rgba(0, 0, 0, 0.25);
+            }
         }
     }
     @include kStyle(#{$prefix-list}__text) {
@@ -248,11 +253,13 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
         }
         .k-icon {
             font-size: torem(40px);
-            color: rgba(0, 0, 0, 0.25);
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            svg {
+                fill: rgba(0, 0, 0, 0.25);
+            }
         }
     }
     @include kStyle(#{$prefix-list}__text) {
@@ -273,6 +280,9 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
             margin: 0 torem(2px);
             font-size: $font-size-lg;
             opacity: 0;
+            .k-icon svg{
+                fill: white;
+            }
         }
     }
 }

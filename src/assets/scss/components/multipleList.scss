@@ -46,6 +46,9 @@
                         z-index: 1;
                         &.icon-caretdown {
                             color: #bfbfbf;
+                            svg{
+                                fill: #bfbfbf;
+                            }
                         }
                     }
                 }

@@ -5,6 +5,15 @@ import direction from "./direction";
 import edit from "./edit";
 import tips from "./tips";
 
+export const icons={
+    ...brand,
+    ...common,
+    ...data,
+    ...direction,
+    ...edit,
+    ...tips
+}
+
 export default {
     brand,
     common,

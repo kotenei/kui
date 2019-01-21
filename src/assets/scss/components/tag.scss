@@ -9,12 +9,18 @@
     border-radius: $border-radius;
     cursor: pointer;
     margin:0 0.5rem 0.5rem 0;
+    .k-icon-svg{
+        fill:$label-color;
+    }
 }
  
 .k-tag-default{
     border: 1px solid #e9e9e9;
     color: rgba(0,0,0,.65);
     @include tag-variant(#f3f3f3);
+    .k-icon-svg{
+        fill:rgba(0,0,0,.65);
+    }
 }
 
 .k-tag-primary{

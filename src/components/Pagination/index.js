@@ -78,7 +78,7 @@ class Pagination extends Component {
         };
     }
     init(props = this.props) {
-        const { pageNumber, total, pageSize } = props;
+        const { pageNumber, defaultPageNumber, total, pageSize } = props;
         const { current } = this.state;
 
         if ("pageNumber" in props && current != pageNumber) {
@@ -87,7 +87,7 @@ class Pagination extends Component {
             });
         } else {
             let allPage = parseInt(total / pageSize);
-            let current = pageNumber;
+            let current = defaultPageNumber;
             allPage = total % pageSize !== 0 ? allPage + 1 : allPage;
             allPage = allPage === 0 ? 1 : allPage;
 

@@ -31,10 +31,10 @@ class TagView extends Component {
                     <Tag closable={true} kStyle="danger">
                         danger
                     </Tag>
-                    <Tag closable={true} color="#87d068">
+                    <Tag closable={true} color="#87d068" iconColor={'#fff'}>
                         #87d068
                     </Tag>
-                    <Tag closable={true} color="green">
+                    <Tag closable={true} color="green" iconColor={'#fff'}>
                         green
                     </Tag>
                 </div>
@@ -60,6 +60,12 @@ class TagView extends Component {
                             <td>是否可关闭标签</td>
                             <td>boolean</td>
                             <td>false</td>
+                        </tr>
+                        <tr>
+                            <td>iconColor</td>
+                            <td>关闭图标颜色</td>
+                            <td>string</td>
+                            <td>—</td>
                         </tr>
                         <tr>
                             <td>kStyle</td>

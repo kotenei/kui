@@ -2,6 +2,9 @@
     &.k-message-#{$state} {
         .k-icon{
             color:$color;
+            svg{
+                fill:$color;
+            }
         }
     }
 }

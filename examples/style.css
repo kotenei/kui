@@ -142,6 +142,7 @@ body {
     font-style: normal;
     vertical-align: baseline;
     text-align: center;
+    fill:#555;
 }
 
 .icon-list li span {

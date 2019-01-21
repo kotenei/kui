@@ -77,14 +77,15 @@ class CalendarView extends Component {
                     >
                         <Icon
                             type="plus"
-                            style={{ fontSize: 34, color: "#8C939D" }}
+                            style={{ fontSize: 34 }}
+                            color="8C939D"
                         />
                     </Upload>
                 </div>
                 <h3>拖拽上传</h3>
                 <div className="k-example">
                     <Upload action={action} dragger>
-                        <Icon type="clouduploado" style={{ fontSize: 40 }} />
+                        <Icon type="cloud-upload" style={{ fontSize: 40 }} />
                         <div>将文件拖放到这里或点击上传</div>
                     </Upload>
                 </div>
@@ -215,13 +216,13 @@ class CalendarView extends Component {
                         <tr>
                             <td>onChange</td>
                             <td>上传文件改变时的状态</td>
-                            <td>{'Function({(file, fileList)})'}</td>
+                            <td>{"Function({(file, fileList)})"}</td>
                             <td>—</td>
                         </tr>
                         <tr>
                             <td>onRemove</td>
                             <td>删除文件的钩子</td>
-                            <td>{'Function(file)'}</td>
+                            <td>{"Function(file)"}</td>
                             <td>—</td>
                         </tr>
                     </tbody>

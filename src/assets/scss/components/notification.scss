@@ -46,6 +46,7 @@
         @include notification-notice-state('danger',$danger);
         
         .k-notice-content {
+            flex:1;
             .k-notice-title {
                 padding-right: $num;
                 margin-bottom: torem(4px);
@@ -64,6 +65,9 @@
             color: $text-color-secondary;
             &:hover{
                 color:$font-color-base;
+            }
+            svg{
+                fill: $text-color-secondary;
             }
         }
     }

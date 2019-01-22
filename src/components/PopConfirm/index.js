@@ -46,7 +46,7 @@ class Popconfirm extends Component {
         return (
             <div>
                 <div className={`${prefixCls}-message`}>
-                    <Icon type="exclamationcircle" kStyle="warning" />
+                    <Icon type="exclamation-circle" kStyle="warning" theme="filled"/>
                     <div className={`${prefixCls}-message-title`}>{title}</div>
                 </div>
                 <div className={`${prefixCls}-buttons`}>

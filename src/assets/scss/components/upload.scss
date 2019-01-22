@@ -119,15 +119,17 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
         }
     }
     @include kStyle(#{$prefix-list}__info) {
-        display: flex;
+        // display: flex;
         line-height: torem(25px);
         i {
             margin-right: torem(5px);
+            vertical-align: middle;
         }
         a {
-            flex: 1;
-            display: block;
+            // flex: 1;
+            display: inline-block;
             color: $primary;
+            vertical-align: middle;
         }
     }
     @include kStyle(#{$prefix-list}__icon) {

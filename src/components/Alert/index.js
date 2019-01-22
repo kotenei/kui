@@ -63,16 +63,16 @@ class Alert extends Component {
         let iconType;
         switch (this.props.kStyle) {
             case "info":
-                iconType = "infocirlce";
+                iconType = "info-circle";
                 break;
             case "success":
-                iconType = "checkcircle";
+                iconType = "check-circle";
                 break;
             case "warning":
-                iconType = "exclamationcircle";
+                iconType = "exclamation-circle";
                 break;
             case "danger":
-                iconType = "closecircle";
+                iconType = "close-circle";
                 break;
         }
 
@@ -86,6 +86,7 @@ class Alert extends Component {
                                 "k-alert-icon": true,
                                 lg: description != null
                             })}
+                            theme="filled"
                         />
                     ) : null}
                     <div className="k-alert-content">

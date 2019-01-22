@@ -15,6 +15,7 @@ class Icon extends Component {
         theme: PropTypes.oneOf(["outline", "filled"]),
         type: PropTypes.string,
         color: PropTypes.string,
+        spin: PropTypes.bool,
         onClick: PropTypes.func
     };
     static defaultProps = {
@@ -46,13 +47,17 @@ class Icon extends Component {
         return children;
     }
     render() {
-        const { children, className, style, onClick } = this.props;
+        const { children, className, style, spin, type, onClick } = this.props;
         let classString = getClassSet(this.props);
-        classString = classnames(classString, className);
+        classString = classnames(classString, className, {
+            // icon: true,
+            // anticon: true,
+            "k-spin": !!spin || type == "loading"
+        });
         return (
-            <span className={classString} style={style} onClick={onClick}>
+            <i className={classString} style={style} onClick={onClick}>
                 {this.renderIcon()}
-            </span>
+            </i>
         );
     }
 }

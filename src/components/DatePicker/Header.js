@@ -90,7 +90,7 @@ class Header extends Component {
                 {showPrevYear ? (
                     <a onClick={this.handlePrevYearClick}>
                         <Icon
-                            type="doubleleft"
+                            type="double-left"
                             className={`${prefixCls}-prev-button`}
                         />
                     </a>
@@ -132,7 +132,7 @@ class Header extends Component {
                 {showNextYear ? (
                     <a onClick={this.handleNextYearClick}>
                         <Icon
-                            type="doubleright"
+                            type="double-right"
                             className={`${prefixCls}-next-button`}
                         />
                     </a>

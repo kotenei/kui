@@ -1,4 +1,4 @@
-import "./assets/iconfont/iconfont.css";
+// import "./assets/iconfont/iconfont.css";
 import "./assets/scss/kui.scss";
 import InfiniteScroll from "./components/InfiniteScroll";
 import DatePicker from "./components/DatePicker";

@@ -195,7 +195,8 @@ body {
   display: inline-block;
   font-style: normal;
   vertical-align: baseline;
-  text-align: center; }
+  text-align: center;
+  fill: #555; }
 
 .icon-list li span {
   display: block;

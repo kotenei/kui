@@ -329,7 +329,7 @@ class TabNav extends Component {
         const { prefixCls, editable, extraContent, hideAdd } = this.props;
         return (
             <div className={`${prefixCls}-extra-content`}>
-                {editable && !hideAdd ? <Icon type="plussquareo" onClick={this.handleTabAdd} /> : null}
+                {editable && !hideAdd ? <Icon type="plus-square" onClick={this.handleTabAdd} /> : null}
                 {extraContent}
             </div>
         )

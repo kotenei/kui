@@ -4,7 +4,7 @@ import confirm from './confirm';
 Modal.info = function (props) {
     const config = {
         type: 'info',
-        iconType: 'infocirlce',
+        iconType: 'info-circle',
         okCancel: false,
         ...props
     }
@@ -14,7 +14,7 @@ Modal.info = function (props) {
 Modal.success = function (props) {
     const config = {
         type: 'success',
-        iconType: 'checkcircle',
+        iconType: 'check-circle',
         okCancel: false,
         ...props
     }
@@ -24,7 +24,7 @@ Modal.success = function (props) {
 Modal.warning = function (props) {
     const config = {
         type: 'warning',
-        iconType: 'exclamationcircle',
+        iconType: 'exclamation-circle',
         okCancel: false,
         ...props
     }
@@ -34,7 +34,7 @@ Modal.warning = function (props) {
 Modal.error = function (props) {
     const config = {
         type: 'danger',
-        iconType: 'closecircle',
+        iconType: 'close-circle',
         okCancel: false,
         ...props
     }
@@ -44,7 +44,7 @@ Modal.error = function (props) {
 Modal.confirm = function (props) {
     const config = {
         type: 'warning',
-        iconType: 'questioncircle',
+        iconType: 'question-circle',
         ...props
     }
     return confirm(config);

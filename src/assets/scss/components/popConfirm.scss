@@ -3,11 +3,13 @@
     .k-popconfirm-message {
         margin-top: torem(10px);
         margin-bottom: torem(10px);
-        display: flex;
+        // display: flex;
         .k-icon {
             margin-right: torem(5px);
         }
-        .k-popconfirm-message-title {}
+        .k-popconfirm-message-title {
+            display: inline-block;
+        }
     }
     .k-popconfirm-buttons {
         text-align: right;

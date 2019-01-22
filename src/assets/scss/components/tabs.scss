@@ -85,6 +85,9 @@
                                 &:hover {
                                     color: $font-color-base;
                                 }
+                                svg{
+                                    fill:#ccc;
+                                }
                             }
                             &:hover {
                                 .icon-close {

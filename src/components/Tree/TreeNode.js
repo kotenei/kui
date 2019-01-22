@@ -111,9 +111,9 @@ class TreeNode extends Component {
             icon
         } = this.props;
         const { isLoading, loaded } = this.state;
-        let iconType = this.isExpanded() ? "caretdown" : "caretright";
+        let iconType = this.isExpanded() ? "caret-down" : "caret-right";
         if (showLine) {
-            iconType = this.isExpanded() ? "minussquareo" : "plussquareo";
+            iconType = this.isExpanded() ? "minus-square" : "plus-square";
             if ((isLeaf && loadData) || (!children && !loadData)) {
                 iconType = "file";
             }

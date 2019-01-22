@@ -37,7 +37,7 @@ class TabItem extends Component {
                 })}
                 onClick={this.handleClick}>
                 {children}
-                {!disabled && editable ? <Icon type="close" onClick={this.handleClose} /> : null}
+                {!disabled && editable ? <Icon type="close" className="icon-close" onClick={this.handleClose} /> : null}
             </li>
         )
     }

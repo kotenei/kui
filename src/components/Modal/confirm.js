@@ -7,7 +7,7 @@ import ActionButton from './ActionButton';
 export default function confirm(config) {
     let instance;
     const props = {
-        iconType: 'questioncircle',
+        iconType: 'question-circle',
         okCancel: true,
         cancelText: '取消',
         okText: '确定',
@@ -32,7 +32,7 @@ export default function confirm(config) {
 
     let body = (
         <div className={`${prefixCls}-body`}>
-            <Icon type={props.iconType} className={`text-${props.type}`} />
+            <Icon type={props.iconType} className={`text-${props.type}`} theme="filled"/>
             <span className={`${prefixCls}-title`}>{props.title}</span>
             <div className={`${prefixCls}-content`}>{props.content}</div>
         </div>

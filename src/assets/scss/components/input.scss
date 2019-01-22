@@ -14,6 +14,7 @@
         top: 50%;
         line-height: 0;
         z-index: 2;
+        transform: translateY(-50%);
     }
     .k-input-prefix {
         left: torem(7px);

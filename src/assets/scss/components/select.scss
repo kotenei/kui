@@ -3,7 +3,6 @@
     vertical-align: middle;
     position: relative;
     width: 100%;
-
     .k-select-single {
         border: $border-width-base $border-style-base $border-color-base;
         border-radius: $border-radius;
@@ -14,7 +13,6 @@
         padding-left: torem(12px);
         padding-right: torem(12px);
         font-size: $font-size-base;
-
         .k-icon {
             position: absolute;
             right: torem(5px);
@@ -23,41 +21,38 @@
             cursor: pointer;
             z-index: 1;
             &.icon-caretdown {
-                color: #bfbfbf;
+                fill: #bfbfbf;
             }
         }
-
     }
-
     .k-select-placeholder {
         color: #bfbfbf;
     }
-
-    &.k-select-sm{
+    &.k-select-sm {
         .k-select-single {
             height: torem(34px);
             line-height: torem(34px);
             font-size: $font-size-sm;
-            padding:0 torem(10px);
+            padding: 0 torem(10px);
         }
     }
-
-    &.k-select-lg{
+    &.k-select-lg {
         .k-select-single {
             height: torem(52px);
             line-height: torem(52px);
             font-size: $font-size-lg;
-            padding:0 torem(16px);
+            padding: 0 torem(16px);
         }
     }
-
-    &.disabled .k-select-single{
+    &.disabled .k-select-single {
         cursor: $cursor-disabled;
         background: $disabled-bgColor;
         color: $disabled-color;
-
         .k-icon {
             cursor: $cursor-disabled;
+            svg {
+                fill: $disabled-color;
+            }
         }
     }
 }

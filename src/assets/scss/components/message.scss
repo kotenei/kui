@@ -1,6 +1,6 @@
 .k-message {
     position: fixed; //top: torem(20px);
-    display: flex;
+    // display: flex;
     padding: torem(8px) torem(16px);
     border: $border-width-base $border-style-base $border-color-base;
     border-radius: $border-radius;
@@ -15,7 +15,9 @@
     .k-icon {
         margin-right: torem(10px);
     }
-    .k-message-content {}
+    .k-message-content {
+        display: inline-block;
+    }
     @include message-variant('info', $info);
     @include message-variant('success', $success);
     @include message-variant('error', $danger);

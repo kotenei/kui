@@ -18,6 +18,9 @@
                 cursor: $cursor-disabled;
                 background: $disabled-bgColor;
                 color: $disabled-color;
+                .k-icon svg{
+                    fill:$disabled-color;
+                }
             }
         }
         .k-collapse-body {

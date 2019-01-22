@@ -157,7 +157,7 @@ class Select extends Component {
                         ) : (
                             valList[0].text
                         )}
-                        <Icon type="caretdown" />
+                        <Icon type="caret-down" className="icon-caretdown" />
                     </div>
                 </div>
             );

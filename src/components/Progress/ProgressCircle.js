@@ -51,12 +51,12 @@ class ProgressCircle extends Component {
         if (status) {
             if (status == "success") {
                 if (percent >= 100) {
-                    return <Icon type="check" fontSize={fontSize} />;
+                    return <Icon type="check" fontSize={fontSize} color="#4caf50"/>;
                 }
                 return `${percent}%`;
             }
             if (status == "error") {
-                return <Icon type="close" fontSize={fontSize} />;
+                return <Icon type="close" fontSize={fontSize} color="#f44336"/>;
             }
         }
         return null;

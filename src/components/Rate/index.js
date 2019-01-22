@@ -31,7 +31,7 @@ class Rate extends Component {
     static defaultProps = {
         allowHalf: false,
         count: 5,
-        character:<Icon type="star" />,
+        character:<Icon type="star" theme="filled" />,
         defaultValue: 0,
         disabled: false
     };

@@ -27,6 +27,9 @@
             background: #fff;
             transition: all .3s ease;
         }
+        .k-icon svg{
+            fill: #fff;
+        }
     }
     &.k-switch-checked {
         background: $primary;

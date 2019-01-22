@@ -9,12 +9,12 @@ class ProgressLine extends Component {
         if (status) {
             if (status == "success") {
                 if (percent >= 100) {
-                    return <Icon type="checkcircle" />;
+                    return <Icon type="check-circle" theme="filled" color="#4caf50"/>;
                 }
                 return `${percent}%`;
             }
             if (status == "error") {
-                return <Icon type="closecircle" />;
+                return <Icon type="close-circle" theme="filled" color="#f44336"/>;
             }
         }
         return null;

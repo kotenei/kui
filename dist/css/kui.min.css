@@ -2064,8 +2064,7 @@ input[type="button"].k-btn-block {
       color: #bdbdbd;
       cursor: not-allowed; }
   .k-menu .k-icon {
-    margin-right: 0.3125rem;
-    vertical-align: baseline; }
+    margin-right: 0.3125rem; }
 
 .k-menu-vertical.k-menu-root .k-menu-item.k-menu-item-active:after,
 .k-menu-inlineCollapsed.k-menu-root .k-menu-item.k-menu-item-active:after {

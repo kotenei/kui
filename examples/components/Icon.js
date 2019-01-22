@@ -30,7 +30,11 @@ class IconView extends Component {
                     const element = source[item.key][key];
                     items.push(
                         <li key={key}>
-                            <Icon type={key} className="anticon" theme={theme} />
+                            <Icon
+                                type={key}
+                                className="anticon"
+                                theme={theme}
+                            />
                             <span>{key}</span>
                         </li>
                     );
@@ -86,6 +90,12 @@ class IconView extends Component {
                     </thead>
                     <tbody>
                         <tr>
+                            <td>color</td>
+                            <td>填充的颜色</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
                             <td>type</td>
                             <td>图标类型</td>
                             <td>string</td>
@@ -105,7 +115,7 @@ class IconView extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <br/>
+                <br />
                 <h3>Icon.SvgIcon</h3>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
@@ -126,13 +136,13 @@ class IconView extends Component {
                         <tr>
                             <td>color</td>
                             <td>填充的颜色</td>
-                            <td>string|number</td>
+                            <td>string</td>
                             <td>—</td>
                         </tr>
                         <tr>
                             <td>fontSize</td>
                             <td>字体大小</td>
-                            <td>string</td>
+                            <td>string|number</td>
                             <td>—</td>
                         </tr>
                         <tr>

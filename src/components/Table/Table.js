@@ -76,7 +76,7 @@ const Sorter = props => {
 const Filter = props => {
     return (
         <div className={`${prefixCls}-filter`}>
-            <Icon type="filter" theme="filled"/>
+            <Icon type="filter" theme="filled" />
         </div>
     );
 };
@@ -503,7 +503,7 @@ class Table extends Component {
                                 {cell.title}
                             </div>
                             {cell.sorter ? <Sorter /> : null}
-                            {cell.filters ? <Filter  /> : null}
+                            {cell.filters ? <Filter /> : null}
                         </div>
                     </th>
                 );

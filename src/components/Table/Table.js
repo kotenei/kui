@@ -56,9 +56,9 @@ const ExpandIcon = props => {
     return (
         <span onClick={onClick}>
             {props.expanded ? (
-                <Icon type="minussquareo" />
+                <Icon type="minus-square" />
             ) : (
-                <Icon type="plussquareo" />
+                <Icon type="plus-square" />
             )}
         </span>
     );
@@ -67,8 +67,8 @@ const ExpandIcon = props => {
 const Sorter = props => {
     return (
         <div className={`${prefixCls}-sorter`}>
-            <Icon type="caretup" />
-            <Icon type="caretdown" />
+            <Icon type="caret-up" />
+            <Icon type="caret-down" />
         </div>
     );
 };
@@ -76,7 +76,7 @@ const Sorter = props => {
 const Filter = props => {
     return (
         <div className={`${prefixCls}-filter`}>
-            <Icon type="filter" />
+            <Icon type="filter" theme="filled"/>
         </div>
     );
 };

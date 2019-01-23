@@ -2467,12 +2467,6 @@ input[type="button"].k-btn-block {
       border-radius: 0.25rem 0 0 0.25rem; }
     .k-pagination li:last-child a {
       border-radius: 0 0.25rem 0.25rem 0; }
-    .k-pagination li.k-pagination-jump-prev a i::before, .k-pagination li.k-pagination-jump-next a i::before {
-      content: "\E647"; }
-    .k-pagination li.k-pagination-jump-prev a:hover i::before, .k-pagination li.k-pagination-jump-next a:hover i::before {
-      content: "\E618"; }
-    .k-pagination li.k-pagination-jump-next a:hover i::before {
-      content: "\E617"; }
   .k-pagination.k-pagination-xs li a {
     font-size: 0.625rem;
     min-width: 1.75rem;

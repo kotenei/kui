@@ -47,15 +47,15 @@ class Icon extends Component {
         return children;
     }
     render() {
-        const { children, className, style, spin, type, onClick } = this.props;
+        const { children, className, spin, type, ...other } = this.props;
         let classString = getClassSet(this.props);
         classString = classnames(classString, className, {
-            // icon: true,
-            // anticon: true,
             "k-spin": !!spin || type == "loading"
         });
+        const others = omit(other, ["kStyle", "kClass", "kSize", "className"]);
+
         return (
-            <i className={classString} style={style} onClick={onClick}>
+            <i className={classString} {...others}>
                 {this.renderIcon()}
             </i>
         );

@@ -11,7 +11,8 @@ class Pagination extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
-            current: props.pageNumber || props.defaultPageNumber
+            current: props.pageNumber || props.defaultPageNumber,
+            hoverType: 0
         };
     }
     static propTypes = {
@@ -34,6 +35,7 @@ class Pagination extends Component {
 
     handleChange(current) {
         const { onChange } = this.props;
+
         if (current != this.state.current) {
             onChange(current);
             if (!("pageNumber" in this.props)) {
@@ -42,6 +44,10 @@ class Pagination extends Component {
                 });
             }
         }
+
+        this.setState({
+            hoverType: 0
+        });
     }
     getPageInfo() {
         let start, end, pre, next, allPage;
@@ -109,7 +115,7 @@ class Pagination extends Component {
         this.init(nextProps);
     }
     renderItems() {
-        const { current } = this.state;
+        const { current, hoverType } = this.state;
         const { jumpNumber } = this.props;
         let info = this.getPageInfo(),
             items = [],
@@ -153,8 +159,21 @@ class Pagination extends Component {
                     num={jumpPrev}
                     className="k-pagination-jump-prev"
                     onClick={this.handleChange}
+                    onMouseOver={() => {
+                        if (hoverType == 1) {
+                            return;
+                        }
+                        this.setState({
+                            hoverType: 1
+                        });
+                    }}
+                    onMouseLeave={() => {
+                        this.setState({
+                            hoverType: 0
+                        });
+                    }}
                 >
-                    <i className="k-icon icon anticon" />
+                    <Icon type={hoverType == 1 ? "double-left" : "ellipsis"} />
                 </PaginationItem>
             );
         }
@@ -180,8 +199,21 @@ class Pagination extends Component {
                     num={jumpNext}
                     className="k-pagination-jump-next"
                     onClick={this.handleChange}
+                    onMouseOver={() => {
+                        if (hoverType == 2) {
+                            return;
+                        }
+                        this.setState({
+                            hoverType: 2
+                        });
+                    }}
+                    onMouseLeave={() => {
+                        this.setState({
+                            hoverType: 0
+                        });
+                    }}
                 >
-                    <i className="k-icon icon anticon" />
+                    <Icon type={hoverType == 2 ? "double-right" : "ellipsis"} />
                 </PaginationItem>
             );
 

@@ -557,11 +557,21 @@ class Table extends Component {
             rowClassName,
             stripe
         } = this.props;
-        const { checkedIds, expandedRowIds } = this.state;
+        const { checkedIds, expandedRowIds, sorter } = this.state;
 
         let tbodyRows = [];
 
         if (data && data.length > 0) {
+            if (sorter && sorter.column) {
+                if (typeof sorter.column.sorter == "function") {
+                     data.sort((a, b) => {
+                         console.log(a)
+                        return sorter.column.sorter(a, b);
+                    });
+                } else {
+                }
+            }
+
             data.forEach((item, index) => {
                 let cells = [],
                     isEven = index % 2 == 0,

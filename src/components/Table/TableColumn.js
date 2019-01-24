@@ -15,7 +15,7 @@ class TableColumn extends Component {
         fixed: PropTypes.oneOf(["left", "right", true]),
         id: PropTypes.string,
         render: PropTypes.func,
-        sorter: PropTypes.bool,
+        sorter: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
         sortOrder: PropTypes.oneOf(["asc", "desc", false]),
         title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         width: PropTypes.number,

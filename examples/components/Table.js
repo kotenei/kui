@@ -322,7 +322,9 @@ class TableView extends Component {
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
-                                sorter
+                                sorter={(a, b) => {
+                                    return a.firstName.length - b.firstName.length;
+                                }}
                             />
                             <TableColumn
                                 title="LastName"
@@ -362,9 +364,13 @@ class TableView extends Component {
                         loading={isLoading}
                         pagination={paginationProps}
                     >
-                        <TableColumn title="Name" dataIndex="name" sorter/>
-                        <TableColumn title="Age" dataIndex="age" sorter/>
-                        <TableColumn title="Address" dataIndex="address" sorter/>
+                        <TableColumn title="Name" dataIndex="name" sorter />
+                        <TableColumn title="Age" dataIndex="age" sorter />
+                        <TableColumn
+                            title="Address"
+                            dataIndex="address"
+                            sorter
+                        />
                     </Table>
                 </div>
                 <h1>API</h1>

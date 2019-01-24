@@ -8,16 +8,18 @@
     border-radius: torem(100px);
     border: 1px solid transparent;
     background: rgba(0, 0, 0, 0.25);
-    transition: all .3s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
     .k-switch-inner {
         color: #fff;
         font-size: torem(12px);
         display: block;
-        margin-left:torem(24px);
-        margin-right:torem(6px);
-        &:after {
-            content: ' ';
+        margin-left: torem(24px);
+        margin-right: torem(6px);
+        .k-icon svg {
+            fill: #fff;
+        }
+        &__dot {
             position: absolute;
             width: torem(18px);
             height: torem(18px);
@@ -25,55 +27,59 @@
             left: 1px;
             top: 1px;
             background: #fff;
-            transition: all .3s ease;
-        }
-        .k-icon svg{
-            fill: #fff;
+            transition: all 0.3s ease;
+            .k-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin: 0;
+                margin-left: torem(-6px);
+                margin-top: torem(-6px);
+                
+                svg{
+                    fill: $primary !important;
+                }
+            }
         }
     }
     &.k-switch-checked {
         background: $primary;
         .k-switch-inner {
-            margin-left:torem(6px);
-            margin-right:torem(24px);
-            &:after {
+            margin-left: torem(6px);
+            margin-right: torem(24px);
+            &__dot {
                 left: 100%;
                 margin-left: torem(-19px);
             }
         }
-
-        &:before{
-            left:100%;
+        &:before {
+            left: 100%;
             margin-left: torem(-19px);
         }
     }
-
     &.disabled,
-    &.loading{
+    &.loading {
         cursor: $cursor-disabled;
-        opacity:.4;
+        opacity: 0.4;
         pointer-events: none;
     }
-
-    &.loading:before{
-        content:'\e64d';
-        display: inline-block;
+    &.loading:before {
+        // content: "\e64d";
+        // display: inline-block;
     }
-
-    &:before{
-        display: none;
-        content:'';
-        font-family:"anticon" !important;
-        
-        animation: loadingCircle 1s infinite linear;
-        font-size: torem(12px);
-        text-align: center;
-        z-index: 1;
-        color:$primary;
-        left: 1px;
-        top: 1px;
-        width: torem(18px);
-        height:18px;
-        position: absolute;
+    &:before {
+        // display: none;
+        // content: "";
+        // font-family: "anticon" !important;
+        // animation: loadingCircle 1s infinite linear;
+        // font-size: torem(12px);
+        // text-align: center;
+        // z-index: 1;
+        // color: $primary;
+        // left: 1px;
+        // top: 1px;
+        // width: torem(18px);
+        // height: 18px;
+        // position: absolute;
     }
 }

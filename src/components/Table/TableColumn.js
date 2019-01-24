@@ -8,6 +8,8 @@ class TableColumn extends Component {
         align: PropTypes.oneOf(["left", "right", "center"]),
         dataIndex: PropTypes.string,
         defaultSortOrder: PropTypes.oneOf(["asc", "desc"]),
+        filtered: PropTypes.bool,
+        filterIcon: PropTypes.func,
         filterMultiple: PropTypes.bool,
         filters: PropTypes.arrayOf(PropTypes.object),
         fixed: PropTypes.oneOf(["left", "right", true]),
@@ -21,8 +23,7 @@ class TableColumn extends Component {
         onSort: PropTypes.func
     };
     static defaultProps = {
-        filterMultiple: true,
-        id: guid()
+        filterMultiple: true
     };
     render() {
         return null;

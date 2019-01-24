@@ -65,10 +65,27 @@ const ExpandIcon = props => {
 };
 
 const Sorter = props => {
+    const { column, onSort, sorter } = props;
+    let upStyle, downStyle;
+
+    let onClick = function() {
+        if (onSort) {
+            onSort(column);
+        }
+    };
+
+    if (sorter && sorter.field && sorter.field === column.dataIndex) {
+        if (sorter.order == "desc") {
+            downStyle = "primary";
+        } else {
+            upStyle = "primary";
+        }
+    }
+
     return (
-        <div className={`${prefixCls}-sorter`}>
-            <Icon type="caret-up" />
-            <Icon type="caret-down" />
+        <div className={`${prefixCls}-sorter`} onClick={onClick}>
+            <Icon type="caret-up" kStyle={upStyle} />
+            <Icon type="caret-down" kStyle={downStyle} />
         </div>
     );
 };
@@ -95,7 +112,9 @@ class Table extends Component {
             tbodyRowsHeight: [],
             theadHeight: 0,
             tbodyHeight: 0,
-            scrollLeft: 0
+            scrollLeft: 0,
+            sorter: {},
+            filter: {}
         };
     }
 
@@ -438,7 +457,7 @@ class Table extends Component {
             expandedRowRender,
             disabledCheckIds
         } = this.props;
-        const { checkedIds, expandedRowIds } = this.state;
+        const { checkedIds, expandedRowIds, sorter } = this.state;
         let checkedCount = 0;
         let disabledCheckCount = 0;
 
@@ -502,7 +521,13 @@ class Table extends Component {
                             >
                                 {cell.title}
                             </div>
-                            {cell.sorter ? <Sorter /> : null}
+                            {cell.sorter ? (
+                                <Sorter
+                                    column={cell}
+                                    sorter={sorter}
+                                    onSort={this.handleSort}
+                                />
+                            ) : null}
                             {cell.filters ? <Filter /> : null}
                         </div>
                     </th>
@@ -953,6 +978,27 @@ class Table extends Component {
                 this.scrollBind([this.elMainBody, this.refs.elFixedLeftBody]);
             }, delay);
         }
+    };
+
+    handleSort = column => {
+        const { sorter } = this.state;
+        let newSorter = { column, field: column.dataIndex, order: "up" };
+        if (sorter && sorter.field == column.dataIndex) {
+            switch (sorter.order) {
+                case "up":
+                    newSorter.order = "desc";
+                    break;
+                case "desc":
+                    newSorter = {};
+                    break;
+                default:
+                    newSorter.order = "asc";
+                    break;
+            }
+        }
+        this.setState({
+            sorter: newSorter
+        });
     };
 
     scrollBind = (els, bind = true) => {

@@ -323,7 +323,26 @@ class TableView extends Component {
                                 title="FirstName"
                                 dataIndex="firstName"
                                 sorter
-                                filters={[{ text: "abc", value: "abc" }]}
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                                sorter
+                            />
+                        </TableColumn>
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Status" dataIndex="status" />
+                    </Table>
+                </div>
+                <br />
+                <h3>过滤</h3>
+                <div className="k-example">
+                    <Table data={data}>
+                        <TableColumn title="Name">
+                            <TableColumn
+                                title="FirstName"
+                                dataIndex="firstName"
                             />
                             <TableColumn
                                 title="LastName"
@@ -343,9 +362,9 @@ class TableView extends Component {
                         loading={isLoading}
                         pagination={paginationProps}
                     >
-                        <TableColumn title="Name" dataIndex="name" />
-                        <TableColumn title="Age" dataIndex="age" />
-                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn title="Name" dataIndex="name" sorter/>
+                        <TableColumn title="Age" dataIndex="age" sorter/>
+                        <TableColumn title="Address" dataIndex="address" sorter/>
                     </Table>
                 </div>
                 <h1>API</h1>

@@ -35,7 +35,6 @@ class Pagination extends Component {
 
     handleChange(current) {
         const { onChange } = this.props;
-
         if (current != this.state.current) {
             onChange(current);
             if (!("pageNumber" in this.props)) {
@@ -44,7 +43,6 @@ class Pagination extends Component {
                 });
             }
         }
-
         this.setState({
             hoverType: 0
         });
@@ -93,7 +91,7 @@ class Pagination extends Component {
             });
         } else {
             let allPage = parseInt(total / pageSize);
-            let current = defaultPageNumber;
+            let current = this.state.current;
             allPage = total % pageSize !== 0 ? allPage + 1 : allPage;
             allPage = allPage === 0 ? 1 : allPage;
 

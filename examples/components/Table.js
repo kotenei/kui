@@ -103,6 +103,11 @@ class TableView extends Component {
             }
         );
     }
+
+    handleChange = (pagination, filter, sorter) => {
+        this.loadData(pagination.pageNumber);
+    };
+
     componentDidMount() {
         this.loadData();
     }
@@ -110,10 +115,7 @@ class TableView extends Component {
         const { isLoading, pagination } = this.state;
 
         const paginationProps = {
-            ...pagination,
-            onChange: pageNumber => {
-                this.loadData(pageNumber);
-            }
+            ...pagination
         };
 
         return (
@@ -315,6 +317,15 @@ class TableView extends Component {
                     </Table>
                 </div>
                 <br />
+                <h3>分页</h3>
+                <div className="k-example">
+                    <Table data={remoteData}>
+                        <TableColumn title="Name" dataIndex="name" />
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
+                    </Table>
+                </div>
+                <br />
                 <h3>排序</h3>
                 <div className="k-example">
                     <Table data={data}>
@@ -323,17 +334,30 @@ class TableView extends Component {
                                 title="FirstName"
                                 dataIndex="firstName"
                                 sorter={(a, b) => {
-                                    return a.firstName.length - b.firstName.length;
+                                    return (
+                                        a.firstName.length - b.firstName.length
+                                    );
                                 }}
                             />
                             <TableColumn
                                 title="LastName"
                                 dataIndex="lastName"
-                                sorter
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age" />
-                        <TableColumn title="Address" dataIndex="address" />
+                        <TableColumn
+                            title="Age"
+                            dataIndex="age"
+                            sorter={(a, b) => {
+                                return a.age - b.age;
+                            }}
+                        />
+                        <TableColumn
+                            title="Address"
+                            dataIndex="address"
+                            sorter={(a, b) => {
+                                return a.address.length - b.address.length;
+                            }}
+                        />
                         <TableColumn title="Status" dataIndex="status" />
                     </Table>
                 </div>
@@ -363,14 +387,11 @@ class TableView extends Component {
                         data={this.state.data}
                         loading={isLoading}
                         pagination={paginationProps}
+                        onChange={this.handleChange}
                     >
-                        <TableColumn title="Name" dataIndex="name" sorter />
-                        <TableColumn title="Age" dataIndex="age" sorter />
-                        <TableColumn
-                            title="Address"
-                            dataIndex="address"
-                            sorter
-                        />
+                        <TableColumn title="Name" dataIndex="name" />
+                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn title="Address" dataIndex="address" />
                     </Table>
                 </div>
                 <h1>API</h1>

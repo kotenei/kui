@@ -114,7 +114,12 @@ class Table extends Component {
             tbodyHeight: 0,
             scrollLeft: 0,
             sorter: {},
-            filter: {}
+            filter: {},
+            pagination: {
+                pageNumber: 1,
+                total: props.data ? props.data.length : 0,
+                pageSize: 5
+            }
         };
     }
 
@@ -152,7 +157,13 @@ class Table extends Component {
     };
 
     init(props = this.props) {
-        const { children, loading, checkedIds, expandedRowIds } = props;
+        const {
+            children,
+            loading,
+            checkedIds,
+            expandedRowIds,
+            pagination
+        } = props;
 
         if (!this.columns) {
             let maxLevel = 1,
@@ -276,6 +287,12 @@ class Table extends Component {
         if ("expandedRowIds" in props) {
             this.setState({
                 expandedRowIds
+            });
+        }
+
+        if ("pagination" in props) {
+            this.setState({
+                pagination
             });
         }
     }
@@ -415,6 +432,55 @@ class Table extends Component {
         return totalWidth;
     }
 
+    getData() {
+        const { data } = this.props;
+        const { sorter, pagination } = this.state;
+        let dataSource = data || [];
+        dataSource = dataSource.slice(0);
+        const sorterFn = this.getSorterFunc();
+        if (sorterFn) {
+            dataSource = dataSource.sort(sorterFn);
+        }
+
+        if (!("pagination" in this.props)) {
+            let offset = (pagination.pageNumber - 1) * pagination.pageSize;
+            dataSource = dataSource.slice(offset, offset + pagination.pageSize);
+        }
+
+        return dataSource;
+    }
+
+    getAllPage() {
+        const { pagination } = this.state;
+        if (!pagination || pagination.total === 0) {
+            return 1;
+        }
+        let allPage = parseInt(pagination.total / pagination.pageSize);
+        allPage =
+            pagination.total % pagination.pageSize !== 0
+                ? allPage + 1
+                : allPage;
+        return allPage;
+    }
+
+    getSorterFunc() {
+        const { sorter } = this.state;
+        if (
+            !sorter ||
+            !sorter.column ||
+            typeof sorter.column.sorter !== "function"
+        ) {
+            return null;
+        }
+        return (a, b) => {
+            const result = sorter.column.sorter(a, b);
+            if (result !== 0) {
+                return sorter.order === "desc" ? -result : result;
+            }
+            return 0;
+        };
+    }
+
     componentWillMount() {
         this.init();
     }
@@ -450,16 +516,12 @@ class Table extends Component {
         this.init(nextProps);
     }
 
-    renderThead(headerRows, colGroupInfo) {
-        const {
-            checkbox,
-            data,
-            expandedRowRender,
-            disabledCheckIds
-        } = this.props;
+    renderThead(data, headerRows, colGroupInfo) {
+        const { checkbox, expandedRowRender, disabledCheckIds } = this.props;
         const { checkedIds, expandedRowIds, sorter } = this.state;
         let checkedCount = 0;
         let disabledCheckCount = 0;
+        // let data = this.getData();
 
         if (data && data.length > 0) {
             data.forEach(item => {
@@ -548,30 +610,20 @@ class Table extends Component {
         );
     }
 
-    renderTbody(columns, colGroupInfo) {
+    renderTbody(data, columns, colGroupInfo) {
         const {
             checkbox,
-            data,
             expandedRowRender,
             disabledCheckIds,
             rowClassName,
             stripe
         } = this.props;
-        const { checkedIds, expandedRowIds, sorter } = this.state;
+        const { checkedIds, expandedRowIds } = this.state;
 
         let tbodyRows = [];
+        //let data = this.getData();
 
         if (data && data.length > 0) {
-            if (sorter && sorter.column) {
-                if (typeof sorter.column.sorter == "function") {
-                     data.sort((a, b) => {
-                         console.log(a)
-                        return sorter.column.sorter(a, b);
-                    });
-                } else {
-                }
-            }
-
             data.forEach((item, index) => {
                 let cells = [],
                     isEven = index % 2 == 0,
@@ -677,15 +729,17 @@ class Table extends Component {
     }
 
     render() {
-        const { pagination, bordered, children, height } = this.props;
+        const { bordered, children, height } = this.props;
         const {
             loading,
             theadHeight,
             tbodyHeight,
             tableWidth,
             tableContainerWidth,
-            scrollLeft
+            scrollLeft,
+            pagination
         } = this.state;
+        let data = this.getData();
         let classString = classnames({
             [prefixCls]: true,
             [`${prefixCls}-bordered`]: bordered
@@ -697,12 +751,13 @@ class Table extends Component {
         let curWidth = scrollLeft + tableContainerWidth;
         let columns = this.getColumns(this.theadRows);
         let colGropInfo = this.getColGroupInfo(columns);
-        let header = this.renderThead(this.theadRows, colGropInfo);
-        let body = this.renderTbody(columns, colGropInfo);
+        let header = this.renderThead(data, this.theadRows, colGropInfo);
+        let body = this.renderTbody(data, columns, colGropInfo);
         let fixedLeftWidth = this.getFixedWidth(columns);
         let fixedRightWidth = this.getFixedWidth(columns, "right");
         let scrollbarWidth = 21;
         let fixedHeight = theadHeight + tbodyHeight;
+        let allPage = this.getAllPage();
 
         if (height) {
             scrollY = height < tbodyHeight;
@@ -840,8 +895,12 @@ class Table extends Component {
                             : null}
                     </div>
                     <div className={`${prefixCls}-bottom`}>
-                        {pagination ? (
-                            <Pagination kStyle="primary" {...pagination} />
+                        {pagination && allPage > 1 ? (
+                            <Pagination
+                                kStyle="primary"
+                                {...pagination}
+                                onChange={this.handlePageChange}
+                            />
                         ) : null}
                     </div>
                 </div>
@@ -991,7 +1050,8 @@ class Table extends Component {
     };
 
     handleSort = column => {
-        const { sorter } = this.state;
+        const { onChange } = this.props;
+        const { sorter, pagination } = this.state;
         let newSorter = { column, field: column.dataIndex, order: "up" };
         if (sorter && sorter.field == column.dataIndex) {
             switch (sorter.order) {
@@ -1007,8 +1067,28 @@ class Table extends Component {
             }
         }
         this.setState({
-            sorter: newSorter
+            sorter: newSorter,
+            pagination: {
+                ...pagination,
+                pageNumber: 1
+            }
         });
+    };
+
+    handlePageChange = pageNumber => {
+        const { onChange } = this.props;
+        const { pagination, filter, sorter } = this.state;
+        let newPagination = { ...pagination, pageNumber: pageNumber };
+
+        if (!("pageNumber" in this.props)) {
+            this.setState({
+                pagination: newPagination
+            });
+        }
+
+        if (onChange) {
+            onChange(newPagination, filter, sorter);
+        }
     };
 
     scrollBind = (els, bind = true) => {

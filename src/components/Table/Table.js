@@ -9,6 +9,10 @@ import domUtils from "../../utils/domUtils";
 import omit from "object.omit";
 import Checkbox from "../Checkbox";
 import Icon from "../Icon";
+import Menu from "../Menu";
+import Dropdown from "../Dropdown";
+import PopPanel from "../PopPanel";
+import Button from '../Button';
 
 const prefixCls = "k-table";
 const TABLE_TYPE = {
@@ -67,7 +71,6 @@ const ExpandIcon = props => {
 const Sorter = props => {
     const { column, onSort, sorter } = props;
     let upStyle, downStyle;
-
     let onClick = function() {
         if (onSort) {
             onSort(column);
@@ -91,10 +94,32 @@ const Sorter = props => {
 };
 
 const Filter = props => {
-    return (
+    const { column } = props;
+    const { filterIcon, filters } = column;
+    const filter = (
         <div className={`${prefixCls}-filter`}>
-            <Icon type="filter" theme="filled" />
+            {filterIcon ? filterIcon : <Icon type="filter" theme="filled" />}
         </div>
+    );
+    let menus = [];
+    if (filters && filters.length > 0) {
+        filters.forEach((item, index) => {
+            menus.push(
+                <Menu.Item key={index} id={item.value}>
+                    {item.text}
+                </Menu.Item>
+            );
+        });
+    }
+
+    return (
+        <PopPanel className={`${prefixCls}-filter`} input={filter} open={true} placement="bottomRight">
+            {menus.length > 0 ? <Menu>{menus}</Menu> : null}
+            <div className={`${prefixCls}-filter__btns`}>
+                <Button raised kSize="sm">确定</Button>
+                <Button raised kStyle="default" kSize="sm">重置</Button>
+            </div>
+        </PopPanel>
     );
 };
 
@@ -590,7 +615,7 @@ class Table extends Component {
                                     onSort={this.handleSort}
                                 />
                             ) : null}
-                            {cell.filters ? <Filter /> : null}
+                            {cell.filters ? <Filter column={cell} /> : null}
                         </div>
                     </th>
                 );
@@ -621,7 +646,6 @@ class Table extends Component {
         const { checkedIds, expandedRowIds } = this.state;
 
         let tbodyRows = [];
-        //let data = this.getData();
 
         if (data && data.length > 0) {
             data.forEach((item, index) => {

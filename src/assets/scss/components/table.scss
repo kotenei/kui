@@ -207,5 +207,14 @@ $prefixCls:'.k-table';
             // margin: 0;
             vertical-align: middle;
         }
+
+        &__btns{
+            border-top: $border-width-base $border-style-base $border-color-base;
+            text-align: center;
+            padding:torem(7px) torem(8px);
+            .k-btn{
+                margin:0 torem(4px);
+            }
+        }
     }
 }

@@ -369,6 +369,10 @@ class TableView extends Component {
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
+                                filters={[
+                                    { text: "Joe", value: "Joe" },
+                                    { text: "Jim", value: "Jim" }
+                                ]}
                             />
                             <TableColumn
                                 title="LastName"

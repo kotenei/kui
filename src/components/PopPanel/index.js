@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import {  getPosition } from "../../utils";
+import { getPosition } from "../../utils";
 import domUtils from "../../utils/domUtils";
 
 const prefixCls = "k-popPanel";
@@ -18,10 +18,6 @@ class PopPanel extends Component {
                 left: -999,
                 top: -999
             }
-        };
-        this.orgSize = {
-            width: 0,
-            height: 0
         };
         this.id = `poppanel_${seed++}`;
         instances[this.id] = this;
@@ -94,13 +90,16 @@ class PopPanel extends Component {
      */
     setPosition = position => {
         const { placement } = this.props;
+        let width = domUtils.outerWidth(this.refs.panel);
+        let height = domUtils.outerHeight(this.refs.panel);
         position =
             position ||
             this.props.position ||
             getPosition({
                 trigger: this.refs.trigger,
                 placement: placement,
-                ...this.orgSize
+                width,
+                height
             });
         this.setState({
             position
@@ -144,10 +143,6 @@ class PopPanel extends Component {
         }
     }
     componentDidMount() {
-        this.orgSize = {
-            width: domUtils.width(this.refs.picker),
-            height: domUtils.height(this.refs.picker)
-        };
         this.close();
         if (this.props.open === true) {
             this.open();
@@ -187,6 +182,7 @@ class PopPanel extends Component {
                         classNames={transitionName}
                     >
                         <div
+                            ref="panel"
                             className={prefixCls}
                             style={{ ...style, ...position }}
                             onClick={this.handlePanelClick}

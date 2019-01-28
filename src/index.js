@@ -22,6 +22,7 @@ export InfiniteScroll from "./components/InfiniteScroll";
 export Input from "./components/Input";
 export Layout from "./components/Layout";
 export LazyLoad from "./components/LazyLoad";
+export List from './components/List';
 export Loading from "./components/Loading";
 export Menu from "./components/Menu";
 export Message from "./components/Message";

@@ -8,20 +8,21 @@ import AutoComplete from "./components/AutoComplete";
 import Badge from "./components/Badge";
 import Breadcrumb from "./components/Breadcrumb";
 import Button from "./components/Button";
-import Calendar from './components/Calendar';
+import Calendar from "./components/Calendar";
 import Card from "./components/Card";
 import Carousel from "./components/Carousel";
 import Collapse from "./components/Collapse";
 import Checkbox from "./components/Checkbox";
 import DatePicker from "./components/Datepicker";
 import Dropdown from "./components/Dropdown";
-import Form from './components/Form';
-import Grid from './components/Grid';
+import Form from "./components/Form";
+import Grid from "./components/Grid";
 import Icon from "./components/Icon";
 import InfiniteScroll from "./components/InfiniteScroll";
 import Input from "./components/Input";
 import Layout from "./components/Layout";
 import LazyLoad from "./components/LazyLoad";
+import List from "./components/List";
 import Loading from "./components/Loading";
 import Menu from "./components/Menu";
 import Message from "./components/Message";
@@ -37,14 +38,14 @@ import Select from "./components/Select";
 import Slider from "./components/Slider";
 import Steps from "./components/Steps";
 import Switch from "./components/Switch";
-import Table from './components/Table';
+import Table from "./components/Table";
 import Tabs from "./components/Tabs";
 import Tag from "./components/Tag";
 import Timeline from "./components/Timeline";
 import TimePicker from "./components/TimePicker";
 import Tooltip from "./components/Tooltip";
-import Tree from './components/Tree';
-import Upload from './components/Upload';
+import Tree from "./components/Tree";
+import Upload from "./components/Upload";
 
 import "./style.css";
 
@@ -60,7 +61,7 @@ ReactDOM.render(
                             </NavLink>
                         </li>
                         <li>
-                            Basic
+                            通用
                             <ul>
                                 <li>
                                     <NavLink
@@ -89,7 +90,7 @@ ReactDOM.render(
                             </ul>
                         </li>
                         <li>
-                            Navigation
+                            导航
                             <ul>
                                 <li>
                                     <NavLink
@@ -142,7 +143,7 @@ ReactDOM.render(
                             </ul>
                         </li>
                         <li>
-                            Data Entry
+                            数据录入
                             <ul>
                                 <li>
                                     <NavLink
@@ -244,7 +245,7 @@ ReactDOM.render(
                             </ul>
                         </li>
                         <li>
-                            Data Display
+                            数据展示
                             <ul>
                                 <li>
                                     <NavLink
@@ -304,6 +305,15 @@ ReactDOM.render(
                                 </li>
                                 <li>
                                     <NavLink
+                                        to="###"
+                                        className="disabled"
+                                        activeClassName="selected"
+                                    >
+                                        List 列表
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
                                         to="/Popover"
                                         activeClassName="selected"
                                     >
@@ -354,7 +364,7 @@ ReactDOM.render(
                             </ul>
                         </li>
                         <li>
-                            Feedback
+                            反馈
                             <ul>
                                 <li>
                                     <NavLink
@@ -445,6 +455,7 @@ ReactDOM.render(
                     <Route path="/Input" exact component={Input} />
                     <Route path="/Layout" exact component={Layout} />
                     <Route path="/LazyLoad" exact component={LazyLoad} />
+                    <Route path="/List" exact component={List} />
                     <Route path="/Loading" exact component={Loading} />
                     <Route path="/Menu" exact component={Menu} />
                     <Route path="/Message" exact component={Message} />
@@ -471,7 +482,7 @@ ReactDOM.render(
                     <Route path="/TimePicker" exact component={TimePicker} />
                     <Route path="/Tooltip" exact component={Tooltip} />
                     <Route path="/Tree" exact component={Tree} />
-                    <Route path="/Upload" exact component={Upload} /> 
+                    <Route path="/Upload" exact component={Upload} />
                 </div>
                 <div className="clearfix" />
             </div>

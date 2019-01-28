@@ -33,9 +33,8 @@
                 right: 0;
             }
         }
-
-        &.k-menu-item-disabled{
-            color:$disabled-color;
+        &.k-menu-item-disabled {
+            color: $disabled-color;
             cursor: $cursor-disabled;
         }
     }
@@ -55,9 +54,9 @@
             transition: all .3s ease;
             border-radius: $border-radius;
         }
-        &.k-menu-submenu-disabled{
-            .k-menu-submenu-title{
-                color:$disabled-color;
+        &.k-menu-submenu-disabled {
+            .k-menu-submenu-title {
+                color: $disabled-color;
                 cursor: $cursor-disabled;
             }
         }
@@ -90,24 +89,21 @@
 }
 
 .k-menu-inlineCollapsed.k-menu-root {
-    width: 80px!important;
+    width: 80px !important;
     >li {
         min-width: auto;
-        padding:0;
+        padding: 0;
         >.k-menu-item {
             min-width: auto;
-            padding:0;
+            padding: 0;
         }
-
-        .k-menu-collapsed-item{
+        .k-menu-collapsed-item {
             text-align: center;
         }
-
-        &.k-menu-item-active{
+        &.k-menu-item-active {
             background: none;
         }
-
-        &.k-menu-submenu-selected>.k-menu-item{
+        &.k-menu-submenu-selected>.k-menu-item {
             color: $primary;
         }
     }
@@ -132,7 +128,6 @@
             background: none;
         }
         >.k-menu-sub {
-            
             .k-menu-sub {
                 transform-origin: 0 0 0;
                 margin-left: torem(3px);
@@ -162,25 +157,25 @@
 }
 
 .k-menu-pop-appear {
-    transform: scale(0)!important;
+    transform: scale(0) !important;
 }
 
 .k-menu-pop-appear.k-menu-pop-appear-active {
-    transform: scale(0)!important;
+    transform: scale(0) !important;
 }
 
 .k-menu-pop-enter {
-    transform: scale(0)!important;
+    transform: scale(0) !important;
 }
 
 .k-menu-pop-enter.k-menu-pop-enter-active {
-    transform: scale(1)!important;
+    transform: scale(1) !important;
 }
 
 .k-menu-pop-exit {
-    transform: scale(1)!important;
+    transform: scale(1) !important;
 }
 
 .k-menu-pop-exit.k-menu-pop-exit-active {
-    transform: scale(0)!important;
+    transform: scale(0) !important;
 }

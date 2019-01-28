@@ -24,8 +24,8 @@
             width: torem(18px);
             height: torem(3px);
             cursor: pointer;
-            opacity: .5;
-            transition: all .3s ease;
+            opacity: 0.5;
+            transition: all 0.3s ease;
             &.active {
                 opacity: 1;
             }
@@ -42,7 +42,7 @@
         background: black;
         color: white;
         text-align: center;
-        transition: all .3s ease;
+        transition: all 0.3s ease;
         opacity: 0;
         cursor: pointer;
         &.k-carousel-control-left {
@@ -54,7 +54,7 @@
     }
     &:hover {
         .k-carousel-control {
-            opacity: .8;
+            opacity: 0.8;
             &.k-carousel-control-left {
                 left: torem(8px);
             }

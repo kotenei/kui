@@ -1,0 +1,85 @@
+.k-alert {
+    padding: .9375rem;
+    padding-right: 2.1875rem;
+    color: rgba(255, 255, 255, 1);
+    position: relative;
+    border-radius: $border-radius-lg;
+    display: table;
+    width: 100%;
+    margin-bottom: 1rem;
+    background: $teal;
+    .close {
+        color: #fff;
+        opacity: .5;
+        position: absolute;
+        top: .625rem;
+        right: .9375rem;
+        font-size: 1.25rem;
+        cursor: pointer;
+        &:hover {
+            opacity: .8;
+        }
+    }
+    .k-alert-icon,
+    .k-alert-content {
+        display: table-cell;
+    }
+    .k-alert-icon {
+        width: 1rem;
+        vertical-align: middle;
+        font-size: $font-size-base;
+        &.lg {
+            font-size: 1.875rem;
+            width: 1.875rem;
+        }
+        svg {
+            fill: #fff;
+        }
+    }
+    .k-alert-content {
+        padding-left: .5rem;
+        .k-alert-title,
+        .k-alert-description {
+            display: block;
+        }
+        .k-alert-title {}
+        .k-alert-description {
+            margin-top: .25rem;
+            color: rgba(255, 255, 255, .8);
+        }
+        .k-alert-icon-close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            svg {
+                fill: #fff;
+            }
+        }
+        .k-alert-closetext {
+            position: absolute;
+            right: 1rem;
+            cursor: pointer;
+            top: .9375rem;
+        }
+    }
+    &.k-alert-primary {
+        background: $primary;
+    }
+    &.k-alert-info {
+        background: $info;
+    }
+    &.k-alert-success {
+        background: $success;
+    }
+    &.k-alert-warning {
+        background: $warning;
+    }
+    &.k-alert-danger {
+        background: $danger;
+    }
+    &:last-child {
+        margin-bottom: 0;
+    }
+}

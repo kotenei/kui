@@ -6,7 +6,7 @@
     cursor: pointer;
     border: medium none;
     position: relative;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     font-weight: 500;
     outline: none;
     border: 1px solid;
@@ -15,7 +15,13 @@
         box-shadow: none;
         background: transparent;
     }
-    @include button-size($btn-padding-y, $btn-padding-x, $font-size-base, $line-height, $btn-border-radius);
+    @include button-size(
+        $btn-padding-y,
+        $btn-padding-x,
+        $font-size-base,
+        $line-height,
+        $btn-border-radius
+    );
     @include button-variant($btn-default-color, $btn-default-bg, white);
     &.k-btn-raised,
     &.k-btn-fab {
@@ -68,12 +74,16 @@
     }
 }
 
-.k-btn-default,
-    {
+.k-btn-default {
     color: $font-color-base;
     &.k-btn-raised,
     &.k-btn-fab {
-        @include button-variant($font-color-base, $default, $border-color-base, true);
+        @include button-variant(
+            $font-color-base,
+            $default,
+            $border-color-base,
+            true
+        );
     }
 }
 
@@ -158,11 +168,11 @@ input[type="button"] {
 .k-btn-group {
     display: inline-block;
     position: relative;
-    >.k-btn {
+    > .k-btn {
         margin: 0;
         box-shadow: none;
         outline: none;
-        >.k-icon {
+        > .k-icon {
             margin: 0;
             vertical-align: middle;
         }
@@ -180,26 +190,26 @@ input[type="button"] {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
-        &.k-btn-raised.k-btn-default+.k-btn-raised.k-btn-default {
+        &.k-btn-raised.k-btn-default + .k-btn-raised.k-btn-default {
             border-left-width: 0;
             &.active {
                 border-left-width: 1px;
                 margin-left: -1px;
             }
         }
-        &.k-btn-raised.k-btn-primary+.k-btn-raised.k-btn-primary {
+        &.k-btn-raised.k-btn-primary + .k-btn-raised.k-btn-primary {
             @include button-group-border($primary);
         }
-        &.k-btn-raised.k-btn-info+.k-btn-raised.k-btn-info {
+        &.k-btn-raised.k-btn-info + .k-btn-raised.k-btn-info {
             @include button-group-border($info);
         }
-        &.k-btn-raised.k-btn-success+.k-btn-raised.k-btn-success {
+        &.k-btn-raised.k-btn-success + .k-btn-raised.k-btn-success {
             @include button-group-border($success);
         }
-        &.k-btn-raised.k-btn-warning+.k-btn-raised.k-btn-warning {
+        &.k-btn-raised.k-btn-warning + .k-btn-raised.k-btn-warning {
             @include button-group-border($warning);
         }
-        &.k-btn-raised.k-btn-danger+.k-btn-raised.k-btn-danger {
+        &.k-btn-raised.k-btn-danger + .k-btn-raised.k-btn-danger {
             @include button-group-border($danger);
         }
     }

@@ -20,7 +20,8 @@
         &-row {
             display: flex;
             flex: 1;
-            border-bottom: $border-width-base $border-style-base $border-color-base;
+            border-bottom: $border-width-base $border-style-base
+                $border-color-base;
             &:last-child {
                 border-bottom: none;
             }
@@ -28,12 +29,13 @@
                 flex: 1;
                 position: relative;
                 padding: torem(10px);
-                border-right: $border-width-base $border-style-base $border-color-base;
+                border-right: $border-width-base $border-style-base
+                    $border-color-base;
                 cursor: pointer;
-                transition: background .3s ease;
-                color: rgba(0, 0, 0, .65);
+                transition: background 0.3s ease;
+                color: rgba(0, 0, 0, 0.65);
                 &:hover {
-                    background: #E6F7FF;
+                    background: #e6f7ff;
                 }
                 &:last-child {
                     border-right: none;
@@ -77,16 +79,19 @@
             position: relative;
             overflow: hidden;
             display: flex;
-            border-bottom: $border-width-base $border-style-base $border-color-base;
+            border-bottom: $border-width-base $border-style-base
+                $border-color-base;
             flex: 1;
             &:first-child {
-                border-top: $border-width-base $border-style-base $border-color-base;
+                border-top: $border-width-base $border-style-base
+                    $border-color-base;
             }
             &:last-child {
                 border-bottom: none;
             }
             &-cell {
-                border-right: $border-width-base $border-style-base $border-color-base;
+                border-right: $border-width-base $border-style-base
+                    $border-color-base;
                 flex: 1;
                 padding: torem(8px);
                 &.gray {
@@ -100,7 +105,8 @@
                     text-align: center;
                     font-weight: bold;
                 }
-                &.body-cell {}
+                &.body-cell {
+                }
                 &:last-child {
                     border-right: none;
                 }
@@ -147,7 +153,7 @@
     width: torem(200px);
     margin-left: torem(-30px);
     margin-top: torem(-60px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     padding: torem(10px);
     border-radius: $border-radius;
     &-header {
@@ -174,7 +180,7 @@
     &-progress {
         height: torem(18px);
         line-height: torem(18px);
-        background: #7986CB;
+        background: #7986cb;
         border-radius: $border-radius;
         cursor: pointer;
         padding: 0 torem(5px);

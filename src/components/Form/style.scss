@@ -1,99 +1,79 @@
-.k-form-control{
+.k-form-control {
     display: block;
     width: 100%;
     font-size: $font-size-base;
     line-height: $line-height;
     background: $input-bgColor;
-    color:$input-color;
-    padding:$input-padding-y $input-padding-x;
-    border:$border-width-base $border-style-base $border-color-base;
+    color: $input-color;
+    padding: $input-padding-y $input-padding-x;
+    border: $border-width-base $border-style-base $border-color-base;
     border-radius: $input-border-radius;
     height: $height-default;
     position: relative;
-
-    input{
+    input {
         font-size: $font-size-base;
     }
-
     @include form-control-focus();
     @include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
-
     &:disabled,
-    &[readonly]{
+    &[readonly] {
         background-color: $input-bg-disabled;
     }
-
-    &[disabled]{
+    &[disabled] {
         cursor: $cursor-disabled;
     }
-
-    &.k-form-control-lg{
+    &.k-form-control-lg {
         @include form-control-lg();
     }
-
-    &.k-form-control-sm{
+    &.k-form-control-sm {
         @include form-control-sm();
     }
 }
 
-
 .k-checkbox,
-.k-radio{
+.k-radio {
     position: relative;
     display: block;
-    color:$input-color;
-    margin-top:.625rem;
+    color: $input-color;
+    margin-top: .625rem;
     margin-bottom: .625rem;
     margin-right: torem(10px);
-   
-
     &.k-checkbox-inline,
-    &.k-radio-inline{
+    &.k-radio-inline {
         display: inline-block;
     }
-
-    label{
+    label {
         margin-bottom: 0;
-        cursor:pointer;
+        cursor: pointer;
         height: 1.25rem;
         line-height: 1.25rem;
-
-        span{
+        span {
             //vertical-align: middle;
         }
     }
-
-    &.disabled{
-        color:$disabled-color;   
-        label{
+    &.disabled {
+        color: $disabled-color;
+        label {
             cursor: $cursor-disabled;
         }
     }
-
 }
 
 .k-radio input[type="radio"],
 .k-checkbox input[type="checkbox"] {
-    padding:0;
+    padding: 0;
     opacity: 0;
     overflow: hidden;
     pointer-events: none;
     z-index: 0;
     vertical-align: middle;
     width: torem(15px);
-    height:torem(15px);
-
-    &.normal{
+    height: torem(15px);
+    &.normal {
         opacity: 1;
     }
 }
 
-.k-radio input[type="radio"].normal +.content{
+.k-radio input[type="radio"].normal+.content {
     margin-left: torem(3px)
 }
-
-
-
-
-
-

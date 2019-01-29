@@ -12,7 +12,7 @@ class ListItemMeta extends Component {
         title: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
     };
     render() {
-        const { avatar, description, title, className } = this.props;
+        const { avatar, description, title, className,...others } = this.props;
         const classString = classnames(
             {
                 [prefixCls]: true
@@ -20,7 +20,7 @@ class ListItemMeta extends Component {
             className
         );
         return (
-            <div className={classString}>
+            <div className={classString} {...others}>
                 <div className={`${prefixCls}__avatar`}>{avatar}</div>
                 <div className={`${prefixCls}__content`}>
                     <div className={`${prefixCls}__title`}>{title}</div>

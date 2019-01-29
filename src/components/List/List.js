@@ -59,7 +59,7 @@ class List extends Component {
         }
     }
     render() {
-        const { className, bordered ,split} = this.props;
+        const { className, bordered, split, style } = this.props;
         let classString = getClassSet(this.props);
         classString = classnames(
             classString,
@@ -70,7 +70,7 @@ class List extends Component {
             className
         );
         return (
-            <ul className={classString}>
+            <ul className={classString} style={style}>
                 {this.renderHeader()}
                 {this.renderItems()}
                 {this.renderFooter()}

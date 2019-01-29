@@ -38,7 +38,7 @@ class ListItem extends Component {
         return items;
     }
     render() {
-        const { children, className, actions } = this.props;
+        const { children, className, actions, ...others } = this.props;
         const classString = classnames(
             {
                 [prefixCls]: true
@@ -46,7 +46,7 @@ class ListItem extends Component {
             className
         );
         return (
-            <li className={classString}>
+            <li className={classString} {...others}>
                 <div className={`${prefixCls}-content`}>{children}</div>
                 <ul className={`${prefixCls}-actions`}>
                     {this.renderActions()}

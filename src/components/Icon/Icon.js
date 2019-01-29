@@ -12,6 +12,7 @@ const prefixCls = "k-icon";
 
 class Icon extends Component {
     static propTypes = {
+        fontSize: PropTypes.number,
         theme: PropTypes.oneOf(["outline", "filled"]),
         type: PropTypes.string,
         color: PropTypes.string,
@@ -47,15 +48,34 @@ class Icon extends Component {
         return children;
     }
     render() {
-        const { children, className, spin, type, ...other } = this.props;
+        const {
+            children,
+            className,
+            spin,
+            type,
+            style,
+            fontSize,
+            ...other
+        } = this.props;
         let classString = getClassSet(this.props);
         classString = classnames(classString, className, {
             "k-spin": !!spin || type == "loading"
         });
-        const others = omit(other, ["kStyle", "kClass", "kSize", "className"]);
+        const others = omit(other, [
+            "kStyle",
+            "kClass",
+            "kSize",
+            "className",
+            "style",
+            "fontSize"
+        ]);
+        const _style = {
+            fontSize,
+            ...style
+        };
 
         return (
-            <i className={classString} {...others}>
+            <i className={classString} {...others} style={_style}>
                 {this.renderIcon()}
             </i>
         );

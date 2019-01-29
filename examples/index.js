@@ -305,8 +305,7 @@ ReactDOM.render(
                                 </li>
                                 <li>
                                     <NavLink
-                                        to="###"
-                                        className="disabled"
+                                        to="/List"
                                         activeClassName="selected"
                                     >
                                         List 列表

@@ -59,7 +59,7 @@ class AutoCompleteView extends Component {
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">
-                    {/* <AutoComplete
+                    <AutoComplete
                         kSize="sm"
                         data={dataSource}
                         placeholder="请输入a-z"
@@ -82,7 +82,7 @@ class AutoCompleteView extends Component {
                         placeholder="请输入a-z"
                         onSearch={this.handleSearch}
                         onSelect={this.handleSelect}
-                    /> */}
+                    />
                 </div>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>

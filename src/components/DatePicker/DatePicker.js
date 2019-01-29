@@ -30,6 +30,8 @@ class DatePicker extends Component {
         format: "YYYY-MM-DD"
     };
     handleClick = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         this.open();
     };
     handleClear = e => {

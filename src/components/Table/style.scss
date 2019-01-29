@@ -216,5 +216,11 @@ $prefixCls:'.k-table';
                 margin:0 torem(4px);
             }
         }
+
+        &-dropdown{
+            .k-checkbox{
+                line-height: initial;
+            }
+        }
     }
 }

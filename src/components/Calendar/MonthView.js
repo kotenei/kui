@@ -83,6 +83,8 @@ class MonthView extends Component {
         prefixCls: "k-calendar"
     };
     handleMoreClick = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         const { target } = e;
         this.setState({
             active: target.getAttribute("data-key")

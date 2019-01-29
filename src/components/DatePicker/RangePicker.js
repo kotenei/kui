@@ -54,6 +54,8 @@ class RangePicker extends Component {
         startPlaceholder: "开始日期"
     };
     handleInputClick = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         this.open();
     };
     handleDayHover = (type, date) => {

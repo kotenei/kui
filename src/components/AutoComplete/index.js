@@ -117,6 +117,9 @@ class AutoComplete extends Component {
             let item = data[i],
                 formatted = this.formatItem(item);
             if (formatted.value == ids[0]) {
+                this.setState({
+                    selectedIds: ids
+                });
                 this.setValue(item);
                 break;
             }
@@ -154,7 +157,6 @@ class AutoComplete extends Component {
         if (this.tm) {
             clearTimeout(this.tm);
         }
-        this.elmDropdown = ReactDOM.findDOMNode(this.refs.dropdown);
         this.tm = setTimeout(() => {
             let formatted = this.formatItem(data[0]);
             let selectedIds = [formatted.value];
@@ -174,7 +176,7 @@ class AutoComplete extends Component {
         }
         this.tm = setTimeout(() => {
             this.setState({
-                selectedIds: [],
+                //selectedIds: [],
                 show: false
             });
         }, 300);
@@ -191,9 +193,7 @@ class AutoComplete extends Component {
             len = max - 1;
         }
         if (!this.elmDropdownMenu) {
-            this.elmDropdownMenu = this.elmDropdown.querySelector(
-                ".k-dropdown-menu"
-            );
+            this.elmDropdownMenu = ReactDOM.findDOMNode(this.refs.menu);
             this.elmMenuItems = this.elmDropdownMenu.querySelectorAll("li");
         }
         this.active += step;
@@ -235,42 +235,49 @@ class AutoComplete extends Component {
         const { multiple, onSelect } = this.props;
         const { selectedItems } = this.state;
         let formatted = this.formatItem(selected);
+        let newValue = selected;
+        let hasItem = false;
+
+        if (multiple) {
+            newValue = [...selectedItems];
+            for (let i = 0; i < selectedItems.length; i++) {
+                let item = this.formatItem(selectedItems[i]);
+                if (item.value == formatted.value) {
+                    hasItem = true;
+                    break;
+                }
+            }
+            if (!hasItem) {
+                newValue.push(selected);
+            }
+        }
+
         if (!("value" in this.props)) {
             if (!multiple) {
                 this.setState({
                     inputValue: formatted.value,
-                    selectedItems: [selected]
+                    selectedItems: [newValue]
                 });
-                if (onSelect) {
-                    onSelect(selected);
-                }
             } else {
-                let newValue = [...selectedItems];
-                let hasItem = false;
-                for (let i = 0; i < selectedItems.length; i++) {
-                    let item = this.formatItem(selectedItems[i]);
-                    if (item.value == formatted.value) {
-                        hasItem = true;
-                        break;
-                    }
-                }
                 if (!hasItem) {
-                    newValue.push(selected);
                     this.setState({
                         selectedItems: newValue,
                         inputValue: ""
                     });
                 }
-                if (onSelect) {
-                    onSelect(newValue);
-                }
             }
         }
+
+        if (onSelect) {
+            onSelect(newValue);
+        }
+
         this.hide();
     }
     //搜索
     search(val) {
         const { onSearch } = this.props;
+        
         if (onSearch) {
             onSearch(val);
             return;
@@ -324,7 +331,11 @@ class AutoComplete extends Component {
         if (menus.length == 0) {
             return null;
         }
-        return <Menu>{menus}</Menu>;
+        return (
+            <Menu ref="menu" className={`${prefixCls}-menu`}>
+                {menus}
+            </Menu>
+        );
     }
     componentWillMount() {
         const { defaultValue, value, multiple, data } = this.props;
@@ -415,6 +426,8 @@ class AutoComplete extends Component {
         let menu = this.getMenus();
         return (
             <Dropdown
+                fullWidth
+                inline={false}
                 menu={menu}
                 className={classString}
                 ref="dropdown"

@@ -8,11 +8,11 @@ import { deepClone, guid } from "../../utils";
 import domUtils from "../../utils/domUtils";
 import omit from "object.omit";
 import Checkbox from "../Checkbox";
+import Radio from "../Radio";
 import Icon from "../Icon";
 import Menu from "../Menu";
-import Dropdown from "../Dropdown";
 import PopPanel from "../PopPanel";
-import Button from '../Button';
+import Button from "../Button";
 
 const prefixCls = "k-table";
 const TABLE_TYPE = {
@@ -95,7 +95,7 @@ const Sorter = props => {
 
 const Filter = props => {
     const { column } = props;
-    const { filterIcon, filters } = column;
+    const { filterIcon, filters, filterMultiple } = column;
     const filter = (
         <div className={`${prefixCls}-filter`}>
             {filterIcon ? filterIcon : <Icon type="filter" theme="filled" />}
@@ -106,18 +106,38 @@ const Filter = props => {
         filters.forEach((item, index) => {
             menus.push(
                 <Menu.Item key={index} id={item.value}>
-                    {item.text}
+                    {filterMultiple ? (
+                        <Checkbox>{item.text}</Checkbox>
+                    ) : (
+                        <Radio>{item.text}</Radio>
+                    )}
                 </Menu.Item>
             );
         });
     }
 
     return (
-        <PopPanel className={`${prefixCls}-filter`} input={filter} open={true} placement="bottomRight">
-            {menus.length > 0 ? <Menu>{menus}</Menu> : null}
+        <PopPanel
+            className={`${prefixCls}-filter`}
+            input={filter}
+            open={true}
+            placement="bottomRight"
+        >
+            {menus.length > 0 ? (
+                <Menu
+                    className={`${prefixCls}-filter-dropdown`}
+                    mode="vertical"
+                >
+                    {menus}
+                </Menu>
+            ) : null}
             <div className={`${prefixCls}-filter__btns`}>
-                <Button raised kSize="sm">确定</Button>
-                <Button raised kStyle="default" kSize="sm">重置</Button>
+                <Button raised kSize="sm">
+                    确定
+                </Button>
+                <Button raised kStyle="default" kSize="sm">
+                    重置
+                </Button>
             </div>
         </PopPanel>
     );

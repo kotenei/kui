@@ -37,7 +37,7 @@ class DropdownView extends Component {
                     <Dropdown menu={menu} placement="bottomLeft">
                         <Button raised>bottomLeft</Button>
                     </Dropdown>&nbsp;&nbsp;
-                    <Dropdown menu={menu} placement="bottomCenter">
+                    <Dropdown menu={menu} placement="bottom">
                         <Button raised>bottomCenter</Button>
                     </Dropdown>&nbsp;&nbsp;
                     <Dropdown menu={menu} placement="bottomRight">
@@ -46,7 +46,7 @@ class DropdownView extends Component {
                     <Dropdown menu={menu} placement="topLeft">
                         <Button raised>topLeft</Button>
                     </Dropdown>&nbsp;&nbsp;
-                    <Dropdown menu={menu} placement="topCenter">
+                    <Dropdown menu={menu} placement="top">
                         <Button raised>topCenter</Button>
                     </Dropdown>&nbsp;&nbsp;
                     <Dropdown menu={menu} placement="topRight">
@@ -95,8 +95,8 @@ class DropdownView extends Component {
                         <tr>
                             <td>placement</td>
                             <td>
-                                弹出位置，可选 'topLeft' 'topCenter' 'topRight'
-                                'bottomLeft' 'bottomCenter' 'bottomRight'
+                                弹出位置，可选 'topLeft' 'top' 'topRight'
+                                'bottomLeft' 'bottom' 'bottomRight'
                             </td>
                             <td>string</td>
                             <td>'bottomLeft'</td>

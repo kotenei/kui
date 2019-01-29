@@ -5,6 +5,7 @@ import domUtils from "../../utils/domUtils";
 import classnames from "classnames";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { guid } from "../../utils";
+import PopPanel from "../PopPanel";
 
 let seed = 1;
 let instances = {};
@@ -13,13 +14,13 @@ class Dropdown extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: { top: -999, left: -999 },
-            show: true
+            show: false
         };
         this.id = `dropdown_${seed++}`;
         instances[this.id] = this;
     }
     static propTypes = {
+        fullWidth: PropTypes.bool,
         prefixCls: PropTypes.string,
         component: PropTypes.any,
         menu: PropTypes.element,
@@ -27,10 +28,10 @@ class Dropdown extends Component {
         trigger: PropTypes.oneOf(["click", "hover", "manual"]),
         placement: PropTypes.oneOf([
             "topLeft",
-            "topCenter",
+            "top",
             "topRight",
             "bottomLeft",
-            "bottomCenter",
+            "bottom",
             "bottomRight"
         ]),
         disabled: PropTypes.bool,
@@ -39,6 +40,7 @@ class Dropdown extends Component {
         onSelect: PropTypes.func
     };
     static defaultProps = {
+        fullWidth: false,
         prefixCls: "k-dropdown",
         component: "div",
         selectedIds: [],
@@ -47,52 +49,6 @@ class Dropdown extends Component {
         disabled: false,
         multiple: false
     };
-    setOrgSize() {
-        let dom = ReactDOM.findDOMNode(this.refs.dropdownMenu);
-        this.orgSize = {
-            w: domUtils.outerWidth(dom),
-            h: domUtils.outerHeight(dom)
-        };
-    }
-    setPosition() {
-        const { placement } = this.props;
-        let parent = ReactDOM.findDOMNode(this.refs.trigger),
-            ew = domUtils.outerWidth(parent, true),
-            eh = domUtils.outerHeight(parent, true),
-            tw = this.orgSize.w,
-            th = this.orgSize.h,
-            n = 4,
-            position,
-            top,
-            left;
-
-        switch (placement) {
-            case "topLeft":
-                position = { top: -th - n, left: 0 };
-                break;
-            case "topCenter":
-                position = { top: -th - n, marginLeft: -(tw / 2), left: "50%" };
-                break;
-            case "topRight":
-                position = { top: -th - n, right: 0 };
-                break;
-            case "bottomLeft":
-                position = { top: eh + n, left: 0 };
-                break;
-            case "bottomCenter":
-                position = { top: eh + n, marginLeft: -(tw / 2), left: "50%" };
-                break;
-            case "bottomRight":
-                position = { top: eh + n, right: 0 };
-                break;
-            default:
-                position = { top: eh + n, left: 0 };
-                break;
-        }
-        this.setState({
-            position
-        });
-    }
     handleMouseEnter = e => {
         const { trigger } = this.props;
         if (trigger == "click" || trigger == "manual") {
@@ -137,13 +93,15 @@ class Dropdown extends Component {
         this.hide();
     };
     handleMenuSelect = (e, selectedIds, info) => {
-        const { onSelect } = this.props;
+        const { onSelect, multiple } = this.props;
         if (onSelect) {
             onSelect(e, selectedIds, info);
         }
+        if (!multiple) {
+            this.hide();
+        }
     };
     show = () => {
-        this.setPosition();
         const { disabled } = this.props;
         if (disabled) {
             return;
@@ -158,8 +116,6 @@ class Dropdown extends Component {
         }, 100);
     };
     hide = () => {
-        const { onBeforeHide } = this.props;
-        const { show } = this.state;
         if (this.tm) {
             clearTimeout(this.tm);
         }
@@ -178,8 +134,6 @@ class Dropdown extends Component {
         }
     }
     componentDidMount() {
-        this.setOrgSize();
-        this.hide();
         document.addEventListener("click", this.hide);
     }
     componentWillReceiveProps(nextProps) {
@@ -200,33 +154,21 @@ class Dropdown extends Component {
     }
     renderMenu() {
         const { menu, prefixCls, multiple, selectedIds } = this.props;
-        const { position, show } = this.state;
-
-        let newMenu =
-            show && menu ? (
-                <CSSTransition timeout={300} classNames="slide-down">
-                    {React.cloneElement(menu, {
-                        ...menu.props,
-                        multiple,
-                        selectedIds,
-                        ref: "dropdownMenu",
-                        mode: "vertical",
-                        className: classnames({
-                            [`${prefixCls}-menu`]: true,
-                            "slide-down-enter": true
-                        }),
-                        style: position,
-                        onMouseEnter: this.handleMenuEnter,
-                        onMouseLeave: this.handleMenuLeave,
-                        onSelect: this.handleMenuSelect
-                    })}
-                </CSSTransition>
-            ) : null;
 
         return (
-            <TransitionGroup component={React.Fragment}>
-                {newMenu}
-            </TransitionGroup>
+            menu &&
+            React.cloneElement(menu, {
+                ...menu.props,
+                multiple,
+                selectedIds,
+                mode: "vertical",
+                className: classnames(menu.props.className, {
+                    [`${prefixCls}-menu`]: true
+                }),
+                onMouseEnter: this.handleMenuEnter,
+                onMouseLeave: this.handleMenuLeave,
+                onSelect: this.handleMenuSelect
+            })
         );
     }
     renderChilren() {
@@ -257,16 +199,29 @@ class Dropdown extends Component {
             prefixCls,
             className,
             style,
-            component: Container
+            component: Container,
+            placement,
+            fullWidth
         } = this.props;
+        const { show } = this.state;
         let classString = classnames(className, {
             [`${prefixCls}`]: true
         });
-        return (
+        let input = (
             <Container className={classString} ref="trigger" style={style}>
                 {this.renderChilren()}
-                {this.renderMenu()}
             </Container>
+        );
+
+        return (
+            <PopPanel
+                fullWidth={fullWidth}
+                open={show}
+                input={input}
+                placement={placement}
+            >
+                {this.renderMenu()}
+            </PopPanel>
         );
     }
 }

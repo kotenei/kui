@@ -13,16 +13,21 @@ class PopPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
+            open: true,
             position: props.position || {
                 left: -999,
                 top: -999
             }
         };
+        this.orgSize = {
+            width: 0,
+            height: 0
+        };
         this.id = `poppanel_${seed++}`;
         instances[this.id] = this;
     }
     static propTypes = {
+        fullWidth: PropTypes.bool,
         input: PropTypes.node,
         placement: PropTypes.oneOf([
             "top",
@@ -47,39 +52,11 @@ class PopPanel extends Component {
         onOpen: PropTypes.func
     };
     static defaultProps = {
+        fullWidth: false,
         placement: "bottomLeft",
         timeout: 300,
         transitionName: "slide-down",
         trigger: "click"
-    };
-    handleClick = e => {
-        const { trigger } = this.props;
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
-        if (trigger != "click") {
-            return;
-        }
-        if (!("open" in this.props)) {
-            this.open();
-        }
-    };
-    handleMouseEnter = e => {
-        const { trigger } = this.props;
-        if (trigger != "hover") {
-            return;
-        }
-        if (!("open" in this.props)) {
-            this.open();
-        }
-    };
-    handleMouseLeave = e => {
-        const { trigger } = this.props;
-        if (trigger != "hover") {
-            return;
-        }
-        if (!("open" in this.props)) {
-            this.hide();
-        }
     };
     handlePanelClick = e => {
         e.stopPropagation();
@@ -89,18 +66,27 @@ class PopPanel extends Component {
      * 定位
      */
     setPosition = position => {
-        const { placement } = this.props;
-        let width = domUtils.outerWidth(this.refs.panel);
-        let height = domUtils.outerHeight(this.refs.panel);
+        const { placement, fullWidth } = this.props;
+        let width;
+        if (fullWidth) {
+            width = domUtils.outerWidth(
+                ReactDOM.findDOMNode(this.refs.trigger)
+            );
+            this.orgSize.width = width;
+        }
         position =
             position ||
             this.props.position ||
             getPosition({
                 trigger: this.refs.trigger,
                 placement: placement,
-                width,
-                height
+                ...this.orgSize
             });
+
+        if (fullWidth) {
+            position.width = width;
+        }
+
         this.setState({
             position
         });
@@ -143,6 +129,10 @@ class PopPanel extends Component {
         }
     }
     componentDidMount() {
+        this.orgSize = {
+            width: domUtils.width(this.refs.panel),
+            height: domUtils.height(this.refs.panel)
+        };
         this.close();
         if (this.props.open === true) {
             this.open();
@@ -174,9 +164,10 @@ class PopPanel extends Component {
     renderWrapper() {
         const { children, style, timeout, transitionName } = this.props;
         const { open, position } = this.state;
+
         return ReactDOM.createPortal(
             <TransitionGroup component={React.Fragment}>
-                {open ? (
+                {open && children ? (
                     <CSSTransition
                         timeout={timeout}
                         classNames={transitionName}
@@ -199,9 +190,10 @@ class PopPanel extends Component {
         const { input } = this.props;
         return (
             <React.Fragment>
-                <div ref="trigger" onClick={this.handleClick}>
-                    {input}
-                </div>
+                {React.cloneElement(input, {
+                    ref: "trigger",
+                    ...input.props
+                })}
                 {this.renderWrapper()}
             </React.Fragment>
         );

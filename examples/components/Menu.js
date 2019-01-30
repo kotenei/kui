@@ -65,7 +65,7 @@ class MenuView extends Component {
                         <Menu.Item id="1">
                             <Icon type="home" />
                             <span>导航一</span>
-                        </Menu.Item> 
+                        </Menu.Item>
                         <Menu.SubMenu
                             id="1-1"
                             title={
@@ -204,6 +204,12 @@ class MenuView extends Component {
                             <td>'inline'</td>
                         </tr>
                         <tr>
+                            <td>selectedIds</td>
+                            <td>选中菜单项id数组</td>
+                            <td>string[]</td>
+                            <td />
+                        </tr>
+                        <tr>
                             <td>selectable</td>
                             <td>菜单是否可选中</td>
                             <td>boolean</td>
@@ -214,6 +220,12 @@ class MenuView extends Component {
                             <td>是否可多选</td>
                             <td>boolean</td>
                             <td>false</td>
+                        </tr>
+                        <tr>
+                            <td>onSelect</td>
+                            <td>选中项的回调函数</td>
+                            <td>Function(e:event, ids:string[])</td>
+                            <td />
                         </tr>
                     </tbody>
                 </table>

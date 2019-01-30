@@ -8,11 +8,9 @@ import { deepClone, guid } from "../../utils";
 import domUtils from "../../utils/domUtils";
 import omit from "object.omit";
 import Checkbox from "../Checkbox";
-import Radio from "../Radio";
 import Icon from "../Icon";
-import Menu from "../Menu";
-import PopPanel from "../PopPanel";
-import Button from "../Button";
+import TableSorter from "./TableSorter";
+import TableFilter from "./TableFilter";
 
 const prefixCls = "k-table";
 const TABLE_TYPE = {
@@ -68,80 +66,6 @@ const ExpandIcon = props => {
     );
 };
 
-const Sorter = props => {
-    const { column, onSort, sorter } = props;
-    let upStyle, downStyle;
-    let onClick = function() {
-        if (onSort) {
-            onSort(column);
-        }
-    };
-
-    if (sorter && sorter.field && sorter.field === column.dataIndex) {
-        if (sorter.order == "desc") {
-            downStyle = "primary";
-        } else {
-            upStyle = "primary";
-        }
-    }
-
-    return (
-        <div className={`${prefixCls}-sorter`} onClick={onClick}>
-            <Icon type="caret-up" kStyle={upStyle} />
-            <Icon type="caret-down" kStyle={downStyle} />
-        </div>
-    );
-};
-
-const Filter = props => {
-    const { column } = props;
-    const { filterIcon, filters, filterMultiple } = column;
-    const filter = (
-        <div className={`${prefixCls}-filter`}>
-            {filterIcon ? filterIcon : <Icon type="filter" theme="filled" />}
-        </div>
-    );
-    let menus = [];
-    if (filters && filters.length > 0) {
-        filters.forEach((item, index) => {
-            menus.push(
-                <Menu.Item key={index} id={item.value}>
-                    {filterMultiple ? (
-                        <Checkbox>{item.text}</Checkbox>
-                    ) : (
-                        <Radio>{item.text}</Radio>
-                    )}
-                </Menu.Item>
-            );
-        });
-    }
-
-    return (
-        <PopPanel
-            className={`${prefixCls}-filter`}
-            input={filter}
-            open={true}
-            placement="bottomRight"
-        >
-            {menus.length > 0 ? (
-                <Menu
-                    className={`${prefixCls}-filter-dropdown`}
-                    mode="vertical"
-                >
-                    {menus}
-                </Menu>
-            ) : null}
-            <div className={`${prefixCls}-filter__btns`}>
-                <Button raised kSize="sm">
-                    确定
-                </Button>
-                <Button raised kStyle="default" kSize="sm">
-                    重置
-                </Button>
-            </div>
-        </PopPanel>
-    );
-};
 
 class Table extends Component {
     constructor(props) {
@@ -160,6 +84,7 @@ class Table extends Component {
             scrollLeft: 0,
             sorter: {},
             filter: {},
+            filterSelectedItem: {},
             pagination: {
                 pageNumber: 1,
                 total: props.data ? props.data.length : 0,
@@ -563,7 +488,12 @@ class Table extends Component {
 
     renderThead(data, headerRows, colGroupInfo) {
         const { checkbox, expandedRowRender, disabledCheckIds } = this.props;
-        const { checkedIds, expandedRowIds, sorter } = this.state;
+        const {
+            checkedIds,
+            expandedRowIds,
+            sorter,
+            filterSelectedItem
+        } = this.state;
         let checkedCount = 0;
         let disabledCheckCount = 0;
         // let data = this.getData();
@@ -629,13 +559,19 @@ class Table extends Component {
                                 {cell.title}
                             </div>
                             {cell.sorter ? (
-                                <Sorter
+                                <TableSorter
+                                    prefixCls={prefixCls}
                                     column={cell}
                                     sorter={sorter}
                                     onSort={this.handleSort}
                                 />
                             ) : null}
-                            {cell.filters ? <Filter column={cell} /> : null}
+                            {cell.filters ? (
+                                <TableFilter
+                                    prefixCls={prefixCls}
+                                    column={cell}
+                                />
+                            ) : null}
                         </div>
                     </th>
                 );
@@ -1093,30 +1029,27 @@ class Table extends Component {
         }
     };
 
-    handleSort = column => {
-        const { onChange } = this.props;
-        const { sorter, pagination } = this.state;
-        let newSorter = { column, field: column.dataIndex, order: "up" };
-        if (sorter && sorter.field == column.dataIndex) {
-            switch (sorter.order) {
-                case "up":
-                    newSorter.order = "desc";
-                    break;
-                case "desc":
-                    newSorter = {};
-                    break;
-                default:
-                    newSorter.order = "asc";
-                    break;
-            }
-        }
+    handleSort = sorter => {
+        const { pagination } = this.state;
         this.setState({
-            sorter: newSorter,
+            sorter,
             pagination: {
                 ...pagination,
                 pageNumber: 1
             }
         });
+    };
+
+    handleFilterSelect = (column, ids) => {
+        console.log(ids);
+    };
+
+    handleFilterOK = column => {};
+
+    handleFilterReset = column => {
+        // this.setState(
+        //     filter:[...]
+        // );
     };
 
     handlePageChange = pageNumber => {

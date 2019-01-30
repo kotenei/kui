@@ -33,11 +33,21 @@ class Checkbox extends Component {
         checkboxGroup: PropTypes.any
     };
     handleChange(e) {
-        const { onChange, option } = this.props;
-        onChange(e, option);
-        this.setState({
-            checked: e.target.checked
-        });
+        const { checkboxGroup } = this.context;
+        const { onChange, option, children, value } = this.props;
+        if (checkboxGroup) {
+            checkboxGroup.onChange(e, {
+                text: children,
+                value
+            });
+        } else {
+            if (onChange) {
+                onChange(e, option);
+            }
+            this.setState({
+                checked: e.target.checked
+            });
+        }
     }
     renderMode(checked) {
         const { mode } = this.props;
@@ -86,11 +96,6 @@ class Checkbox extends Component {
                 checkboxProps.disabled || checkboxGroup.disabled;
             checkboxProps.checked =
                 checkboxGroup.value.indexOf(checkboxProps.value) !== -1;
-            checkboxProps.onChange = e =>
-                checkboxGroup.onChange(e, {
-                    text: checkboxProps.children,
-                    value: checkboxProps.value
-                });
         }
         const {
             disabled,
@@ -121,7 +126,7 @@ class Checkbox extends Component {
                         value={value}
                         disabled={disabled}
                         checked={checked}
-                        onChange={checkboxProps.onChange || this.handleChange}
+                        onChange={this.handleChange}
                     />
                     {this.renderMode(checkboxProps.checked)}
                     {children ? (

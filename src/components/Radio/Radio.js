@@ -26,6 +26,12 @@ class Radio extends Component {
     static contextTypes = {
         radioGroup: PropTypes.any
     };
+
+    handleClick = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+    };
+
     handleChange(e) {
         const { onChange, option } = this.props;
         onChange(e, option);
@@ -73,11 +79,12 @@ class Radio extends Component {
                 <label>
                     <input
                         type="radio"
-                        className={mode == "none" ? "normal" : "" }
+                        className={mode == "none" ? "normal" : ""}
                         name={name}
                         disabled={disabled}
                         checked={checked}
                         value={value}
+                        onClick={this.handleClick}
                         onChange={radioProps.onChange || this.handleChange}
                     />
                     {mode == "normal" ? this.renderMaterinal() : null}

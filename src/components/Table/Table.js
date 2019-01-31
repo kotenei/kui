@@ -66,7 +66,6 @@ const ExpandIcon = props => {
     );
 };
 
-
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -84,7 +83,6 @@ class Table extends Component {
             scrollLeft: 0,
             sorter: {},
             filter: {},
-            filterSelectedItem: {},
             pagination: {
                 pageNumber: 1,
                 total: props.data ? props.data.length : 0,
@@ -404,12 +402,35 @@ class Table extends Component {
 
     getData() {
         const { data } = this.props;
-        const { sorter, pagination } = this.state;
+        const { sorter, pagination, filter } = this.state;
         let dataSource = data || [];
         dataSource = dataSource.slice(0);
         const sorterFn = this.getSorterFunc();
         if (sorterFn) {
             dataSource = dataSource.sort(sorterFn);
+        }
+
+        if (filter) {
+            Object.keys(filter).forEach(key => {
+                let arrKey = key.split("|");
+                let column = this.columns.find(
+                    column =>
+                        (column.dataIndex = arrKey[0] || column.id == arrKey[1])
+                );
+                if (!column) {
+                    return;
+                }
+                let values = filter[key] || [];
+                if (values.length === 0) {
+                    return;
+                }
+                const onFilter = column.onFilter;
+                dataSource = onFilter
+                    ? dataSource.filter(record => {
+                          return values.some(value => onFilter(value, record));
+                      })
+                    : dataSource;
+            });
         }
 
         if (!("pagination" in this.props)) {
@@ -488,15 +509,9 @@ class Table extends Component {
 
     renderThead(data, headerRows, colGroupInfo) {
         const { checkbox, expandedRowRender, disabledCheckIds } = this.props;
-        const {
-            checkedIds,
-            expandedRowIds,
-            sorter,
-            filterSelectedItem
-        } = this.state;
+        const { checkedIds, expandedRowIds, sorter } = this.state;
         let checkedCount = 0;
         let disabledCheckCount = 0;
-        // let data = this.getData();
 
         if (data && data.length > 0) {
             data.forEach(item => {
@@ -570,6 +585,8 @@ class Table extends Component {
                                 <TableFilter
                                     prefixCls={prefixCls}
                                     column={cell}
+                                    onOK={this.handleFilterOK}
+                                    onReset={this.handleFilterReset}
                                 />
                             ) : null}
                         </div>
@@ -1040,16 +1057,16 @@ class Table extends Component {
         });
     };
 
-    handleFilterSelect = (column, ids) => {
-        console.log(ids);
+    handleFilterOK = filter => {
+        this.setState({
+            filter: { ...this.state.filter, ...filter }
+        });
     };
 
-    handleFilterOK = column => {};
-
-    handleFilterReset = column => {
-        // this.setState(
-        //     filter:[...]
-        // );
+    handleFilterReset = filter => {
+        this.setState({
+            filter: { ...this.state.filter, ...filter }
+        });
     };
 
     handlePageChange = pageNumber => {

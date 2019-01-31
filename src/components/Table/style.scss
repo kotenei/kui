@@ -218,7 +218,8 @@ $prefixCls:'.k-table';
         }
 
         &-dropdown{
-            .k-checkbox{
+            .k-checkbox,
+            .k-radio{
                 line-height: initial;
             }
         }

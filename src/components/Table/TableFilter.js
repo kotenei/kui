@@ -7,9 +7,13 @@ import Menu from "../Menu";
 import PopPanel from "../PopPanel";
 import Button from "../Button";
 
+let seed = 1;
+let instances = {};
+
 class TableFilter extends Component {
     state = {
-        selectedItems: []
+        selectedItems: [],
+        open: false
     };
     static propTypes = {
         column: PropTypes.object,
@@ -17,6 +21,21 @@ class TableFilter extends Component {
         onOK: PropTypes.func,
         onReset: PropTypes.func
     };
+
+    constructor(props) {
+        super(props);
+        this.id = `poppanel_${seed++}`;
+        instances[this.id] = this;
+    }
+
+    componentDidMount() {
+        document.addEventListener("click", this.close);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("click", this.close);
+    }
+
     renderMenus() {
         const { selectedItems } = this.state;
         const { column, prefixCls } = this.props;
@@ -31,17 +50,9 @@ class TableFilter extends Component {
                 menus.push(
                     <Menu.Item key={index} id={item.value}>
                         {filterMultiple ? (
-                            <Checkbox
-                                option={item}
-                                checked={checked}
-                                //onChange={this.handleCheckboxChange}
-                            />
+                            <Checkbox checked={checked}>{item.text}</Checkbox>
                         ) : (
-                            <Radio
-                                option={item}
-                                checked={checked}
-                                // onChange={this.handleRadioChange}
-                            />
+                            <Radio checked={checked}>{item.text}</Radio>
                         )}
                     </Menu.Item>
                 );
@@ -63,9 +74,10 @@ class TableFilter extends Component {
     }
     render() {
         const { column, prefixCls } = this.props;
+        const { show } = this.state;
         const { filterIcon, filters, filterMultiple } = column;
         const filterInput = (
-            <div className={`${prefixCls}-filter`}>
+            <div className={`${prefixCls}-filter`} onClick={this.handleClick}>
                 {filterIcon ? (
                     filterIcon
                 ) : (
@@ -78,7 +90,7 @@ class TableFilter extends Component {
             <PopPanel
                 className={`${prefixCls}-filter`}
                 input={filterInput}
-                open={true}
+                open={show}
                 placement="bottomRight"
             >
                 {this.renderMenus()}
@@ -99,27 +111,67 @@ class TableFilter extends Component {
         );
     }
 
-    handleCheckboxChange = (e, option) => {
-        const { selectedItems } = this.state;
-        const { target } = e;
-        console.log(option);
+    open = () => {
+        this.setState({
+            show: true
+        });
+        this.closeOther();
     };
 
-    handleRadioChange = e => {};
+    close = () => {
+        this.setState({
+            show: false
+        });
+    };
+
+    closeOther() {
+        for (var k in instances) {
+            if (k == this.id) {
+                continue;
+            }
+            instances[k].close();
+        }
+    }
+
+    handleClick = e => {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({
+            show: !this.state.show
+        });
+        this.closeOther();
+    };
 
     handleSelect = (e, ids) => {
-        console.log(e.target, ids, "fff");
-        
         this.setState({
             selectedItems: ids
         });
     };
 
-    handleOK = () => {};
+    handleOK = () => {
+        const { onOK, column } = this.props;
+        const { selectedItems } = this.state;
+        let filter = {
+            [`${column.dataIndex}|${column.id}`]: selectedItems
+        };
+        if (onOK) {
+            onOK(filter);
+        }
+        this.close();
+    };
 
     handleReset = () => {
+        const { onReset, column } = this.props;
+        const { selectedItems } = this.state;
+        let filter = {
+            [`${column.dataIndex}|${column.id}`]: []
+        };
+        if (onReset) {
+            onReset(filter);
+        }
         this.setState({
-            selectedItems: []
+            selectedItems: [],
+            show: false
         });
     };
 }

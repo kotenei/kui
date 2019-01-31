@@ -373,10 +373,21 @@ class TableView extends Component {
                                     { text: "Joe", value: "Joe" },
                                     { text: "Jim", value: "Jim" }
                                 ]}
+                                onFilter={(value, record) =>
+                                    record.firstName.indexOf(value) > -1
+                                }
                             />
                             <TableColumn
                                 title="LastName"
                                 dataIndex="lastName"
+                                filters={[
+                                    { text: "Brown", value: "Brown" },
+                                    { text: "Sanders", value: "Sanders" }
+                                ]}
+                                onFilter={(value, record) => {
+                                    console.log(value)
+                                    return record.lastName.indexOf(value) > -1;
+                                }}
                             />
                         </TableColumn>
                         <TableColumn title="Age" dataIndex="age" />

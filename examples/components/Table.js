@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Icon } from "main";
+import { Table, Icon, Input, Button } from "main";
 
 const { TableColumn } = Table;
 
@@ -374,7 +374,6 @@ class TableView extends Component {
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
-                                sorter={true}
                                 filters={[
                                     { text: "Joe", value: "Joe" },
                                     { text: "Jim", value: "Jim" }
@@ -394,23 +393,51 @@ class TableView extends Component {
                                     record.lastName.indexOf(value) > -1
                                 }
                             />
-                            <TableColumn
-                                title="LastName"
-                                dataIndex="lastName"
-                                filters={[
-                                    { text: "Brown", value: "Brown" },
-                                    { text: "Sanders", value: "Sanders" }
-                                ]}
-                                onFilter={(value, record) =>
-                                    record.lastName.indexOf(value) > -1
-                                }
-                            />
                         </TableColumn>
                         <TableColumn
                             title="Age"
                             dataIndex="age"
-                            filterDropdown={() => {
-                                return <input />;
+                            filterDropdown={(
+                                setSelectedValues,
+                                selectedValues,
+                                confirm,
+                                clearFilters
+                            ) => {
+                                return (
+                                    <div style={{ padding: 8 }}>
+                                        <Input
+                                            type="text"
+                                            suffix={<Icon type="search" />}
+                                        />
+                                        <div
+                                            style={{
+                                                marginTop: 8,
+                                                textAlign: "center"
+                                            }}
+                                        >
+                                            <Button
+                                                kStyle="primary"
+                                                raised
+                                                kSize="sm"
+                                                style={{ marginRight: 5 }}
+                                                onClick={() => {
+                                                    confirm();
+                                                }}
+                                            >
+                                                搜索
+                                            </Button>
+                                            <Button
+                                                raised
+                                                kSize="sm"
+                                                onClick={() => {
+                                                    clearFilters();
+                                                }}
+                                            >
+                                                重置
+                                            </Button>
+                                        </div>
+                                    </div>
+                                );
                             }}
                             filterIcon={filtered => {
                                 return <Icon type="search" />;

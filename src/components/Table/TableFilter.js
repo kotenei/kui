@@ -102,7 +102,7 @@ class TableFilter extends Component {
     }
     render() {
         const { column, prefixCls } = this.props;
-        const { show, filtered } = this.state;
+        const { show, filtered, selectedItems } = this.state;
         const { filterIcon, filters, filterMultiple, filterDropdown } = column;
         const icon = filterIcon ? (
             filterIcon(filtered)
@@ -132,6 +132,14 @@ class TableFilter extends Component {
                 placement="bottomRight"
             >
                 {this.renderMenus()}
+                {filterDropdown
+                    ? filterDropdown(
+                          this.setSelectedValues,
+                          selectedItems,
+                          this.handleOK,
+                          this.handleReset
+                      )
+                    : null}
                 {!filterDropdown && (
                     <div className={`${prefixCls}-filter__btns`}>
                         <Button raised kSize="sm" onClick={this.handleOK}>
@@ -150,6 +158,12 @@ class TableFilter extends Component {
             </PopPanel>
         );
     }
+
+    setSelectedValues = (value = []) => {
+        this.setState({
+            selectedItems: value
+        });
+    };
 
     open = () => {
         if (this.state.show) {
@@ -203,9 +217,6 @@ class TableFilter extends Component {
         if (onOK) {
             onOK(filter);
         }
-        // this.setState({
-        //     filtered: selectedItems.length > 0
-        // });
         this.close();
     };
 
@@ -220,7 +231,6 @@ class TableFilter extends Component {
         }
         this.setState({
             selectedItems: [],
-            // filtered: false,
             show: false
         });
     };

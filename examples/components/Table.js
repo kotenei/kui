@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table } from "main";
+import { Table, Icon } from "main";
 
 const { TableColumn } = Table;
 
@@ -122,7 +122,7 @@ class TableView extends Component {
             <div>
                 <h1>Table 表格</h1>
                 <h3>基本用法</h3>
-                <div className="k-example">
+                {/* <div className="k-example">
                     <Table data={data}>
                         <TableColumn title="FirstName" dataIndex="firstName" />
                         <TableColumn title="LastName" dataIndex="lastName" />
@@ -361,14 +361,20 @@ class TableView extends Component {
                         <TableColumn title="Status" dataIndex="status" />
                     </Table>
                 </div>
-                <br />
+                <br /> */}
                 <h3>过滤</h3>
                 <div className="k-example">
-                    <Table data={data}>
+                    <Table
+                        data={data}
+                        onChange={(pagination, filter, sorter) => {
+                            console.log(pagination, filter, sorter);
+                        }}
+                    >
                         <TableColumn title="Name">
                             <TableColumn
                                 title="FirstName"
                                 dataIndex="firstName"
+                                sorter={true}
                                 filters={[
                                     { text: "Joe", value: "Joe" },
                                     { text: "Jim", value: "Jim" }
@@ -384,20 +390,39 @@ class TableView extends Component {
                                     { text: "Brown", value: "Brown" },
                                     { text: "Sanders", value: "Sanders" }
                                 ]}
-                                onFilter={(value, record) => {
-                                    console.log(value)
-                                    return record.lastName.indexOf(value) > -1;
-                                }}
+                                onFilter={(value, record) =>
+                                    record.lastName.indexOf(value) > -1
+                                }
+                            />
+                            <TableColumn
+                                title="LastName"
+                                dataIndex="lastName"
+                                filters={[
+                                    { text: "Brown", value: "Brown" },
+                                    { text: "Sanders", value: "Sanders" }
+                                ]}
+                                onFilter={(value, record) =>
+                                    record.lastName.indexOf(value) > -1
+                                }
                             />
                         </TableColumn>
-                        <TableColumn title="Age" dataIndex="age" />
+                        <TableColumn
+                            title="Age"
+                            dataIndex="age"
+                            filterDropdown={() => {
+                                return <input />;
+                            }}
+                            filterIcon={filtered => {
+                                return <Icon type="search" />;
+                            }}
+                        />
                         <TableColumn title="Address" dataIndex="address" />
                         <TableColumn title="Status" dataIndex="status" />
                     </Table>
                 </div>
                 <br />
                 <h3>远程加载数据</h3>
-                <div className="k-example">
+                {/* <div className="k-example">
                     <Table
                         data={this.state.data}
                         loading={isLoading}
@@ -408,7 +433,7 @@ class TableView extends Component {
                         <TableColumn title="Age" dataIndex="age" />
                         <TableColumn title="Address" dataIndex="address" />
                     </Table>
-                </div>
+                </div> */}
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>

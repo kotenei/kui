@@ -11,13 +11,9 @@ import Checkbox from "../Checkbox";
 import Icon from "../Icon";
 import TableSorter from "./TableSorter";
 import TableFilter from "./TableFilter";
+import invariant from "invariant";
 
 const prefixCls = "k-table";
-const TABLE_TYPE = {
-    header: 0,
-    body: 1,
-    all: 2
-};
 const FLEX_WIDTH = 50;
 
 const HeaderContaienr = props => {
@@ -412,16 +408,14 @@ class Table extends Component {
 
         if (filter) {
             Object.keys(filter).forEach(key => {
-                let arrKey = key.split("|");
                 let column = this.columns.find(
-                    column =>
-                        (column.dataIndex = arrKey[0] || column.id == arrKey[1])
+                    column => column.dataIndex == key
                 );
                 if (!column) {
                     return;
                 }
                 let values = filter[key] || [];
-                if (values.length === 0) {
+                if (values.length == 0) {
                     return;
                 }
                 const onFilter = column.onFilter;
@@ -509,7 +503,7 @@ class Table extends Component {
 
     renderThead(data, headerRows, colGroupInfo) {
         const { checkbox, expandedRowRender, disabledCheckIds } = this.props;
-        const { checkedIds, expandedRowIds, sorter } = this.state;
+        const { checkedIds, expandedRowIds, sorter, filter } = this.state;
         let checkedCount = 0;
         let disabledCheckCount = 0;
 
@@ -573,22 +567,19 @@ class Table extends Component {
                             >
                                 {cell.title}
                             </div>
-                            {cell.sorter ? (
-                                <TableSorter
-                                    prefixCls={prefixCls}
-                                    column={cell}
-                                    sorter={sorter}
-                                    onSort={this.handleSort}
-                                />
-                            ) : null}
-                            {cell.filters ? (
-                                <TableFilter
-                                    prefixCls={prefixCls}
-                                    column={cell}
-                                    onOK={this.handleFilterOK}
-                                    onReset={this.handleFilterReset}
-                                />
-                            ) : null}
+                            <TableSorter
+                                prefixCls={prefixCls}
+                                column={cell}
+                                sorter={sorter}
+                                onSort={this.handleSort}
+                            />
+                            <TableFilter
+                                prefixCls={prefixCls}
+                                column={cell}
+                                filter={filter}
+                                onOK={this.handleFilter}
+                                onReset={this.handleFilter}
+                            />
                         </div>
                     </th>
                 );
@@ -1047,26 +1038,31 @@ class Table extends Component {
     };
 
     handleSort = sorter => {
-        const { pagination } = this.state;
+        const { onChange } = this.props;
+        const { pagination, filter } = this.state;
+        let newPagination = { ...pagination, pageNumber: 1 };
         this.setState({
             sorter,
-            pagination: {
-                ...pagination,
-                pageNumber: 1
-            }
+            pagination: newPagination
         });
+        if (onChange) {
+            onChange(newPagination, filter, sorter);
+        }
     };
 
-    handleFilterOK = filter => {
-        this.setState({
-            filter: { ...this.state.filter, ...filter }
-        });
-    };
+    handleFilter = filter => {
+        const { onChange } = this.props;
+        const { pagination, sorter, filter: orgFilter } = this.state;
+        let newFilter = { ...orgFilter, ...filter };
+        let newPagination = { ...pagination, pageNumber: 1 };
 
-    handleFilterReset = filter => {
         this.setState({
-            filter: { ...this.state.filter, ...filter }
+            filter: newFilter
         });
+
+        if (onChange) {
+            onChange(newPagination, newFilter, sorter);
+        }
     };
 
     handlePageChange = pageNumber => {
@@ -1098,6 +1094,16 @@ class Table extends Component {
             });
         }
     };
+
+    // getFitler(filter){
+    //     let ret={};
+    //     if(filter){
+    //         Object.keys(filter).forEach(key=>{
+    //             ret[key.split()]
+    //         })
+    //     }
+    //     return ret;
+    // }
 }
 
 export default Table;

@@ -13,9 +13,11 @@ let instances = {};
 class TableFilter extends Component {
     state = {
         selectedItems: [],
+        filtered: false,
         open: false
     };
     static propTypes = {
+        filter: PropTypes.object,
         column: PropTypes.object,
         prefixCls: PropTypes.string,
         onOK: PropTypes.func,
@@ -28,8 +30,34 @@ class TableFilter extends Component {
         instances[this.id] = this;
     }
 
+    init(props = this.props) {
+        const { filter, column } = props;
+        let selectedItems = [];
+        if (
+            filter &&
+            filter[column.dataIndex] &&
+            filter[column.dataIndex].length > 0
+        ) {
+            selectedItems = filter[column.dataIndex];
+            this.setState({
+                filtered: true,
+                selectedItems
+            });
+        } else {
+            this.setState({
+                filtered: false,
+                selectedItems
+            });
+        }
+    }
+
     componentDidMount() {
+        this.init();
         document.addEventListener("click", this.close);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.init(nextProps);
     }
 
     componentWillUnmount() {
@@ -74,17 +102,27 @@ class TableFilter extends Component {
     }
     render() {
         const { column, prefixCls } = this.props;
-        const { show } = this.state;
-        const { filterIcon, filters, filterMultiple } = column;
+        const { show, filtered } = this.state;
+        const { filterIcon, filters, filterMultiple, filterDropdown } = column;
+        const icon = filterIcon ? (
+            filterIcon(filtered)
+        ) : (
+            <Icon
+                type="filter"
+                theme="filled"
+                kStyle={filtered ? "primary" : null}
+            />
+        );
+
         const filterInput = (
             <div className={`${prefixCls}-filter`} onClick={this.handleClick}>
-                {filterIcon ? (
-                    filterIcon
-                ) : (
-                    <Icon type="filter" theme="filled" />
-                )}
+                {icon}
             </div>
         );
+
+        if ((!filters || filters.length == 0) && !filterDropdown) {
+            return null;
+        }
 
         return (
             <PopPanel
@@ -94,24 +132,29 @@ class TableFilter extends Component {
                 placement="bottomRight"
             >
                 {this.renderMenus()}
-                <div className={`${prefixCls}-filter__btns`}>
-                    <Button raised kSize="sm" onClick={this.handleOK}>
-                        确定
-                    </Button>
-                    <Button
-                        raised
-                        kStyle="default"
-                        kSize="sm"
-                        onClick={this.handleReset}
-                    >
-                        重置
-                    </Button>
-                </div>
+                {!filterDropdown && (
+                    <div className={`${prefixCls}-filter__btns`}>
+                        <Button raised kSize="sm" onClick={this.handleOK}>
+                            确定
+                        </Button>
+                        <Button
+                            raised
+                            kStyle="default"
+                            kSize="sm"
+                            onClick={this.handleReset}
+                        >
+                            重置
+                        </Button>
+                    </div>
+                )}
             </PopPanel>
         );
     }
 
     open = () => {
+        if (this.state.show) {
+            return;
+        }
         this.setState({
             show: true
         });
@@ -119,6 +162,9 @@ class TableFilter extends Component {
     };
 
     close = () => {
+        if (!this.state.show) {
+            return;
+        }
         this.setState({
             show: false
         });
@@ -152,11 +198,14 @@ class TableFilter extends Component {
         const { onOK, column } = this.props;
         const { selectedItems } = this.state;
         let filter = {
-            [`${column.dataIndex}|${column.id}`]: selectedItems
+            [`${column.dataIndex}`]: selectedItems
         };
         if (onOK) {
             onOK(filter);
         }
+        // this.setState({
+        //     filtered: selectedItems.length > 0
+        // });
         this.close();
     };
 
@@ -164,13 +213,14 @@ class TableFilter extends Component {
         const { onReset, column } = this.props;
         const { selectedItems } = this.state;
         let filter = {
-            [`${column.dataIndex}|${column.id}`]: []
+            [`${column.dataIndex}`]: []
         };
         if (onReset) {
             onReset(filter);
         }
         this.setState({
             selectedItems: [],
+            // filtered: false,
             show: false
         });
     };

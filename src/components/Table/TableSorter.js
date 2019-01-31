@@ -12,6 +12,9 @@ class TableSorter extends Component {
     render() {
         const { prefixCls, column, sorter } = this.props;
         let upStyle, downStyle;
+        if (!column.sorter) {
+            return null;
+        }
         if (sorter && sorter.field && sorter.field === column.dataIndex) {
             if (sorter.order == "desc") {
                 downStyle = "primary";

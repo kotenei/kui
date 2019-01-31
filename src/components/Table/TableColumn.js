@@ -8,7 +8,7 @@ class TableColumn extends Component {
         align: PropTypes.oneOf(["left", "right", "center"]),
         dataIndex: PropTypes.string,
         defaultSortOrder: PropTypes.oneOf(["asc", "desc"]),
-        filtered: PropTypes.bool,
+        filterDropdown: PropTypes.func,
         filterIcon: PropTypes.func,
         filterMultiple: PropTypes.bool,
         filters: PropTypes.arrayOf(PropTypes.object),

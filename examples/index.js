@@ -329,8 +329,7 @@ ReactDOM.render(
                                 </li>
                                 <li>
                                     <NavLink
-                                        to="###"
-                                        className="disabled"
+                                        to="/Table"
                                         activeClassName="selected"
                                     >
                                         Table 表格

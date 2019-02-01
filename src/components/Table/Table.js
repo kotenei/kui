@@ -97,15 +97,15 @@ class Table extends Component {
         disabledCheckIds: PropTypes.arrayOf(PropTypes.string),
         expandedRowIds: PropTypes.arrayOf(PropTypes.string),
         expandedRowRender: PropTypes.func,
-        footer: PropTypes.object,
+        // footer: PropTypes.object,
         height: PropTypes.number,
-        indentSize: PropTypes.number,
+        // indentSize: PropTypes.number,
         loading: PropTypes.bool,
         pagination: PropTypes.object,
         rowClassName: PropTypes.func,
-        showHeader: PropTypes.bool,
+        // showHeader: PropTypes.bool,
         stripe: PropTypes.bool,
-        title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+        // title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
         onCheck: PropTypes.func,
         onChange: PropTypes.func,
         onExpand: PropTypes.func
@@ -116,7 +116,7 @@ class Table extends Component {
         checkbox: false,
         defaultCheckedIds: [],
         defaultExpandedRowIds: [],
-        showHeader: true,
+        // showHeader: true,
         stripe: false
     };
 

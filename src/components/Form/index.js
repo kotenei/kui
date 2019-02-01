@@ -1,16 +1,6 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import Form from './Form';
+import FormItem from './FormItem';
 
-const prefixCls = "k-form";
-
-class Form extends Component {
-    static propTypes = {
-        start:PropTypes.string
-    };
-    static defaultProps = {};
-    render() {
-        return <div className={prefixCls} />;
-    }
-}
+Form.Item=FormItem;
 
 export default Form;

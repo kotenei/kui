@@ -6,7 +6,11 @@ class FormView extends Component {
         return (
             <div>
                 <h1>Form 表单</h1>
-                <div className="k-example" />
+                <div className="k-example">
+                    <Form>
+                        <Form.Item label="哈哈" />
+                    </Form>
+                </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>

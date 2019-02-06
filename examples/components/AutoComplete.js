@@ -44,6 +44,7 @@ class AutoCompleteView extends Component {
                         placeholder="请输入a-z"
                         onSearch={this.handleSearch}
                         onSelect={this.handleSelect}
+                       
                     />
                 </div>
                 <h3>多选</h3>
@@ -55,6 +56,7 @@ class AutoCompleteView extends Component {
                         defaultValue={["Ada"]}
                         onSearch={this.handleSearch}
                         onSelect={this.handleSelect}
+                        onChange={(v)=>{console.log(v)}}
                     />
                 </div>
                 <h3>尺寸</h3>
@@ -137,6 +139,12 @@ class AutoCompleteView extends Component {
                             <td>value</td>
                             <td>指定当前选中的条目</td>
                             <td>string | {`Array<{text:string,value:any}>`}</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>onChange</td>
+                            <td>选中 option，或 input 的 value 变化时，调用此函数</td>
+                            <td>function(value)</td>
                             <td>—</td>
                         </tr>
                         <tr>

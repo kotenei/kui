@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Form } from "main";
+import { Form, Input, Checkbox } from "main";
+
+const { createForm } = Form;
 
 class FormView extends Component {
     render() {
@@ -8,7 +10,23 @@ class FormView extends Component {
                 <h1>Form 表单</h1>
                 <div className="k-example">
                     <Form>
-                        <Form.Item label="哈哈" />
+                        <Form.Item
+                            label="用户名"
+                            rules={{ required: true }}
+                            messages={{ required: "test" }}
+                            fieldName="username"
+                            defaultValue={"true"}
+                        >
+                            {/* <Input /> */}
+                            <Checkbox />
+                        </Form.Item>
+                        {/* <Form.Item
+                            label="电子邮件"
+                            rules={{ required: true }}
+                            messages={{ required: "test" }}
+                        >
+                            <Input name="password" />
+                        </Form.Item> */}
                     </Form>
                 </div>
                 <h1>API</h1>
@@ -35,4 +53,4 @@ class FormView extends Component {
     }
 }
 
-export default FormView;
+export default createForm(FormView);

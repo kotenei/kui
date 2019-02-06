@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
+import omit from "object.omit";
 
 const prefixCls = "k-form";
 
@@ -25,11 +26,10 @@ class Form extends Component {
         const classString = classnames(
             {
                 [prefixCls]: true,
-                [`${prefixCls}-${mode}`]: mode
+                [`${prefixCls}--${mode}`]: mode
             },
             className
         );
-
         return (
             <form className={classString} style={style}>
                 {this.renderChildren()}

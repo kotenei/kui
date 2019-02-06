@@ -148,6 +148,12 @@ class TimePickerView extends Component {
                             <td>Function(value:string)</td>
                             <td>—</td>
                         </tr>
+                        <tr>
+                            <td>onChange</td>
+                            <td>时间发生变化的回调</td>
+                            <td>Function(value:string)</td>
+                            <td>—</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

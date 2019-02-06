@@ -79,7 +79,7 @@ class AutoComplete extends Component {
         const { multiple, onChange } = this.props;
         const { target } = e;
         if (onChange) {
-            onChange(e);
+            onChange(target.value);
         }
         if ("value" in this.props && !multiple) {
             return;
@@ -232,7 +232,7 @@ class AutoComplete extends Component {
     }
     //设置值
     setValue(selected) {
-        const { multiple, onSelect } = this.props;
+        const { multiple, onSelect, onChange } = this.props;
         const { selectedItems } = this.state;
         let formatted = this.formatItem(selected);
         let newValue = selected;
@@ -272,12 +272,16 @@ class AutoComplete extends Component {
             onSelect(newValue);
         }
 
+        if (onChange) {
+            onChange(newValue);
+        }
+
         this.hide();
     }
     //搜索
     search(val) {
         const { onSearch } = this.props;
-        
+
         if (onSearch) {
             onSearch(val);
             return;

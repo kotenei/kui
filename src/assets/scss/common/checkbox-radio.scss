@@ -1,0 +1,47 @@
+.k-checkbox,
+.k-radio {
+    position: relative;
+    display: block;
+    color: $input-color;
+    margin-top: .625rem;
+    margin-bottom: .625rem;
+    margin-right: torem(10px);
+    &.k-checkbox-inline,
+    &.k-radio-inline {
+        display: inline-block;
+    }
+    label {
+        margin-bottom: 0;
+        cursor: pointer;
+        height: 1.25rem;
+        line-height: 1.25rem;
+        span {
+            //vertical-align: middle;
+        }
+    }
+    &.disabled {
+        color: $disabled-color;
+        label {
+            cursor: $cursor-disabled;
+        }
+    }
+}
+
+.k-radio input[type="radio"],
+.k-checkbox input[type="checkbox"] {
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+    vertical-align: middle;
+    width: torem(15px);
+    height: torem(15px);
+    &.normal {
+        opacity: 1;
+    }
+}
+
+.k-radio input[type="radio"].normal+.content {
+    margin-left: torem(3px)
+}

@@ -26,8 +26,8 @@ class Checkbox extends Component {
     static defaultProps = {
         inline: false,
         indeterminate: false,
-        mode: "normal",
-        onChange: () => {}
+        mode: "normal"
+        //onChange: () => {}
     };
     static contextTypes = {
         checkboxGroup: PropTypes.any
@@ -40,7 +40,9 @@ class Checkbox extends Component {
 
     handleChange(e) {
         const { onChange, option } = this.props;
-        onChange(e, option);
+        if (onChange) {
+            onChange(e, option);
+        }
         this.setState({
             checked: e.target.checked
         });

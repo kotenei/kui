@@ -22,7 +22,7 @@ class SelectView extends Component {
                 <h1>Select 选择器</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Select placeholder="请选择" >{options}</Select>
+                    <Select placeholder="请选择">{options}</Select>
                     <br />
                     <br />
                     <Select placeholder="请选择" disabled>
@@ -90,6 +90,15 @@ class SelectView extends Component {
                             <td>当前值</td>
                             <td>string[]</td>
                             <td />
+                        </tr>
+                        <tr>
+                            <td>onChange</td>
+                            <td>
+                                选中 option，或 input 的 value
+                                变化时，调用此函数
+                            </td>
+                            <td>function(value:string|string[])</td>
+                            <td>—</td>
                         </tr>
                         <tr>
                             <td>onSelect</td>

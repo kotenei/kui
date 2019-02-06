@@ -42,6 +42,7 @@ class TimePicker extends Component {
         showClearIcon: PropTypes.bool,
         use12Hours: PropTypes.bool,
         value: PropTypes.string,
+        onChange: PropTypes.func,
         onCancel: PropTypes.func,
         onOK: PropTypes.func
     };
@@ -89,7 +90,7 @@ class TimePicker extends Component {
     };
     //点击确定
     handleOK = () => {
-        const { onOK } = this.props;
+        const { onOK, onChange } = this.props;
         let value = this.tmpValue;
         if (!("open" in this.props)) {
             this.close();
@@ -101,6 +102,9 @@ class TimePicker extends Component {
         }
         if (onOK) {
             onOK(value);
+        }
+        if (onChange) {
+            onChange(value);
         }
     };
     //清空值
@@ -391,7 +395,9 @@ class TimePicker extends Component {
         ) : null;
 
         return ReactDOM.createPortal(
-            <TransitionGroup component={React.Fragment}>{picker}</TransitionGroup>,
+            <TransitionGroup component={React.Fragment}>
+                {picker}
+            </TransitionGroup>,
             document.body
         );
     }

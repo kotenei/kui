@@ -3,6 +3,7 @@
     vertical-align: middle;
     position: relative;
     width: 100%;
+    min-width: torem(196px);
     .k-select-single {
         border: $border-width-base $border-style-base $border-color-base;
         border-radius: $border-radius;

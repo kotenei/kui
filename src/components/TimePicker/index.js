@@ -78,8 +78,8 @@ class TimePicker extends Component {
     };
     //点击取消
     handleCancel = () => {
-        const { onCancel } = this.props;
-        const { value } = this.setState;
+        const { onCancel, onChange } = this.props;
+        const { value } = this.state;
         this.tmpValue = value || "00:00:00";
         if (onCancel) {
             onCancel();
@@ -103,13 +103,13 @@ class TimePicker extends Component {
         if (onOK) {
             onOK(value);
         }
-        if (onChange) {
+        if (onChange && value != this.state.value) {
             onChange(value);
         }
     };
     //清空值
     handleClear = () => {
-        const { use12Hours, disabled } = this.props;
+        const { use12Hours, disabled, onChange } = this.props;
         if (disabled || "value" in this.props) {
             return;
         }
@@ -120,6 +120,10 @@ class TimePicker extends Component {
         this.setState({
             value: ""
         });
+
+        if (onChange && this.state.value) {
+            onChange("");
+        }
     };
     change(type, val, index) {
         const { use12Hours } = this.props;
@@ -413,7 +417,7 @@ class TimePicker extends Component {
                 />
             );
         }
-        return suffix;
+        return <Icon type="clock-circle" />;
     }
     render() {
         const { value } = this.state;

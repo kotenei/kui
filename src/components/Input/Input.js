@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import Group from './Group';
-import TextArea from './TextArea';
-import omit from 'object.omit';
-import { kStyles, kClass, kSize, getClassSet } from '../../utils/kUtils';
-import { State, PRIMARY, Sizes } from '../../utils/styleMaps';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
+import Group from "./Group";
+import TextArea from "./TextArea";
+import omit from "object.omit";
+import { kStyles, kClass, kSize, getClassSet } from "../../utils/kUtils";
+import { State, PRIMARY, Sizes } from "../../utils/styleMaps";
 
 class Input extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class Input extends Component {
         value: PropTypes.string,
         defaultValue: PropTypes.string,
         placeholder: PropTypes.string,
-        autoFocus:PropTypes.bool,
+        autoFocus: PropTypes.bool,
         readOnly: PropTypes.bool,
         disabled: PropTypes.bool,
         addonBefore: PropTypes.node,
@@ -31,21 +31,21 @@ class Input extends Component {
         onKeyUp: PropTypes.func,
         onClick: PropTypes.func,
         onPressEnter: PropTypes.func
-    }
+    };
     static defaultProps = {
-        type: 'text',
+        type: "text",
         disabled: false
-    }
+    };
     handleKeyUp(e) {
         const { onPressEnter, onKeyUp } = this.props;
         if (e.keyCode == 13 && onPressEnter) {
             onPressEnter(e);
         }
         if (onKeyUp) {
-            onKeyUp(e)
+            onKeyUp(e);
         }
     }
-    shouldComponentUpdate(nextProps,nextState){
+    shouldComponentUpdate(nextProps, nextState) {
         return true;
     }
     renderLabeledInput(children) {
@@ -61,33 +61,29 @@ class Input extends Component {
             >
                 {children}
             </Group>
-        )
+        );
     }
     renderLabeledIcon(children) {
         const { props } = this;
-        if (!('prefix' in props || 'suffix' in props)) {
+        if (!("prefix" in props || "suffix" in props)) {
             return children;
         }
 
-        let prefixCls = 'k-input';
+        let prefixCls = "k-input";
 
         const prefix = props.prefix ? (
-            <span className={`${prefixCls}-prefix`}>
-                {props.prefix}
-            </span>
+            <span className={`${prefixCls}-prefix`}>{props.prefix}</span>
         ) : null;
 
         const suffix = props.suffix ? (
-            <span className={`${prefixCls}-suffix`}>
-                {props.suffix}
-            </span>
+            <span className={`${prefixCls}-suffix`}>{props.suffix}</span>
         ) : null;
 
         let classString = classnames({
             [`${prefixCls}-affix-wrapper`]: true,
-            [`${prefixCls}-affix-wrapper-lg`]: props.kSize == 'lg',
-            [`${prefixCls}-affix-wrapper-sm`]: props.kSize == 'sm'
-        })
+            [`${prefixCls}-affix-wrapper-lg`]: props.kSize == "lg",
+            [`${prefixCls}-affix-wrapper-sm`]: props.kSize == "sm"
+        });
 
         return (
             <div className={classString}>
@@ -100,31 +96,39 @@ class Input extends Component {
     renderInput() {
         const { props } = this;
         const otherProps = omit(props, [
-            'addonBefore',
-            'addonAfter',
-            'prefix',
-            'suffix',
-            'onPressEnter',
-            'className',
-            'kClass',
-            'kSize',
+            "addonBefore",
+            "addonAfter",
+            "prefix",
+            "suffix",
+            "onPressEnter",
+            "className",
+            "kClass",
+            "kSize"
         ]);
         let classes = getClassSet(props);
+
+        if (
+            otherProps.hasOwnProperty("value") &&
+            otherProps.value == undefined
+        ) {
+            otherProps.value = "";
+        }
+
         return this.renderLabeledIcon(
             <input
                 ref="input"
                 {...otherProps}
-                className={classnames(classes,props.className)}
-                onKeyUp={this.handleKeyUp} />
-        )
+                className={classnames(classes, props.className)}
+                onKeyUp={this.handleKeyUp}
+            />
+        );
     }
     render() {
-        return (
-            this.renderLabeledInput(this.renderInput())
-        )
+        return this.renderLabeledInput(this.renderInput());
     }
 }
 
-export default kSize([Sizes.LARGE, Sizes.SMALL],
-    kClass('k-form-control', Input)
+export default kSize(
+    [Sizes.LARGE, Sizes.SMALL],
+    kClass("k-form-control", Input)
 );

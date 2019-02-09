@@ -15,39 +15,40 @@ $prefix:'k-form';
             text-align: right;
             display: inline-block;
             vertical-align: middle;
-            float: left;
-            line-height: torem(40px);
             margin-bottom: 0;
             min-width: torem(80px);
-            margin-right: torem(8px);
+            margin-right: torem(12px);
             font-size: $font-size-base;
         }
         &__content {
             position: relative;
-            line-height: torem(40px);
             display: inline-block;
+            vertical-align: middle;
         }
-        
     }
-
     &--vertical {
         .#{$prefix}-item {
-            &__label{
+            &__label {
                 display: block;
                 text-align: left;
             }
-            &__content{
+            &__content {
                 display: block;
             }
-        }    
+        }
     }
-
     &--inline {
         .#{$prefix}-item {
             display: inline-block;
-            margin-right: torem(16px);
-            &__label{
+            margin-right: torem(24px);
+            &__label {
                 min-width: auto;
+            }
+            &__content {
+                // .k-slider {
+                //     margin-top: torem(14px);
+                //     margin-left: torem(8px);
+                // }
             }
         }
     }

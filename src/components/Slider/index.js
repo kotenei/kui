@@ -124,6 +124,7 @@ class Slider extends Component {
                       return a - b;
                   })
                 : value;
+
             onChange(returnValue);
         }
     };

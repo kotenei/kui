@@ -12,27 +12,22 @@ class FormItem extends Component {
     static propTypes = {
         fieldName: PropTypes.string.isRequired,
         defaultValue: PropTypes.any,
+        getValueFromEvent: PropTypes.func,
         label: PropTypes.string,
         rules: PropTypes.object
     };
 
-    static defaultProps = {
-        defaultValue: ""
-    };
+    static defaultProps = {};
 
     init() {
         const { fieldName, defaultValue } = this.props;
-        let fieldValue = this.form.getFieldValue(fieldName);
-        if (!fieldValue || fieldValue != defaultValue) {
-            this.form.setFieldValue(fieldName, defaultValue);
-        }
+        this.form.setFieldValue(fieldName, defaultValue);
     }
 
     componentDidMount() {
         this.init();
     }
 
-    componentDidUpdate() {}
     render() {
         const { label, className, children, fieldName } = this.props;
         const classString = classnames(
@@ -49,7 +44,7 @@ class FormItem extends Component {
                 <div className={`${prefixCls}__content`}>
                     {React.cloneElement(children, {
                         onChange: this.handleChange,
-                        value,
+                        defaultValue: value,
                         ...children.props
                     })}
                 </div>
@@ -57,9 +52,24 @@ class FormItem extends Component {
         );
     }
 
-    handleChange = e => {
-        console.log(e.target.checked);
-        this.form.setFieldValue(this.props.fieldName, e.target.value);
+    handleChange = (...args) => {
+        const { getValueFromEvent } = this.props;
+        let value;
+        if (getValueFromEvent) {
+            value = getValueFromEvent(...args);
+        } else {
+            let e = args[0];
+            if (e && e.target) {
+                const { target } = e;
+                value =
+                    target.type === "checkbox" || target.type === "radio"
+                        ? target.checked
+                        : target.value;
+            } else {
+                value = e;
+            }
+        }
+        this.form.setFieldValue(this.props.fieldName, value);
     };
 }
 

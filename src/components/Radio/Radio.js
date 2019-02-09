@@ -20,8 +20,7 @@ class Radio extends Component {
     };
     static defaultProps = {
         inline: false,
-        mode: "normal",
-        onChange: () => {}
+        mode: "normal"
     };
     static contextTypes = {
         radioGroup: PropTypes.any
@@ -34,7 +33,9 @@ class Radio extends Component {
 
     handleChange(e) {
         const { onChange, option } = this.props;
-        onChange(e, option);
+        if (onChange) {
+            onChange(e, option);
+        }
     }
     renderMaterinal() {
         return (

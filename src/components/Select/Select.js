@@ -34,6 +34,7 @@ class Select extends Component {
         disabled: PropTypes.bool,
         defaultValue: PropTypes.array,
         value: PropTypes.array,
+        onChange: PropTypes.func,
         onSelect: PropTypes.func
     };
     static defaultProps = {
@@ -42,7 +43,7 @@ class Select extends Component {
         defaultValue: []
     };
     handleOptionSelect = (e, selectedIds, info) => {
-        const { onSelect, multiple } = this.props;
+        const { onSelect, multiple, onChange } = this.props;
         const { value } = this.state;
         if (multiple) {
             e.stopPropagation();
@@ -54,13 +55,17 @@ class Select extends Component {
             });
         }
         if (onSelect) {
-            onSelect( selectedIds);
+            onSelect(selectedIds);
+        }
+
+        if (onChange) {
+            onChange(selectedIds);
         }
     };
     handleItemRemove = (e, item) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        const { disabled, multiple } = this.props;
+        const { disabled, multiple, onChange } = this.props;
         const { value } = this.state;
         if (disabled) {
             return;
@@ -78,6 +83,9 @@ class Select extends Component {
                     value: newValue
                 });
             }
+        }
+        if(onChange){
+            onChange(newValue)
         }
     };
     handleMultipleListClick = e => {

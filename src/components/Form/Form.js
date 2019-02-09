@@ -30,6 +30,7 @@ class Form extends Component {
             },
             className
         );
+        
         return (
             <form className={classString} style={style}>
                 {this.renderChildren()}

@@ -73,7 +73,7 @@ class Upload extends Component {
      * 删除文件
      */
     handleRemove = index => {
-        const { onRemove } = this.props;
+        const { onRemove, onChange } = this.props;
         const { fileList } = this.state;
         let removeFile = fileList[index];
         let newFileList = [...fileList];
@@ -83,14 +83,18 @@ class Upload extends Component {
             this.reqs[removeFile.id].abort();
         }
 
-        if (onRemove) {
-            onRemove(removeFile);
-        }
-
         if (!("fileList" in this.props)) {
             this.setState({
                 fileList: newFileList
             });
+        }
+
+        if (onRemove) {
+            onRemove(removeFile);
+        }
+
+        if (onChange) {
+            onChange({ file: removeFile, fileList: newFileList });
         }
     };
     /**

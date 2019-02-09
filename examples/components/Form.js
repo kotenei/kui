@@ -1,7 +1,37 @@
 import React, { Component } from "react";
-import { Form, Input, Checkbox } from "main";
+import {
+    AutoComplete,
+    Button,
+    Checkbox,
+    DatePicker,
+    Form,
+    Icon,
+    Input,
+    Radio,
+    Rate,
+    Select,
+    Slider,
+    Switch,
+    TimePicker,
+    Upload
+} from "main";
+import { data } from "../data";
 
 const { createForm } = Form;
+const { Option } = Select;
+const options = [
+    <Option key="1" title="选项一" value="选项一">
+        选项一
+    </Option>,
+    <Option key="2" title="选项二" value="选项二">
+        选项二
+    </Option>,
+    <Option key="3" title="选项三" value="选项三">
+        选项三
+    </Option>
+];
+
+const action = "https://jsonplaceholder.typicode.com/posts/";
 
 class FormView extends Component {
     render() {
@@ -9,24 +39,23 @@ class FormView extends Component {
             <div>
                 <h1>Form 表单</h1>
                 <div className="k-example">
-                    <Form>
+                    <Form mode="inline">
                         <Form.Item
                             label="用户名"
                             rules={{ required: true }}
                             messages={{ required: "test" }}
                             fieldName="username"
-                            defaultValue={"true"}
                         >
-                            {/* <Input /> */}
-                            <Checkbox />
+                            <Input />
                         </Form.Item>
-                        {/* <Form.Item
-                            label="电子邮件"
+                        <Form.Item
+                            label="密码"
                             rules={{ required: true }}
                             messages={{ required: "test" }}
+                            fieldName="password"
                         >
-                            <Input name="password" />
-                        </Form.Item> */}
+                            <Input type="password" />
+                        </Form.Item>
                     </Form>
                 </div>
                 <h1>API</h1>

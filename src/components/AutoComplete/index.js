@@ -341,36 +341,42 @@ class AutoComplete extends Component {
             </Menu>
         );
     }
-    componentWillMount() {
-        const { defaultValue, value, multiple, data } = this.props;
-        let tmpValue = value || defaultValue || "";
+
+    init(value, multiple) {
         let selectedItems = [];
-        if (tmpValue) {
-            if (!multiple) {
-                let inputValue = typeof tmpValue === "string" ? tmpValue : "";
-                if (inputValue) {
-                    selectedItems.push(inputValue);
-                }
-                this.setState({
-                    inputValue
-                });
-                return;
-            } else {
-                if (!Array.isArray(tmpValue)) {
-                    return;
-                }
-                tmpValue.forEach(item => {
+        if (!multiple) {
+            let inputValue = typeof value === "string" ? value : "";
+            if (inputValue) {
+                selectedItems.push(inputValue);
+            }
+            this.setState({
+                inputValue
+            });
+        } else {
+            if (Array.isArray(value)) {
+                value.forEach(item => {
                     selectedItems.push(item);
                 });
             }
-            this.setState({
-                selectedItems
-            });
         }
+        this.setState({
+            selectedItems
+        });
+    }
+
+    componentWillMount() {
+        const { defaultValue, value, multiple } = this.props;
+        let tmpValue = value || defaultValue || "";
+        this.init(tmpValue, multiple);
     }
     componentWillReceiveProps(nextProps) {
         const { focus } = this.state;
-        const { data } = nextProps;
+        const { data, value, multiple } = nextProps;
+
+        if ("value" in nextProps) {
+            this.init(value, multiple);
+        }
+
         if (data && data.length > 0 && focus) {
             this.show(data);
         } else {

@@ -28,6 +28,7 @@ class Item extends Component {
 class TimePickerSelect extends Component {
     constructor(props) {
         super(props);
+        this.canScroll = true;
     }
     state = {
         activeIndex: 0
@@ -43,12 +44,16 @@ class TimePickerSelect extends Component {
         if (onItemClick) {
             onItemClick(type, value, index);
         }
+        this.canScroll = false;
         this.setState(
             {
                 activeIndex: index
             },
             () => {
                 this.scrollTo(index);
+                setTimeout(() => {
+                    this.canScroll = true;
+                }, 50);
             }
         );
     };
@@ -64,7 +69,7 @@ class TimePickerSelect extends Component {
                 break;
             }
         }
-        if (onScroll) {
+        if (onScroll && this.canScroll) {
             onScroll(type, data[activeIndex], activeIndex);
         }
         this.setState({

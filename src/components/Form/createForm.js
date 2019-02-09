@@ -8,7 +8,7 @@ export const createForm = WrappedComponent =>
 
         handleSubmit = callback => callback(this.state.fields);
 
-        getFieldValue = fieldName => this.state.fields[fieldName] || " ";
+        getFieldValue = fieldName => this.state.fields[fieldName] ;
 
         setFieldValue = (fieldName, value) =>
             this.setState(state => {
@@ -18,7 +18,7 @@ export const createForm = WrappedComponent =>
 
         getFieldProps = fieldName => ({
             onChange: this.onChange(fieldName),
-            value: this.state.fields[fieldName] || " "
+            value: this.state.fields[fieldName] 
         });
 
         render() {
@@ -29,6 +29,7 @@ export const createForm = WrappedComponent =>
                 getFieldValue: this.getFieldValue,
                 setFieldValue: this.setFieldValue
             };
+            
             return (
                 <WrappedComponent
                     {...props}

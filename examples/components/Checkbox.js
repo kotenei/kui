@@ -115,7 +115,7 @@ class CheckboxView extends Component {
                         <tr>
                             <td>value</td>
                             <td>值</td>
-                            <td>string</td>
+                            <td>string|number|boolean</td>
                             <td>—</td>
                         </tr>
                         <tr>

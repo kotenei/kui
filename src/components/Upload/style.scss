@@ -36,7 +36,7 @@ $prefix-select-dragger: #{$prefix-select}-dragger;
 
 @include block($prefix-list) {
     @include element("item") {
-        transition: all 0.3s ease;
+        // transition: all 0.3s ease;
         position: relative;
         color: #606266;
         margin-top: torem(8px);

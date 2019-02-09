@@ -206,12 +206,12 @@ class DatePickerView extends Component {
                             <td>Function(dateInfo:object)</td>
                             <td>无</td>
                         </tr>
-                        <tr>
+                        {/* <tr>
                             <td>onClear</td>
                             <td>清空日期回调函数</td>
                             <td>Function()</td>
                             <td>无</td>
-                        </tr>
+                        </tr> */}
                         <tr>
                             <td>onPrev</td>
                             <td>上一年或上个月的回调函数</td>

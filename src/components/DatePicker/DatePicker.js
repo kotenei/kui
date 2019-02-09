@@ -22,7 +22,6 @@ class DatePicker extends Component {
         format: PropTypes.string,
         placeholder: PropTypes.string,
         value: PropTypes.object,
-        onClear: PropTypes.func,
         onChange: PropTypes.func
     };
     static defaultProps = {
@@ -37,7 +36,7 @@ class DatePicker extends Component {
     handleClear = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        const { onClear } = this.props;
+        const { onChange } = this.props;
         if (!("value" in this.props)) {
             this.close();
             this.setState({
@@ -46,9 +45,10 @@ class DatePicker extends Component {
         } else {
             this.close();
         }
-        if (onClear) {
-            onClear();
+        if(onChange){
+            onChange(null);
         }
+
         this.close();
     };
     handleChange = dateInfo => {
@@ -81,6 +81,13 @@ class DatePicker extends Component {
     }
     componentWillUnmount() {
         document.removeEventListener("click", this.close);
+    }
+    componentWillReceiveProps(nextProps) {
+        if ("value" in nextProps) {
+            this.setState({
+                value: nextProps.value
+            });
+        }
     }
     render() {
         const { kSize, disabled, placeholder, format } = this.props;

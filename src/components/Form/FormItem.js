@@ -14,18 +14,32 @@ class FormItem extends Component {
         defaultValue: PropTypes.any,
         getValueFromEvent: PropTypes.func,
         label: PropTypes.string,
-        rules: PropTypes.object
+        rules: PropTypes.object,
+        messages: PropTypes.object,
+        validator: PropTypes.func
     };
 
     static defaultProps = {};
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            errorMessage: ""
+        };
+    }
+
     init() {
-        const { fieldName, defaultValue } = this.props;
+        const { fieldName, defaultValue, rules, messages } = this.props;
         this.form.setFieldValue(fieldName, defaultValue);
+        this.form.setRules(fieldName, rules, messages);
     }
 
     componentDidMount() {
         this.init();
+    }
+
+    renderError() {
+        const { errorMessage } = this.state;
     }
 
     render() {
@@ -36,8 +50,8 @@ class FormItem extends Component {
             },
             className
         );
-        const fieldProps = this.form.getFieldProps(fieldName);
         const value = this.form.getFieldValue(fieldName);
+
         return (
             <div className={classString}>
                 <label className={`${prefixCls}__label`}>{label}</label>
@@ -47,13 +61,14 @@ class FormItem extends Component {
                         defaultValue: value,
                         ...children.props
                     })}
+                    {this.renderError()}
                 </div>
             </div>
         );
     }
 
     handleChange = (...args) => {
-        const { getValueFromEvent } = this.props;
+        const { getValueFromEvent, validator, rules, fieldName } = this.props;
         let value;
         if (getValueFromEvent) {
             value = getValueFromEvent(...args);
@@ -69,7 +84,20 @@ class FormItem extends Component {
                 value = e;
             }
         }
+
         this.form.setFieldValue(this.props.fieldName, value);
+
+        if (validator) {
+            validator(rules, value, this.setError);
+        } else {
+            this.form.validateField(fieldName, this.setError);
+        }
+    };
+
+    setError = msg => {
+        this.setState({
+            errorMessage: msg
+        });
     };
 }
 

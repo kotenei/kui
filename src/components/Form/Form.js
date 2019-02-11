@@ -7,7 +7,8 @@ const prefixCls = "k-form";
 
 class Form extends Component {
     static propTypes = {
-        mode: PropTypes.oneOf(["horizontal", "vertical", "inline"])
+        mode: PropTypes.oneOf(["horizontal", "vertical", "inline"]),
+        onSubmit: PropTypes.func
     };
     static defaultProps = {
         mode: "horizontal"
@@ -30,7 +31,7 @@ class Form extends Component {
             },
             className
         );
-        
+
         return (
             <form className={classString} style={style}>
                 {this.renderChildren()}

@@ -41,7 +41,7 @@ class FormView extends Component {
                 <div className="k-example">
                     <Form mode="inline">
                         <Form.Item
-                            label="用户名"
+                            label="用户名:"
                             rules={{ required: true }}
                             messages={{ required: "test" }}
                             fieldName="username"
@@ -49,7 +49,7 @@ class FormView extends Component {
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="密码"
+                            label="密码:"
                             rules={{ required: true }}
                             messages={{ required: "test" }}
                             fieldName="password"

@@ -1,4 +1,4 @@
-const errorMessages = {
+const messages = {
     required: "该字段不能为空",
     email: "电子邮箱格式错误",
     url: "url格式错误",
@@ -21,15 +21,15 @@ const errorMessages = {
 
 const methods = {
     required(value) {
-        return value != undefined && value != null && String(value).length > 0;
+        return (
+            value != undefined &&
+            value != null &&
+            String(value).trim().length > 0
+        );
     }
 };
 
 export default {
-    validateFields(fields, rules, messages) {
-        Object.keys(fields).forEach(field => {
-            console.log(field);
-        });
-    },
-    validateFirst() {}
+    methods,
+    messages
 };

@@ -8,76 +8,101 @@ export const createForm = WrappedComponent =>
         constructor(props) {
             super(props);
             this.rules = {};
-            this.messages = {};
         }
 
-        handleSubmit = callback => callback(this.state.fields);
+        // handleSubmit = callback => callback(this.state.fields);
 
         getFieldValue = fieldName => this.state.fields[fieldName];
 
-        setFieldValue = (fieldName, value) => {
+        setFieldValue = (fieldName, value, callback) => {
             this.setState(state => {
                 state.fields[fieldName] = value;
                 return state;
-            });
+            }, callback);
         };
 
-        setRules = (fieldName, rules, messages) => {
-            if (!fieldName && !rules && !messages) {
+        setRules = (fieldName, rules) => {
+            if (!fieldName && !rules && rules.length == 0 && !messages) {
                 return;
             }
 
             if (!this.rules[fieldName]) {
-                this.rules[fieldName] = rules;
-            } else {
-                this.rules[fieldName] = Object.assign(
-                    this.rules[fieldName],
-                    rules
-                );
+                this.rules[fieldName] = {};
             }
 
-            if (!this.messages[fieldName]) {
-                this.messages[fieldName] = messages;
-            } else {
-                this.messages[fieldName] = Object.assign(
-                    this.messages[fieldName],
-                    messages
-                );
-            }
+            rules.forEach(rule => {
+                if (rule.required) {
+                    this.rules[fieldName]["required"] = {
+                        message: rule.message || validate.messages["required"],
+                        params: rule.params
+                    };
+                } else if (rule.type) {
+                    this.rules[fieldName][rule.type] = {
+                        message: rule.message || validate.messages[rule.type],
+                        params: rule.params
+                    };
+                }
+            });
         };
 
         removeRule = (fieldName, ruleName) => {
             if (this.rules[fieldName] && this.rules[fieldName][ruleName]) {
                 delete this.rules[fieldName][ruleName];
             }
-
-            if (
-                this.messages[fieldName] &&
-                this.messages[fieldName][ruleName]
-            ) {
-                delete this.messages[fieldName][ruleName];
-            }
         };
 
         validateField = (fieldName, callback) => {
             let value = this.state.fields[fieldName];
             let rules = this.rules[fieldName];
-            let messages = this.messages[fieldName];
-            if (!rules || value == undefined || value == null) {
+
+            if (!rules) {
                 return;
             }
-            
+
+            for (let method in rules) {
+                let rule = rules[method];
+                let result = validate.methods[method](value, rule.params);
+                if (!result) {
+                    let message = this.formatMessage(rule.message, rule.params);
+                    callback(message);
+                    return;
+                } else {
+                    callback();
+                }
+            }
         };
+
+        validateFields = callback => {
+            callback("asdf");
+        };
+
+        formatMessage(message, params) {
+            if (message.indexOf("{0}") != -1) {
+                if (!Array.isArray(params)) {
+                    params = [params];
+                }
+                params.forEach((v, i) => {
+                    message = message.replace(
+                        new RegExp("\\{" + i + "\\}", "g"),
+                        function() {
+                            return v;
+                        }
+                    );
+                });
+            }
+            return message;
+        }
 
         render() {
             const props = {
                 ...this.props,
-                handleSubmit: this.handleSubmit,
+                // handleSubmit: this.handleSubmit,
                 getFieldValue: this.getFieldValue,
                 setFieldValue: this.setFieldValue,
                 setRules: this.setRules,
                 removeRule: this.removeRule,
-                validateField: this.validateField
+                validateField: this.validateField,
+                validateFields: this.validateFields
             };
 
             return (

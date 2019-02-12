@@ -1,23 +1,6 @@
-$grid-justify-content: (
-    start: flex-start,
-    center: center,
-    end: flex-end,
-    space-between: space-between,
-    space-around: space-around
-);
-$grid-align-items: (
-    top: flex-start,
-    middle: center,
-    bottom: flex-end
-);
-$grid-size: (
-    xs: 576px,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    xxl: 1600px
-) !default;
+$grid-justify-content: ( start: flex-start, center: center, end: flex-end, space-between: space-between, space-around: space-around);
+$grid-align-items: ( top: flex-start, middle: center, bottom: flex-end);
+$grid-size: ( xs: 576px, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1600px) !default;
 $grid-colums: 24;
 @include block("row") {
     display: flex;
@@ -26,6 +9,12 @@ $grid-colums: 24;
     &::after {
         display: flex;
     }
+    @include block('col') {
+        display: block;
+        position: relative;
+       
+    }
+
     @each $justify in map-keys($grid-justify-content) {
         &--#{$justify} {
             justify-content: map-get($grid-justify-content, $justify);
@@ -38,8 +27,6 @@ $grid-colums: 24;
     }
     @for $i from 1 through $grid-colums {
         @include block("col-#{$i}") {
-            display: block;
-            position: relative;
             width: ($i / $grid-colums * 100) * 1%;
         }
         @include block("col-offset-#{$i}") {
@@ -50,7 +37,7 @@ $grid-colums: 24;
 
 @each $size in map-keys($grid-size) {
     $condition: min-width;
-    @if $size== "xs" {
+    @if $size=="xs" {
         $condition: max-width;
     }
     @media only screen and ($condition: map-get($grid-size, $size)) {

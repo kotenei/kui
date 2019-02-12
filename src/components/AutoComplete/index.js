@@ -6,7 +6,6 @@ import Input from "../Input";
 import { kClass, kSize, getClassSet } from "../../utils/kUtils";
 import { Sizes } from "../../utils/styleMaps";
 import domUtils from "../../utils/domUtils";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import MultipleList from "../MultipleList";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";

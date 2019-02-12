@@ -50,12 +50,14 @@
 .slide-down-enter,
 .slide-down-exit-active {
     opacity: 0;
-    margin-top: torem(-20px) !important;
+    //margin-top: torem(-20px) !important;
+    transform:  translateY(-5px);
 }
 
 .slide-down-enter-active {
     opacity: 1;
-    margin-top: 0 !important;
+    //margin-top: 0 !important;
+    transform: translateY(0);
 }
 
 .slide-down-enter-active,

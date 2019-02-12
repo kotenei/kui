@@ -1,6 +1,7 @@
 $prefix:'k-form';
 .#{$prefix} {
     &-item {
+        position: relative;
         &::before {
             content: ' ';
             display: table;
@@ -10,29 +11,58 @@ $prefix:'k-form';
             clear: both;
             display: table;
         }
-        margin-bottom: torem(16px);
+        margin-bottom: torem(24px);
         &__label {
             text-align: right;
-            display: inline-block;
+            //display: inline-block !important;
             vertical-align: middle;
             margin-bottom: 0;
-            min-width: torem(80px);
-            margin-right: torem(12px);
+            // min-width: torem(80px);
+            padding-right: torem(12px);
             font-size: $font-size-base;
+            &--required::before {
+                content: '*';
+                margin-right: torem(4px);
+                color: $danger;
+            }
+            &::after {
+                content: ':'
+            }
         }
-        &__content {
+        &__wrapper {
             position: relative;
-            display: inline-block;
+            //display: inline-block!important;
             vertical-align: middle;
+        }
+        &__error {
+            transition: all .3s ease;
+            position: absolute;
+            color: $danger;
+            font-size: torem(12px);
+        }
+        &--error {
+            .k-form-control {
+                border-color: $danger;
+                &:focus {
+                    border-color: $danger;
+                }
+            }
+            .k-multiple-list {
+                border-color: $danger;
+            }
         }
     }
     &--vertical {
         .#{$prefix}-item {
+            flex-direction: column;
             &__label {
                 display: block;
                 text-align: left;
+                &::after {
+                    content: ''
+                }
             }
-            &__content {
+            &__wrapper {
                 display: block;
             }
         }
@@ -43,13 +73,18 @@ $prefix:'k-form';
             margin-right: torem(24px);
             &__label {
                 min-width: auto;
+                display: inline-block!important;
             }
-            &__content {
-                // .k-slider {
-                //     margin-top: torem(14px);
-                //     margin-left: torem(8px);
-                // }
+            &__wrapper {
+                display: inline-block!important;
             }
+        }
+    }
+
+    &--horizontal{
+        .#{$prefix}-item{
+            align-items: center;
+            
         }
     }
 }

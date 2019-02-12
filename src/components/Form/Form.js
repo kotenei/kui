@@ -33,11 +33,23 @@ class Form extends Component {
         );
 
         return (
-            <form className={classString} style={style}>
+            <form
+                className={classString}
+                style={style}
+                onSubmit={this.handleSubmit}
+            >
                 {this.renderChildren()}
             </form>
         );
     }
+
+    handleSubmit = e => {
+        const { onSubmit } = this.props;
+        if (onSubmit) {
+            return onSubmit(e);
+        }
+        return true;
+    };
 }
 
 export default Form;

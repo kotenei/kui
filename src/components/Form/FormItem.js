@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import Grid from "../Grid";
 
 const prefixCls = "k-form-item";
 
@@ -10,12 +12,13 @@ class FormItem extends Component {
     static displayName = "FormItem";
 
     static propTypes = {
-        fieldName: PropTypes.string.isRequired,
+        fieldName: PropTypes.string,
         defaultValue: PropTypes.any,
         getValueFromEvent: PropTypes.func,
         label: PropTypes.string,
-        rules: PropTypes.object,
-        messages: PropTypes.object,
+        labelCol: PropTypes.object,
+        wrapperCol: PropTypes.object,
+        rules: PropTypes.array,
         validator: PropTypes.func
     };
 
@@ -29,9 +32,11 @@ class FormItem extends Component {
     }
 
     init() {
-        const { fieldName, defaultValue, rules, messages } = this.props;
-        this.form.setFieldValue(fieldName, defaultValue);
-        this.form.setRules(fieldName, rules, messages);
+        const { fieldName, defaultValue, rules } = this.props;
+        if (fieldName) {
+            this.form.setFieldValue(fieldName, defaultValue);
+            this.form.setRules(fieldName, rules);
+        }
     }
 
     componentDidMount() {
@@ -40,30 +45,66 @@ class FormItem extends Component {
 
     renderError() {
         const { errorMessage } = this.state;
+
+        return (
+            <TransitionGroup component={React.Fragment}>
+                {errorMessage ? (
+                    <CSSTransition timeout={300} classNames="slide-down">
+                        <div className={`${prefixCls}__error`}>
+                            {errorMessage}
+                        </div>
+                    </CSSTransition>
+                ) : null}
+            </TransitionGroup>
+        );
     }
 
     render() {
-        const { label, className, children, fieldName } = this.props;
+        const {
+            label,
+            className,
+            children,
+            fieldName,
+            rules,
+            labelCol,
+            wrapperCol
+        } = this.props;
+        const { errorMessage } = this.state;
         const classString = classnames(
             {
-                [prefixCls]: true
+                [prefixCls]: true,
+                [`${prefixCls}--error`]: errorMessage
             },
             className
         );
         const value = this.form.getFieldValue(fieldName);
 
         return (
-            <div className={classString}>
-                <label className={`${prefixCls}__label`}>{label}</label>
-                <div className={`${prefixCls}__content`}>
+            <Grid.Row className={classString}>
+                {fieldName && label ? (
+                    <Grid.Col
+                        className={classnames({
+                            [`${prefixCls}__label`]: true,
+                            [`${prefixCls}__label--required`]:
+                                rules && rules.findIndex(f => f.required) > -1
+                        })}
+                        {...labelCol}
+                    >
+                        {label}
+                    </Grid.Col>
+                ) : null}
+                <Grid.Col
+                    className={`${prefixCls}__wrapper`}
+                    {...wrapperCol}
+                >
                     {React.cloneElement(children, {
                         onChange: this.handleChange,
                         defaultValue: value,
                         ...children.props
                     })}
                     {this.renderError()}
-                </div>
-            </div>
+                </Grid.Col>
+            </Grid.Row>
         );
     }
 
@@ -85,13 +126,13 @@ class FormItem extends Component {
             }
         }
 
-        this.form.setFieldValue(this.props.fieldName, value);
-
-        if (validator) {
-            validator(rules, value, this.setError);
-        } else {
-            this.form.validateField(fieldName, this.setError);
-        }
+        this.form.setFieldValue(this.props.fieldName, value, () => {
+            if (validator) {
+                validator(rules, value, this.setError);
+            } else {
+                this.form.validateField(fieldName, this.setError);
+            }
+        });
     };
 
     setError = msg => {

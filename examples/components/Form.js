@@ -33,28 +33,53 @@ const options = [
 
 const action = "https://jsonplaceholder.typicode.com/posts/";
 
+const formLayout = {
+    labelCol: {
+        span: 8
+    },
+    wrapperCol: {
+        span: 16
+    }
+};
+
 class FormView extends Component {
+    handleSubmit = e => {
+        e.preventDefault();
+        // this.props.validateFields(err => {
+        //     console.log(err);
+        // });
+    };
     render() {
         return (
             <div>
                 <h1>Form 表单</h1>
                 <div className="k-example">
-                    <Form mode="inline">
+                    <Form style={{ width: 500 }} onSubmit={this.handleSubmit}>
                         <Form.Item
-                            label="用户名:"
-                            rules={{ required: true }}
-                            messages={{ required: "test" }}
+                            label="用户名"
+                            rules={[{ required: true }]}
                             fieldName="username"
+                            {...formLayout}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="密码:"
-                            rules={{ required: true }}
-                            messages={{ required: "test" }}
+                            label="密码"
+                            rules={[{ required: true }]}
                             fieldName="password"
+                            {...formLayout}
                         >
                             <Input type="password" />
+                        </Form.Item>
+                        <Form.Item
+                            wrapperCol={{
+                                span: 16,
+                                offset: 8
+                            }}
+                        >
+                            <Button type="submit" raised kStyle="primary">
+                                登录
+                            </Button>
                         </Form.Item>
                     </Form>
                 </div>

@@ -8,9 +8,15 @@ export const createForm = WrappedComponent =>
         constructor(props) {
             super(props);
             this.rules = {};
+            this.instances = [];
         }
 
-        // handleSubmit = callback => callback(this.state.fields);
+        init = instance => {
+            if (!instance) {
+                return;
+            }
+            this.instances.push(instance);
+        };
 
         getFieldValue = fieldName => this.state.fields[fieldName];
 
@@ -54,26 +60,39 @@ export const createForm = WrappedComponent =>
         validateField = (fieldName, callback) => {
             let value = this.state.fields[fieldName];
             let rules = this.rules[fieldName];
+            let result = true;
+            let message;
 
-            if (!rules) {
-                return;
-            }
-
-            for (let method in rules) {
-                let rule = rules[method];
-                let result = validate.methods[method](value, rule.params);
-                if (!result) {
-                    let message = this.formatMessage(rule.message, rule.params);
-                    callback(message);
-                    return;
-                } else {
-                    callback();
+            if (rules) {
+                for (let method in rules) {
+                    let rule = rules[method];
+                    result = validate.methods[method](value, rule.params);
+                    if (!result) {
+                        message = this.formatMessage(rule.message, rule.params);
+                        break;
+                    }
                 }
             }
+
+            if (callback) {
+                callback(message);
+            }
+
+            return { valid: result, message };
         };
 
         validateFields = callback => {
-            callback("asdf");
+            const { fields } = this.state;
+
+            for (const key in fields) {
+                if (fields.hasOwnProperty(key)) {
+                    let result = this.validateField(key);
+                    if (!result.valid) {
+                        break;
+                    }
+                }
+                console.log(key);
+            }
         };
 
         formatMessage(message, params) {
@@ -96,7 +115,7 @@ export const createForm = WrappedComponent =>
         render() {
             const props = {
                 ...this.props,
-                // handleSubmit: this.handleSubmit,
+                init: this.init,
                 getFieldValue: this.getFieldValue,
                 setFieldValue: this.setFieldValue,
                 setRules: this.setRules,

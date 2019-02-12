@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Grid from "../Grid";
+import validate from "./validate";
 
 const prefixCls = "k-form-item";
 
@@ -37,6 +38,8 @@ class FormItem extends Component {
             this.form.setFieldValue(fieldName, defaultValue);
             this.form.setRules(fieldName, rules);
         }
+
+        this.form.init(this);
     }
 
     componentDidMount() {
@@ -93,10 +96,7 @@ class FormItem extends Component {
                         {label}
                     </Grid.Col>
                 ) : null}
-                <Grid.Col
-                    className={`${prefixCls}__wrapper`}
-                    {...wrapperCol}
-                >
+                <Grid.Col className={`${prefixCls}__wrapper`} {...wrapperCol}>
                     {React.cloneElement(children, {
                         onChange: this.handleChange,
                         defaultValue: value,
@@ -140,6 +140,8 @@ class FormItem extends Component {
             errorMessage: msg
         });
     };
+
+    validate = () => {};
 }
 
 export default FormItem;

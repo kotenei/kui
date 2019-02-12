@@ -45,9 +45,9 @@ const formLayout = {
 class FormView extends Component {
     handleSubmit = e => {
         e.preventDefault();
-        // this.props.validateFields(err => {
-        //     console.log(err);
-        // });
+        this.props.validateFields(err => {
+            console.log(err);
+        });
     };
     render() {
         return (

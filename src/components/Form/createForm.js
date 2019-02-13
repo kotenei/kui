@@ -7,15 +7,18 @@ export const createForm = WrappedComponent =>
 
         constructor(props) {
             super(props);
-            this.rules = {};
-            this.instances = [];
+            this.instances = {};
         }
 
         init = instance => {
             if (!instance) {
                 return;
             }
-            this.instances.push(instance);
+            const { fieldName, defaultValue } = instance.props;
+            if (fieldName) {
+                this.setFieldValue(fieldName, defaultValue);
+                this.instances[fieldName] = instance;
+            }
         };
 
         getFieldValue = fieldName => this.state.fields[fieldName];
@@ -27,101 +30,69 @@ export const createForm = WrappedComponent =>
             }, callback);
         };
 
-        setRules = (fieldName, rules) => {
-            if (!fieldName && !rules && rules.length == 0 && !messages) {
-                return;
+        validateField = fieldName => {
+            const instance = this.instances[fieldName];
+            if (instance && instance.validate) {
+                instance.validate();
             }
-
-            if (!this.rules[fieldName]) {
-                this.rules[fieldName] = {};
-            }
-
-            rules.forEach(rule => {
-                if (rule.required) {
-                    this.rules[fieldName]["required"] = {
-                        message: rule.message || validate.messages["required"],
-                        params: rule.params
-                    };
-                } else if (rule.type) {
-                    this.rules[fieldName][rule.type] = {
-                        message: rule.message || validate.messages[rule.type],
-                        params: rule.params
-                    };
-                }
-            });
-        };
-
-        removeRule = (fieldName, ruleName) => {
-            if (this.rules[fieldName] && this.rules[fieldName][ruleName]) {
-                delete this.rules[fieldName][ruleName];
-            }
-        };
-
-        validateField = (fieldName, callback) => {
-            let value = this.state.fields[fieldName];
-            let rules = this.rules[fieldName];
-            let result = true;
-            let message;
-
-            if (rules) {
-                for (let method in rules) {
-                    let rule = rules[method];
-                    result = validate.methods[method](value, rule.params);
-                    if (!result) {
-                        message = this.formatMessage(rule.message, rule.params);
-                        break;
-                    }
-                }
-            }
-
-            if (callback) {
-                callback(message);
-            }
-
-            return { valid: result, message };
         };
 
         validateFields = callback => {
-            const { fields } = this.state;
+            let valid = true;
+            let count = 0;
+            let length = Object.keys(this.instances).length;
+            let err;
 
-            for (const key in fields) {
-                if (fields.hasOwnProperty(key)) {
-                    let result = this.validateField(key);
-                    if (!result.valid) {
-                        break;
+            for (const key in this.instances) {
+                if (this.instances.hasOwnProperty(key)) {
+                    const instance = this.instances[key];
+                    const { errorMessage } = instance.state;
+                    if (errorMessage) {
+                        if (!err) {
+                            err = {};
+                        }
+                        count++;
+                        err[key] = errorMessage;
+                        if (
+                            typeof callback === "function" &&
+                            count === length
+                        ) {
+                            callback(err, this.state.fields);
+                        }
+                    } else {
+                        if (instance.validate) {
+                            instance.validate((result, message) => {
+                                count++;
+                                if (!result) {
+                                    if (!err) {
+                                        err = {};
+                                    }
+                                    err[key] = message;
+                                }
+
+                                if (
+                                    typeof callback === "function" &&
+                                    count === length
+                                ) {
+                                    callback(err, this.state.fields);
+                                }
+                            });
+                        }
                     }
                 }
-                console.log(key);
             }
         };
-
-        formatMessage(message, params) {
-            if (message.indexOf("{0}") != -1) {
-                if (!Array.isArray(params)) {
-                    params = [params];
-                }
-                params.forEach((v, i) => {
-                    message = message.replace(
-                        new RegExp("\\{" + i + "\\}", "g"),
-                        function() {
-                            return v;
-                        }
-                    );
-                });
-            }
-            return message;
-        }
 
         render() {
             const props = {
                 ...this.props,
-                init: this.init,
-                getFieldValue: this.getFieldValue,
-                setFieldValue: this.setFieldValue,
-                setRules: this.setRules,
-                removeRule: this.removeRule,
-                validateField: this.validateField,
-                validateFields: this.validateFields
+                form: {
+                    init: this.init,
+                    getFieldValue: this.getFieldValue,
+                    setFieldValue: this.setFieldValue,
+                    validateField: this.validateField,
+                    validateFields: this.validateFields
+                }
             };
 
             return (

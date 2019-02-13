@@ -47,8 +47,9 @@ $prefix:'k-form';
                     border-color: $danger;
                 }
             }
+            .k-select-single,
             .k-multiple-list {
-                border-color: $danger;
+                border-color: $danger!important;
             }
         }
     }

@@ -43,11 +43,37 @@ const formLayout = {
 };
 
 class FormView extends Component {
+    state = {
+        confirm: false,
+        required: false
+    };
     handleSubmit = e => {
         e.preventDefault();
-        this.props.validateFields(err => {
-            console.log(err);
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log(values);
+            }
         });
+    };
+    handleConfirmBlur = e => {
+        const value = e.target.value;
+        this.setState({ confirm: this.state.confirm || !!value });
+    };
+    validateToNextPassword = (value, callback) => {
+        const { validateField } = this.props.form;
+        const { confirm } = this.state;
+        if (value && confirm) {
+            validateField("confirm");
+        }
+        callback();
+    };
+    compareToFirstPassword = (value, callback) => {
+        const { getFieldValue } = this.props.form;
+        if (value && value !== getFieldValue("password")) {
+            callback("您输入的两个密码不一致！");
+        } else {
+            callback();
+        }
     };
     render() {
         return (
@@ -57,19 +83,50 @@ class FormView extends Component {
                     <Form style={{ width: 500 }} onSubmit={this.handleSubmit}>
                         <Form.Item
                             label="用户名"
-                            rules={[{ required: true }]}
                             fieldName="username"
+                            rules={[
+                                { required: true, message: "请输入用户名" }
+                            ]}
                             {...formLayout}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
                             label="密码"
-                            rules={[{ required: true }]}
                             fieldName="password"
+                            rules={[{ required: true, message: "请输入密码" }]}
+                            validator={this.validateToNextPassword}
                             {...formLayout}
                         >
                             <Input type="password" />
+                        </Form.Item>
+                        <Form.Item
+                            label="确认密码"
+                            fieldName="confirm"
+                            rules={[
+                                { required: true, message: "请输入确认密码" }
+                            ]}
+                            validator={this.compareToFirstPassword}
+                            {...formLayout}
+                        >
+                            <Input
+                                type="password"
+                                onBlur={this.handleConfirmBlur}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            label="电子邮箱"
+                            fieldName="email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "请输入电子邮箱"
+                                },
+                                { type: "email", message: "电子邮箱格式错误" }
+                            ]}
+                            {...formLayout}
+                        >
+                            <Input />
                         </Form.Item>
                         <Form.Item
                             wrapperCol={{
@@ -78,7 +135,7 @@ class FormView extends Component {
                             }}
                         >
                             <Button type="submit" raised kStyle="primary">
-                                登录
+                                注册
                             </Button>
                         </Form.Item>
                     </Form>

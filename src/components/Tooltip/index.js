@@ -301,19 +301,23 @@ class Tooltip extends Component {
             in: show
         });
 
-        return ReactDOM.createPortal(
-            <div
-                className={classString}
-                style={{ ...style, ...position }}
-                ref="tooltip"
-                onMouseEnter={this.handleTooltipMouseEnter}
-                onMouseLeave={this.handleTooltipMouseLeave}
-                onClick={this.handleTooltipClick}
-            >
-                <div className={`${kClass}-arrow`} />
-                <div className={`${kClass}-inner`}>{title}</div>
-            </div>,
-            document.body
+        return (
+            title != null &&
+            title != undefined &&
+            ReactDOM.createPortal(
+                <div
+                    className={classString}
+                    style={{ ...style, ...position }}
+                    ref="tooltip"
+                    onMouseEnter={this.handleTooltipMouseEnter}
+                    onMouseLeave={this.handleTooltipMouseLeave}
+                    onClick={this.handleTooltipClick}
+                >
+                    <div className={`${kClass}-arrow`} />
+                    <div className={`${kClass}-inner`}>{title}</div>
+                </div>,
+                document.body
+            )
         );
     }
     render() {
@@ -324,9 +328,9 @@ class Tooltip extends Component {
         ) {
             return null;
         }
-        if (title === null || title === undefined) {
-            return this.props.children;
-        }
+        // if (title === null || title === undefined) {
+        //     return this.props.children;
+        // }
 
         const children = React.Children.map(this.props.children, child => {
             return React.cloneElement(child, {

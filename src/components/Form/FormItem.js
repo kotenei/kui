@@ -111,13 +111,6 @@ class FormItem extends Component {
         );
     }
 
-    renderContent() {
-        // const { tooltip } = this.props;
-        // if(tooltip){
-        //     return
-        // }
-    }
-
     render() {
         const {
             label,
@@ -147,7 +140,7 @@ class FormItem extends Component {
 
         return (
             <Grid.Row className={classString}>
-                {fieldName && label ? (
+                {label ? (
                     <Grid.Col
                         className={classnames({
                             [`${prefixCls}__label`]: true,

@@ -17,6 +17,7 @@ import {
 } from "main";
 import { data } from "../data";
 
+const ButtonGroup = Button.Group;
 const { createForm } = Form;
 const { Option } = Select;
 const options = [
@@ -45,7 +46,12 @@ const formLayout = {
 class FormView extends Component {
     state = {
         confirm: false,
-        required: false
+        mode: "horizontal"
+    };
+    handleSetMode = mode => {
+        this.setState({
+            mode
+        });
     };
     handleSubmit = e => {
         e.preventDefault();
@@ -76,11 +82,52 @@ class FormView extends Component {
         }
     };
     render() {
+        const { mode } = this.state;
+        const style = mode == "horizontal" ? { width: 500 } : null;
         return (
             <div>
                 <h1>Form 表单</h1>
+                <h3>对齐方式</h3>
                 <div className="k-example">
-                    <Form style={{ width: 500 }} onSubmit={this.handleSubmit}>
+                    <Form
+                        style={style}
+                        onSubmit={this.handleSubmit}
+                        mode={mode}
+                    >
+                        <Form.Item label="布局" {...formLayout}>
+                            <ButtonGroup>
+                                <Button
+                                    raised
+                                    active={mode === "horizontal"}
+                                    onClick={this.handleSetMode.bind(
+                                        this,
+                                        "horizontal"
+                                    )}
+                                >
+                                    水平
+                                </Button>
+                                <Button
+                                    raised
+                                    active={mode === "vertical"}
+                                    onClick={this.handleSetMode.bind(
+                                        this,
+                                        "vertical"
+                                    )}
+                                >
+                                    垂直
+                                </Button>
+                                <Button
+                                    raised
+                                    active={mode === "inline"}
+                                    onClick={this.handleSetMode.bind(
+                                        this,
+                                        "inline"
+                                    )}
+                                >
+                                    行内
+                                </Button>
+                            </ButtonGroup>
+                        </Form.Item>
                         <Form.Item
                             label="用户名"
                             fieldName="username"

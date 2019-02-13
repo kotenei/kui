@@ -83,7 +83,20 @@ class FormView extends Component {
     };
     render() {
         const { mode } = this.state;
-        const style = mode == "horizontal" ? { width: 500 } : null;
+        const style = mode == "horizontal" ? { width: 600 } : null;
+        const formItemLayout =
+            mode === "horizontal"
+                ? {
+                      labelCol: { span: 4 },
+                      wrapperCol: { span: 14 }
+                  }
+                : null;
+        const buttonItemLayout =
+            mode === "horizontal"
+                ? {
+                      wrapperCol: { span: 14, offset: 4 }
+                  }
+                : null;
         return (
             <div>
                 <h1>Form 表单</h1>
@@ -94,7 +107,7 @@ class FormView extends Component {
                         onSubmit={this.handleSubmit}
                         mode={mode}
                     >
-                        <Form.Item label="布局" {...formLayout}>
+                        <Form.Item label="布局" {...formItemLayout}>
                             <ButtonGroup>
                                 <Button
                                     raised
@@ -134,16 +147,18 @@ class FormView extends Component {
                             rules={[
                                 { required: true, message: "请输入用户名" }
                             ]}
-                            {...formLayout}
+                            {...formItemLayout}
+                            tooltip
+                            focusClear
                         >
-                            <Input />
+                            <DatePicker/>
                         </Form.Item>
                         <Form.Item
                             label="密码"
                             fieldName="password"
                             rules={[{ required: true, message: "请输入密码" }]}
                             validator={this.validateToNextPassword}
-                            {...formLayout}
+                            {...formItemLayout}
                         >
                             <Input type="password" />
                         </Form.Item>
@@ -154,7 +169,7 @@ class FormView extends Component {
                                 { required: true, message: "请输入确认密码" }
                             ]}
                             validator={this.compareToFirstPassword}
-                            {...formLayout}
+                            {...formItemLayout}
                         >
                             <Input
                                 type="password"
@@ -171,16 +186,11 @@ class FormView extends Component {
                                 },
                                 { type: "email", message: "电子邮箱格式错误" }
                             ]}
-                            {...formLayout}
+                            {...formItemLayout}
                         >
                             <Input />
                         </Form.Item>
-                        <Form.Item
-                            wrapperCol={{
-                                span: 16,
-                                offset: 8
-                            }}
-                        >
+                        <Form.Item {...buttonItemLayout}>
                             <Button type="submit" raised kStyle="primary">
                                 注册
                             </Button>

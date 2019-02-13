@@ -451,6 +451,8 @@ class Picker extends Component {
             }
         }
 
+        console.log(tmpDate)
+
         return (
             <div className={prefixCls} onClick={this.handlePickerClick}>
                 {showTime ? (

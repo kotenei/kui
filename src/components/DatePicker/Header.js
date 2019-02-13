@@ -81,6 +81,7 @@ class Header extends Component {
             showNextMonth,
             showNextYear
         } = this.props;
+
         let year = date.getFullYear(),
             num = year.toString().substr(3),
             start = year - num,

@@ -65,7 +65,7 @@ class TimePicker extends Component {
             this.open();
         }
         if (onClick) {
-            onClick();
+            onClick(e);
         }
     };
     //时间项点击
@@ -421,7 +421,14 @@ class TimePicker extends Component {
     }
     render() {
         const { value } = this.state;
-        const { kSize, disabled, placeholder, onClick } = this.props;
+        const {
+            kSize,
+            disabled,
+            placeholder,
+            onClick,
+            onFocus,
+            onBlur
+        } = this.props;
         return (
             <React.Fragment>
                 <Input
@@ -434,6 +441,8 @@ class TimePicker extends Component {
                     onClick={this.handleClick}
                     suffix={this.renderSuffix()}
                     onChange={() => {}}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                 />
                 {this.renderPicker()}
             </React.Fragment>

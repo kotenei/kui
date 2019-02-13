@@ -55,11 +55,12 @@ $prefix:'k-form';
     }
     &--vertical {
         .#{$prefix}-item {
-            flex-direction: column;
+            display: block;
             padding-bottom: torem(8px);
             &__label {
                 display: block;
                 text-align: left;
+                padding-bottom: torem(8px);
                 &::after {
                     content: ''
                 }

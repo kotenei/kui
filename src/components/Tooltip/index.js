@@ -321,32 +321,27 @@ class Tooltip extends Component {
         );
     }
     render() {
-        const { title } = this.props;
+        const { title, children } = this.props;
         if (
             !this.props.children ||
             React.Children.toArray(this.props.children).length > 1
         ) {
             return null;
         }
-        // if (title === null || title === undefined) {
-        //     return this.props.children;
-        // }
 
-        const children = React.Children.map(this.props.children, child => {
-            return React.cloneElement(child, {
-                ref: child.ref || "trigger",
-                onMouseEnter:
-                    child.props.onMouseEnter || this.handleTriggerMouseEnter,
-                onMouseLeave:
-                    child.props.onMouseLeave || this.handleTriggerMouseLeave,
-                onClick: child.onClick || this.handleTriggerClick
-            });
+        const content = React.cloneElement(children, {
+            ref: "trigger",
+            onMouseEnter: this.handleTriggerMouseEnter,
+            onMouseLeave: this.handleTriggerMouseLeave,
+            onClick: this.handleTriggerClick,
+            ...children.props
         });
+
         return (
-            <span id={this.id} ref={this.id}>
-                {children}
+            <React.Fragment>
+                {content}
                 {this.renderTooltip()}
-            </span>
+            </React.Fragment>
         );
     }
 }

@@ -45,7 +45,7 @@ class DatePicker extends Component {
         } else {
             this.close();
         }
-        if(onChange){
+        if (onChange) {
             onChange(null);
         }
 
@@ -90,7 +90,14 @@ class DatePicker extends Component {
         }
     }
     render() {
-        const { kSize, disabled, placeholder, format } = this.props;
+        const {
+            kSize,
+            disabled,
+            placeholder,
+            format,
+            onFocus,
+            onBlur
+        } = this.props;
         const { value, open } = this.state;
         const pickerProps = omit(this.props, [
             "kSize",
@@ -121,6 +128,8 @@ class DatePicker extends Component {
                 }
                 onChange={() => {}}
                 onClick={this.handleClick}
+                onFocus={onFocus}
+                onBlur={onBlur}
             />
         );
         return (

@@ -15,6 +15,7 @@ class FormItem extends Component {
 
     static propTypes = {
         fieldName: PropTypes.string,
+        focusClear: PropTypes.bool,
         defaultValue: PropTypes.any,
         getValueFromEvent: PropTypes.func,
         label: PropTypes.string,
@@ -134,6 +135,8 @@ class FormItem extends Component {
         const value = this.form.getFieldValue(fieldName);
         const content = React.cloneElement(children, {
             onChange: this.handleChange,
+            onFocus: this.handleFocus,
+            onBlur: this.handleBlur,
             defaultValue: value,
             ...children.props
         });
@@ -193,6 +196,22 @@ class FormItem extends Component {
         this.form.setFieldValue(this.props.fieldName, value, () => {
             this.validate();
         });
+    };
+
+    handleFocus = () => {
+        const { focusClear } = this.props;
+        if (focusClear) {
+            this.setState({
+                errorMessage: ""
+            });
+        }
+    };
+
+    handleBlur = () => {
+        const { focusClear } = this.props;
+        if (focusClear) {
+            this.validate();
+        }
     };
 
     setError = msg => {

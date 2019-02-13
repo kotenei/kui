@@ -53,7 +53,7 @@ class AutoComplete extends Component {
         max: 10
     };
     handleFocus = e => {
-        const { data, onSearch } = this.props;
+        const { data, onSearch, onFocus } = this.props;
         const { inputValue } = this.state;
         this.setState(
             {
@@ -67,12 +67,19 @@ class AutoComplete extends Component {
                 }
             }
         );
+        if (onFocus) {
+            onFocus();
+        }
     };
     handleBlur = () => {
+        const { onBlur } = this.props;
         this.setState({
             focus: false
         });
         this.hide();
+        if (onBlur) {
+            onBlur();
+        }
     };
     handleChange = e => {
         const { multiple, onChange } = this.props;

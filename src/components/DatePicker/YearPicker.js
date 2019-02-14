@@ -14,6 +14,8 @@ export default props => {
         "onPrev",
         "onNext",
         "onChange",
+        'onFocus',
+        'onBlur',
         "onClear"
     ]);
     return <DatePicker format="YYYY" {...pickerProps} view={0}  />;

@@ -406,9 +406,9 @@ class TimePicker extends Component {
         );
     }
     renderSuffix() {
-        const { suffix, showClearIcon } = this.props;
+        const { suffix, showClearIcon, disabled } = this.props;
         const { value, open } = this.state;
-        if (value && open && showClearIcon) {
+        if (value && showClearIcon && !disabled) {
             return (
                 <Icon
                     type="close"

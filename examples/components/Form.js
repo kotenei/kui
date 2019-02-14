@@ -17,10 +17,13 @@ import {
 } from "main";
 import { data } from "../data";
 
+const { RangePicker, YearPicker, MonthPicker, WeekPicker } = DatePicker;
+const CheckboxGroup = Checkbox.CheckboxGroup;
 const ButtonGroup = Button.Group;
+const RadioGroup = Radio.RadioGroup;
 const { createForm } = Form;
 const { Option } = Select;
-const options = [
+const selectOptions = [
     <Option key="1" title="选项一" value="选项一">
         选项一
     </Option>,
@@ -31,17 +34,9 @@ const options = [
         选项三
     </Option>
 ];
-
+const checkboxOptions = ["one", "two", "three", "four"];
+const radioOptions = ["Apple", "Pear", "Orange"];
 const action = "https://jsonplaceholder.typicode.com/posts/";
-
-const formLayout = {
-    labelCol: {
-        span: 8
-    },
-    wrapperCol: {
-        span: 16
-    }
-};
 
 class FormView extends Component {
     state = {
@@ -100,7 +95,7 @@ class FormView extends Component {
         return (
             <div>
                 <h1>Form 表单</h1>
-                <h3>对齐方式</h3>
+                <h3>布局</h3>
                 <div className="k-example">
                     <Form
                         style={style}
@@ -148,10 +143,9 @@ class FormView extends Component {
                                 { required: true, message: "请输入用户名" }
                             ]}
                             {...formItemLayout}
-                            tooltip
-                            focusClear
+                            initialValue={"Apple"}
                         >
-                            <DatePicker/>
+                            <RadioGroup options={radioOptions} />
                         </Form.Item>
                         <Form.Item
                             label="密码"
@@ -191,9 +185,24 @@ class FormView extends Component {
                             <Input />
                         </Form.Item>
                         <Form.Item {...buttonItemLayout}>
-                            <Button type="submit" raised kStyle="primary">
-                                注册
-                            </Button>
+                            <div>
+                                <Button
+                                    type="submit"
+                                    raised
+                                    kStyle="primary"
+                                    style={{ marginRight: 5 }}
+                                >
+                                    注册
+                                </Button>
+                                <Button
+                                    raised
+                                    onClick={() => {
+                                        this.props.form.resetFields();
+                                    }}
+                                >
+                                    重置
+                                </Button>
+                            </div>
                         </Form.Item>
                     </Form>
                 </div>

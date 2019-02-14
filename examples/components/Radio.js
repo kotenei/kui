@@ -79,7 +79,7 @@ class RadioView extends Component {
                             <td>onChange</td>
                             <td>变化时回调函数</td>
                             <td>function(e:Event)</td>
-                            <td>{"()=>{  }"}</td>
+                            <td>—</td>
                         </tr>
                     </tbody>
                 </table>
@@ -129,7 +129,7 @@ class RadioView extends Component {
                             <td>onChange</td>
                             <td>变化时回调函数</td>
                             <td>function(checkedValue)</td>
-                            <td>{"()=>{  }"}</td>
+                            <td>—</td>
                         </tr>
                     </tbody>
                 </table>

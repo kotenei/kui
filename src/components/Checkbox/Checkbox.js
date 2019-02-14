@@ -31,7 +31,6 @@ class Checkbox extends Component {
         inline: false,
         indeterminate: false,
         mode: "normal"
-        //onChange: () => {}
     };
     static contextTypes = {
         checkboxGroup: PropTypes.any

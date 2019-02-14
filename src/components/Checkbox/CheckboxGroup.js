@@ -21,8 +21,7 @@ class CheckboxGroup extends Component {
     }
     static defaultProps = {
         inline: true,
-        options: [],
-        onChange: () => { }
+        options: []
     }
     static childContextTypes = {
         checkboxGroup: PropTypes.any,
@@ -52,7 +51,10 @@ class CheckboxGroup extends Component {
         if (!('value' in this.props)) {
             this.setState({ value });
         }
-        onChange(value);
+        if(onChange){
+            onChange(value);
+        }
+        
     }
     getOptions() {
         let self = this;

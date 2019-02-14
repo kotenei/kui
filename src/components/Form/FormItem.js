@@ -16,7 +16,7 @@ class FormItem extends Component {
     static propTypes = {
         fieldName: PropTypes.string,
         focusClear: PropTypes.bool,
-        defaultValue: PropTypes.any,
+        initialValue: PropTypes.any,
         getValueFromEvent: PropTypes.func,
         label: PropTypes.string,
         labelCol: PropTypes.object,
@@ -137,7 +137,7 @@ class FormItem extends Component {
             onChange: this.handleChange,
             onFocus: this.handleFocus,
             onBlur: this.handleBlur,
-            defaultValue: value,
+            value,
             ...children.props
         });
 
@@ -176,6 +176,7 @@ class FormItem extends Component {
     }
 
     handleChange = (...args) => {
+        console.log(args)
         const { getValueFromEvent, fieldName } = this.props;
         let value;
         if (getValueFromEvent) {
@@ -285,6 +286,17 @@ class FormItem extends Component {
         }
         return message;
     }
+
+    resetField = () => {
+        const { fieldName, initialValue } = this.props;
+        if (this.form) {
+            this.form.setFieldValue(fieldName, initialValue, () => {
+                this.setState({
+                    errorMessage: ""
+                });
+            });
+        }
+    };
 }
 
 export default FormItem;

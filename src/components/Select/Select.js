@@ -23,9 +23,8 @@ class SelectContainer extends Component {
 class Select extends Component {
     constructor(props) {
         super(props);
-        const value = props.value || props.defaultValue;
         this.state = {
-            value: !props.multiple && value.length > 1 ? [value[0]] : value
+            value: props.value || props.defaultValue
         };
     }
     static propTypes = {
@@ -84,8 +83,8 @@ class Select extends Component {
                 });
             }
         }
-        if(onChange){
-            onChange(newValue)
+        if (onChange) {
+            onChange(newValue);
         }
     };
     handleMultipleListClick = e => {
@@ -115,7 +114,7 @@ class Select extends Component {
         const { multiple } = this.props;
         if ("value" in nextProps) {
             this.setState({
-                value: multiple ? nextProps.value : nextProps.value[0]
+                value: nextProps.value
             });
         }
     }
@@ -143,12 +142,16 @@ class Select extends Component {
         const { value } = this.state;
         let valList = [];
 
-        value.forEach(v => {
-            valList.push({
-                text: this.optionsMap[v].text,
-                value: v
+        if (value && value.length > 0 && this.optionsMap) {
+            value.forEach(v => {
+                if (this.optionsMap[v]) {
+                    valList.push({
+                        text: this.optionsMap[v].text,
+                        value: v
+                    });
+                }
             });
-        });
+        }
 
         if (!multiple) {
             return (
@@ -158,7 +161,7 @@ class Select extends Component {
                             multiple ? "multiple" : "single"
                         }`}
                     >
-                        {value.length == 0 ? (
+                        {valList.length == 0 ? (
                             <span className={`${prefixCls}-placeholder`}>
                                 {placeholder}
                             </span>

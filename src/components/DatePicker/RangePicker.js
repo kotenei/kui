@@ -76,7 +76,7 @@ class RangePicker extends Component {
     handleClear = e => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        const { onClear } = this.props;
+        const { onClear, onChange } = this.props;
         if (!("value" in this.props)) {
             this.setState(
                 {
@@ -94,6 +94,9 @@ class RangePicker extends Component {
         if (onClear) {
             onClear();
         }
+        if (onChange) {
+            onChange(null);
+        }
     };
     handleOKClick = e => {
         const { onChange } = this.props;
@@ -101,12 +104,14 @@ class RangePicker extends Component {
         if (onChange) {
             onChange(rangeDates);
         }
+
         this.close();
     };
     changeDate = (dateInfo, isStartPicker) => {
         const { showTime, onChange } = this.props;
         let tmpValue = [...this.state.tmpValue],
             rangeDates;
+
         switch (dateInfo.type) {
             case "month":
             case "year":
@@ -163,7 +168,7 @@ class RangePicker extends Component {
                 break;
         }
 
-        if (onChange) {
+        if (rangeDates && rangeDates.length == 2 && onChange) {
             onChange(rangeDates);
         }
 
@@ -231,6 +236,7 @@ class RangePicker extends Component {
     setRangeDates = date => {
         const { rangeDates } = this.state;
         let newRangeDates = [...rangeDates];
+
         if (rangeDates.length == 0 || rangeDates.length == 2) {
             newRangeDates = [date];
         } else {
@@ -278,14 +284,15 @@ class RangePicker extends Component {
         }
 
         this.setState({
-            open: false
+            open: false,
+            hoverDate: null
         });
     };
     init(value = this.props.value || this.props.defaultValue) {
+        let tmpValue = [new Date(), addMonths(new Date(), 1)];
         if (value) {
-            let tmpValue = [new Date(), addMonths(new Date(), 1)];
             value = [...value];
-            if (value.length > 0) {
+            if (value.length === 2) {
                 let startDate = value[0],
                     endDate = value[1],
                     diff = getDiffMonth(startDate, endDate);
@@ -294,19 +301,17 @@ class RangePicker extends Component {
                     tmpValue[1] = addMonths(endDate, 1);
                 }
             }
-            this.setState(
-                {
-                    value: value,
-                    tmpValue,
-                    rangeDates: value
-                },
-                () => {
-                    this.setArrow();
-                }
-            );
-        } else {
-            this.setArrow();
         }
+        this.setState(
+            {
+                value,
+                tmpValue,
+                rangeDates: value || []
+            },
+            () => {
+                this.setArrow();
+            }
+        );
     }
     componentWillMount() {
         this.init();
@@ -330,7 +335,9 @@ class RangePicker extends Component {
             showTime,
             okText,
             startPlaceholder,
-            endPlaceholder
+            endPlaceholder,
+            onFocus,
+            onBlur
         } = this.props;
         const {
             open,
@@ -367,6 +374,8 @@ class RangePicker extends Component {
                     placeholder={startPlaceholder}
                     value={value && value[0] ? formatter(value[0], format) : ""}
                     onChange={() => {}}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                 />
                 <span className={`${prefixCls}-separator`}>{separator}</span>
                 <input
@@ -375,6 +384,8 @@ class RangePicker extends Component {
                     placeholder={endPlaceholder}
                     value={value && value[1] ? formatter(value[1], format) : ""}
                     onChange={() => {}}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                 />
                 {rangeDates && rangeDates.length == 2 ? (
                     <Icon

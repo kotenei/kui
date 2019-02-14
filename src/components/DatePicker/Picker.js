@@ -402,7 +402,7 @@ class Picker extends Component {
         if ("value" in nextProps) {
             this.setState({
                 date: nextProps.value,
-                tmpDate: nextProps.value
+                tmpDate: nextProps.value || new Date()
             });
         }
         if ("rangeDates" in nextProps) {
@@ -450,8 +450,6 @@ class Picker extends Component {
                 dateTimeDisabled = false;
             }
         }
-
-        console.log(tmpDate)
 
         return (
             <div className={prefixCls} onClick={this.handlePickerClick}>

@@ -54,24 +54,34 @@ class DatePicker extends Component {
     handleChange = dateInfo => {
         const { onChange, format } = this.props;
         const { date, canClose } = dateInfo;
+
+        let value = Array.isArray(date) ? date[0] : date;
+
         if (!("value" in this.props)) {
             this.setState({
-                value: Array.isArray(date) ? date[0] : date
+                value
             });
         }
+
         if (onChange) {
-            onChange(date);
+            onChange(value);
         }
         if (canClose) {
             this.close();
         }
     };
     open = () => {
+        if (this.state.open) {
+            return;
+        }
         this.setState({
             open: true
         });
     };
     close = () => {
+        if (!this.state.open) {
+            return;
+        }
         this.setState({
             open: false
         });
@@ -116,7 +126,7 @@ class DatePicker extends Component {
                 placeholder={placeholder}
                 value={value ? formatter(value, newFormat) : ""}
                 suffix={
-                    value ? (
+                    value && !disabled ? (
                         <Icon
                             type="close"
                             style={{ cursor: "pointer" }}
@@ -132,6 +142,7 @@ class DatePicker extends Component {
                 onBlur={onBlur}
             />
         );
+
         return (
             <PopPanel input={input} open={open}>
                 <Picker

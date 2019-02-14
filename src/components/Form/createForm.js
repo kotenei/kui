@@ -14,9 +14,9 @@ export const createForm = WrappedComponent =>
             if (!instance) {
                 return;
             }
-            const { fieldName, defaultValue } = instance.props;
+            const { fieldName, initialValue } = instance.props;
             if (fieldName) {
-                this.setFieldValue(fieldName, defaultValue);
+                this.setFieldValue(fieldName, initialValue);
                 this.instances[fieldName] = instance;
             }
         };
@@ -83,6 +83,15 @@ export const createForm = WrappedComponent =>
             }
         };
 
+        resetFields = () => {
+            for (const key in this.instances) {
+                if (this.instances.hasOwnProperty(key)) {
+                    const instance = this.instances[key];
+                    instance.resetField();
+                }
+            }
+        };
+
         render() {
             const props = {
                 ...this.props,
@@ -91,9 +100,12 @@ export const createForm = WrappedComponent =>
                     getFieldValue: this.getFieldValue,
                     setFieldValue: this.setFieldValue,
                     validateField: this.validateField,
-                    validateFields: this.validateFields
+                    validateFields: this.validateFields,
+                    resetFields: this.resetFields
                 }
             };
+
+            console.log(this.state.fields);
 
             return (
                 <WrappedComponent

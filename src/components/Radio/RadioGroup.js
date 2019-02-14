@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import Radio from './Radio';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
+import Radio from "./Radio";
 
 class RadioGroup extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         let value;
-        if ('value' in props) {
+        if ("value" in props) {
             value = props.value;
-        } else if ('defaultValue' in props) {
+        } else if ("defaultValue" in props) {
             value = props.defaultValue;
         } else {
             value = this.getCheckedValue(props.children);
@@ -26,15 +26,14 @@ class RadioGroup extends Component {
         value: PropTypes.string,
         defaultValue: PropTypes.string,
         onChange: PropTypes.func
-    }
+    };
     static defaultProps = {
         inline: true,
-        options: [],
-        onChange: () => { }
-    }
+        options: []
+    };
     static childContextTypes = {
-        radioGroup: PropTypes.any,
-    }
+        radioGroup: PropTypes.any
+    };
     getChildContext() {
         return {
             radioGroup: {
@@ -49,12 +48,14 @@ class RadioGroup extends Component {
     handleChange(e, option) {
         const { onChange } = this.props;
         const { value } = e.target;
-        if (!('value' in this.props)) {
+        if (!("value" in this.props)) {
             this.setState({
-                value,
+                value
             });
         }
-        onChange(value);
+        if (onChange) {
+            onChange(value);
+        }
     }
     getCheckedValue(children) {
         let value = null;
@@ -73,14 +74,14 @@ class RadioGroup extends Component {
         const { options, name, inline } = this.props;
         const { value } = this.state;
         options.forEach((option, index) => {
-            if (typeof option === 'string') {
+            if (typeof option === "string") {
                 ret.push({
                     name,
                     text: option,
                     value: option,
                     inline,
                     checked: value == option
-                })
+                });
             } else {
                 ret.push(option);
             }
@@ -88,9 +89,9 @@ class RadioGroup extends Component {
         return ret;
     }
     componentWillReceiveProps(nextProps) {
-        if ('value' in nextProps) {
+        if ("value" in nextProps) {
             this.setState({
-                value: nextProps.value,
+                value: nextProps.value
             });
         } else {
             const checkedValue = getCheckedValue(nextProps.children);
@@ -114,16 +115,13 @@ class RadioGroup extends Component {
                     value={option.value}
                     inline={option.inline}
                     option={option}
-                    onChange={this.handleChange}>
+                    onChange={this.handleChange}
+                >
                     {option.text}
                 </Radio>
             ));
         }
-        return (
-            <div className="k-checkbox-group">
-                {children}
-            </div>
-        )
+        return <div className="k-checkbox-group">{children}</div>;
     }
 }
 

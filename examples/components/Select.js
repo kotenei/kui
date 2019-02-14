@@ -22,7 +22,7 @@ class SelectView extends Component {
                 <h1>Select 选择器</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Select placeholder="请选择">{options}</Select>
+                    <Select placeholder="请选择" value={['选项一']}>{options}</Select>
                     <br />
                     <br />
                     <Select placeholder="请选择" disabled>

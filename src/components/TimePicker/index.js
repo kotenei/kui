@@ -110,19 +110,18 @@ class TimePicker extends Component {
     //清空值
     handleClear = () => {
         const { use12Hours, disabled, onChange } = this.props;
-        if (disabled || "value" in this.props) {
-            return;
+        if (!("value" in this.props)) {
+            this.tmpValue = "00:00:00";
+            if (use12Hours) {
+                this.tmpValue += " am";
+            }
+            this.setState({
+                value: null
+            });
         }
-        this.tmpValue = "00:00:00";
-        if (use12Hours) {
-            this.tmpValue += " am";
-        }
-        this.setState({
-            value: ""
-        });
 
-        if (onChange && this.state.value) {
-            onChange("");
+        if (onChange) {
+            onChange();
         }
     };
     change(type, val, index) {

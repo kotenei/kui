@@ -95,7 +95,7 @@ class RangePicker extends Component {
             onClear();
         }
         if (onChange) {
-            onChange(null);
+            onChange();
         }
     };
     handleOKClick = e => {

@@ -61,13 +61,18 @@ class FormItem extends Component {
     }
 
     init() {
-        this.form.init(this);
+        if (this.form) {
+            this.form.init(this);
+        }
+
         this.initRules();
     }
 
     initRules(props = this.props) {
         const { fieldName, rules } = props;
         if (fieldName) {
+            let count = 0;
+            this.rules = {};
             if (rules && rules.length > 0) {
                 rules.forEach(rule => {
                     if (rule.required) {
@@ -76,13 +81,21 @@ class FormItem extends Component {
                                 rule.message || validate.messages["required"],
                             params: rule.params
                         };
+                        count++;
                     } else if (rule.type) {
                         this.rules[rule.type] = {
                             message:
                                 rule.message || validate.messages[rule.type],
                             params: rule.params
                         };
+                        count++;
                     }
+                });
+            }
+
+            if (count === 0 && this.state.errorMessage) {
+                this.setState({
+                    errorMessage: ""
                 });
             }
         }
@@ -132,14 +145,16 @@ class FormItem extends Component {
             },
             className
         );
-        const value = this.form.getFieldValue(fieldName);
-        const content = React.cloneElement(children, {
-            onChange: this.handleChange,
-            onFocus: this.handleFocus,
-            onBlur: this.handleBlur,
-            value,
-            ...children.props
-        });
+        const value = this.form ? this.form.getFieldValue(fieldName) : "";
+        const content = fieldName
+            ? React.cloneElement(children, {
+                  onChange: this.handleChange,
+                  onFocus: this.handleFocus,
+                  onBlur: this.handleBlur,
+                  value,
+                  ...children.props
+              })
+            : children;
 
         return (
             <Grid.Row className={classString}>
@@ -176,7 +191,6 @@ class FormItem extends Component {
     }
 
     handleChange = (...args) => {
-        console.log(args)
         const { getValueFromEvent, fieldName } = this.props;
         let value;
         if (getValueFromEvent) {
@@ -194,9 +208,11 @@ class FormItem extends Component {
             }
         }
 
-        this.form.setFieldValue(this.props.fieldName, value, () => {
-            this.validate();
-        });
+        if (this.form) {
+            this.form.setFieldValue(this.props.fieldName, value, () => {
+                this.validate();
+            });
+        }
     };
 
     handleFocus = () => {
@@ -228,7 +244,9 @@ class FormItem extends Component {
         const { validator } = this.props;
         let result = true;
         let message;
-        let value = this.form.getFieldValue(this.props.fieldName);
+        let value = this.form
+            ? this.form.getFieldValue(this.props.fieldName)
+            : "";
         if (this.rules) {
             for (let method in this.rules) {
                 let rule = this.rules[method];

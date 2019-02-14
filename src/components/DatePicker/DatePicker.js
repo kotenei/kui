@@ -46,7 +46,7 @@ class DatePicker extends Component {
             this.close();
         }
         if (onChange) {
-            onChange(null);
+            onChange();
         }
 
         this.close();

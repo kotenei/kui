@@ -105,8 +105,6 @@ export const createForm = WrappedComponent =>
                 }
             };
 
-            console.log(this.state.fields);
-
             return (
                 <WrappedComponent
                     {...props}

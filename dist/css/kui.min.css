@@ -236,11 +236,13 @@ select:-webkit-autofill {
 .slide-down-enter,
 .slide-down-exit-active {
   opacity: 0;
-  margin-top: -1.25rem !important; }
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px); }
 
 .slide-down-enter-active {
   opacity: 1;
-  margin-top: 0 !important; }
+  -webkit-transform: translateY(0);
+          transform: translateY(0); }
 
 .slide-down-enter-active,
 .slide-down-exit-active {
@@ -1452,7 +1454,8 @@ input[type="button"].k-btn-block {
   background: white; }
 
 .k-form-item {
-  margin-bottom: 1rem; }
+  position: relative;
+  margin-bottom: 1.5rem; }
   .k-form-item::before {
     content: ' ';
     display: table; }
@@ -1462,29 +1465,55 @@ input[type="button"].k-btn-block {
     display: table; }
   .k-form-item__label {
     text-align: right;
-    display: inline-block;
     vertical-align: middle;
     margin-bottom: 0;
-    min-width: 5rem;
-    margin-right: 0.75rem;
+    padding-right: 0.75rem;
     font-size: 0.875rem; }
-  .k-form-item__content {
+    .k-form-item__label--required::before {
+      content: '*';
+      margin-right: 0.25rem;
+      color: #f44336; }
+    .k-form-item__label::after {
+      content: ':'; }
+  .k-form-item__wrapper {
     position: relative;
-    display: inline-block;
     vertical-align: middle; }
+  .k-form-item__error {
+    transition: all .3s ease;
+    position: absolute;
+    color: #f44336;
+    font-size: 0.75rem; }
+  .k-form-item--error .k-form-control {
+    border-color: #f44336; }
+    .k-form-item--error .k-form-control:focus {
+      border-color: #f44336; }
+  .k-form-item--error .k-select-single,
+  .k-form-item--error .k-multiple-list {
+    border-color: #f44336 !important; }
 
-.k-form--vertical .k-form-item__label {
+.k-form--vertical .k-form-item {
   display: block;
-  text-align: left; }
-
-.k-form--vertical .k-form-item__content {
-  display: block; }
+  padding-bottom: 0.5rem; }
+  .k-form--vertical .k-form-item__label {
+    display: block;
+    text-align: left;
+    padding-bottom: 0.5rem; }
+    .k-form--vertical .k-form-item__label::after {
+      content: ''; }
+  .k-form--vertical .k-form-item__wrapper {
+    display: block; }
 
 .k-form--inline .k-form-item {
   display: inline-block;
   margin-right: 1.5rem; }
   .k-form--inline .k-form-item__label {
-    min-width: auto; }
+    min-width: auto;
+    display: inline-block !important; }
+  .k-form--inline .k-form-item__wrapper {
+    display: inline-block !important; }
+
+.k-form--horizontal .k-form-item {
+  align-items: center; }
 
 .k-form-control {
   display: block;
@@ -1527,6 +1556,9 @@ input[type="button"].k-btn-block {
   flex-flow: row wrap; }
   .k-row::before, .k-row::after {
     display: flex; }
+  .k-row .k-col {
+    display: block;
+    position: relative; }
   .k-row--start {
     justify-content: flex-start; }
   .k-row--center {
@@ -1544,146 +1576,98 @@ input[type="button"].k-btn-block {
   .k-row--bottom {
     align-items: flex-end; }
   .k-row .k-col-1 {
-    display: block;
-    position: relative;
     width: 4.16667%; }
   .k-row .k-col-offset-1 {
     margin-left: 4.16667%; }
   .k-row .k-col-2 {
-    display: block;
-    position: relative;
     width: 8.33333%; }
   .k-row .k-col-offset-2 {
     margin-left: 8.33333%; }
   .k-row .k-col-3 {
-    display: block;
-    position: relative;
     width: 12.5%; }
   .k-row .k-col-offset-3 {
     margin-left: 12.5%; }
   .k-row .k-col-4 {
-    display: block;
-    position: relative;
     width: 16.66667%; }
   .k-row .k-col-offset-4 {
     margin-left: 16.66667%; }
   .k-row .k-col-5 {
-    display: block;
-    position: relative;
     width: 20.83333%; }
   .k-row .k-col-offset-5 {
     margin-left: 20.83333%; }
   .k-row .k-col-6 {
-    display: block;
-    position: relative;
     width: 25%; }
   .k-row .k-col-offset-6 {
     margin-left: 25%; }
   .k-row .k-col-7 {
-    display: block;
-    position: relative;
     width: 29.16667%; }
   .k-row .k-col-offset-7 {
     margin-left: 29.16667%; }
   .k-row .k-col-8 {
-    display: block;
-    position: relative;
     width: 33.33333%; }
   .k-row .k-col-offset-8 {
     margin-left: 33.33333%; }
   .k-row .k-col-9 {
-    display: block;
-    position: relative;
     width: 37.5%; }
   .k-row .k-col-offset-9 {
     margin-left: 37.5%; }
   .k-row .k-col-10 {
-    display: block;
-    position: relative;
     width: 41.66667%; }
   .k-row .k-col-offset-10 {
     margin-left: 41.66667%; }
   .k-row .k-col-11 {
-    display: block;
-    position: relative;
     width: 45.83333%; }
   .k-row .k-col-offset-11 {
     margin-left: 45.83333%; }
   .k-row .k-col-12 {
-    display: block;
-    position: relative;
     width: 50%; }
   .k-row .k-col-offset-12 {
     margin-left: 50%; }
   .k-row .k-col-13 {
-    display: block;
-    position: relative;
     width: 54.16667%; }
   .k-row .k-col-offset-13 {
     margin-left: 54.16667%; }
   .k-row .k-col-14 {
-    display: block;
-    position: relative;
     width: 58.33333%; }
   .k-row .k-col-offset-14 {
     margin-left: 58.33333%; }
   .k-row .k-col-15 {
-    display: block;
-    position: relative;
     width: 62.5%; }
   .k-row .k-col-offset-15 {
     margin-left: 62.5%; }
   .k-row .k-col-16 {
-    display: block;
-    position: relative;
     width: 66.66667%; }
   .k-row .k-col-offset-16 {
     margin-left: 66.66667%; }
   .k-row .k-col-17 {
-    display: block;
-    position: relative;
     width: 70.83333%; }
   .k-row .k-col-offset-17 {
     margin-left: 70.83333%; }
   .k-row .k-col-18 {
-    display: block;
-    position: relative;
     width: 75%; }
   .k-row .k-col-offset-18 {
     margin-left: 75%; }
   .k-row .k-col-19 {
-    display: block;
-    position: relative;
     width: 79.16667%; }
   .k-row .k-col-offset-19 {
     margin-left: 79.16667%; }
   .k-row .k-col-20 {
-    display: block;
-    position: relative;
     width: 83.33333%; }
   .k-row .k-col-offset-20 {
     margin-left: 83.33333%; }
   .k-row .k-col-21 {
-    display: block;
-    position: relative;
     width: 87.5%; }
   .k-row .k-col-offset-21 {
     margin-left: 87.5%; }
   .k-row .k-col-22 {
-    display: block;
-    position: relative;
     width: 91.66667%; }
   .k-row .k-col-offset-22 {
     margin-left: 91.66667%; }
   .k-row .k-col-23 {
-    display: block;
-    position: relative;
     width: 95.83333%; }
   .k-row .k-col-offset-23 {
     margin-left: 95.83333%; }
   .k-row .k-col-24 {
-    display: block;
-    position: relative;
     width: 100%; }
   .k-row .k-col-offset-24 {
     margin-left: 100%; }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Input, Checkbox } from "main";
+import { Button, Form, Input, Checkbox, Icon } from "main";
 
 const { createForm } = Form;
 
@@ -39,6 +39,7 @@ class DynamicFields extends Component {
                     rules={[{ required: true }]}
                 >
                     <Input />
+                    <Icon type="minus-circle" />
                 </Form.Item>
             );
         });

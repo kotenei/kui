@@ -9,9 +9,11 @@ import Tooltip from "../Tooltip";
 const prefixCls = "k-form-item";
 
 class FormItem extends Component {
-    form = this.props.children._owner.stateNode.props.form;
-
     static displayName = "FormItem";
+
+    static contextTypes = {
+        form: PropTypes.object
+    };
 
     static propTypes = {
         fieldName: PropTypes.string,
@@ -61,10 +63,7 @@ class FormItem extends Component {
     }
 
     init() {
-        if (this.form) {
-            this.form.init(this);
-        }
-
+        this.context.form.init(this);
         this.initRules();
     }
 
@@ -145,16 +144,19 @@ class FormItem extends Component {
             },
             className
         );
-        const value = this.form ? this.form.getFieldValue(fieldName) : "";
-        const content = fieldName
-            ? React.cloneElement(children, {
-                  onChange: this.handleChange,
-                  onFocus: this.handleFocus,
-                  onBlur: this.handleBlur,
-                  value,
-                  ...children.props
-              })
-            : children;
+        const value = this.context.form.getFieldValue(fieldName);
+        // const content = fieldName
+        //     ? React.cloneElement(children, {
+        //           onChange: this.handleChange,
+        //           onFocus: this.handleFocus,
+        //           onBlur: this.handleBlur,
+        //           value,
+        //           ...children.props
+        //       })
+        //     : children;
+        const content = React.Children.map(children, child => {
+            return child;
+        });
 
         return (
             <Grid.Row className={classString}>
@@ -208,11 +210,9 @@ class FormItem extends Component {
             }
         }
 
-        if (this.form) {
-            this.form.setFieldValue(this.props.fieldName, value, () => {
-                this.validate();
-            });
-        }
+        this.context.form.setFieldValue(this.props.fieldName, value, () => {
+            this.validate();
+        });
     };
 
     handleFocus = () => {
@@ -244,9 +244,7 @@ class FormItem extends Component {
         const { validator } = this.props;
         let result = true;
         let message;
-        let value = this.form
-            ? this.form.getFieldValue(this.props.fieldName)
-            : "";
+        let value = this.context.form.getFieldValue(this.props.fieldName);
         if (this.rules) {
             for (let method in this.rules) {
                 let rule = this.rules[method];
@@ -307,13 +305,11 @@ class FormItem extends Component {
 
     resetField = () => {
         const { fieldName, initialValue } = this.props;
-        if (this.form) {
-            this.form.setFieldValue(fieldName, initialValue, () => {
-                this.setState({
-                    errorMessage: ""
-                });
+        this.context.form.setFieldValue(fieldName, initialValue, () => {
+            this.setState({
+                errorMessage: ""
             });
-        }
+        });
     };
 }
 

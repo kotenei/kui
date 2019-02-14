@@ -1,9 +1,24 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import validate from "./validate";
 
 export const createForm = WrappedComponent =>
     class extends Component {
         state = { fields: {} };
+
+        static childContextTypes = {
+            form: PropTypes.object
+        };
+
+        getChildContext() {
+            return {
+                form: {
+                    init: this.init,
+                    getFieldValue: this.getFieldValue,
+                    setFieldValue: this.setFieldValue
+                }
+            };
+        }
 
         constructor(props) {
             super(props);

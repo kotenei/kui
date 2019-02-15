@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Button, Icon } from "main";
+import { Switch, Button, Icon } from "kui-react";
 
 class SwitchView extends Component {
     state = {

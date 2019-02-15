@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Progress } from "main";
+import { Progress } from "kui-react";
 
 class ProgressView extends Component {
     render() {

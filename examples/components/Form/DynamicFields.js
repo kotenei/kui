@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Input, Checkbox, Icon, Grid } from "main";
+import { Button, Form, Input, Checkbox, Icon, Grid } from "kui-react";
 
 const { createForm } = Form;
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dropdown, Menu } from "main";
+import { Dropdown, Menu } from "kui-react";
 
 const menu = (
     <Menu>

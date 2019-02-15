@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Select } from "main";
+import { Select } from "kui-react";
 
 const Option = Select.Option;
 

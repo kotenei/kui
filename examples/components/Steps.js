@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Steps, Icon } from "main";
+import { Steps, Icon } from "kui-react";
 
 const Step = Steps.Step;
 

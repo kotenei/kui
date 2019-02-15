@@ -1,34 +1,13 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Alert, Loading, Checkbox } from "main";
+import Basic from "./Basic";
 
 class LoadingView extends Component {
-    constructor(props) {
-        super(props);
-        this.handleToggle = this.handleToggle.bind(this);
-    }
-    state = {
-        show: false
-    };
-    handleToggle() {
-        this.setState({
-            show: !this.state.show
-        });
-    }
     render() {
         return (
             <div>
                 <h1>Loading 加载中</h1>
                 <div className="k-example">
-                    <Loading show={this.state.show} tip="加载中，请稍候...">
-                        <Alert
-                            showIcon={true}
-                            kStyle="primary"
-                            title="Default Text"
-                            description="Default Description Default Description Default Description Default Description Default Description Default Description Default Description"
-                        />
-                    </Loading>
-                    <Checkbox mode="toggle" onChange={this.handleToggle} />
+                    <Basic />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

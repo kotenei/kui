@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Radio } from "main";
+import { Radio } from "kui-react";
 
 let RadioGroup = Radio.RadioGroup;
 

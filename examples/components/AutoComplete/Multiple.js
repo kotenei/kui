@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AutoComplete } from "main";
+import { AutoComplete } from "kui-react";
 import { data } from "../../data";
 
 export default class Multiple extends Component {

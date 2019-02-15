@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Layout } from "main";
 
 class CalendarView extends Component {
     render() {

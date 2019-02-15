@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TimePicker } from "main";
+import { TimePicker } from "kui-react";
 
 class TimePickerView extends Component {
     state = {

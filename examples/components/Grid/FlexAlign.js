@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid } from "main";
+import { Grid } from "kui-react";
 
 export default class FlexAlign extends Component {
     render() {

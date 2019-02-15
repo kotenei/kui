@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Upload, Button, Icon } from "main";
+import { Upload, Button, Icon } from "kui-react";
 
 const action = "https://jsonplaceholder.typicode.com/posts/";
 

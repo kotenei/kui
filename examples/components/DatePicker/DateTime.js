@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DatePicker } from "main";
+import { DatePicker } from "kui-react";
 
 const { RangePicker} = DatePicker;
 

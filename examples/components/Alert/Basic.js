@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert } from "main";
+import { Alert } from "kui-react";
 
 export default class Basic extends Component {
     render() {

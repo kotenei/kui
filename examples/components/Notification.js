@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Notification, Button } from "main";
+import { Notification, Button } from "kui-react";
 
 class NotificationView extends Component {
     handleDefaultShow() {

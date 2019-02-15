@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Slider, Switch } from "main";
+import { Slider, Switch } from "kui-react";
 
 const marks = {
     22: "22",

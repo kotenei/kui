@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tree, Icon } from "main";
+import { Tree, Icon } from "kui-react";
 
 const TreeNode = Tree.TreeNode;
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs, Button } from "main";
+import { Tabs, Button } from "kui-react";
 
 const TabPane = Tabs.TabPane;
 const ButtonGroup = Button.Group;

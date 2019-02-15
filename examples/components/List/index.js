@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import { List, Icon } from "main";
-
-const data = ["List Item", "List Item", "List Item"];
-const actions = [
-    <Icon type="edit" theme="filled" />,
-    <Icon type="delete" theme="filled" />
-];
+import Basic from "./Basic";
+import Action from "./Action";
+import Meta from "./Meta";
 
 class ListView extends Component {
     render() {
@@ -14,67 +10,17 @@ class ListView extends Component {
                 <h1>List 列表</h1>
                 <h3>简单列表</h3>
                 <div className="k-example">
-                    <h3>Default Size</h3>
-                    <List
-                        bordered
-                        data={data}
-                        header="Header"
-                        footer="Footer"
-                    />
-                    <br />
-                    <h3>Small Size</h3>
-                    <List
-                        bordered
-                        data={data}
-                        kSize="sm"
-                        header="Header"
-                        footer="Footer"
-                    />
-                    <br />
-                    <h3>Large Size</h3>
-                    <List
-                        bordered
-                        data={data}
-                        kSize="lg"
-                        header="Header"
-                        footer="Footer"
-                    />
+                    <Basic />
                 </div>
                 <br />
                 <h3>带操作列表</h3>
                 <div className="k-example">
-                    <List bordered>
-                        <List.Item actions={actions}>List Item</List.Item>
-                        <List.Item actions={actions}>List Item</List.Item>
-                        <List.Item actions={actions}>List Item</List.Item>
-                    </List>
+                    <Action />
                 </div>
                 <br />
                 <h3>元素信息列表</h3>
                 <div className="k-example">
-                    <List bordered>
-                        <List.Item actions={actions}>
-                            <List.ItemMeta
-                                avatar={<Icon type="android" fontSize={24} />}
-                                title="List Item"
-                                description="Description"
-                            />
-                        </List.Item>
-                        <List.Item actions={actions}>
-                            <List.ItemMeta
-                                avatar={<Icon type="apple" fontSize={24} />}
-                                title="List Item"
-                                description="Description"
-                            />
-                        </List.Item>
-                        <List.Item actions={actions}>
-                            <List.ItemMeta
-                                avatar={<Icon type="windows" fontSize={24} />}
-                                title="List Item"
-                                description="Description"
-                            />
-                        </List.Item>
-                    </List>
+                    <Meta />
                 </div>
                 <h1>API</h1>
                 <h3>List</h3>
@@ -126,7 +72,8 @@ class ListView extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <br /><br />
+                <br />
+                <br />
                 <h3>List.Item</h3>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
@@ -146,7 +93,8 @@ class ListView extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <br /><br />
+                <br />
+                <br />
                 <h3>List.ItemMeta</h3>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>

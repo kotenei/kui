@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Popconfirm, Message } from "main";
+import { Button, Popconfirm, Message } from "kui-react";
 import { NavLink } from "react-router-dom";
 
 class PopconfirmView extends Component {

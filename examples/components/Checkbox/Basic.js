@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Checkbox } from "main";
+import { Checkbox } from "kui-react";
 
 export default class Basic extends Component {
     render() {

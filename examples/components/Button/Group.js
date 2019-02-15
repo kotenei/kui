@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "main";
+import { Button } from "kui-react";
 
 const ButtonGroup = Button.Group;
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Breadcrumb } from "main";
+import { Breadcrumb } from "kui-react";
 
 export default class Basic extends Component {
     render() {

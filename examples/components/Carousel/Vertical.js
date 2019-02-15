@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Carousel } from "main";
+import { Carousel } from "kui-react";
 
 const style = {
     background: "#364D79",

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card } from "main";
+import { Card } from "kui-react";
 
 export default class Basic extends Component {
     render() {

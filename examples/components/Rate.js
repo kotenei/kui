@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Rate } from "main";
+import { Rate } from "kui-react";
 
 class RateView extends Component {
     render() {

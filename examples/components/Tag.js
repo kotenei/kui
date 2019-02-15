@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tag } from "main";
+import { Tag } from "kui-react";
 
 class TagView extends Component {
     render() {

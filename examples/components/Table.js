@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Icon, Input, Button } from "main";
+import { Table, Icon, Input, Button } from "kui-react";
 import fetchData from "../fetch-data";
 import { NavLink } from "react-router-dom";
 

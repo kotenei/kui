@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Tooltip } from "main";
+import { Tooltip } from "kui-react";
 
 const style = {
     display: "inline-block",

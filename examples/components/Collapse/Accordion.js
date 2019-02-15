@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Collapse } from "main";
+import { Collapse } from "kui-react";
 
 const Panel = Collapse.Panel;
 const text = `

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Badge } from "main";
+import { Badge } from "kui-react";
 
 export default class Dot extends Component {
     render() {

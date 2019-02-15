@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Icon, Button } from "main";
+import { Menu, Icon, Button } from "kui-react";
 
 class MenuView extends Component {
     render() {

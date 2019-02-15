@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Input, Icon } from "main";
+import Basic from "./Basic";
+import PrefixStuffix from "./PrefixStuffix";
+import TextArea from "./TextArea";
+import Addon from './Addon';
 
 class InpurtView extends Component {
     render() {
@@ -9,29 +11,19 @@ class InpurtView extends Component {
                 <h1>Input 输入框</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Input type="text" kSize="sm" placeholder="small size" />
-                    <br />
-                    <Input type="text" placeholder="default size" />
-                    <br />
-                    <Input type="text" kSize="lg" placeholder="large size" />
+                    <Basic />
                 </div>
                 <h3>前缀和后缀</h3>
                 <div className="k-example">
-                    <Input type="text" prefix={<Icon type="user" />} />
-                    <br />
-                    <Input type="text" suffix={<Icon type="search" />} />
+                    <PrefixStuffix />
                 </div>
                 <h3>前置和后置标签</h3>
                 <div className="k-example">
-                    <Input
-                        type="text"
-                        addonBefore={<Icon type="user" />}
-                        addonAfter={<Icon type="search" />}
-                    />
+                    <Addon />
                 </div>
                 <h3>文本域</h3>
                 <div className="k-example">
-                    <Input.TextArea />
+                    <TextArea />
                 </div>
                 <h1>API</h1>
                 <h2>Input</h2>

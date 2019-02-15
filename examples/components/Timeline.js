@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Timeline, Icon } from "main";
+import { Timeline, Icon } from "kui-react";
 
 class TimelineView extends Component {
     render() {

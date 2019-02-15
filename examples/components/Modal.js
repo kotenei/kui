@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Button } from "main";
+import { Modal, Button } from "kui-react";
 
 function confirm() {
     let a = Modal.confirm({

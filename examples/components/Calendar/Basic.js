@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Calendar } from "main";
+import { Calendar } from "kui-react";
 import { format as formatter, addDays } from "date-fns";
 
 export default class Basic extends Component {

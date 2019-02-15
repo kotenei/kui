@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Pagination } from "main";
+import { Pagination } from "kui-react";
 
 class PaginationView extends Component {
     render() {

@@ -14,7 +14,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, "dist"),
-        filename: "js/[name].min.js",
+        filename: "js/[name].min.js"
         //library: "KUI",
         //libraryTarget: "umd",
         //publicPath: "dist"
@@ -39,7 +39,8 @@ module.exports = {
             },
             {
                 test: /\.(svg|eot|ttf|woff|woff2)/,
-                use: "url-loader?limit=1000&name=fonts/[name].[ext]&publicPath=../"
+                use:
+                    "url-loader?limit=1000&name=fonts/[name].[ext]&publicPath=../"
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
@@ -78,7 +79,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            main: path.resolve(__dirname, "src")
+            "kui-react": path.resolve(__dirname, "src")
         }
     },
     plugins: [
@@ -96,7 +97,7 @@ module.exports = {
         contentBase: path.resolve(__dirname, "./dist"),
         compress: true,
         port: 3003,
-        host: "localhost",
+        host: "localhost"
         //hot: true
     }
 };

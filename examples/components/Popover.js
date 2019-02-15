@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Popover, Button } from "main";
+import { Popover, Button } from "kui-react";
 import { NavLink } from "react-router-dom";
 
 class PopoverView extends Component {

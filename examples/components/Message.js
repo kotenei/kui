@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Message } from "main";
+import { Button, Message } from "kui-react";
 
 class MessageView extends Component {
     handleShowInfo() {

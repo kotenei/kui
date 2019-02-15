@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classnames from "classnames";
 import ReactMarkdown from "react-markdown";
 import CodeBlock from "./CodeBlock";
-import { Icon } from "main";
+import { Icon } from "kui-react";
 
 export default class CodeBox extends Component {
     state = {

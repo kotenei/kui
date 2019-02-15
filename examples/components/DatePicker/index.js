@@ -1,89 +1,29 @@
 import React, { Component } from "react";
-import { DatePicker } from "main";
-import { addMonths } from "date-fns";
-import { getLastDay } from "../../src/utils/dateUtils";
-
-const { RangePicker, YearPicker, MonthPicker, WeekPicker } = DatePicker;
+import Basic from "./Basic";
+import Size from "./Size";
+import DateTime from "./DateTime";
+import Range from "./Range";
 
 class DatePickerView extends Component {
-    state = {
-        rangeDates: []
-    };
-    handleChange = date => {
-        console.log(date);
-    };
     render() {
         return (
             <div>
                 <h1>DatePicker 日期选择</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <DatePicker
-                        onChange={this.handleChange}
-                        placeholder="请选择日期"
-                    />
-                    <br />
-                    <YearPicker
-                        onChange={this.handleChange}
-                        placeholder="选择年份"
-                    />
-                    <br />
-                    <MonthPicker
-                        onChange={this.handleChange}
-                        placeholder="选择月份"
-                    />
-                    <br />
-                    <WeekPicker
-                        kSize="lg"
-                        onChange={this.handleChange}
-                        placeholder="选择周"
-                    />
-                    <br />
-                    <RangePicker kSize="lg" />
+                    <Basic />
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">
-                    <DatePicker
-                        onChange={this.handleChange}
-                        kSize="sm"
-                        placeholder="请选择日期"
-                    />
-                    <br />
-                    <DatePicker
-                        onChange={this.handleChange}
-                        placeholder="请选择日期"
-                    />
-                    <br />
-                    <DatePicker
-                        onChange={this.handleChange}
-                        kSize="lg"
-                        placeholder="请选择日期"
-                    />
+                    <Size />
                 </div>
                 <h3>日期时间选择</h3>
                 <div className="k-example">
-                    <DatePicker
-                        onChange={this.handleChange}
-                        showTime
-                        format="YYYY-MM-DD HH:mm:ss"
-                        placeholder="请选择日期"
-                    />
-                    <br />
-                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                    <DateTime />
                 </div>
                 <h3>日期范围</h3>
                 <div className="k-example">
-                    <DatePicker
-                        onChange={this.handleChange}
-                        placeholder="请选择日期"
-                        minDate={new Date()}
-                        maxDate={getLastDay(addMonths(new Date(), 1))}
-                    />
-                    <br />
-                    <RangePicker
-                        minDate={new Date()}
-                        maxDate={getLastDay(addMonths(new Date(), 1))}
-                    />
+                    <Range />
                 </div>
 
                 <h1>API</h1>
@@ -248,7 +188,10 @@ class DatePickerView extends Component {
                             <td>format</td>
                             <td>展示日期格式，配置参考date-fns</td>
                             <td>string</td>
-                            <td>YearPicker:"YYYY", MonthPicker:'YYYY-MM', WeekPicker:'YYYY-WW周'</td>
+                            <td>
+                                YearPicker:"YYYY", MonthPicker:'YYYY-MM',
+                                WeekPicker:'YYYY-WW周'
+                            </td>
                         </tr>
                         <tr>
                             <td>placeholder</td>
@@ -276,7 +219,7 @@ class DatePickerView extends Component {
                         </tr>
                     </tbody>
                 </table>
-                <br/>
+                <br />
                 <h3>RangePicker</h3>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>

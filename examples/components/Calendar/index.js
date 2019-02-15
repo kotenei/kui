@@ -1,27 +1,13 @@
 import React, { Component } from "react";
-import { Calendar } from "main";
-import { format as formatter, addDays } from "date-fns";
+import Basic from "./Basic";
 
 class CalendarView extends Component {
     render() {
-        let now = new Date();
-        let data = [];
-        now = addDays(now, -(Math.random() * 30 + 1));
-        for (let i = 1; i <= 8; i++) {
-            let num1 = Math.floor(Math.random() * 10 + 1),
-                num2 = Math.floor(Math.random() * 10 + 1) + num1;
-            data.push({
-                id: i,
-                title: `event${i}`,
-                start: formatter(addDays(now, num1), "YYYY-MM-DD"),
-                end: formatter(addDays(now, num2), "YYYY-MM-DD")
-            });
-        }
         return (
             <div>
                 <h1>Calendar 日历</h1>
                 <div className="k-example">
-                    <Calendar data={data} />
+                    <Basic />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

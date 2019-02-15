@@ -1,6 +1,6 @@
-import React from 'react';
-import {Breadcrumb} from 'main';
-import {NavLink} from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import Basic from "./Basic";
 
 class ButtonView extends React.Component {
     render() {
@@ -8,13 +8,8 @@ class ButtonView extends React.Component {
             <div>
                 <h1>Breadcrumb 面包屑</h1>
                 <div className="k-example">
-                    <Breadcrumb kStyle="primary">
-                        <Breadcrumb.Item to="/" icon="home">Home</Breadcrumb.Item>
-                        <Breadcrumb.Item to="/Breadcrumb">Breadcrumb</Breadcrumb.Item>
-                        <Breadcrumb.Item>Page</Breadcrumb.Item>
-                    </Breadcrumb>
+                    <Basic />
                 </div>
-                
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
@@ -34,13 +29,21 @@ class ButtonView extends React.Component {
                         </tr>
                         <tr>
                             <td>kStyle</td>
-                            <td>风格，可选值  'primary' 'info' 'success' 'warning' 'danger'</td>
+                            <td>
+                                风格，可选值 'primary' 'info' 'success'
+                                'warning' 'danger'
+                            </td>
                             <td>string</td>
                             <td>—</td>
                         </tr>
                         <tr>
                             <td>icon</td>
-                            <td>图标，<NavLink to="/Icon" activeClassName="selected">参考图标页</NavLink></td>
+                            <td>
+                                图标，
+                                <NavLink to="/Icon" activeClassName="selected">
+                                    参考图标页
+                                </NavLink>
+                            </td>
                             <td>string</td>
                             <td>—</td>
                         </tr>
@@ -52,9 +55,8 @@ class ButtonView extends React.Component {
                         </tr>
                     </tbody>
                 </table>
-
             </div>
-        )
+        );
     }
 }
 

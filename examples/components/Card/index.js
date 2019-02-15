@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Card } from "main";
+import Basic from "./Basic";
+import Bordered from "./Bordered";
 
 class CardView extends Component {
     render() {
@@ -9,24 +9,11 @@ class CardView extends Component {
                 <h1>Card 卡片</h1>
                 <h3>默认</h3>
                 <div className="k-example">
-                    <Card
-                        title="卡片标题"
-                        extra={<a href="javascript:void(0);">更多</a>}
-                    >
-                        <p>列表内容1</p>
-                        <p>列表内容2</p>
-                        <p>列表内容3</p>
-                        <p style={{ marginBottom: 0 }}>列表内容4</p>
-                    </Card>
+                    <Basic />
                 </div>
                 <h3>无边框</h3>
                 <div className="k-example" style={{ background: "#ececec" }}>
-                    <Card title="卡片标题" bordered={false}>
-                        <p>列表内容1</p>
-                        <p>列表内容2</p>
-                        <p>列表内容3</p>
-                        <p style={{ marginBottom: 0 }}>列表内容4</p>
-                    </Card>
+                    <Bordered />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

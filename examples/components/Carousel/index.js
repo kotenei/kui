@@ -1,15 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Carousel } from "main";
-
-const style = {
-    background: "#364D79",
-    height: 160,
-    color: "white",
-    textAlign: "center",
-    lineHeight: "160px",
-    fontSize: 24
-};
+import Basic from "./Basic";
+import Vertical from "./Vertical";
+import Autoplay from "./Autoplay";
 
 class CarouselView extends Component {
     render() {
@@ -18,27 +10,15 @@ class CarouselView extends Component {
                 <h1>Carousel 走马灯</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Carousel>
-                        <div style={style}>1</div>
-                        <div style={style}>2</div>
-                        <div style={style}>3</div>
-                    </Carousel>
+                    <Basic />
                 </div>
                 <h3>垂直方向</h3>
                 <div className="k-example">
-                    <Carousel vertical>
-                        <div style={style}>1</div>
-                        <div style={style}>2</div>
-                        <div style={style}>3</div>
-                    </Carousel>
+                    <Vertical />
                 </div>
                 <h3>自动切换</h3>
                 <div className="k-example">
-                    <Carousel autoplay>
-                        <div style={style}>1</div>
-                        <div style={style}>2</div>
-                        <div style={style}>3</div>
-                    </Carousel>
+                    <Autoplay />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

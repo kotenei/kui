@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import { Collapse } from "main";
-
-const Panel = Collapse.Panel;
-
-const text = `
-A dog is a type of domesticated animal.
-Known for its loyalty and faithfulness,
-it can be found as a welcome guest in many households across the world.
-`;
+import Basic from "./Basic";
+import Accordion from "./Accordion";
 
 class CollapseView extends Component {
     render() {
@@ -16,31 +9,11 @@ class CollapseView extends Component {
                 <h1>Collapse 折叠面板</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Collapse>
-                        <Panel header="This is panel header 1" id="1">
-                            <p>{text}</p>
-                        </Panel>
-                        <Panel header="This is panel header 2" id="2">
-                            <p>{text}</p>
-                        </Panel>
-                        <Panel header="This is panel header 3" id="3" disabled>
-                            <p>{text}</p>
-                        </Panel>
-                    </Collapse>
+                    <Basic />
                 </div>
                 <h3>手网琴</h3>
                 <div className="k-example">
-                    <Collapse accordion>
-                        <Panel header="This is panel header 1" id="1">
-                            <p>{text}</p>
-                        </Panel>
-                        <Panel header="This is panel header 2" id="2">
-                            <p>{text}</p>
-                        </Panel>
-                        <Panel header="This is panel header 3" id="3">
-                            <p>{text}</p>
-                        </Panel>
-                    </Collapse>
+                    <Accordion />
                 </div>
                 <h1>API</h1>
                 <h3>Collapse</h3>

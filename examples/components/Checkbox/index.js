@@ -1,74 +1,29 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Checkbox,Radio } from "main";
-
-let CheckboxGroup = Checkbox.CheckboxGroup;
-
-const options = ["one", "two", "three", "four"];
-const value = ["one"];
+import Basic from "./Basic";
+import Disabled from "./Disabled";
+import Group from "./Group";
+import CheckAll from "./CheckAll";
 
 class CheckboxView extends Component {
-    constructor(props) {
-        super(props);
-        this.handleCheckAll = this.handleCheckAll.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.state = {
-            indeterminate: false,
-            checkAll: false,
-            checkedList: []
-        };
-    }
-    handleCheckAll(e) {
-        this.setState({
-            checkAll: !this.state.checkAll,
-            indeterminate:false,
-            checkedList: e.target.checked ? options : []
-        });
-    }
-    handleChange(checkedList) {
-        this.setState({
-            checkAll: checkedList.length == options.length,
-            indeterminate:
-                checkedList.length > 0 && checkedList.length != options.length,
-            checkedList
-        });
-    }
     render() {
-        const { checkAll, checkedList, indeterminate } = this.state;
         return (
             <div>
                 <h1>Checkbox 多选框</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Checkbox mode="none">none</Checkbox>
-                    <Checkbox>normal</Checkbox>
-                    <Checkbox mode="toggle">toggle</Checkbox>
+                    <Basic />
                 </div>
                 <h3>禁用状态</h3>
                 <div className="k-example">
-                    <Checkbox checked disabled>
-                        Checkbox
-                    </Checkbox>
-                    <Checkbox disabled>Checkbox</Checkbox>
+                    <Disabled />
                 </div>
                 <h3>多选框组</h3>
                 <div className="k-example">
-                    <CheckboxGroup options={options} defaultValue={value} />
+                    <Group />
                 </div>
                 <h3>全选/反选</h3>
                 <div className="k-example">
-                    <Checkbox
-                        checked={checkAll}
-                        indeterminate={indeterminate}
-                        onChange={this.handleCheckAll}
-                    >
-                        全选
-                    </Checkbox>
-                    <CheckboxGroup
-                        options={options}
-                        value={checkedList}
-                        onChange={this.handleChange}
-                    />
+                    <CheckAll />
                 </div>
                 <h1>API</h1>
                 <h2>Checkbox</h2>

@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {Alert} from 'main';
+import React, { Component } from "react";
+import Basic from "./Basic";
 
 class AlertView extends Component {
     render() {
@@ -8,10 +7,7 @@ class AlertView extends Component {
             <div>
                 <h1>Alert 警告提示</h1>
                 <div className="k-example">
-                    <Alert kStyle="info" showIcon={true} closable title="Info Text"  description="Info Description Info Description Info Description Info Description Info Description Info Description Info Description"/>
-                    <Alert kStyle="success" showIcon={true} closable title="Success Text" closeText="OK"  description="Success Description Success Description Success Description Success Description Success Description Success Description Success Description" onClose={()=>{alert('Hello World!')}}/>
-                    <Alert kStyle="warning" showIcon={true} closable title="Warning Text"  description="Warning Description Warning Description Warning Description Warning Description Warning Description Warning Description Warning Description"/>
-                    <Alert kStyle="danger" showIcon={true} closable title="Danger Text"  description="Danger Description Danger Description Danger Description Danger Description Danger Description Danger Description Danger Description"/>
+                    <Basic />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
@@ -26,7 +22,10 @@ class AlertView extends Component {
                     <tbody>
                         <tr>
                             <td>showIcon</td>
-                            <td>是否展示图标，只有在kStyle属性设置为'info' 'success' 'warning' 'danger'才有效</td>
+                            <td>
+                                是否展示图标，只有在kStyle属性设置为'info'
+                                'success' 'warning' 'danger'才有效
+                            </td>
                             <td>boolean</td>
                             <td>false</td>
                         </tr>
@@ -56,7 +55,9 @@ class AlertView extends Component {
                         </tr>
                         <tr>
                             <td>kStyle</td>
-                            <td>风格，可选值  'info' 'success' 'warning' 'danger'</td>
+                            <td>
+                                风格，可选值 'info' 'success' 'warning' 'danger'
+                            </td>
                             <td>string</td>
                             <td>—</td>
                         </tr>
@@ -64,12 +65,12 @@ class AlertView extends Component {
                             <td>onClose</td>
                             <td>关闭回调函数,返回true则关闭</td>
                             <td>Function</td>
-                            <td>{'()=>{ return true; }'}</td>
+                            <td>{"()=>{ return true; }"}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        )
+        );
     }
 }
 

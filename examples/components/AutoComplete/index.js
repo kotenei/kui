@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { AutoComplete } from "main";
-import { data } from "../data";
+import Basic from "./Basic";
+import Multiple from "./Multiple";
+import Size from "./Size";
 
 class AutoCompleteView extends Component {
     state = {
@@ -39,52 +39,15 @@ class AutoCompleteView extends Component {
                 <h1>AutoComplete 自动完成</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <AutoComplete
-                        data={dataSource}
-                        placeholder="请输入a-z"
-                        onSearch={this.handleSearch}
-                        onSelect={this.handleSelect}
-                       
-                    />
+                    <Basic />
                 </div>
                 <h3>多选</h3>
                 <div className="k-example">
-                    <AutoComplete
-                        multiple
-                        data={dataSource}
-                        placeholder="请输入a-z"
-                        defaultValue={["Ada"]}
-                        onSearch={this.handleSearch}
-                        onSelect={this.handleSelect}
-                        onChange={(v)=>{console.log(v)}}
-                    />
+                    <Multiple />
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">
-                    <AutoComplete
-                        kSize="sm"
-                        data={dataSource}
-                        placeholder="请输入a-z"
-                        onSearch={this.handleSearch}
-                        onSelect={this.handleSelect}
-                    />
-                    <br />
-                    <br />
-                    <AutoComplete
-                        data={dataSource}
-                        placeholder="请输入a-z"
-                        onSearch={this.handleSearch}
-                        onSelect={this.handleSelect}
-                    />
-                    <br />
-                    <br />
-                    <AutoComplete
-                        kSize="lg"
-                        data={dataSource}
-                        placeholder="请输入a-z"
-                        onSearch={this.handleSearch}
-                        onSelect={this.handleSelect}
-                    />
+                    <Size />
                 </div>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
@@ -143,7 +106,10 @@ class AutoCompleteView extends Component {
                         </tr>
                         <tr>
                             <td>onChange</td>
-                            <td>选中 option，或 input 的 value 变化时，调用此函数</td>
+                            <td>
+                                选中 option，或 input 的 value
+                                变化时，调用此函数
+                            </td>
                             <td>function(value)</td>
                             <td>—</td>
                         </tr>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Pagination } from "kui-react";
+import Basic from "./Basic";
 
 class PaginationView extends Component {
     render() {
@@ -8,13 +7,7 @@ class PaginationView extends Component {
             <div>
                 <h1>Pagination 分页</h1>
                 <div className="k-example">
-                    <Pagination total={200} kSize="xs"/>
-                    <br />
-                    <Pagination total={200} kSize="sm" kStyle="primary" />
-                    <br />
-                    <Pagination total={200} kStyle="warning" />
-                    <br />
-                    <Pagination total={200} kSize="lg" kStyle="danger" />
+                    <Basic />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

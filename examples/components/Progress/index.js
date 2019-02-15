@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Progress } from "kui-react";
+import Indeterminate from "./Indeterminate";
+import PercentOutside from "./PercentOutside";
+import PercentInside from "./PercentInside";
+import Circle from "./Circle";
 
 class ProgressView extends Component {
     render() {
@@ -9,57 +11,19 @@ class ProgressView extends Component {
                 <h1>Progress 进度条</h1>
                 <h3>线形进度条 — 不确定进度</h3>
                 <div className="k-example">
-                    <Progress indeterminate/>
+                    <Indeterminate />
                 </div>
                 <h3>线形进度条 — 百分比外显</h3>
                 <div className="k-example">
-                    <Progress percent={10} kStyle="primary" showText={false} />
-                    <Progress percent={40} kStyle="warning" />
-                    <Progress percent={100} kStyle="success" status="success" />
-                    <Progress percent={80} kStyle="danger" status="error" />
+                    <PercentOutside />
                 </div>
                 <h3>线形进度条 — 百分比内显</h3>
                 <div className="k-example">
-                    <Progress
-                        percent={10}
-                        kStyle="primary"
-                        strokeWidth={20}
-                        textInside={true}
-                    />
-                    <Progress
-                        percent={40}
-                        kStyle="warning"
-                        strokeWidth={20}
-                        textInside={true}
-                    />
-                    <Progress
-                        percent={100}
-                        kStyle="success"
-                        strokeWidth={20}
-                        textInside={true}
-                    />
-                    <Progress
-                        percent={80}
-                        kStyle="danger"
-                        strokeWidth={20}
-                        textInside={true}
-                    />
+                    <PercentInside />
                 </div>
                 <h3>环形进度条</h3>
                 <div className="k-example">
-                    <Progress percent={30} type="circle" strokeWidth={10} />
-                    <Progress
-                        percent={100}
-                        type="circle"
-                        status="success"
-                        strokeWidth={10}
-                    />
-                    <Progress
-                        percent={70}
-                        type="circle"
-                        status="error"
-                        strokeWidth={10}
-                    />
+                    <Circle />
                 </div>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>

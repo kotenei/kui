@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Rate } from "kui-react";
+import Basic from "./Basic";
+import Half from "./Half";
+import Disabled from "./Disabled";
+import Character from "./Character";
 
 class RateView extends Component {
     render() {
@@ -8,19 +11,19 @@ class RateView extends Component {
                 <h1>Rate 评分</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Rate />
+                    <Basic />
                 </div>
                 <h3>半星</h3>
                 <div className="k-example">
-                    <Rate allowHalf defaultValue={1.5} />
+                    <Half />
                 </div>
                 <h3>禁用</h3>
                 <div className="k-example">
-                    <Rate disabled defaultValue={2} />
+                    <Disabled />
                 </div>
                 <h3>其它字符</h3>
                 <div className="k-example">
-                    <Rate character="好" allowHalf style={{ fontSize: 30 }} />
+                    <Character />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

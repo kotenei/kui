@@ -1,114 +1,19 @@
 import React, { Component } from "react";
-import { Modal, Button } from "kui-react";
-
-function confirm() {
-    let a = Modal.confirm({
-        title: "这是消息标题",
-        content: <div>这里是提示消息</div>,
-        onOK() {
-            console.log("ok");
-        },
-        onCancel() {
-            console.log("cancel");
-        }
-    });
-}
-
-function info() {
-    Modal.info({
-        title: "这是消息标题",
-        content: <div>这里是提示消息</div>,
-        onOK() {
-            console.log("ok");
-        }
-    });
-}
-
-function success() {
-    Modal.success({
-        title: "这是消息标题",
-        content: <div>这里是提示消息</div>,
-        onOK() {
-            console.log("ok");
-        }
-    });
-}
-
-function warning() {
-    Modal.warning({
-        title: "这是消息标题",
-        content: <div>这里是提示消息</div>,
-        onOK() {
-            console.log("ok");
-        }
-    });
-}
-
-function error() {
-    Modal.error({
-        title: "这是消息标题",
-        content: <div>这里是提示消息</div>,
-        onOK() {
-            console.log("ok");
-        }
-    });
-}
+import Basic from "./Basic";
+import Status from "./Status";
 
 class ModalView extends Component {
-    state = {
-        show: false,
-        show2: false
-    };
-    showModal = () => {
-        this.setState({
-            show: true
-        });
-    };
-    handleCancel = e => {
-        this.setState({
-            show: false
-        });
-    };
-    handleOK = e => {
-        this.setState({
-            show: false
-        });
-    };
     render() {
         return (
             <div>
                 <h1>Modal 对话框</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Button raised kStyle="primary" onClick={this.showModal}>
-                        点击打开
-                    </Button>
-                    <Modal
-                        show={this.state.show}
-                        title="测试"
-                        content="对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容对话框内容内容"
-                        onOK={this.handleOK}
-                        onCancel={this.handleCancel}
-                        z
-                    />
+                    <Basic />
                 </div>
                 <h3>信息状态</h3>
                 <div className="k-example">
-                    <Button raised kStyle="primary" onClick={confirm}>
-                        confirm
-                    </Button>&nbsp;&nbsp;
-                    <Button raised kStyle="info" onClick={info}>
-                        Info
-                    </Button>&nbsp;&nbsp;
-                    <Button raised kStyle="success" onClick={success}>
-                        Success
-                    </Button>&nbsp;&nbsp;
-                    <Button raised kStyle="warning" onClick={warning}>
-                        Warning
-                    </Button>&nbsp;&nbsp;
-                    <Button raised kStyle="danger" onClick={error}>
-                        Error
-                    </Button>&nbsp;&nbsp;
+                    <Status />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
@@ -224,7 +129,8 @@ class ModalView extends Component {
                         <p>Modal.error(config);</p>
                     </code>
                 </pre>
-                参数对象如下：<br />
+                参数对象如下：
+                <br />
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>
                         <tr>

@@ -1,56 +1,13 @@
 import React, { Component } from "react";
-import { Button, Message } from "kui-react";
+import Basic from "./Basic";
 
 class MessageView extends Component {
-    handleShowInfo() {
-        Message.info("这是一条消息提示");
-    }
-    handleShowSuccess() {
-        Message.success("这是一条成功提示");
-    }
-    handleShowWarning() {
-        Message.warning("这是一条警告提示");
-    }
-    handleShowError() {
-        Message.error("这是一条错误提示");
-    }
-    handleShowLoading() {
-        var item = Message.loading("正在加载中", function() {
-            alert("加载完成");
-        });
-    }
     render() {
         return (
             <div>
                 <h1>Message 消息提示</h1>
                 <div className="k-example">
-                    <Button raised onClick={this.handleShowLoading}>
-                        加载
-                    </Button>&nbsp;&nbsp;
-                    <Button raised kStyle="info" onClick={this.handleShowInfo}>
-                        消息
-                    </Button>&nbsp;&nbsp;
-                    <Button
-                        raised
-                        kStyle="success"
-                        onClick={this.handleShowSuccess}
-                    >
-                        成功
-                    </Button>&nbsp;&nbsp;
-                    <Button
-                        raised
-                        kStyle="warning"
-                        onClick={this.handleShowWarning}
-                    >
-                        警告
-                    </Button>&nbsp;&nbsp;
-                    <Button
-                        raised
-                        kStyle="danger"
-                        onClick={this.handleShowError}
-                    >
-                        错误
-                    </Button>&nbsp;&nbsp;
+                    <Basic />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
@@ -87,10 +44,13 @@ class MessageView extends Component {
                 <h3>全局配置和销毁</h3>
                 <pre>
                     <code>
-                        //配置<br />
-                        Message.config(options)<br />
+                        //配置
                         <br />
-                        //销毁<br />
+                        Message.config(options)
+                        <br />
+                        <br />
+                        //销毁
+                        <br />
                         Message.destory()
                     </code>
                 </pre>

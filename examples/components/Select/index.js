@@ -1,19 +1,7 @@
 import React, { Component } from "react";
-import { Select } from "kui-react";
-
-const Option = Select.Option;
-
-const options = [
-    <Option key="1" title="选项一" value="选项一">
-        选项一
-    </Option>,
-    <Option key="2" title="选项二" value="选项二">
-        选项二
-    </Option>,
-    <Option key="3" title="选项三" value="选项三">
-        选项三
-    </Option>
-];
+import Basic from "./Basic";
+import Multiple from "./Multiple";
+import Size from "./Size";
 
 class SelectView extends Component {
     render() {
@@ -22,32 +10,15 @@ class SelectView extends Component {
                 <h1>Select 选择器</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Select placeholder="请选择" value={['选项一']}>{options}</Select>
-                    <br />
-                    <br />
-                    <Select placeholder="请选择" disabled>
-                        {options}
-                    </Select>
+                    <Basic />
                 </div>
                 <h3>多选</h3>
                 <div className="k-example">
-                    <Select multiple placeholder="请选择">
-                        {options}
-                    </Select>
+                    <Multiple />
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">
-                    <Select kSize="sm" placeholder="sm">
-                        {options}
-                    </Select>
-                    <br />
-                    <br />
-                    <Select placeholder="default">{options}</Select>
-                    <br />
-                    <br />
-                    <Select kSize="lg" placeholder="large">
-                        {options}
-                    </Select>
+                    <Size />
                 </div>
                 <h1>API</h1>
                 <h3>Select</h3>

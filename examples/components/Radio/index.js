@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Radio } from "kui-react";
-
-let RadioGroup = Radio.RadioGroup;
-
-const options = ["Apple", "Pear", "Orange"];
+import Basic from "./Basic";
+import Disabled from "./Disabled";
+import Group from "./Group";
 
 class RadioView extends Component {
     render() {
@@ -13,19 +10,15 @@ class RadioView extends Component {
                 <h1>Radio 单选框</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Radio mode="none">none</Radio>
-                    <Radio>material</Radio>
+                    <Basic />
                 </div>
                 <h3>禁用状态</h3>
                 <div className="k-example">
-                    <Radio checked disabled>
-                        Radio
-                    </Radio>
-                    <Radio disabled>Radio</Radio>
+                    <Disabled />
                 </div>
                 <h3>单选框组</h3>
                 <div className="k-example">
-                    <RadioGroup options={options} />
+                    <Group />
                 </div>
                 <h1>API</h1>
                 <h2>Radio</h2>

@@ -1,23 +1,11 @@
 import React, { Component } from "react";
-import { Slider, Switch } from "kui-react";
-
-const marks = {
-    22: "22",
-    40: "40",
-    100: {
-        style: {
-            color: "#f50"
-        },
-        label: <strong>100</strong>
-    }
-};
+import Basic from "./Basic";
+import Format from "./Format";
+import Marks from "./Marks";
+import Vertical from "./Vertical";
 
 class SliderView extends Component {
-    state = {
-        disabled: false
-    };
     render() {
-        const { disabled } = this.state;
         return (
             <div>
                 <h1>Slider 滑块</h1>
@@ -26,36 +14,14 @@ class SliderView extends Component {
                     className="k-example"
                     style={{ paddingLeft: 30, paddingRight: 30 }}
                 >
-                    <Slider defaultValue={10} disabled={disabled} />
-                    <br />
-                    <Slider
-                        range
-                        defaultValue={[5, 10, 30]}
-                        disabled={disabled}
-                    />
-                    <br />
-                    Disabled:{" "}
-                    <Switch
-                        defaultChecked
-                        onChange={checked => {
-                            this.setState({
-                                disabled: !checked
-                            });
-                        }}
-                    />
+                    <Basic />
                 </div>
                 <h3>格式化Tooltip</h3>
                 <div
                     className="k-example"
                     style={{ paddingLeft: 30, paddingRight: 30 }}
                 >
-                    <Slider
-                        tipFormatter={value => {
-                            return `${value}%`;
-                        }}
-                    />
-                    <br />
-                    <Slider  tipFormatter={null} />
+                    <Format />
                 </div>
                 <h3>带标签滑块</h3>
                 <div
@@ -66,7 +32,7 @@ class SliderView extends Component {
                         paddingBottom: 30
                     }}
                 >
-                    <Slider defaultValue={10} marks={marks} />
+                    <Marks />
                 </div>
                 <h3>方向</h3>
                 <div
@@ -78,7 +44,7 @@ class SliderView extends Component {
                         height: 400
                     }}
                 >
-                    <Slider defaultValue={10} marks={marks} vertical />
+                    <Vertical />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

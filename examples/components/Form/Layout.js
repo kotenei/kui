@@ -88,45 +88,48 @@ class Layout extends Component {
                         </Button>
                     </ButtonGroup>
                 </Form.Item>
-                <Form.Item
-                    label="用户名"
-                    fieldName="username"
-                    rules={[{ required: true, message: "请输入用户名" }]}
-                    {...formItemLayout}
-                >
-                    <Input />
+                <Form.Item label="用户名" {...formItemLayout} required>
+                    <Form.Field
+                        fieldName="username"
+                        rules={[{ required: true, message: "请输入用户名" }]}
+                    >
+                        <Input />
+                    </Form.Field>
                 </Form.Item>
-                <Form.Item
-                    label="密码"
-                    fieldName="password"
-                    rules={[{ required: true, message: "请输入密码" }]}
-                    validator={this.validateToNextPassword}
-                    {...formItemLayout}
-                >
-                    <Input type="password" />
+                <Form.Item label="密码" {...formItemLayout} required>
+                    <Form.Field
+                        fieldName="password"
+                        rules={[{ required: true, message: "请输入密码" }]}
+                        validator={this.validateToNextPassword}
+                    >
+                        <Input type="password" />
+                    </Form.Field>
                 </Form.Item>
-                <Form.Item
-                    label="确认密码"
-                    fieldName="confirm"
-                    rules={[{ required: true, message: "请输入确认密码" }]}
-                    validator={this.compareToFirstPassword}
-                    {...formItemLayout}
-                >
-                    <Input type="password" onBlur={this.handleConfirmBlur} />
+                <Form.Item label="确认密码" {...formItemLayout} required>
+                    <Form.Field
+                        fieldName="confirm"
+                        rules={[{ required: true, message: "请输入确认密码" }]}
+                        validator={this.compareToFirstPassword}
+                    >
+                        <Input
+                            type="password"
+                            onBlur={this.handleConfirmBlur}
+                        />
+                    </Form.Field>
                 </Form.Item>
-                <Form.Item
-                    label="电子邮箱"
-                    fieldName="email"
-                    rules={[
-                        {
-                            required: true,
-                            message: "请输入电子邮箱"
-                        },
-                        { type: "email", message: "电子邮箱格式错误" }
-                    ]}
-                    {...formItemLayout}
-                >
-                    <Input />
+                <Form.Item label="电子邮箱" {...formItemLayout} required>
+                    <Form.Field
+                        fieldName="email"
+                        rules={[
+                            {
+                                required: true,
+                                message: "请输入电子邮箱"
+                            },
+                            { type: "email", message: "电子邮箱格式错误" }
+                        ]}
+                    >
+                        <Input />
+                    </Form.Field>
                 </Form.Item>
                 <Form.Item {...buttonItemLayout}>
                     <div>

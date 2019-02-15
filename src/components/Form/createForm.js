@@ -15,7 +15,8 @@ export const createForm = WrappedComponent =>
                 form: {
                     init: this.init,
                     getFieldValue: this.getFieldValue,
-                    setFieldValue: this.setFieldValue
+                    setFieldValue: this.setFieldValue,
+                    removeField: this.removeField
                 }
             };
         }
@@ -107,16 +108,27 @@ export const createForm = WrappedComponent =>
             }
         };
 
+        removeField = fieldName => {
+            const { fields } = this.state;
+            let newFields = { ...fields };
+            if (this.instances.hasOwnProperty(fieldName)) {
+                delete this.instances[fieldName];
+                delete newFields[fieldName];
+                this.setState({
+                    fields: newFields
+                });
+            }
+        };
+
         render() {
             const props = {
                 ...this.props,
                 form: {
-                    init: this.init,
                     getFieldValue: this.getFieldValue,
                     setFieldValue: this.setFieldValue,
                     validateField: this.validateField,
                     validateFields: this.validateFields,
-                    resetFields: this.resetFields
+                    resetFields: this.resetFields,
                 }
             };
 

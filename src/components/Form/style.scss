@@ -14,10 +14,8 @@ $prefix:'k-form';
         margin-bottom: torem(24px);
         &__label {
             text-align: right;
-            //display: inline-block !important;
             vertical-align: middle;
             margin-bottom: 0;
-            // min-width: torem(80px);
             padding-right: torem(12px);
             font-size: $font-size-base;
             &--required::before {
@@ -25,15 +23,20 @@ $prefix:'k-form';
                 margin-right: torem(4px);
                 color: $danger;
             }
-            &::after {
+            &--colon::after {
                 content: ':'
             }
         }
         &__wrapper {
             position: relative;
-            //display: inline-block!important;
             vertical-align: middle;
         }
+        
+    }
+    &-field{
+        // display: inline-block;
+        // vertical-align: middle;
+        position: relative;
         &__error {
             transition: all .3s ease;
             position: absolute;
@@ -53,6 +56,7 @@ $prefix:'k-form';
             }
         }
     }
+
     &--vertical {
         .#{$prefix}-item {
             display: block;
@@ -83,7 +87,6 @@ $prefix:'k-form';
             }
         }
     }
-
     &--horizontal{
         .#{$prefix}-item{
             align-items: center;

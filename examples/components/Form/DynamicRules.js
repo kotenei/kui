@@ -31,28 +31,29 @@ class DynamicRules extends Component {
         );
     };
     render() {
+        const { checkNick } = this.state;
         return (
             <Form style={{ width: 600 }} onSubmit={this.handleSubmit}>
-                <Form.Item
-                    label="名称"
-                    fieldName="name"
-                    rules={[{ required: true, message: "请输入名称" }]}
-                    {...defaultLayout}
-                >
-                    <Input />
+                <Form.Item label="名称" {...defaultLayout} required>
+                    <Form.Field
+                        fieldName="name"
+                        rules={[{ required: true, message: "请输入名称" }]}
+                    >
+                        <Input />
+                    </Form.Field>
                 </Form.Item>
-                <Form.Item
-                    label="昵称"
-                    fieldName="nickname"
-                    rules={[
-                        {
-                            required: this.state.checkNick,
-                            message: "请输入昵称"
-                        }
-                    ]}
-                    {...defaultLayout}
-                >
-                    <Input />
+                <Form.Item label="昵称" {...defaultLayout} required={checkNick}>
+                    <Form.Field
+                        fieldName="nickname"
+                        rules={[
+                            {
+                                required: checkNick,
+                                message: "请输入昵称"
+                            }
+                        ]}
+                    >
+                        <Input />
+                    </Form.Field>
                 </Form.Item>
                 <Form.Item {...{ wrapperCol: { span: 14, offset: 4 } }}>
                     <Checkbox onChange={this.handleCheck}>昵称必填</Checkbox>

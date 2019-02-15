@@ -1473,22 +1473,25 @@ input[type="button"].k-btn-block {
       content: '*';
       margin-right: 0.25rem;
       color: #f44336; }
-    .k-form-item__label::after {
+    .k-form-item__label--colon::after {
       content: ':'; }
   .k-form-item__wrapper {
     position: relative;
     vertical-align: middle; }
-  .k-form-item__error {
+
+.k-form-field {
+  position: relative; }
+  .k-form-field__error {
     transition: all .3s ease;
     position: absolute;
     color: #f44336;
     font-size: 0.75rem; }
-  .k-form-item--error .k-form-control {
+  .k-form-field--error .k-form-control {
     border-color: #f44336; }
-    .k-form-item--error .k-form-control:focus {
+    .k-form-field--error .k-form-control:focus {
       border-color: #f44336; }
-  .k-form-item--error .k-select-single,
-  .k-form-item--error .k-multiple-list {
+  .k-form-field--error .k-select-single,
+  .k-form-field--error .k-multiple-list {
     border-color: #f44336 !important; }
 
 .k-form--vertical .k-form-item {

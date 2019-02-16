@@ -79,7 +79,7 @@ class DatePicker extends Component {
         });
     };
     close = () => {
-        if (!this.state.open) {
+        if (!this.state.open || !this.mounted) {
             return;
         }
         this.setState({
@@ -87,9 +87,11 @@ class DatePicker extends Component {
         });
     };
     componentDidMount() {
+        this.mounted = true;
         document.addEventListener("click", this.close);
     }
     componentWillUnmount() {
+        this.mounted = false;
         document.removeEventListener("click", this.close);
     }
     componentWillReceiveProps(nextProps) {

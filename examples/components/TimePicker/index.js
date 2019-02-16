@@ -1,45 +1,29 @@
 import React, { Component } from "react";
-import { TimePicker } from "kui-react";
+import Basic from "./Basic";
+import Disabled from "./Disabled";
+import Size from "./Size";
+import Step from "./Step";
 
 class TimePickerView extends Component {
-    state = {
-        value: "10:52:50"
-    };
-    handleOK = value => {
-        console.log(value);
-        this.setState({
-            value
-        });
-    };
     render() {
-        const { value } = this.state;
         return (
             <div>
                 <h1>TimePicker 时间选择</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <TimePicker />
+                    <Basic />
                 </div>
                 <h3>禁用</h3>
                 <div className="k-example">
-                    <TimePicker disabled value="12:00:00" />
+                    <Disabled />
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">
-                    <TimePicker kSize="lg" value={value} onOK={this.handleOK} />
-                    <br />
-                    <TimePicker value={value} onOK={this.handleOK} />
-                    <br />
-                    <TimePicker kSize="sm" value={value} onOK={this.handleOK} />
+                    <Size />
                 </div>
                 <h3>步长</h3>
                 <div className="k-example">
-                    <TimePicker
-                        hourStep={2}
-                        minuteStep={5}
-                        secondStep={10}
-                        onOK={this.handleOK}
-                    />
+                    <Step />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

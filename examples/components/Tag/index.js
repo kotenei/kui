@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tag } from "kui-react";
+import Basic from './Basic';
 
 class TagView extends Component {
     render() {
@@ -7,36 +7,7 @@ class TagView extends Component {
             <div>
                 <h1>Tag 标签</h1>
                 <div className="k-example">
-                    <Tag>default</Tag>
-                    <Tag closable={true}>closable</Tag>
-                    <Tag closable={true} kStyle="primary">
-                        primary
-                    </Tag>
-                    <Tag closable={true} kStyle="info">
-                        info
-                    </Tag>
-                    <Tag
-                        closable={true}
-                        kStyle="success"
-                        onClose={() => {
-                            alert("ok");
-                            return true;
-                        }}
-                    >
-                        success
-                    </Tag>
-                    <Tag closable={true} kStyle="warning">
-                        warning
-                    </Tag>
-                    <Tag closable={true} kStyle="danger">
-                        danger
-                    </Tag>
-                    <Tag closable={true} color="#87d068" iconColor={'#fff'}>
-                        #87d068
-                    </Tag>
-                    <Tag closable={true} color="green" iconColor={'#fff'}>
-                        green
-                    </Tag>
+                    <Basic />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Switch, Button, Icon } from "kui-react";
+import Basic from "./Basic";
+import Status from "./Status";
+import WordIcon from "./WordIcon";
+import Loading from "./Loading";
 
 class SwitchView extends Component {
     state = {
@@ -16,33 +19,19 @@ class SwitchView extends Component {
                 <h1>Switch 开关</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Switch />
+                    <Basic />
                 </div>
                 <h3>状态</h3>
                 <div className="k-example">
-                    <Switch disabled={this.state.disabled} />
-                    <br />
-                    <br />
-                    <Button raised kStyle="primary" onClick={this.handleToggle}>
-                        Toggle disabled
-                    </Button>
+                    <Status />
                 </div>
                 <h3>文字和图标</h3>
                 <div className="k-example">
-                    <Switch checkedContent="开" unCheckedContent="关" />
-                    <br />
-                    <br />
-                    <Switch
-                        checkedContent={<Icon type="check" />}
-                        unCheckedContent={<Icon type="close" />}
-                    />
+                    <WordIcon />
                 </div>
                 <h3>加载中</h3>
                 <div className="k-example">
-                    <Switch loading />
-                    <br />
-                    <br />
-                    <Switch loading checked />
+                    <Loading />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

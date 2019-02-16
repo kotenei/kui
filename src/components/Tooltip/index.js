@@ -116,7 +116,7 @@ class Tooltip extends Component {
     }
     setPosition() {
         const { title } = this.props;
-        if (title === null || title === undefined) {
+        if (title === null || title === undefined || !this.mounted) {
             return;
         }
         let parent = ReactDOM.findDOMNode(this.refs.trigger),
@@ -211,6 +211,9 @@ class Tooltip extends Component {
     };
     hide = (e, focus) => {
         const { delay } = this.props;
+        if (!this.mounted) {
+            return;
+        }
         if (e && !focus && typeof e == "boolean") {
             focus = e;
         }
@@ -237,6 +240,7 @@ class Tooltip extends Component {
         }
     }
     componentDidMount() {
+        this.mounted = true;
         const { trigger, show, title } = this.props;
         if (
             title !== undefined &&
@@ -280,6 +284,7 @@ class Tooltip extends Component {
         }
     }
     componentWillUnmount() {
+        this.mounted = false;
         const { trigger } = this.props;
         if (this.tm) {
             clearTimeout(this.tm);

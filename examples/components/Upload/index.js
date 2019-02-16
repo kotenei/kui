@@ -1,93 +1,34 @@
 import React, { Component } from "react";
-import { Upload, Button, Icon } from "kui-react";
-
-const action = "https://jsonplaceholder.typicode.com/posts/";
+import Basic from "./Basic";
+import Uploaded from "./Uploaded";
+import PicList from "./PicList";
+import PicCard from "./PicCard";
+import Dragger from './Dragger';
 
 class CalendarView extends Component {
-    state = {
-        fileList: [
-            {
-                id: 1,
-                name: "pic1.png",
-                status: "done",
-                response: "success",
-                url:
-                    "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-                thumbUrl:
-                    "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-            },
-            {
-                id: 2,
-                name: "pic2.png",
-                status: "done",
-                response: "success",
-                url:
-                    "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-                thumbUrl:
-                    "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-                percent: 50
-            }
-        ]
-    };
-    componentDidMount() {}
     render() {
         return (
             <div>
                 <h1>Upload 上传</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Upload action={action}>
-                        <Button raised>
-                            <Icon type="upload" />
-                            上传
-                        </Button>
-                    </Upload>
+                    <Basic />
                 </div>
                 <h3>已上传列表</h3>
                 <div className="k-example">
-                    <Upload
-                        action={action}
-                        defaultFileList={this.state.fileList}
-                    >
-                        <Button raised>
-                            <Icon type="upload" />
-                            上传
-                        </Button>
-                    </Upload>
+                    <Uploaded />
                 </div>
                 <h3>照片列表</h3>
                 <div className="k-example">
-                    <Upload
-                        action={action}
-                        defaultFileList={this.state.fileList}
-                        listType="picture"
-                    >
-                        <Button raised>
-                            <Icon type="upload" />
-                            上传
-                        </Button>
-                    </Upload>
+                    <PicList />
                 </div>
                 <h3>照片墙</h3>
                 <div className="k-example">
-                    <Upload
-                        action={action}
-                        defaultFileList={this.state.fileList}
-                        listType="picture-card"
-                    >
-                        <Icon
-                            type="plus"
-                            style={{ fontSize: 34 }}
-                            color="8C939D"
-                        />
-                    </Upload>
+                    <PicCard />
                 </div>
                 <h3>拖拽上传</h3>
                 <div className="k-example">
-                    <Upload action={action} dragger>
-                        <Icon type="cloud-upload" style={{ fontSize: 40 }} />
-                        <div>将文件拖放到这里或点击上传</div>
-                    </Upload>
+                    <Dragger />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

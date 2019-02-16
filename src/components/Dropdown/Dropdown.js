@@ -119,6 +119,9 @@ class Dropdown extends Component {
         if (this.tm) {
             clearTimeout(this.tm);
         }
+        if (!this.mounted) {
+            return;
+        }
         this.tm = setTimeout(() => {
             this.setState({
                 show: false
@@ -134,6 +137,7 @@ class Dropdown extends Component {
         }
     }
     componentDidMount() {
+        this.mounted = true;
         document.addEventListener("click", this.hide);
     }
     componentWillReceiveProps(nextProps) {
@@ -151,6 +155,7 @@ class Dropdown extends Component {
         }
         document.removeEventListener("click", this.hide);
         delete instances[this.id];
+        this.mounted = false;;
     }
     renderMenu() {
         const { menu, prefixCls, multiple, selectedIds } = this.props;

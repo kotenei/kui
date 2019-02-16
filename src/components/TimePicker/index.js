@@ -156,6 +156,9 @@ class TimePicker extends Component {
     }
     //定位
     setPosition = () => {
+        if (!this.mounted) {
+            return;
+        }
         let position = getPosition({
             trigger: this.refs.input,
             placement: "bottomLeft",
@@ -238,7 +241,7 @@ class TimePicker extends Component {
     //打开
     open = () => {
         const { disabled } = this.props;
-        if (disabled) {
+        if (disabled || this.state.open) {
             return;
         }
         this.setPosition();
@@ -250,6 +253,9 @@ class TimePicker extends Component {
     //关闭
     close = () => {
         const { disabled } = this.props;
+        if (!this.state.open || !this.mounted) {
+            return;
+        }
         this.setState({
             open: false
         });
@@ -276,6 +282,7 @@ class TimePicker extends Component {
         }
     }
     componentDidMount() {
+        this.mounted = true;
         this.orgSize = {
             width: domUtils.width(this.refs.picker),
             height: domUtils.height(this.refs.picker)
@@ -311,6 +318,7 @@ class TimePicker extends Component {
         document.removeEventListener("click", this.close);
         window.removeEventListener("resize", this.setPosition);
         delete instances[this.id];
+        this.mounted = false;
     }
     renderPicker() {
         const { cancelText, okText, use12Hours } = this.props;

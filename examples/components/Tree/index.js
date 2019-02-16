@@ -1,211 +1,35 @@
 import React, { Component } from "react";
-import { Tree, Icon } from "kui-react";
-
-const TreeNode = Tree.TreeNode;
-
-const generateData = function() {
-    let data = [];
-    for (let i = 0; i < 3; i++) {
-        let parent = { id: `${i}`, title: `parent ${i}` };
-        let children = [];
-        for (let j = 0; j < 3; j++) {
-            children.push({
-                id: `${i}-${j}`,
-                title: `child ${i}-${j}`
-            });
-        }
-        parent.children = children;
-        data.push(parent);
-    }
-    return data;
-};
+import Basic from "./Basic";
+import Line from "./Line";
+import Remote from "./Remote";
+import DragDrop from './DragDrop';
+import Icon from './Icon';
 
 class CalendarView extends Component {
-    state = {
-        data: [
-            { title: "Expand to load 1", id: "0" },
-            { title: "Expand to load 2", id: "1" },
-            { title: "Tree Node", id: "2", isLeaf: true }
-        ],
-        dragData: generateData()
-    };
-    handleLoad = treeNode => {
-        return new Promise(resolve => {
-            if (!treeNode || treeNode.props.children) {
-                resolve();
-                return;
-            }
-            setTimeout(() => {
-                const { id } = treeNode.props;
-                let children = [];
-                for (let i = 0; i < 2; i++) {
-                    children.push({ title: "Child Node", id: `${id}-${i}` });
-                }
-                treeNode.props.dataRef.children = children;
-                this.setState({
-                    data: [...this.state.data]
-                });
-                resolve();
-            }, 1000);
-        });
-    };
-    handleDragEnd = info => {
-        if (!info || info.dragId == info.dropId) {
-            return;
-        }
-        let data = [...this.state.dragData];
-        const loop = (data, id, callback) => {
-            data.forEach((item, index, arr) => {
-                if (item.id === id) {
-                    return callback(item, index, arr);
-                }
-                if (item.children) {
-                    return loop(item.children, id, callback);
-                }
-            });
-        };
-        let dragObj, dropObj, dropIndex, dropArr;
-        loop(data, info.dragId, (item, index, arr) => {
-            dragObj = item;
-            arr.splice(index, 1);
-        });
-        loop(data, info.dropId, (item, index, arr) => {
-            dropObj = item;
-            dropIndex = index;
-            dropArr = arr;
-        });
-        if (dropObj) {
-            switch (info.type) {
-                case "top":
-                    dropArr.splice(dropIndex, 0, dragObj);
-                    break;
-                case "middle":
-                    if (!dropObj.children) {
-                        dropObj.children = [];
-                    }
-                    dropObj.children.push(dragObj);
-                    break;
-                case "bottom":
-                    dropArr.splice(dropIndex + 1, 0, dragObj);
-                    break;
-                default:
-                    break;
-            }
-            this.setState({
-                dragData: data
-            });
-        }
-    };
-    renderTreeNodes = data => {
-        if (!data || data.length == 0) {
-            return;
-        }
-        return data.map(item => {
-            if (item.children) {
-                return (
-                    <TreeNode
-                        title={item.title}
-                        id={item.id}
-                        key={item.id}
-                        dataRef={item}
-                    >
-                        {this.renderTreeNodes(item.children)}
-                    </TreeNode>
-                );
-            }
-            return <TreeNode {...item} dataRef={item} key={item.id} />;
-        });
-    };
     render() {
         return (
             <div>
                 <h1>Tree 树型</h1>
                 <h3>基本用法</h3>
                 <div className="k-example">
-                    <Tree
-                        defaultExpandedIds={["1-1-1"]}
-                        defaultCheckedIds={["1"]}
-                        checkable
-                        selectable
-                    >
-                        <TreeNode title="parent 1" id="1">
-                            <TreeNode title="parent 1-1" id="1-1" disabled>
-                                <TreeNode title="parent 1-1-1" id="1-1-1">
-                                    <TreeNode
-                                        title="leaf 1-1-1-1"
-                                        id="1-1-1-1"
-                                    />
-                                </TreeNode>
-                                <TreeNode title="leaf 1-1-2" id="1-1-2" />
-                            </TreeNode>
-                            <TreeNode title="leaf 1-2" id="1-2" />
-                            <TreeNode title="leaf 1-3" id="1-3" />
-                            <TreeNode title="leaf 1-4" id="1-4" />
-                        </TreeNode>
-                    </Tree>
+                    <Basic />
                 </div>
                 <h3>链接线</h3>
                 <div className="k-example">
-                    <Tree
-                        defaultExpandedIds={["1-1-1"]}
-                        showLine
-                        checkable
-                        selectable
-                    >
-                        <TreeNode title="parent 1" id="1">
-                            <TreeNode title="parent 1-1" id="1-1">
-                                <TreeNode title="parent 1-1-1" id="1-1-1">
-                                    <TreeNode
-                                        title="leaf 1-1-1-1"
-                                        id="1-1-1-1"
-                                    />
-                                </TreeNode>
-                                <TreeNode title="leaf 1-1-2" id="1-1-2" />
-                            </TreeNode>
-                            <TreeNode title="leaf 1-2" id="1-2" />
-                            <TreeNode title="leaf 1-3" id="1-3" />
-                            <TreeNode title="leaf 1-4" id="1-4" />
-                        </TreeNode>
-                    </Tree>
+                    <Line />
                 </div>
                 <h3>异步加载</h3>
                 <div className="k-example">
-                    <Tree
-                        loadData={this.handleLoad}
-                        onLoad={(a, b, c) => {
-                            console.log(a, b, c);
-                        }}
-                    >
-                        {this.renderTreeNodes(this.state.data)}
-                    </Tree>
+                    <Remote />
                 </div>
                 <h3>可拖拽</h3>
                 <div className="k-example">
-                    <Tree dragable onDragEnd={this.handleDragEnd}>
-                        {this.renderTreeNodes(this.state.dragData)}
-                    </Tree>
+                    <DragDrop />
                 </div>
 
                 <h3>自定义图标</h3>
                 <div className="k-example">
-                    <Tree defaultExpandedIds={["1"]}>
-                        <TreeNode
-                            icon={<Icon type="github" />}
-                            title="parent 1"
-                            id="1"
-                        >
-                            <TreeNode
-                                icon={<Icon type="apple" />}
-                                title="leaf 1"
-                                id="1-1"
-                            />
-                            <TreeNode
-                                icon={<Icon type="android" />}
-                                title="leaf 2"
-                                id="1-2"
-                            />
-                        </TreeNode>
-                    </Tree>
+                    <Icon/>
                 </div>
                 <br />
                 <h1>API</h1>

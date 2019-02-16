@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Timeline, Icon } from "kui-react";
+import Basic from './Basic';
 
 class TimelineView extends Component {
     render() {
@@ -8,23 +7,7 @@ class TimelineView extends Component {
             <div>
                 <h1>Timeline 时间轴</h1>
                 <div className="k-example">
-                    <Timeline>
-                        <Timeline.Item>2012</Timeline.Item>
-                        <Timeline.Item color="info">2013</Timeline.Item>
-                        <Timeline.Item color="success">2014</Timeline.Item>
-                        <Timeline.Item color="warning">2015</Timeline.Item>
-                        <Timeline.Item
-                            color="danger"
-                            dot={
-                                <Icon
-                                    type="clockcircleo"
-                                    style={{ fontSize: "16px" }}
-                                />
-                            }
-                        >
-                            2016
-                        </Timeline.Item>
-                    </Timeline>
+                    <Basic />
                 </div>
                 <h1>API</h1>
                 <h2>Timeline.Item</h2>

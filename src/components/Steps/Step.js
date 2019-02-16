@@ -4,6 +4,8 @@ import classnames from "classnames";
 import Icon from "../Icon";
 
 class Step extends Component {
+    static displayName = "Step";
+    
     static propTypes = {
         index: PropTypes.number,
         current: PropTypes.number,

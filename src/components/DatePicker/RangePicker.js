@@ -257,6 +257,9 @@ class RangePicker extends Component {
         });
     };
     close = () => {
+        if (!this.mounted) {
+            return;
+        }
         const { rangeDates } = this.state;
         if ("value" in this.props) {
             this.init();
@@ -317,6 +320,7 @@ class RangePicker extends Component {
         this.init();
     }
     componentDidMount() {
+        this.mounted = true;
         document.addEventListener("click", this.close);
     }
     componentWillReceiveProps(nextProps) {
@@ -325,6 +329,7 @@ class RangePicker extends Component {
         }
     }
     componentWillUnmount() {
+        this.mounted = false;
         document.removeEventListener("click", this.close);
     }
     render() {

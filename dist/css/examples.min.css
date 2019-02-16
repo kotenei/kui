@@ -51,7 +51,7 @@ body {
   margin-bottom: 20px; }
 
 .k-example::after {
-  content: "\5B9E\4F8B";
+  content: "实例";
   color: #959595;
   font-size: 12px;
   font-weight: 700;

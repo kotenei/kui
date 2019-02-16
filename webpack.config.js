@@ -15,9 +15,6 @@ module.exports = {
     output: {
         path: path.join(__dirname, "dist"),
         filename: "js/[name].min.js"
-        //library: "KUI",
-        //libraryTarget: "umd",
-        //publicPath: "dist"
     },
     module: {
         rules: [

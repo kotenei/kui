@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import Grid from "../Grid";
 
-
 const prefixCls = "k-form-item";
 
 class FormItem extends Component {
@@ -43,7 +42,6 @@ class FormItem extends Component {
             },
             className
         );
-
         return (
             <Grid.Row className={classString} style={style}>
                 {label ? (

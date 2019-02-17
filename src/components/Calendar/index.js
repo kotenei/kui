@@ -133,7 +133,7 @@ class Calendar extends Component {
             });
         }
     }
-    componentWillMount() {
+    componentDidMount() {
         this.init();
     }
     componentWillReceiveProps(nextProps) {

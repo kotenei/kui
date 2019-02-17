@@ -104,22 +104,9 @@ class TimePickerSelect extends Component {
             this.arrHeight.push((index + 1) * this.itemHeight);
         });
     }
-    componentWillMount() {
-        const { value, data } = this.props;
-        let activeIndex = data.findIndex(item => {
-            return value && item.toLowerCase() == value.toLowerCase();
-        });
-        if (activeIndex == -1) {
-            activeIndex = 0;
-        }
-        this.setState({
-            activeIndex
-        });
-    }
     componentDidMount() {
         this.init();
     }
-    componentWillReceiveProps(nextProps) {}
     renderList() {
         const { data, value, type } = this.props;
         const { activeIndex } = this.state;

@@ -394,7 +394,7 @@ class Slider extends Component {
     getSort(value) {
         const { min, max, range } = this.props;
     }
-    componentWillMount() {
+    componentDidMount() {
         this.init();
     }
     componentWillReceiveProps(nextProps) {

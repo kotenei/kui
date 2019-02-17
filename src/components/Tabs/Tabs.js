@@ -53,7 +53,7 @@ class Tabs extends Component {
     };
     handlePrevClick = () => {};
     handleNextClick = () => {};
-    componentWillMount() {
+    componentDidMount() {
         const { activeIndex } = this.state;
         const { children } = this.props;
         let hasMatch = false;

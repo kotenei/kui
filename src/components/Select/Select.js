@@ -96,7 +96,7 @@ class Select extends Component {
         }
         this.refs.dropdown.show();
     };
-    componentWillMount() {
+    componentDidMount() {
         const { children } = this.props;
         this.optionsMap = {};
         React.Children.forEach(children, child => {

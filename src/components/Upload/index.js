@@ -43,12 +43,12 @@ class Upload extends Component {
         uploadingText: "上传中...",
         multiple: true
     };
-    state = {
-        fileList: []
-    };
     constructor(props) {
         super(props);
         this.reqs = {};
+        this.state = {
+            fileList: props.fileList || props.defaultFileList || []
+        };
     }
 
     handleClick = () => {
@@ -231,12 +231,6 @@ class Upload extends Component {
             return true;
         });
         return acceptFiles;
-    }
-    componentWillMount() {
-        const { defaultFileList, fileList } = this.props;
-        this.setState({
-            fileList: fileList || defaultFileList || []
-        });
     }
     componentWillReceiveProps(nextProps) {
         if ("fileList" in nextProps) {

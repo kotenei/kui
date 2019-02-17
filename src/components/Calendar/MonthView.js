@@ -308,10 +308,8 @@ class MonthView extends Component {
             maxTop
         });
     };
-    componentWillMount() {
-        this.init();
-    }
     componentDidMount() {
+        this.init();
         this.setPosition();
         window.addEventListener("resize", this.setPosition);
         document.addEventListener("click", this.handleClose);

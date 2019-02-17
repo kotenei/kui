@@ -2,25 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import validate from "./validate";
 
+import FormContext from "./FormContext";
+
 export const createForm = WrappedComponent =>
     class extends Component {
         state = { fields: {} };
-
-        static childContextTypes = {
-            form: PropTypes.object
-        };
-
-        getChildContext() {
-            return {
-                form: {
-                    init: this.init,
-                    getFieldValue: this.getFieldValue,
-                    setFieldValue: this.setFieldValue,
-                    removeField: this.removeField
-                }
-            };
-        }
-
+        
         constructor(props) {
             super(props);
             this.instances = {};
@@ -128,15 +115,26 @@ export const createForm = WrappedComponent =>
                     setFieldValue: this.setFieldValue,
                     validateField: this.validateField,
                     validateFields: this.validateFields,
-                    resetFields: this.resetFields,
+                    resetFields: this.resetFields
                 }
             };
 
             return (
-                <WrappedComponent
-                    {...props}
-                    ref={ref => (this.instanceComponent = ref)}
-                />
+                <FormContext.Provider
+                    value={{
+                        form: {
+                            init: this.init,
+                            getFieldValue: this.getFieldValue,
+                            setFieldValue: this.setFieldValue,
+                            removeField: this.removeField
+                        }
+                    }}
+                >
+                    <WrappedComponent
+                        {...props}
+                        ref={ref => (this.instanceComponent = ref)}
+                    />
+                </FormContext.Provider>
             );
         }
     };

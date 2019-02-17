@@ -72,9 +72,6 @@ export default class Remote extends Component {
         return (
             <Tree
                 loadData={this.handleLoad}
-                onLoad={(a, b, c) => {
-                    console.log(a, b, c);
-                }}
             >
                 {this.renderTreeNodes(this.state.data)}
             </Tree>

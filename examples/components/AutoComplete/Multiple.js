@@ -34,9 +34,6 @@ export default class Multiple extends Component {
                     defaultValue={["Ada"]}
                     onSearch={this.handleSearch}
                     onSelect={this.handleSelect}
-                    onChange={v => {
-                        console.log(v);
-                    }}
                 />
             </React.Fragment>
         );

@@ -60,7 +60,7 @@ export default class Basic extends Component {
     render() {
         return (
             <Table data={data}>
-                <TableColumn title="FirstName" dataIndex="firstName" />
+                <TableColumn title="FirstName" dataIndex="firstName"  />
                 <TableColumn title="LastName" dataIndex="lastName" />
                 <TableColumn title="Age" dataIndex="age" />
                 <TableColumn title="Address" dataIndex="address" />

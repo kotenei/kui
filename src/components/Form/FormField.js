@@ -4,10 +4,12 @@ import classnames from "classnames";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import validate from "./validate";
 import Tooltip from "../Tooltip";
+import FormContext from "./FormContext";
 
 const prefixCls = "k-form-field";
 
 class FormField extends Component {
+    static contextType = FormContext;
     state = {
         errorMessage: "",
         value: undefined
@@ -40,10 +42,6 @@ class FormField extends Component {
         tooltip: false,
         tooltipPlacement: "right"
     };
-    static contextTypes = {
-        form: PropTypes.object
-    };
-
     init(props = this.props) {
         const { fieldName, rules } = props;
         let count = 0;

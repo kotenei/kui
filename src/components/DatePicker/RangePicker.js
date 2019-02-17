@@ -316,11 +316,9 @@ class RangePicker extends Component {
             }
         );
     }
-    componentWillMount() {
-        this.init();
-    }
     componentDidMount() {
         this.mounted = true;
+        this.init();
         document.addEventListener("click", this.close);
     }
     componentWillReceiveProps(nextProps) {

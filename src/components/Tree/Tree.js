@@ -465,7 +465,7 @@ class Tree extends Component {
         }
         return ret;
     }
-    componentWillMount() {
+    componentDidMount() {
         this.init();
     }
     componentWillReceiveProps(nextProps) {

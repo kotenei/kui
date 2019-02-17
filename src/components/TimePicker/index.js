@@ -268,7 +268,8 @@ class TimePicker extends Component {
             instances[k].close();
         }
     }
-    componentWillMount() {
+
+    init() {
         let value = this.props.value || this.props.defaultValue;
         this.tmpValue = "00:00:00";
         if (this.props.use12Hours) {
@@ -280,9 +281,6 @@ class TimePicker extends Component {
                 value
             });
         }
-    }
-    componentDidMount() {
-        this.mounted = true;
         this.orgSize = {
             width: domUtils.width(this.refs.picker),
             height: domUtils.height(this.refs.picker)
@@ -291,7 +289,11 @@ class TimePicker extends Component {
         if (this.props.open === true) {
             this.open();
         }
+    }
 
+    componentDidMount() {
+        this.mounted = true;
+        this.init();
         document.addEventListener("click", this.close);
         window.addEventListener("resize", this.setPosition);
     }

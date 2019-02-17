@@ -262,6 +262,9 @@ class Table extends Component {
     }
 
     getColumns(rows) {
+        if (!rows) {
+            return [];
+        }
         let columns = [];
         let loop = function(rows, columns, rowIndex = 0) {
             rows[rowIndex].forEach(item => {
@@ -466,11 +469,8 @@ class Table extends Component {
         };
     }
 
-    componentWillMount() {
-        this.init();
-    }
-
     componentDidMount() {
+        this.init();
         setTimeout(() => {
             this.setWidth();
             this.setHeight();
@@ -522,71 +522,74 @@ class Table extends Component {
         }
 
         let theadRows = [];
-        headerRows.forEach((row, rowIndex) => {
-            let cells = [];
-            row.forEach((cell, cellIndex) => {
-                if (rowIndex == 0 && cellIndex == 0) {
-                    if (checkbox) {
-                        cells.push(
-                            <th
-                                className="checkbox-cell"
-                                key={`thCell-checkbox-${cellIndex}`}
-                                rowSpan={headerRows.length}
-                            >
-                                <Checkbox
-                                    indeterminate={checkedCount > 0}
-                                    checked={
-                                        checkedCount + disabledCheckCount ===
-                                        data.length
-                                    }
-                                    onChange={this.handleCheckAll}
+        if (Array.isArray(headerRows)) {
+            headerRows.forEach((row, rowIndex) => {
+                let cells = [];
+                row.forEach((cell, cellIndex) => {
+                    if (rowIndex == 0 && cellIndex == 0) {
+                        if (checkbox) {
+                            cells.push(
+                                <th
+                                    className="checkbox-cell"
+                                    key={`thCell-checkbox-${cellIndex}`}
+                                    rowSpan={headerRows.length}
+                                >
+                                    <Checkbox
+                                        indeterminate={checkedCount > 0}
+                                        checked={
+                                            checkedCount +
+                                                disabledCheckCount ===
+                                            data.length
+                                        }
+                                        onChange={this.handleCheckAll}
+                                    />
+                                </th>
+                            );
+                        }
+                        if (expandedRowRender) {
+                            cells.push(
+                                <th
+                                    className="expand-cell"
+                                    key={`thCell-expand-${cellIndex}`}
+                                    rowSpan={headerRows.length}
                                 />
-                            </th>
-                        );
+                            );
+                        }
                     }
-                    if (expandedRowRender) {
-                        cells.push(
-                            <th
-                                className="expand-cell"
-                                key={`thCell-expand-${cellIndex}`}
-                                rowSpan={headerRows.length}
-                            />
-                        );
-                    }
-                }
-                cells.push(
-                    <th
-                        key={`thCell-${cellIndex}`}
-                        colSpan={cell.colSpan == 1 ? null : cell.colSpan}
-                        rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
-                        style={{ textAlign: cell.align }}
-                    >
-                        <div className={`${prefixCls}-thead-content`}>
-                            <div
-                                className={`${prefixCls}-thead-content__title`}
-                            >
-                                {cell.title}
+                    cells.push(
+                        <th
+                            key={`thCell-${cellIndex}`}
+                            colSpan={cell.colSpan == 1 ? null : cell.colSpan}
+                            rowSpan={cell.rowSpan == 1 ? null : cell.rowSpan}
+                            style={{ textAlign: cell.align }}
+                        >
+                            <div className={`${prefixCls}-thead-content`}>
+                                <div
+                                    className={`${prefixCls}-thead-content__title`}
+                                >
+                                    {cell.title}
+                                </div>
+                                <TableSorter
+                                    prefixCls={prefixCls}
+                                    column={cell}
+                                    sorter={sorter}
+                                    onSort={this.handleSort}
+                                />
+                                <TableFilter
+                                    prefixCls={prefixCls}
+                                    column={cell}
+                                    filter={filter}
+                                    onOK={this.handleFilter}
+                                    onReset={this.handleFilter}
+                                />
                             </div>
-                            <TableSorter
-                                prefixCls={prefixCls}
-                                column={cell}
-                                sorter={sorter}
-                                onSort={this.handleSort}
-                            />
-                            <TableFilter
-                                prefixCls={prefixCls}
-                                column={cell}
-                                filter={filter}
-                                onOK={this.handleFilter}
-                                onReset={this.handleFilter}
-                            />
-                        </div>
-                    </th>
-                );
-            });
+                        </th>
+                    );
+                });
 
-            theadRows.push(<tr key={`thRow-${rowIndex}`}>{cells}</tr>);
-        });
+                theadRows.push(<tr key={`thRow-${rowIndex}`}>{cells}</tr>);
+            });
+        }
 
         return (
             <table

@@ -370,7 +370,7 @@ class AutoComplete extends Component {
         });
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const { defaultValue, value, multiple } = this.props;
         let tmpValue = value || defaultValue || "";
         this.init(tmpValue, multiple);

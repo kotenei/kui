@@ -1,8 +1,4 @@
-// import "./assets/iconfont/iconfont.css";
-import "./assets/scss/kui.scss";
-import InfiniteScroll from "./components/InfiniteScroll";
-import DatePicker from "./components/DatePicker";
-
+// import "./assets/scss/kui.scss";
 export Alert from "./components/Alert";
 export AutoComplete from "./components/AutoComplete";
 export Badge from "./components/Badge";

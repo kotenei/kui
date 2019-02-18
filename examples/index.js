@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter as Router, Route, NavLink } from "react-router-dom";
 
+
 import Home from "./components/Home";
 import Alert from "./components/Alert";
 import AutoComplete from "./components/AutoComplete";
@@ -47,6 +48,7 @@ import Tooltip from "./components/Tooltip";
 import Tree from "./components/Tree";
 import Upload from "./components/Upload";
 
+import "../src/assets/scss/kui.scss";
 import "./style.css";
 
 ReactDOM.render(

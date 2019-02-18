@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import domUtils from "../../utils/domUtils";
-import imgLoading from "../../assets/images/common/loading.gif";
+import Icon from "../Icon";
 
 const prefixCls = "k-lazyload";
 
@@ -19,9 +19,6 @@ class LazyLoad extends Component {
         error: PropTypes.string,
         onSuccess: PropTypes.func,
         onError: PropTypes.func
-    };
-    static defaultProps = {
-        loading: imgLoading
     };
     handleScroll = e => {
         this.load();
@@ -83,7 +80,7 @@ class LazyLoad extends Component {
         image.src = src;
         image.onload = function() {
             resolve({
-                naturalHeight: image.naturalHeight, 
+                naturalHeight: image.naturalHeight,
                 naturalWidth: image.naturalWidth,
                 src
             });

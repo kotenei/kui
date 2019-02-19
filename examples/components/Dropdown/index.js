@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Basic from "./Basic";
 import Placement from "./Placement";
 import Button from "./Button";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class DropdownView extends Component {
     render() {
@@ -11,14 +13,17 @@ class DropdownView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>弹出位置</h3>
                 <div className="k-example">
                     <Placement />
+                    <DocMark source={docs.Placement} />
                 </div>
                 <h3>带下拉框按钮</h3>
                 <div className="k-example">
                     <Button />
+                    <DocMark source={docs.Button} />
                 </div>
                 <h1>API</h1>
                 <h3>Dropdown</h3>

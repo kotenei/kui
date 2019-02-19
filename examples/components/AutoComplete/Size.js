@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { AutoComplete } from "kui-react";
 import { data } from "../../data";
 
-export default class Size extends Component {
+export default class Example extends Component {
     state = {
         dataSource: []
     };

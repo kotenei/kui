@@ -103,8 +103,8 @@ class MonthView extends Component {
             onEventClick(event);
         }
     };
-    init(props) {
-        const { data, date } = props || this.props;
+    init(props = this.props) {
+        const { data, date } = props;
         let firstDate = getFirstDay(date),
             dayOfWeek = firstDate.getDay(),
             formatStr = "YYYYMMDD",
@@ -143,9 +143,14 @@ class MonthView extends Component {
                 mapData
             });
         }
-        this.setState({
-            startDate
-        });
+        this.setState(
+            {
+                startDate
+            },
+            () => {
+                this.setPosition();
+            }
+        );
     }
     getWidth(startDate, endDate) {
         let days = getDiffDay(startDate, endDate);
@@ -310,7 +315,6 @@ class MonthView extends Component {
     };
     componentDidMount() {
         this.init();
-        this.setPosition();
         window.addEventListener("resize", this.setPosition);
         document.addEventListener("click", this.handleClose);
     }
@@ -361,24 +365,29 @@ class MonthView extends Component {
         for (let i = 1, className; i <= 42; i++) {
             className = classnames({
                 "body-cell": true,
-                gray: !(
-                    tmpDate.getFullYear() == date.getFullYear() &&
-                    tmpDate.getMonth() == date.getMonth()
-                )
+                gray:
+                    tmpDate &&
+                    !(
+                        tmpDate.getFullYear() == date.getFullYear() &&
+                        tmpDate.getMonth() == date.getMonth()
+                    )
             });
             cells.push(
                 <Cell
                     key={`cell_${i}`}
                     className={className}
-                    value={tmpDate.getDate()}
+                    value={tmpDate && tmpDate.getDate()}
                     date={tmpDate}
                     prefixCls={prefixCls}
                 />
             );
 
-            arrDate.push(tmpDate);
-            tmpDate = addDays(startDate, i);
+            if (tmpDate) {
+                arrDate.push(tmpDate);
+                tmpDate = addDays(startDate, i);
+            }
         }
+
         for (let i = 0; i < 6; i++) {
             rows.push(
                 <div key={`row-${i}`} className={`${prefixCls}-row`}>
@@ -391,6 +400,7 @@ class MonthView extends Component {
                 </div>
             );
         }
+
         return <div className={`${prefixCls}-body`}>{rows}</div>;
     }
     renderGridCells(arrDate, index) {

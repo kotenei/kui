@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Progress } from "kui-react";
 
-export default class PercentOutside extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

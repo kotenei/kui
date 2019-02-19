@@ -2,18 +2,19 @@ import React, { Component } from "react";
 import Basic from "./Basic";
 import GroupHead from "./GroupHead";
 import Stripe from "./Stripe";
+import Bordered from './Bordered';
 import FixedHead from "./FixedHead";
-import FixedColumn from "./FixedColumns";
+import FixedColumns from "./FixedColumns";
 import FixedHeadColumns from "./FixedHeadColumns";
 import Checkbox from "./Checkbox";
 import ExpandedRow from "./ExpandedRow";
-import Filter from './Filter';
-import Sorter from './Sorter';
-import Pager from './Pager';
-import Remote from './Remote';
+import Filter from "./Filter";
+import Sorter from "./Sorter";
+import Pager from "./Pager";
+import Remote from "./Remote";
 import { NavLink } from "react-router-dom";
-
-
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class TableView extends Component {
     render() {
@@ -23,66 +24,79 @@ class TableView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <br />
                 <h3>多级表头</h3>
                 <div className="k-example">
                     <GroupHead />
+                    <DocMark source={docs.GroupHead} />
                 </div>
                 <br />
                 <h3>带斑马纹表格</h3>
                 <div className="k-example">
                     <Stripe />
+                    <DocMark source={docs.Stripe} />
                 </div>
                 <br />
                 <h3>带边框线表格</h3>
                 <div className="k-example">
-                    <Stripe />
+                    <Bordered />
+                    <DocMark source={docs.Bordered} />
                 </div>
                 <br />
                 <h3>固定表头</h3>
                 <div className="k-example">
                     <FixedHead />
+                    <DocMark source={docs.FixedHead} />
                 </div>
                 <br />
                 <h3>固定列</h3>
                 <div className="k-example">
-                    <FixedColumn />
+                    <FixedColumns />
+                    <DocMark source={docs.FixedColumns} />
                 </div>
                 <br />
                 <h3>固定表头和列</h3>
                 <div className="k-example">
                     <FixedHeadColumns />
+                    <DocMark source={docs.FixedHeadColumns} />
                 </div>
                 <br />
                 <h3>多选</h3>
                 <div className="k-example">
                     <Checkbox />
+                    <DocMark source={docs.Checkbox} />
                 </div>
                 <br />
                 <h3>展开行</h3>
                 <div className="k-example">
                     <ExpandedRow />
+                    <DocMark source={docs.ExpandedRow} />
                 </div>
                 <br />
                 <h3>过滤</h3>
                 <div className="k-example">
-                    <Filter/>
+                    <Filter />
+                    <DocMark source={docs.Filter} />
                 </div>
                 <br />
                 <h3>排序</h3>
                 <div className="k-example">
-                    <Sorter/>
+                    <Sorter />
+                    <DocMark source={docs.Sorter} />
                 </div>
                 <br />
                 <h3>分页</h3>
                 <div className="k-example">
-                    <Pager/>
+                    <Pager />
+                    <DocMark source={docs.Pager} />
                 </div>
                 <br />
                 <h3>远程加载数据</h3>
                 <div className="k-example">
-                    <Remote/>
+                    <Remote />
+                    <DocMark source={docs.Remote} />
                 </div>
                 <h1>API</h1>
                 <h3>Table</h3>

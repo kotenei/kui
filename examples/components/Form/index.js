@@ -3,6 +3,8 @@ import FormLayout from "./Layout";
 import FormDynamicRules from "./DynamicRules";
 import FormDynamicFields from "./DynamicFields";
 import FormTooltip from "./Tooltip";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class Form extends Component {
     render() {
@@ -12,21 +14,25 @@ class Form extends Component {
                 <h3>布局</h3>
                 <div className="k-example">
                     <FormLayout />
+                    <DocMark source={docs.Layout} />
                 </div>
                 <br />
                 <h3>动态校验</h3>
                 <div className="k-example">
                     <FormDynamicRules />
+                    <DocMark source={docs.DynamicRules} />
                 </div>
                 <br />
                 <h3>动态增减表单项</h3>
                 <div className="k-example">
                     <FormDynamicFields />
+                    <DocMark source={docs.DynamicFields} />
                 </div>
                 <br />
                 <h3>Tooltip验证提示</h3>
                 <div className="k-example">
                     <FormTooltip />
+                    <DocMark source={docs.Tooltip} />
                 </div>
                 <h1>API</h1>
                 <h3>Form</h3>

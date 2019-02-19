@@ -13,7 +13,7 @@ const icons = [
     { key: "brand", title: "品牌和标识" }
 ];
 
-export default class Basic extends Component {
+export default class Example extends Component {
     state = {
         theme: "outline"
     };

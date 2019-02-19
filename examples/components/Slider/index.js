@@ -3,6 +3,8 @@ import Basic from "./Basic";
 import Format from "./Format";
 import Marks from "./Marks";
 import Vertical from "./Vertical";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class SliderView extends Component {
     render() {
@@ -15,6 +17,7 @@ class SliderView extends Component {
                     style={{ paddingLeft: 30, paddingRight: 30 }}
                 >
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>格式化Tooltip</h3>
                 <div
@@ -22,29 +25,32 @@ class SliderView extends Component {
                     style={{ paddingLeft: 30, paddingRight: 30 }}
                 >
                     <Format />
+                    <DocMark source={docs.Format} />
                 </div>
                 <h3>带标签滑块</h3>
                 <div
                     className="k-example"
                     style={{
                         paddingLeft: 30,
-                        paddingRight: 30,
-                        paddingBottom: 30
+                        paddingRight: 30
                     }}
                 >
                     <Marks />
+                    <DocMark source={docs.Marks} style={{ marginTop: 30 }} />
                 </div>
                 <h3>方向</h3>
-                <div
-                    className="k-example"
-                    style={{
-                        paddingLeft: 30,
-                        paddingRight: 30,
-                        paddingBottom: 30,
-                        height: 400
-                    }}
-                >
-                    <Vertical />
+                <div className="k-example">
+                    <div
+                        style={{
+                            paddingLeft: 30,
+                            paddingRight: 30,
+                            paddingBottom: 30,
+                            height: 400
+                        }}
+                    >
+                        <Vertical />
+                    </div>
+                    <DocMark source={docs.Vertical} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

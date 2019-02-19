@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Alert, Loading, Checkbox } from "kui-react";
 
-export default class Basic extends Component {
+export default class Example extends Component {
     constructor(props) {
         super(props);
         this.handleToggle = this.handleToggle.bind(this);

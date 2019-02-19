@@ -14,17 +14,15 @@ const menu = (
     </Menu>
 );
 
-export default class Button extends Component {
+export default class Example extends Component {
     handleButtonClick = () => {
         Message.info("点击了下拉菜单左侧按钮！");
     };
     render() {
         return (
-            <React.Fragment>
-                <Dropdown.Button menu={menu} onClick={this.handleButtonClick}>
-                    下拉菜单
-                </Dropdown.Button>
-            </React.Fragment>
+            <Dropdown.Button menu={menu} onClick={this.handleButtonClick}>
+                下拉菜单
+            </Dropdown.Button>
         );
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Popconfirm, Message } from "kui-react";
 
-export default class Basic extends Component {
+export default class Example extends Component {
     cacnel() {
         Message.error("点击了取消");
     }

@@ -5,6 +5,8 @@ import Offset from "./Offset";
 import FlexLayout from "./FlexLayout";
 import FlexAlign from "./FlexAlign";
 import Responsive from "./Responsive";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class GridView extends Component {
     render() {
@@ -14,26 +16,32 @@ class GridView extends Component {
                 <h3>基础栅格</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>区块间隔</h3>
                 <div className="k-example">
                     <Gutter />
+                    <DocMark source={docs.Gutter} />
                 </div>
                 <h3>偏移</h3>
                 <div className="k-example">
                     <Offset />
+                    <DocMark source={docs.Offset} />
                 </div>
                 <h3>flex布局</h3>
                 <div className="k-example">
                     <FlexLayout />
+                    <DocMark source={docs.FlexLayout} />
                 </div>
                 <h3>flex对齐</h3>
                 <div className="k-example">
                     <FlexAlign />
+                    <DocMark source={docs.FlexAlign} />
                 </div>
                 <h3>响应式</h3>
                 <div className="k-example">
                     <Responsive />
+                    <DocMark source={docs.Responsive} />
                 </div>
                 <h1>API</h1>
                 <h2>Row</h2>

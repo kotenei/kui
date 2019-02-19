@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch } from "kui-react";
 
-export default class Loading extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

@@ -3,7 +3,7 @@ import { Steps } from "kui-react";
 
 const Step = Steps.Step;
 
-export default class Vertical extends Component {
+export default class Example extends Component {
     render() {
         return (
             <Steps direction="vertical" current={1} status="process">

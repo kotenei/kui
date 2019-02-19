@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import Basic from './Basic';
+import Basic from "./Basic";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class TimelineView extends Component {
     render() {
@@ -8,6 +10,7 @@ class TimelineView extends Component {
                 <h1>Timeline 时间轴</h1>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h1>API</h1>
                 <h2>Timeline.Item</h2>

@@ -3,22 +3,20 @@ import { Button } from "kui-react";
 
 const ButtonGroup = Button.Group;
 
-export default class GroupButton extends Component {
+export default class Example extends Component {
     render() {
         return (
-            <React.Fragment>
-                <ButtonGroup>
-                    <Button kStyle="primary" raised>
-                        L
-                    </Button>
-                    <Button kStyle="primary" raised>
-                        M
-                    </Button>
-                    <Button kStyle="primary" raised>
-                        R
-                    </Button>
-                </ButtonGroup>
-            </React.Fragment>
+            <ButtonGroup>
+                <Button kStyle="primary" raised>
+                    L
+                </Button>
+                <Button kStyle="primary" raised>
+                    M
+                </Button>
+                <Button kStyle="primary" raised>
+                    R
+                </Button>
+            </ButtonGroup>
         );
     }
 }

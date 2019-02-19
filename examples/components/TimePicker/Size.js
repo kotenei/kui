@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TimePicker } from "kui-react";
 
-export default class Size extends Component {
+export default class Example extends Component {
     state = {
         value: "10:52:50"
     };

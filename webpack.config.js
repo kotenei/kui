@@ -40,6 +40,10 @@ module.exports = {
             {
                 test: /\.(png|jpe?g|gif)$/,
                 use: "url-loader?limit=1000&name=images/[name].[ext]"
+            },
+            {
+                test: /\.md$/,
+                use: "raw-loader"
             }
         ]
     },

@@ -3,6 +3,8 @@ import Basic from "./Basic";
 import Half from "./Half";
 import Disabled from "./Disabled";
 import Character from "./Character";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class RateView extends Component {
     render() {
@@ -12,18 +14,22 @@ class RateView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>半星</h3>
                 <div className="k-example">
                     <Half />
+                    <DocMark source={docs.Half} />
                 </div>
                 <h3>禁用</h3>
                 <div className="k-example">
                     <Disabled />
+                    <DocMark source={docs.Disabled} />
                 </div>
                 <h3>其它字符</h3>
                 <div className="k-example">
                     <Character />
+                    <DocMark source={docs.Character} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

@@ -3,6 +3,8 @@ import Indeterminate from "./Indeterminate";
 import PercentOutside from "./PercentOutside";
 import PercentInside from "./PercentInside";
 import Circle from "./Circle";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class ProgressView extends Component {
     render() {
@@ -12,18 +14,22 @@ class ProgressView extends Component {
                 <h3>线形进度条 — 不确定进度</h3>
                 <div className="k-example">
                     <Indeterminate />
+                    <DocMark source={docs.Indeterminate} />
                 </div>
                 <h3>线形进度条 — 百分比外显</h3>
                 <div className="k-example">
                     <PercentOutside />
+                    <DocMark source={docs.PercentOutside} />
                 </div>
                 <h3>线形进度条 — 百分比内显</h3>
                 <div className="k-example">
                     <PercentInside />
+                    <DocMark source={docs.PercentInside} />
                 </div>
                 <h3>环形进度条</h3>
                 <div className="k-example">
                     <Circle />
+                    <DocMark source={docs.Circle} />
                 </div>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">
                     <thead>

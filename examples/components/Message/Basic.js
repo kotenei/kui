@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Message } from "kui-react";
 
-export default class Basic extends Component {
+export default class Example extends Component {
     handleShowInfo() {
         Message.info("这是一条消息提示");
     }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Badge } from "kui-react";
 
-export default class Dot extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

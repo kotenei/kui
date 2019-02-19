@@ -54,7 +54,7 @@ function error() {
     });
 }
 
-export default class Status extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

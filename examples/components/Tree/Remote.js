@@ -20,7 +20,7 @@ const generateData = function() {
     return data;
 };
 
-export default class Remote extends Component {
+export default class Example extends Component {
     state = {
         data: [
             { title: "Expand to load 1", id: "0" },

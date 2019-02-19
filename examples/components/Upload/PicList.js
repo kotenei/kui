@@ -3,7 +3,7 @@ import { Upload, Button, Icon } from "kui-react";
 
 const action = "https://jsonplaceholder.typicode.com/posts/";
 
-export default class PicList extends Component {
+export default class Example extends Component {
     state = {
         fileList: [
             {

@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import Basic from "./Basic";
 import Line from "./Line";
 import Remote from "./Remote";
-import DragDrop from './DragDrop';
-import Icon from './Icon';
+import DragDrop from "./DragDrop";
+import Icon from "./Icon";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class CalendarView extends Component {
     render() {
@@ -13,23 +15,28 @@ class CalendarView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>链接线</h3>
                 <div className="k-example">
                     <Line />
+                    <DocMark source={docs.Line} />
                 </div>
                 <h3>异步加载</h3>
                 <div className="k-example">
                     <Remote />
+                    <DocMark source={docs.Remote} />
                 </div>
                 <h3>可拖拽</h3>
                 <div className="k-example">
                     <DragDrop />
+                    <DocMark source={docs.DragDrop} />
                 </div>
 
                 <h3>自定义图标</h3>
                 <div className="k-example">
-                    <Icon/>
+                    <Icon />
+                    <DocMark source={docs.Icon} />
                 </div>
                 <br />
                 <h1>API</h1>

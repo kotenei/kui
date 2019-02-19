@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Basic from "./Basic";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class MessageView extends Component {
     render() {
@@ -8,6 +10,7 @@ class MessageView extends Component {
                 <h1>Message 消息提示</h1>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

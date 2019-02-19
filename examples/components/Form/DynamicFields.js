@@ -10,7 +10,7 @@ const defaultLayout = {
 
 let id = 1;
 
-class DynamicFields extends Component {
+class Example extends Component {
     state = {
         checkNick: false,
         keys: [1]
@@ -98,4 +98,4 @@ class DynamicFields extends Component {
     }
 }
 
-export default createForm(DynamicFields);
+export default createForm(Example);

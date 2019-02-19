@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Basic from "./Basic";
 import Dot from "./Dot";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class BadgeView extends Component {
     render() {
@@ -9,9 +11,11 @@ class BadgeView extends Component {
                 <h1>Badge 徽章</h1>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <div className="k-example">
                     <Dot />
+                    <DocMark source={docs.Dot} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

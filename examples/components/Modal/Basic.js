@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Modal, Button } from "kui-react";
 
-export default class Basic extends Component {
+export default class Example extends Component {
     state = {
         show: false
     };

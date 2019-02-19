@@ -3,7 +3,7 @@ import { DatePicker } from "kui-react";
 
 const { RangePicker, YearPicker, MonthPicker, WeekPicker } = DatePicker;
 
-export default class Size extends Component {
+export default class Example extends Component {
     handleChange = date => {
         console.log(date);
     };

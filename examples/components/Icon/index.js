@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Basic from "./Basic";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class IconView extends Component {
     render() {
@@ -8,6 +10,7 @@ class IconView extends Component {
                 <h1>Icon 图标</h1>
                 <h3>选择图标主题风格</h3>
                 <Basic />
+                <DocMark source={docs.Basic} />
                 <h1>API</h1>
                 <h3>Icon</h3>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

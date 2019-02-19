@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import Basic from "./Basic";
 import PrefixStuffix from "./PrefixStuffix";
 import TextArea from "./TextArea";
-import Addon from './Addon';
+import Addon from "./Addon";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class InpurtView extends Component {
     render() {
@@ -12,18 +14,22 @@ class InpurtView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>前缀和后缀</h3>
                 <div className="k-example">
                     <PrefixStuffix />
+                    <DocMark source={docs.PrefixStuffix} />
                 </div>
                 <h3>前置和后置标签</h3>
                 <div className="k-example">
                     <Addon />
+                    <DocMark source={docs.Addon} />
                 </div>
                 <h3>文本域</h3>
                 <div className="k-example">
                     <TextArea />
+                    <DocMark source={docs.TextArea} />
                 </div>
                 <h1>API</h1>
                 <h2>Input</h2>

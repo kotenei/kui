@@ -3,6 +3,8 @@ import Basic from "./Basic";
 import Disabled from "./Disabled";
 import Size from "./Size";
 import Step from "./Step";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class TimePickerView extends Component {
     render() {
@@ -12,18 +14,22 @@ class TimePickerView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>禁用</h3>
                 <div className="k-example">
                     <Disabled />
+                    <DocMark source={docs.Disabled} />
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">
                     <Size />
+                    <DocMark source={docs.Size} />
                 </div>
                 <h3>步长</h3>
                 <div className="k-example">
                     <Step />
+                    <DocMark source={docs.Step} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

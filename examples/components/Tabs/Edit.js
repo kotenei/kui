@@ -3,7 +3,7 @@ import { Tabs } from "kui-react";
 
 const TabPane = Tabs.TabPane;
 
-export default class Edit extends Component {
+export default class Example extends Component {
     constructor(props) {
         super(props);
         this.state = {

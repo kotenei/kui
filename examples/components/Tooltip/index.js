@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Basic from "./Basic";
 import Placement from "./Placement";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class TooltipView extends Component {
     render() {
@@ -10,10 +12,12 @@ class TooltipView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>12个方向</h3>
                 <div className="k-example">
                     <Placement />
+                    <DocMark source={docs.Placement} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

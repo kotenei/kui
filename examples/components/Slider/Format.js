@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Slider } from "kui-react";
 
-export default class Format extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Basic from "./Basic";
 import Action from "./Action";
 import Meta from "./Meta";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class ListView extends Component {
     render() {
@@ -11,16 +13,19 @@ class ListView extends Component {
                 <h3>简单列表</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <br />
                 <h3>带操作列表</h3>
                 <div className="k-example">
                     <Action />
+                    <DocMark source={docs.Action} />
                 </div>
                 <br />
                 <h3>元素信息列表</h3>
                 <div className="k-example">
                     <Meta />
+                    <DocMark source={docs.Meta} />
                 </div>
                 <h1>API</h1>
                 <h3>List</h3>

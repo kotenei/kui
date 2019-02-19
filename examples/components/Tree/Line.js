@@ -3,7 +3,7 @@ import { Tree } from "kui-react";
 
 const TreeNode = Tree.TreeNode;
 
-export default class Line extends Component {
+export default class Example extends Component {
     render() {
         return (
             <Tree defaultExpandedIds={["1-1-1"]} showLine checkable selectable>

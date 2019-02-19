@@ -1084,6 +1084,8 @@ input[type="button"].k-btn-block {
       left: 0; }
     .k-carousel .k-carousel-control.k-carousel-control-right {
       right: 0; }
+    .k-carousel .k-carousel-control .k-icon svg {
+      fill: white; }
   .k-carousel:hover .k-carousel-control {
     opacity: 0.8; }
     .k-carousel:hover .k-carousel-control.k-carousel-control-left {

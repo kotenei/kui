@@ -12,7 +12,7 @@ const marks = {
     }
 };
 
-export default class Format extends Component {
+export default class Example extends Component {
     render() {
         return <Slider defaultValue={10} marks={marks} />;
     }

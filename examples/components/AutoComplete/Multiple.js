@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { AutoComplete } from "kui-react";
 import { data } from "../../data";
 
-export default class Multiple extends Component {
+export default class Example extends Component {
     state = {
         dataSource: []
     };
@@ -26,16 +26,14 @@ export default class Multiple extends Component {
     render() {
         const { dataSource } = this.state;
         return (
-            <React.Fragment>
-                <AutoComplete
-                    multiple
-                    data={dataSource}
-                    placeholder="请输入a-z"
-                    defaultValue={["Ada"]}
-                    onSearch={this.handleSearch}
-                    onSelect={this.handleSelect}
-                />
-            </React.Fragment>
+            <AutoComplete
+                multiple
+                data={dataSource}
+                placeholder="请输入a-z"
+                defaultValue={["Ada"]}
+                onSearch={this.handleSearch}
+                onSelect={this.handleSelect}
+            />
         );
     }
 }

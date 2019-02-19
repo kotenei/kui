@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "kui-react";
 
-export default class Offset extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

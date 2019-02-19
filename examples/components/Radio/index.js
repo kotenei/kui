@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Basic from "./Basic";
 import Disabled from "./Disabled";
 import Group from "./Group";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class RadioView extends Component {
     render() {
@@ -11,14 +13,17 @@ class RadioView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>禁用状态</h3>
                 <div className="k-example">
                     <Disabled />
+                    <DocMark source={docs.Disabled} />
                 </div>
                 <h3>单选框组</h3>
                 <div className="k-example">
                     <Group />
+                    <DocMark source={docs.Group} />
                 </div>
                 <h1>API</h1>
                 <h2>Radio</h2>

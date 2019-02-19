@@ -3,9 +3,10 @@ import FlatButton from "./Flat";
 import RaisedButton from "./Raised";
 import FabButton from "./Fab";
 import SizeButton from "./Size";
-import GroupButton from './Group';
+import GroupButton from "./Group";
 import { NavLink } from "react-router-dom";
-
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class ButtonView extends React.Component {
     render() {
@@ -15,22 +16,27 @@ class ButtonView extends React.Component {
                 <h3>Flat Button</h3>
                 <div className="k-example">
                     <FlatButton />
+                    <DocMark source={docs.Flat} />
                 </div>
                 <h3>Raised Button</h3>
                 <div className="k-example">
                     <RaisedButton />
+                    <DocMark source={docs.Raised} />
                 </div>
                 <h3>Floating Action Button</h3>
                 <div className="k-example">
                     <FabButton />
+                    <DocMark source={docs.Fab} />
                 </div>
                 <h3>Size</h3>
                 <div className="k-example">
                     <SizeButton />
+                    <DocMark source={docs.Size} />
                 </div>
                 <h3>Button Group</h3>
                 <div className="k-example">
-                    <GroupButton/>
+                    <GroupButton />
+                    <DocMark source={docs.Group} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

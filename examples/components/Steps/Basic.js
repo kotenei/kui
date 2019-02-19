@@ -3,7 +3,7 @@ import { Steps } from "kui-react";
 
 const Step = Steps.Step;
 
-export default class Basic extends Component {
+export default class Example extends Component {
     render() {
         return (
             <Steps current={1} status="process">

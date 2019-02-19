@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "kui-react";
 
-export default class FabButton extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

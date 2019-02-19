@@ -10,16 +10,14 @@ const style = {
     fontSize: 24
 };
 
-export default class Vertical extends Component {
+export default class Example extends Component {
     render() {
         return (
-            <React.Fragment>
-                <Carousel vertical>
-                    <div style={style}>1</div>
-                    <div style={style}>2</div>
-                    <div style={style}>3</div>
-                </Carousel>
-            </React.Fragment>
+            <Carousel vertical>
+                <div style={style}>1</div>
+                <div style={style}>2</div>
+                <div style={style}>3</div>
+            </Carousel>
         );
     }
 }

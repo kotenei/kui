@@ -4,7 +4,7 @@ import fetchData from "../../fetch-data";
 
 const { TableColumn } = Table;
 
-export default class Pager extends Component {
+export default class Example extends Component {
     render() {
         return (
             <Table data={fetchData}>

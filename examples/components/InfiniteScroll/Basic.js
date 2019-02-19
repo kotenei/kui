@@ -14,7 +14,7 @@ const liStyle = {
     lineHeight: "230px"
 };
 
-export default class Basic extends Component {
+export default class Example extends Component {
     state = {
         data: []
     };
@@ -43,11 +43,9 @@ export default class Basic extends Component {
     }
     render() {
         return (
-            <React.Fragment>
-                <InfiniteScroll onScrollBottom={this.handleScrollBottom}>
-                    {this.renderItems()}
-                </InfiniteScroll>
-            </React.Fragment>
+            <InfiniteScroll onScrollBottom={this.handleScrollBottom}>
+                {this.renderItems()}
+            </InfiniteScroll>
         );
     }
 }

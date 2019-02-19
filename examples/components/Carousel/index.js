@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Basic from "./Basic";
 import Vertical from "./Vertical";
 import Autoplay from "./Autoplay";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class CarouselView extends Component {
     render() {
@@ -11,14 +13,17 @@ class CarouselView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>垂直方向</h3>
                 <div className="k-example">
                     <Vertical />
+                    <DocMark source={docs.Vertical} />
                 </div>
                 <h3>自动切换</h3>
                 <div className="k-example">
                     <Autoplay />
+                    <DocMark source={docs.Autoplay} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

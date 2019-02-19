@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Basic from "./Basic";
 import Accordion from "./Accordion";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class CollapseView extends Component {
     render() {
@@ -10,10 +12,12 @@ class CollapseView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>手网琴</h3>
                 <div className="k-example">
                     <Accordion />
+                    <DocMark source={docs.Accordion} />
                 </div>
                 <h1>API</h1>
                 <h3>Collapse</h3>

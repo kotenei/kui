@@ -3,7 +3,9 @@ import Basic from "./Basic";
 import Uploaded from "./Uploaded";
 import PicList from "./PicList";
 import PicCard from "./PicCard";
-import Dragger from './Dragger';
+import Dragger from "./Dragger";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class CalendarView extends Component {
     render() {
@@ -13,22 +15,27 @@ class CalendarView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>已上传列表</h3>
                 <div className="k-example">
                     <Uploaded />
+                    <DocMark source={docs.Uploaded} />
                 </div>
                 <h3>照片列表</h3>
                 <div className="k-example">
                     <PicList />
+                    <DocMark source={docs.PicList} />
                 </div>
                 <h3>照片墙</h3>
                 <div className="k-example">
                     <PicCard />
+                    <DocMark source={docs.PicCard} />
                 </div>
                 <h3>拖拽上传</h3>
                 <div className="k-example">
                     <Dragger />
+                    <DocMark source={docs.Dragger} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

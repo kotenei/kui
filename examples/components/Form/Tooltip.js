@@ -8,7 +8,7 @@ const defaultLayout = {
     wrapperCol: { span: 14 }
 };
 
-class FormTooltip extends Component {
+class Example extends Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -53,4 +53,4 @@ class FormTooltip extends Component {
     }
 }
 
-export default createForm(FormTooltip);
+export default createForm(Example);

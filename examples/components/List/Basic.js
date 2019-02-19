@@ -3,7 +3,7 @@ import { List } from "kui-react";
 
 const data = ["List Item", "List Item", "List Item"];
 
-export default class Basic extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

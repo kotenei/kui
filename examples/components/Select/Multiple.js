@@ -14,7 +14,7 @@ const options = [
     </Option>
 ];
 
-export default class Multiple extends Component {
+export default class Example extends Component {
     render() {
         return (
             <Select multiple placeholder="请选择">

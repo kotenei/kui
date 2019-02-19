@@ -4,7 +4,7 @@ import { Radio } from "kui-react";
 const RadioGroup = Radio.RadioGroup;
 const options = ["Apple", "Pear", "Orange"];
 
-export default class Group extends Component {
+export default class Example extends Component {
     render() {
         return <RadioGroup options={options} />;
     }

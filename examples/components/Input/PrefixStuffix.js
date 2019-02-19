@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Input, Icon } from "kui-react";
 
-export default class PrefixStuffix extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

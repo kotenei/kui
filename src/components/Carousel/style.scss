@@ -51,6 +51,10 @@
         &.k-carousel-control-right {
             right: 0;
         }
+
+        .k-icon svg{
+            fill:white;
+        }
     }
     &:hover {
         .k-carousel-control {

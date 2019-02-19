@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Basic from "./Basic";
 import Status from "./Status";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class ModalView extends Component {
     render() {
@@ -10,10 +12,12 @@ class ModalView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>信息状态</h3>
                 <div className="k-example">
                     <Status />
+                    <DocMark source={docs.Status} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

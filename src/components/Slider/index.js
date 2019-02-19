@@ -390,6 +390,7 @@ class Slider extends Component {
         this.setState({
             value: val
         });
+
     }
     getSort(value) {
         const { min, max, range } = this.props;
@@ -407,9 +408,12 @@ class Slider extends Component {
         const { value, activeValue } = this.state;
         let title, style, percentage;
         if (range) {
-            return value.map((val, index) => {
-                return this.getSliderHandle(val, index);
-            });
+            return (
+                Array.isArray(value) &&
+                value.map((val, index) => {
+                    return this.getSliderHandle(val, index);
+                })
+            );
         } else {
             return this.getSliderHandle(value);
         }

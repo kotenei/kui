@@ -56,7 +56,7 @@ const data = [
     }
 ];
 
-export default class Filter extends Component {
+export default class Example extends Component {
     render() {
         return (
             <Table

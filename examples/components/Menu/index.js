@@ -3,6 +3,8 @@ import Horizontal from "./Horizontal";
 import Inline from "./Inline";
 import Vertical from "./Vertical";
 import InlineCollapsed from "./InlineCollapsed";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class MenuView extends Component {
     render() {
@@ -12,18 +14,22 @@ class MenuView extends Component {
                 <h3>水平导航菜单</h3>
                 <div className="k-example">
                     <Horizontal />
+                    <DocMark source={docs.Horizontal} />
                 </div>
                 <h3>垂直菜单，子菜单内嵌在菜单区域。</h3>
                 <div className="k-example">
                     <Inline />
+                    <DocMark source={docs.Inline} />
                 </div>
                 <h3>垂直菜单，子菜单是弹出的形式。</h3>
                 <div className="k-example">
                     <Vertical />
+                    <DocMark source={docs.Vertical} />
                 </div>
                 <h3>折叠菜单</h3>
                 <div className="k-example">
                     <InlineCollapsed />
+                    <DocMark source={docs.InlineCollapsed} />
                 </div>
                 <h1>API</h1>
                 <h3>Menus</h3>

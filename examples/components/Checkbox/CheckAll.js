@@ -4,7 +4,7 @@ import { Checkbox } from "kui-react";
 const CheckboxGroup = Checkbox.CheckboxGroup;
 const options = ["one", "two", "three", "four"];
 
-export default class CheckAll extends Component {
+export default class Example extends Component {
     constructor(props) {
         super(props);
         this.state = {

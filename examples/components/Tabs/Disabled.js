@@ -3,7 +3,7 @@ import { Tabs } from "kui-react";
 
 const TabPane = Tabs.TabPane;
 
-export default class Disabled extends Component {
+export default class Example extends Component {
     render() {
         return (
             <Tabs>

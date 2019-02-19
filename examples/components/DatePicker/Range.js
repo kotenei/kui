@@ -5,7 +5,7 @@ import { getLastDay } from "../../../src/utils/dateUtils";
 
 const { RangePicker } = DatePicker;
 
-export default class Basic extends Component {
+export default class Example extends Component {
     handleChange = date => {
         console.log(date);
     };

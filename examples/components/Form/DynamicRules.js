@@ -8,7 +8,7 @@ const defaultLayout = {
     wrapperCol: { span: 14 }
 };
 
-class DynamicRules extends Component {
+class Example extends Component {
     state = {
         checkNick: false
     };
@@ -68,4 +68,4 @@ class DynamicRules extends Component {
     }
 }
 
-export default createForm(DynamicRules);
+export default createForm(Example);

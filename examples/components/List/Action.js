@@ -7,16 +7,14 @@ const actions = [
     <Icon type="delete" theme="filled" />
 ];
 
-export default class Action extends Component {
+export default class Example extends Component {
     render() {
         return (
-            <React.Fragment>
-                <List bordered>
-                    <List.Item actions={actions}>List Item</List.Item>
-                    <List.Item actions={actions}>List Item</List.Item>
-                    <List.Item actions={actions}>List Item</List.Item>
-                </List>
-            </React.Fragment>
+            <List bordered>
+                <List.Item actions={actions}>List Item</List.Item>
+                <List.Item actions={actions}>List Item</List.Item>
+                <List.Item actions={actions}>List Item</List.Item>
+            </List>
         );
     }
 }

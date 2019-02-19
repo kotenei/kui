@@ -4,7 +4,9 @@ import Disabled from "./Disabled";
 import Extra from "./Extra";
 import Position from "./Position";
 import Card from "./Card";
-import Edit from './Edit';
+import Edit from "./Edit";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class TabsView extends Component {
     render() {
@@ -14,26 +16,32 @@ class TabsView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>禁用某一项</h3>
                 <div className="k-example">
                     <Disabled />
+                    <DocMark source={docs.Disabled} />
                 </div>
                 <h3>附加内容</h3>
                 <div className="k-example">
                     <Extra />
+                    <DocMark source={docs.Extra} />
                 </div>
                 <h3>位置</h3>
                 <div className="k-example">
                     <Position />
+                    <DocMark source={docs.Position} />
                 </div>
                 <h3>卡片式</h3>
                 <div className="k-example">
                     <Card />
+                    <DocMark source={docs.Card} />
                 </div>
                 <h3>编辑</h3>
                 <div className="k-example">
                     <Edit />
+                    <DocMark source={docs.Edit} />
                 </div>
                 <h1>API</h1>
                 <h3>Tabs</h3>

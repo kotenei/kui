@@ -20,7 +20,7 @@ const generateData = function() {
     return data;
 };
 
-export default class DragDrop extends Component {
+export default class Example extends Component {
     state = {
         dragData: generateData()
     };

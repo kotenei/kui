@@ -4,12 +4,8 @@ import { Checkbox } from "kui-react";
 const CheckboxGroup = Checkbox.CheckboxGroup;
 const options = ["one", "two", "three", "four"];
 
-export default class Group extends Component {
+export default class Example extends Component {
     render() {
-        return (
-            <React.Fragment>
-                <CheckboxGroup options={options} defaultValue={['one']} />
-            </React.Fragment>
-        );
+        return <CheckboxGroup options={options} defaultValue={["one"]} />;
     }
 }

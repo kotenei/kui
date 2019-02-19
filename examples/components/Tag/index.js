@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import Basic from './Basic';
+import Basic from "./Basic";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class TagView extends Component {
     render() {
@@ -8,6 +10,7 @@ class TagView extends Component {
                 <h1>Tag 标签</h1>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

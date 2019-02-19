@@ -14,7 +14,7 @@ const style = {
     borderRadius: "6px"
 };
 
-export default class Basic extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

@@ -4,7 +4,7 @@ import fetchData from "../../fetch-data";
 
 const { TableColumn } = Table;
 
-export default class Remote extends Component {
+export default class Example extends Component {
     constructor(props) {
         super(props);
         this.state = {

@@ -3,6 +3,8 @@ import Basic from "./Basic";
 import Status from "./Status";
 import WordIcon from "./WordIcon";
 import Loading from "./Loading";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class SwitchView extends Component {
     state = {
@@ -20,18 +22,22 @@ class SwitchView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>状态</h3>
                 <div className="k-example">
                     <Status />
+                    <DocMark source={docs.Status} />
                 </div>
                 <h3>文字和图标</h3>
                 <div className="k-example">
                     <WordIcon />
+                    <DocMark source={docs.WordIcon} />
                 </div>
                 <h3>加载中</h3>
                 <div className="k-example">
                     <Loading />
+                    <DocMark source={docs.Loading} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

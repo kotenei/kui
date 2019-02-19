@@ -7,34 +7,32 @@ const actions = [
     <Icon type="delete" theme="filled" />
 ];
 
-export default class Action extends Component {
+export default class Example extends Component {
     render() {
         return (
-            <React.Fragment>
-                <List bordered>
-                    <List.Item actions={actions}>
-                        <List.ItemMeta
-                            avatar={<Icon type="android" fontSize={24} />}
-                            title="List Item"
-                            description="Description"
-                        />
-                    </List.Item>
-                    <List.Item actions={actions}>
-                        <List.ItemMeta
-                            avatar={<Icon type="apple" fontSize={24} />}
-                            title="List Item"
-                            description="Description"
-                        />
-                    </List.Item>
-                    <List.Item actions={actions}>
-                        <List.ItemMeta
-                            avatar={<Icon type="windows" fontSize={24} />}
-                            title="List Item"
-                            description="Description"
-                        />
-                    </List.Item>
-                </List>
-            </React.Fragment>
+            <List bordered>
+                <List.Item actions={actions}>
+                    <List.ItemMeta
+                        avatar={<Icon type="android" fontSize={24} />}
+                        title="List Item"
+                        description="Description"
+                    />
+                </List.Item>
+                <List.Item actions={actions}>
+                    <List.ItemMeta
+                        avatar={<Icon type="apple" fontSize={24} />}
+                        title="List Item"
+                        description="Description"
+                    />
+                </List.Item>
+                <List.Item actions={actions}>
+                    <List.ItemMeta
+                        avatar={<Icon type="windows" fontSize={24} />}
+                        title="List Item"
+                        description="Description"
+                    />
+                </List.Item>
+            </List>
         );
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Tooltip } from "kui-react";
 
-export default class Placement extends Component {
+export default class Example extends Component {
     render() {
         return (
             <div className="tooltip-box">

@@ -6,6 +6,8 @@ import Icon from "./Icon";
 import Vertical from "./Vertical";
 import VerticalMini from "./VerticalMini";
 import Status from "./Status";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class StepsView extends Component {
     render() {
@@ -15,30 +17,37 @@ class StepsView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>迷你版</h3>
                 <div className="k-example">
                     <Size />
+                    <DocMark source={docs.Size} />
                 </div>
                 <h3>居中步骤条</h3>
                 <div className="k-example">
                     <Align />
+                    <DocMark source={docs.Align} />
                 </div>
                 <h3>自定义图标</h3>
                 <div className="k-example">
                     <Icon />
+                    <DocMark source={docs.Icon} />
                 </div>
                 <h3>垂直步骤条</h3>
                 <div className="k-example">
                     <Vertical />
+                    <DocMark source={docs.Vertical} />
                 </div>
                 <h3>垂直步骤条-迷你版</h3>
                 <div className="k-example">
                     <VerticalMini />
+                    <DocMark source={docs.VerticalMini} />
                 </div>
                 <h3>步骤运行错误</h3>
                 <div className="k-example">
                     <Status />
+                    <DocMark source={docs.Status} />
                 </div>
                 <h1>API</h1>
                 <h3>Steps</h3>

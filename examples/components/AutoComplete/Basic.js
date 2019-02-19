@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { AutoComplete } from "kui-react";
 import { data } from "../../data";
 
-export default class Basic extends Component {
+export default class Example extends Component {
     state = {
         dataSource: []
     };
@@ -26,14 +26,12 @@ export default class Basic extends Component {
     render() {
         const { dataSource } = this.state;
         return (
-            <React.Fragment>
-                <AutoComplete
-                    data={dataSource}
-                    placeholder="请输入a-z"
-                    onSearch={this.handleSearch}
-                    onSelect={this.handleSelect}
-                />
-            </React.Fragment>
+            <AutoComplete
+                data={dataSource}
+                placeholder="请输入a-z"
+                onSearch={this.handleSearch}
+                onSelect={this.handleSelect}
+            />
         );
     }
 }

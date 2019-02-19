@@ -3,6 +3,8 @@ import Basic from "./Basic";
 import Disabled from "./Disabled";
 import Group from "./Group";
 import CheckAll from "./CheckAll";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class CheckboxView extends Component {
     render() {
@@ -12,18 +14,22 @@ class CheckboxView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>禁用状态</h3>
                 <div className="k-example">
                     <Disabled />
+                    <DocMark source={docs.Disabled} />
                 </div>
                 <h3>多选框组</h3>
                 <div className="k-example">
                     <Group />
+                    <DocMark source={docs.Group} />
                 </div>
                 <h3>全选/反选</h3>
                 <div className="k-example">
                     <CheckAll />
+                    <DocMark source={docs.CheckAll} />
                 </div>
                 <h1>API</h1>
                 <h2>Checkbox</h2>

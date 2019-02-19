@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TimePicker } from "kui-react";
 
-export default class Basic extends Component {
+export default class Example extends Component {
     render() {
         return <TimePicker />;
     }

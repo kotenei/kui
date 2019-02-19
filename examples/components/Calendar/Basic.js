@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Calendar } from "kui-react";
 import { format as formatter, addDays } from "date-fns";
 
-export default class Basic extends Component {
+export default class Example extends Component {
     render() {
         let now = new Date();
         let data = [];
@@ -17,10 +17,6 @@ export default class Basic extends Component {
                 end: formatter(addDays(now, num2), "YYYY-MM-DD")
             });
         }
-        return (
-            <React.Fragment>
-                <Calendar data={data} />
-            </React.Fragment>
-        );
+        return <Calendar data={data} />;
     }
 }

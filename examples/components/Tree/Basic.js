@@ -3,7 +3,7 @@ import { Tree } from "kui-react";
 
 const TreeNode = Tree.TreeNode;
 
-export default class Basic extends Component {
+export default class Example extends Component {
     render() {
         return (
             <Tree

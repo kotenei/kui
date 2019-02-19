@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Basic from "./Basic";
 import Bordered from "./Bordered";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class CardView extends Component {
     render() {
@@ -10,10 +12,12 @@ class CardView extends Component {
                 <h3>默认</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>无边框</h3>
                 <div className="k-example" style={{ background: "#ececec" }}>
                     <Bordered />
+                    <DocMark source={docs.Bordered} />
                 </div>
                 <h1>API</h1>
                 <table className="k-example-table k-example-table-hover k-example-table-striped">

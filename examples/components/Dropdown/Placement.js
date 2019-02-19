@@ -14,7 +14,7 @@ const menu = (
     </Menu>
 );
 
-export default class Placement extends Component {
+export default class Example extends Component {
     render() {
         return (
             <React.Fragment>

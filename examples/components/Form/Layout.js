@@ -4,7 +4,7 @@ import { Button, Form, Input } from "kui-react";
 const { Group: ButtonGroup } = Button;
 const { createForm } = Form;
 
-class Layout extends Component {
+class Example extends Component {
     state = {
         confirm: false,
         mode: "horizontal"
@@ -156,4 +156,4 @@ class Layout extends Component {
     }
 }
 
-export default createForm(Layout);
+export default createForm(Example);

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Basic from "./Basic";
 import Multiple from "./Multiple";
 import Size from "./Size";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class SelectView extends Component {
     render() {
@@ -11,14 +13,17 @@ class SelectView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>多选</h3>
                 <div className="k-example">
                     <Multiple />
+                    <DocMark source={docs.Multiple} />
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">
                     <Size />
+                    <DocMark source={docs.Size} />
                 </div>
                 <h1>API</h1>
                 <h3>Select</h3>

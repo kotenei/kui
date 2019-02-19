@@ -3,6 +3,8 @@ import Basic from "./Basic";
 import Size from "./Size";
 import DateTime from "./DateTime";
 import Range from "./Range";
+import DocMark from "../DocMark";
+import docs from "./docs";
 
 class DatePickerView extends Component {
     render() {
@@ -12,18 +14,22 @@ class DatePickerView extends Component {
                 <h3>基本用法</h3>
                 <div className="k-example">
                     <Basic />
+                    <DocMark source={docs.Basic} />
                 </div>
                 <h3>尺寸</h3>
                 <div className="k-example">
                     <Size />
+                    <DocMark source={docs.Size} />
                 </div>
                 <h3>日期时间选择</h3>
                 <div className="k-example">
                     <DateTime />
+                    <DocMark source={docs.DateTime} />
                 </div>
                 <h3>日期范围</h3>
                 <div className="k-example">
                     <Range />
+                    <DocMark source={docs.Range} />
                 </div>
 
                 <h1>API</h1>

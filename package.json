@@ -1,6 +1,6 @@
 {
     "name": "kui-react",
-    "version": "2.0.1",
+    "version": "2.1.1",
     "description": "kui components build with react.js",
     "main": "index.js",
     "scripts": {

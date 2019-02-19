@@ -14,7 +14,7 @@ export default class Example extends Component {
                     color="danger"
                     dot={
                         <Icon
-                            type="clockcircleo"
+                            type="clock-circle"
                             style={{ fontSize: "16px" }}
                         />
                     }

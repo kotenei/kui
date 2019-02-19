@@ -220,6 +220,127 @@ class Form extends Component {
                         </tr>
                     </tbody>
                 </table>
+                <br />
+                <h3>rules</h3>
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>默认值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>required</td>
+                            <td>是否必填</td>
+                            <td>boolean</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>type</td>
+                            <td>验证类型，设置如下</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>message</td>
+                            <td>验证失败显示信息</td>
+                            <td>string</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>params</td>
+                            <td>验证时附带参数</td>
+                            <td>any</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <h3>type 验证类型</h3>
+                <table className="k-example-table k-example-table-hover k-example-table-striped">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>说明</th>
+                            <th>参数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>email</td>
+                            <td>电子邮件</td>
+                            <td />
+                        </tr>
+                        <tr>
+                            <td>url</td>
+                            <td>url地址</td>
+                            <td />
+                        </tr>
+                        <tr>
+                            <td>date</td>
+                            <td>日期</td>
+                            <td />
+                        </tr>
+                        <tr>
+                            <td>mobile</td>
+                            <td>手机号码</td>
+                            <td />
+                        </tr>
+                        <tr>
+                            <td>phone</td>
+                            <td>电话号码</td>
+                            <td />
+                        </tr>
+                        <tr>
+                            <td>number</td>
+                            <td>数字</td>
+                            <td />
+                        </tr>
+                        <tr>
+                            <td>digits</td>
+                            <td>正整数</td>
+                            <td />
+                        </tr>
+                        <tr>
+                            <td>minLength</td>
+                            <td>最小长度</td>
+                            <td>1~N</td>
+                        </tr>
+                        <tr>
+                            <td>maxLength</td>
+                            <td>最大长度</td>
+                            <td>1~N</td>
+                        </tr>
+                        <tr>
+                            <td>rangeLength</td>
+                            <td>长度区间</td>
+                            <td>[number1,number2]</td>
+                        </tr>
+                        <tr>
+                            <td>min</td>
+                            <td>最小值</td>
+                            <td>1~N</td>
+                        </tr>
+                        <tr>
+                            <td>max</td>
+                            <td>最大值</td>
+                            <td>1~N</td>
+                        </tr>
+                        <tr>
+                            <td>range</td>
+                            <td>数值区间</td>
+                            <td>[number1,number2]</td>
+                        </tr>
+                        <tr>
+                            <td>reg</td>
+                            <td>正则验证</td>
+                            <td>参数为正则表达式，如"^\\d+$"</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         );
     }

@@ -11,6 +11,7 @@ import SvgIcon from "./SvgIcon";
 const prefixCls = "k-icon";
 
 class Icon extends Component {
+    static displayName = "Icon";
     static propTypes = {
         fontSize: PropTypes.number,
         theme: PropTypes.oneOf(["outline", "filled"]),

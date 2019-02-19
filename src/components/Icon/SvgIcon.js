@@ -9,7 +9,7 @@ class SvgIcon extends Component {
         title: PropTypes.string,
         color: PropTypes.string,
         fontSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        viewBox:PropTypes.string,
+        viewBox: PropTypes.string
     };
     static defaultProps = {
         viewBox: "0 0 1024 1024"

@@ -39,3 +39,4 @@ lib/*
 node_modules/*
 *.zip
 *.rar
+package-lock.json

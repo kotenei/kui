@@ -18,7 +18,7 @@ export default class Example extends Component {
                     description="这里是描述"
                 />
                 <Step
-                    icon={<Icon type="smileo" />}
+                    icon={<Icon type="smile" />}
                     title="完成"
                     description="这里是描述"
                 />

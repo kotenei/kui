@@ -1,42 +1,51 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# packages #
+node_modules/
+package-lock.json
+yarn.lock
 
-# Folder config file
-Desktop.ini
+# ide #
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+.project
+.*proj
+.idea/
+.classpath
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
+# mac #
 .DS_Store
-.AppleDouble
-.LSOverride
+ehthumbs.db
+# Icon?
+Thumbs.db
 
+# logs #
+*.log
+*.log.*
 
-
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-lib/*
-node_modules/*
+# build #
+*.tgz
+*.gz
 *.zip
 *.rar
-package-lock.json
+dist/
+lib/
+themes/
+
+# subversion #
+.svn/
+
+# cache #
+.awcache/
+dll/
+manifest.json
+
+# tests #
+/coverage
+
+# others #
+*.diff
+*.patch
+*.bak

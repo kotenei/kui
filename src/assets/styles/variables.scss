@@ -1,0 +1,26 @@
+$namespace: 'k';
+$colors: (primary: $primary-color, info: $info-color, success: $success-color, warning: $warning-color, danger: $danger-color, );
+$sizes:(xs, sm, md, lg);
+
+// font
+$font-family: "Helvetica",
+"sans-serif";
+$font-size-base:14px;
+
+// spacing
+$space-small: 4px;
+$space-base: 8px;
+$space-large: 16px;
+$space-xl: 24px;
+$space-xxl: 32px;
+
+$line-height: 1.5;
+
+// radius
+$radius-base: 4px;
+$radius-circle: 50%;
+
+// animation
+$animation-time: 0.3s;
+$transition-time: 0.2s;
+$ease-in-out: ease-in-out;

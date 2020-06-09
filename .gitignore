@@ -32,7 +32,6 @@ Thumbs.db
 *.rar
 dist/
 lib/
-themes/
 
 # subversion #
 .svn/

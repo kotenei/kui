@@ -1,6 +1,6 @@
-@import './light';
-@import "./variables";
-@import "../../components/index";
+@import './themes/light.scss';
+@import "./variables.scss";
+@import "../../index.scss";
 
 *,
 *::after,

@@ -1,3 +1,4 @@
+import React from 'react';
 import { configure, addParameters, addDecorator } from '@storybook/react';
 import { addReadme, configureReadme } from 'storybook-readme';
 
@@ -10,12 +11,12 @@ function loadStories() {
     .forEach(filename => req(filename));
 }
 
-// configureReadme({
-//   StoryPreview: StoryWrapper,
-//   DocPreview: DocWrapper,
-//   HeaderPreview: HeaderWrapper,
-//   FooterPreview: FooterWrapper
-// });
+configureReadme({
+  StoryPreview: ({ children }) => <div className="story-demo">{children}</div>,
+  // DocPreview: DocWrapper,
+  // HeaderPreview: HeaderWrapper,
+  // FooterPreview: FooterWrapper
+});
 
 addParameters({
   options: {

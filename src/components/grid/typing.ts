@@ -2,13 +2,13 @@ export type AlignTypes = 'top' | 'middle' | 'bottom';
 
 export type JustifyTypes = 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 
-export interface RowProps extends KUI.BaseProps {
+export interface RowProps extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>> {
   align?: AlignTypes;
   gutter?: number;
   justify?: JustifyTypes;
 }
 
-export interface ColProps extends KUI.BaseProps {
+export interface ColProps extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>> {
   offset?: number;
   span?: number;
   xs?: number;

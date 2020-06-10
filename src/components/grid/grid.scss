@@ -1,9 +1,11 @@
+@import '../../assets/styles/variables.scss';
+
 $grid-justify-content: (start: flex-start, center: center, end: flex-end, space-between: space-between, space-around: space-around);
 $grid-align-items: (top: flex-start, middle: center, bottom: flex-end);
 $grid-size: (xs: 576px, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1600px) !default;
 $grid-colums: 24;
 
-.k-row {
+.#{$namespace}-row {
   display: flex;
   flex-flow: row wrap;
 
@@ -24,4 +26,36 @@ $grid-colums: 24;
     }
   }
 
+}
+
+.#{$namespace}-col {
+  display: block;
+  position: relative;
+}
+
+@for $i from 1 through $grid-colums {
+  .#{$namespace}-col-#{$i} {
+    width: ($i / $grid-colums * 100) * 1%;
+  }
+
+  .#{$namespace}-col-offset--#{$i} {
+    margin-left: ($i / $grid-colums * 100) * 1%;
+  }
+}
+
+@each $size in map-keys($grid-size) {
+  $condition: min-width;
+
+  @if $size=="xs" {
+    $condition: max-width;
+  }
+
+  @media only screen and ($condition: map-get($grid-size, $size)) {
+    @for $i from 1 through $grid-colums {
+
+      .#{$namespace}-col-#{$size}-#{$i} {
+        width: ($i / $grid-colums * 100) * 1%;
+      }
+    }
+  }
 }

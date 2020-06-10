@@ -4,10 +4,10 @@ export type SizeTypes = 'xs' | 'sm' | 'md' | 'lg';
 
 export type ColorTypes = 'primary' | StateTypes;
 
-interface BaseProps {
+export type BasicProps<T, K extends keyof T = never> = Omit<T, K> & {
   className?: string;
+  prefixCls?: string;
   style?: React.CSSProperties;
-  children?: React.ReactNode;
-}
+};
 
 export as namespace KUI;

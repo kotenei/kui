@@ -3,10 +3,8 @@ import classnames from 'classnames';
 
 import { RowProps } from './typing';
 
-const prefixCls = 'k-row';
-
 const Row = (props: RowProps) => {
-  const { className, style, align, gutter, justify, children } = props;
+  const { prefixCls, className, style, align, gutter, justify, children } = props;
 
   const _style = useMemo(() => {
     const gutterStyle = gutter
@@ -55,6 +53,7 @@ Row.defaultProps = {
   align: 'top',
   gutter: 0,
   justify: 'start',
+  prefixCls: 'k-row',
 };
 
 export default memo(Row);

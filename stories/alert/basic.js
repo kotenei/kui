@@ -41,4 +41,11 @@ export default class Demo extends Component {
       </div>
     );
   }
+  handleClose = () => {
+    return true;
+  };
+  handleOK = () => {
+    alert('you click ok');
+    return false;
+  };
 }

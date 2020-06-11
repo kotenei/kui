@@ -63,13 +63,13 @@ const Alert = (props: AlertProps) => {
     if (!closable) {
       return;
     }
-    if (typeof onClose === 'function' && onClose() !== false) {
+    if (!onClose || (typeof onClose === 'function' && onClose() !== false)) {
       setClosed(true);
     }
   }, []);
 
   return (
-    <CSSTransition in={open} timeout={300} classNames="fade">
+    <CSSTransition in={!closed} timeout={300} classNames="fade" unmountOnExit>
       <div className={classString}>
         {showIcon && stateIcon}
         <div className={`${prefixCls}__content`}>

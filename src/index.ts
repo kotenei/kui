@@ -1,2 +1,1 @@
-export * from './components/alert';
-export * from './components/grid';
+export * from './components';

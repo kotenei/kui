@@ -1,0 +1,42 @@
+@import '../../assets/styles/variables.scss';
+
+.#{$namespace}-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-xs $space-small;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: $radius-base;
+  margin: $space-small;
+  border: 1px solid $primary-color;
+  background-color: $primary-color;
+  color:#fff;
+
+  &__text {
+    flex: 1
+  }
+
+  &__icon {
+    margin-left: $space-small;
+    display: flex;
+    cursor: pointer;
+  }
+
+  &--line {
+    background: transparent;
+    color:$primary-color;
+  }
+
+  @each $color,
+  $value in $colors {
+    &--#{$color} {
+      background: $value;
+      border-color: $value;
+
+      &.#{$namespace}-tag--line {
+        background-color: transparent;
+        color: $value
+      }
+    }
+  }
+}

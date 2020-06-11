@@ -13,7 +13,7 @@ import { AlertProps } from './typing';
 
 const Alert = (props: AlertProps) => {
   const {
-    prefixCls,
+    prefixCls = 'k-alert',
     title,
     description,
     showIcon,
@@ -24,16 +24,6 @@ const Alert = (props: AlertProps) => {
     onClose,
   } = props;
   const [closed, setClosed] = useState(false);
-
-  const classString = useMemo(() => {
-    return classnames(
-      prefixCls && {
-        [prefixCls]: true,
-        [`${prefixCls}--${state}`]: !!state,
-      },
-      className,
-    );
-  }, [state]);
 
   const stateIcon = useMemo(() => {
     const iconClassString = classnames({
@@ -66,7 +56,15 @@ const Alert = (props: AlertProps) => {
     if (!onClose || (typeof onClose === 'function' && onClose() !== false)) {
       setClosed(true);
     }
-  }, []);
+  }, [closable, onClose]);
+
+  const classString = classnames(
+    {
+      [prefixCls]: true,
+      [`${prefixCls}--${state}`]: !!state,
+    },
+    className,
+  );
 
   return (
     <CSSTransition in={!closed} timeout={300} classNames="fade" unmountOnExit>
@@ -90,7 +88,6 @@ const Alert = (props: AlertProps) => {
 };
 
 Alert.defaultProps = {
-  prefixCls: 'k-alert',
   showIcon: false,
   closable: false,
 };

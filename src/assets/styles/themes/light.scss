@@ -1,7 +1,25 @@
+// background
+$bg-color:#fff;
+
+// status
 $primary-color: #2196f3;
 $info-color: #03a9f4;
 $success-color: #4caf50;
 $danger-color: #f44336;
 $warning-color: #ff9800;
 
-$text-color:#242424;
+// text
+$text-color-primary:rgba(0, 0, 0, .85);
+$text-color-regular: rgba(0, 0, 0, .65);
+$text-color-secondary: rgba(0, 0, 0, .65);
+$text-color-placeholder:rgba(0, 0, 0, .25);
+
+$disabled-color:$text-color-placeholder;
+
+
+// border
+$border-color:rgb(220, 223, 230);
+
+
+// box-shadow
+$box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15);

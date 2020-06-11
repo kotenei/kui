@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { ColProps } from './typing';
 
 const Col = (props: ColProps) => {
-  const { prefixCls, className, style, children, span, offset } = props;
+  const { prefixCls = 'k-col', className, style, children, span, offset } = props;
   const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
 
   const classString = useMemo(() => {
@@ -42,7 +42,6 @@ const Col = (props: ColProps) => {
 Col.displayName = 'Col';
 Col.defaultProps = {
   offset: 0,
-  prefixCls: 'k-col',
 };
 
 export default memo(Col);

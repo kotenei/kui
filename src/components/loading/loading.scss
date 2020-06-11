@@ -1,0 +1,97 @@
+@import '../../assets/styles/variables.scss';
+
+$loading-size-map: (xs:(width:16px, height:16px), sm: (width:24px, height:24px),
+  lg: (width:48px, height:48px), xl:(width:64px, height:64px));
+$loading-circle-size:32px;
+
+.#{$namespace}-loading {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+
+  @each $color,
+  $value in $colors {
+    &--#{$color} {
+      color: $value;
+    }
+  }
+
+  @each $size,
+  $value in $loading-size-map {
+
+    &--#{$size} {
+      .#{$namespace}-loading__circle {
+        width: map-get($value, 'width');
+        height: map-get($value, 'height');
+      }
+    }
+  }
+
+  &--vertical {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+
+    .#{$namespace}-loading__tip {
+      margin-top: $space-base;
+      margin-left: 0;
+    }
+  }
+
+  &__circle {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+    width: $loading-circle-size;
+    height: $loading-circle-size;
+    animation: loading-rotate 2s linear infinite;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+
+      circle {
+        stroke: currentColor;
+        stroke-width: 3;
+        stroke-linecap: round;
+        animation: loading-circular 1.5s ease-in-out infinite;
+      }
+    }
+  }
+
+  &__tip {
+    margin-left: $space-base;
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
+
+@keyframes loading-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-circular {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -40;
+  }
+
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -120;
+  }
+}

@@ -1,5 +1,5 @@
 @import './mixins/index.scss';
-@import './themes/light.scss';
+@import './themes/dark.scss';
 
 $namespace: 'k';
 $colors: (primary: $primary-color, info: $info-color, success: $success-color, warning: $warning-color, danger: $danger-color, );
@@ -8,7 +8,10 @@ $sizes:(xs, sm, md, lg);
 // font
 $font-family: "Helvetica",
 "sans-serif";
+$font-size-xs:10px;
+$font-size-sm:12px;
 $font-size-base:14px;
+$font-size-lg:16px;
 
 // spacing
 $space-xs: 2px;

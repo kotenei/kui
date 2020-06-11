@@ -8,9 +8,9 @@
   white-space: nowrap;
   border-radius: $radius-base;
   margin: $space-small;
-  border: 1px solid $primary-color;
-  background-color: $primary-color;
-  color:#fff;
+  border: 1px solid $border-color;
+  background-color: $tag-bg-color;
+  color:$white;
 
   &__text {
     flex: 1
@@ -24,7 +24,7 @@
 
   &--line {
     background: transparent;
-    color:$primary-color;
+    color: $text-color-primary;
   }
 
   @each $color,
@@ -32,6 +32,7 @@
     &--#{$color} {
       background: $value;
       border-color: $value;
+      color: $white;
 
       &.#{$namespace}-tag--line {
         background-color: transparent;

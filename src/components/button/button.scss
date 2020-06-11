@@ -1,0 +1,84 @@
+@import '../../assets/styles/variables.scss';
+
+$button-size-map: (xs: (fontSize: $font-size-xs,
+  ),
+  sm: (fontSize: $font-size-sm,
+  ),
+  lg: (fontSize: $font-size-lg,
+  ),
+);
+
+.#{$namespace}-button {
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  border: medium none;
+  position: relative;
+  outline: none;
+  border: 1px solid $border-color;
+  padding: $space-small $space-base;
+  margin: 0 $space-small;
+  cursor: pointer;
+  border-radius: $radius-base;
+  background-color: transparent;
+  color:$text-color-primary;
+
+  &:hover:not(:disabled) {
+    background: $button-hover-bg-color;
+    color:$button-hover-font-color;
+    border-color: $button-hover-border-color;
+  }
+
+  &:active:not(:disabled) {
+    background: $button-active-bg-color;
+    color:$button-active-font-color;
+    border-color: $button-active-border-color;
+  }
+  
+
+  &__icon {
+    margin-right: $space-base;
+  }
+
+  &__content {
+    flex: 1
+  }
+
+  &:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+  }
+
+  @each $color,
+  $value in $colors {
+    &--#{$color} {
+      background: $value;
+      color: $white;
+      border-color: $value;
+
+      &:hover:not(:disabled) {
+        background: lighten($value, 10);
+        border-color: lighten($value, 10);
+        color: $white;
+      }
+
+      &:active:not(:disabled) {
+        background: darken($value, 10);
+        border-color: darken($value, 10);
+        color: $white;
+      }
+
+    }
+  }
+
+  @each $size,
+  $value in $button-size-map {
+    &--#{$size} {
+      padding: map-get($value, 'padding');
+      font-size: map-get($value, 'fontSize');
+    }
+  }
+
+  
+
+}

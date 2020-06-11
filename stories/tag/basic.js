@@ -8,6 +8,9 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-tag">
+        <Tag>
+          default
+        </Tag>
         <Tag closable color="primary" onClose={this.handleClose}>
           primary
         </Tag>

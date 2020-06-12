@@ -9,6 +9,7 @@ import {
   AiFillCloseCircle,
 } from 'react-icons/ai';
 
+import { Icon } from '../icon';
 import { AlertProps } from './typing';
 
 const Alert = (props: AlertProps) => {
@@ -46,7 +47,7 @@ const Alert = (props: AlertProps) => {
         icon = <AiFillCloseCircle />;
         break;
     }
-    return icon ? <span className={iconClassString}>{icon}</span> : null;
+    return icon ? <Icon className={iconClassString}>{icon}</Icon> : null;
   }, [state]);
 
   const handleClose = useCallback(() => {

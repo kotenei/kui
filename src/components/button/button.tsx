@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import classnames from 'classnames';
 
+import { Icon } from '../icon';
 import { ButtonProps } from './typing';
 
 const Button = (props: ButtonProps) => {
@@ -31,7 +32,7 @@ const Button = (props: ButtonProps) => {
 
   return (
     <button type={type} className={classString} disabled={disabled} {...others}>
-      {icon && <span className={`${prefixCls}__icon`}>{icon}</span>}
+      {icon && <Icon className={`${prefixCls}__icon`}>{icon}</Icon>}
       <span className={`${prefixCls}__content`}>{children}</span>
     </button>
   );

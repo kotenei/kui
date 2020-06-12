@@ -1,4 +1,4 @@
-@import '../../assets/styles/variables.scss';
+@import '../../assets/styles/global.scss';
 
 .#{$namespace}-alert {
   padding: $space-lg;
@@ -28,7 +28,7 @@
 
   &__icon,
   &__content {
-    display: table-cell;
+    display: table-cell!important;
   }
 
   &__icon {

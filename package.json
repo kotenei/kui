@@ -4,7 +4,7 @@
     "description": "kui components build with react.js",
     "main": "index.js",
     "scripts": {
-        "start": "start-storybook -s ./src -p 3000"
+        "start": "start-storybook -s ./src -p 8080"
     },
     "files": [
         "lib"

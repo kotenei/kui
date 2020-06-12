@@ -12,13 +12,15 @@ $button-size-map: (xs: (fontSize: $font-size-xs,
   display: inline-flex;
   align-items: center;
   text-align: center;
-  border: medium none;
   position: relative;
-  outline: none;
+  outline: 0;
+  border-collapse: collapse;
   border: 1px solid $border-color;
   padding: $space-small $space-base;
   margin: 0 $space-small;
   cursor: pointer;
+  text-shadow: none;
+  text-indent: 0;
   border-radius: $radius-base;
   background-color: transparent;
   color:$text-color-primary;
@@ -32,7 +34,7 @@ $button-size-map: (xs: (fontSize: $font-size-xs,
   &:active:not(:disabled) {
     background: $button-active-bg-color;
     color:$button-active-font-color;
-    border-color: $button-active-border-color;
+    border-color:$button-active-border-color;
   }
   
 

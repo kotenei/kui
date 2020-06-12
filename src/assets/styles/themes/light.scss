@@ -1,7 +1,7 @@
 $white:#fff;
 $black:#000;
 
-$bg-color:$white;
+$layout-color-primary:rgba($white, .85);
 
 // status
 $primary-color: #2196f3;
@@ -13,28 +13,27 @@ $warning-color: #ff9800;
 // text
 $text-color-primary:rgba($black, .85);
 $text-color-regular: rgba($black, .65);
-$text-color-secondary: rgba($black, .65);
+$text-color-secondary: rgba($black, .45);
 $text-color-placeholder:rgba($black, .25);
 
 $disabled-color:$text-color-placeholder;
 
-
 // border
-$border-color:#c8c8c8;
+$border-color:$text-color-primary;
 
 
 // box-shadow
-$box-shadow-base: 0 2px 8px rgba($default-color, 0.15);
+$box-shadow-base: 0 2px 8px rgba($black, 0.15);
 
 
 // button
-$button-hover-bg-color:rgba($black, .85);
-$button-hover-border-color:rgba($black, .85);
-$button-hover-font-color:rgba($white, .85);
-
-$button-active-bg-color:darken($white, .85);
-$button-active-border-color:darken($white, .85);
-$button-active-font-color:$button-hover-font-color;
+$button-hover-bg-color:$text-color-primary;
+$button-hover-border-color:transparent;
+$button-hover-font-color:$layout-color-primary;
+$button-active-bg-color:$text-color-regular;
+$button-active-border-color:transparent;
+$button-active-font-color:$layout-color-primary;
 
 // tag
-$tag-bg-color:$text-color-placeholder;
+$tag-bg-color:$text-color-primary;
+$tag-font-color:$white;

@@ -24,7 +24,6 @@ const Button = (props: ButtonProps) => {
       [`${prefixCls}--${color}`]: !!color,
       [`${prefixCls}--${size}`]: !!size,
       [`${prefixCls}--active`]: !!active,
-      // [`${prefixCls}--disabled`]: !!disabled,
       [`${prefixCls}--full`]: !!full,
     },
     className,

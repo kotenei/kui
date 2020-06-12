@@ -1,5 +1,5 @@
 @import './mixins/index.scss';
-@import './themes/light.scss';
+@import './themes/dark.scss';
 
 $namespace: 'k';
 $colors: (primary: $primary-color, info: $info-color, success: $success-color, warning: $warning-color, danger: $danger-color, );
@@ -15,15 +15,16 @@ $font-size-lg:16px;
 
 // spacing
 $space-xs: 2px;
-$space-small: 4px;
+$space-sm: 4px;
 $space-base: 8px;
-$space-large: 16px;
+$space-lg: 16px;
 $space-xl: 24px;
 $space-xxl: 32px;
 
 $line-height: 1.5;
 
 // radius
+$radius-sm:2px;
 $radius-base: 4px;
 $radius-circle: 50%;
 

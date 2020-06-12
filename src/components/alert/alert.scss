@@ -1,12 +1,12 @@
 @import '../../assets/styles/variables.scss';
 
 .#{$namespace}-alert {
-  padding: $space-large;
+  padding: $space-lg;
   position: relative;
   border-radius: $radius-base;
   display: table;
   width: 100%;
-  margin-bottom: $space-large;
+  margin-bottom: $space-lg;
   background: $primary-color;
   color: $white;
 
@@ -33,7 +33,7 @@
 
   &__icon {
     vertical-align: middle;
-    width: $space-large;
+    width: $space-lg;
 
     &--lg {
       font-size: 30px;
@@ -46,20 +46,20 @@
 
   &__close {
     position: absolute;
-    top: $space-large;
-    right: $space-large;
+    top: $space-lg;
+    right: $space-lg;
     cursor: pointer;
   }
 
   &__description {
-    margin-top: $space-small;
+    margin-top: $space-sm;
     color: rgba(255, 255, 255, .8);
   }
 
   &__closetext {
     position: absolute;
-    right: $space-large;
+    right: $space-lg;
     cursor: pointer;
-    top: $space-large;
+    top: $space-lg;
   }
 }

@@ -1,24 +1,26 @@
 @import '../../assets/styles/variables.scss';
 
 .#{$namespace}-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: $space-xs $space-small;
+  display: inline-block;
+  padding: $space-xs $space-sm;
   text-align: center;
   white-space: nowrap;
   border-radius: $radius-base;
-  margin: $space-small;
+  margin: $space-sm;
   border: 1px solid $border-color;
   background-color: $tag-bg-color;
   color: $tag-font-color;
+  font-size: $font-size-sm;
 
   &__text {
-    flex: 1
+    display: inline-block;
+
   }
 
   &__icon {
-    margin-left: $space-small;
-    display: flex;
+    margin-left: $space-sm;
+    display: inline-block;
+
     cursor: pointer;
   }
 

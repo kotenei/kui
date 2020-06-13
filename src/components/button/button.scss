@@ -1,9 +1,18 @@
 @import '../../assets/styles/global.scss';
 
-$button-size-map: (xs: (fontSize: $font-size-xs, padding:$space-xs $space-sm),
-  sm: (fontSize: $font-size-sm, padding:$space-sm $space-base
+$button-size-map: (
+  xs: (
+    fontSize: $font-size-xs,
+    padding: $space-xs $space-sm,
   ),
-  lg: (fontSize: $font-size-lg, padding:$space-base+2 $space-lg),
+  sm: (
+    fontSize: $font-size-sm,
+    padding: $space-sm $space-base,
+  ),
+  lg: (
+    fontSize: $font-size-lg,
+    padding: $space-base + 2 $space-lg,
+  ),
 );
 
 .#{$namespace}-button {
@@ -23,56 +32,64 @@ $button-size-map: (xs: (fontSize: $font-size-xs, padding:$space-xs $space-sm),
   color: $text-color-primary;
   font-size: $font-size-base;
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not(&--loading) {
     background: $button-hover-bg-color;
     color: $button-hover-font-color;
     border-color: $button-hover-border-color;
   }
 
-  &:active:not(:disabled) {
-    background: $button-active-bg-color;
-    color: $button-active-font-color;
-    border-color: $button-active-border-color;
+  &:active:not(:disabled):not(&--loading),
+  &--active:not(:disabled):not(&--loading) {
+    background: $button-active-bg-color !important;
+    color: $button-active-font-color !important;
+    border-color: $button-active-border-color !important;
   }
-
 
   &__icon {
     margin-right: $space-sm;
   }
 
   &__content {
-    flex: 1
+    flex: 1;
   }
 
   &:disabled {
-    opacity: .4;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 
-  @each $color,
-  $value in $colors {
+  &--full{
+    width: 100%;
+    display: block;
+  }
+
+  &--loading{
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  @each $color, $value in $colors {
     &--#{$color} {
       background: $value;
-      color: $white;
       border-color: $value;
+      color: $white !important;
 
-      &:hover:not(:disabled) {
+      &:hover:not(:disabled):not(.#{$namespace}-button--loading) {
         background: lighten($value, 10);
         border-color: lighten($value, 10);
-        color: $white;
+        color: $white !important;
       }
 
-      &:active:not(:disabled) {
-        background: darken($value, 10);
-        border-color: darken($value, 10);
-        color: $white;
+      &:active:not(:disabled):not(.#{$namespace}-button--loading),
+      &.#{$namespace}-button--active:not(.#{$namespace}-button--loading) {
+        background: darken($value, 10) !important;
+        border-color: darken($value, 10) !important;
+        color: $white !important;
       }
-
     }
   }
 
-  @each $size,
-  $value in $button-size-map {
+  @each $size, $value in $button-size-map {
     &--#{$size} {
       padding: map-get($value, 'padding');
       font-size: map-get($value, 'fontSize');
@@ -80,5 +97,46 @@ $button-size-map: (xs: (fontSize: $font-size-xs, padding:$space-xs $space-sm),
   }
 
 
+}
 
+.#{$namespace}-button-group {
+  display: inline-block;
+  position: relative;
+
+  .#{$namespace}-button {
+    margin: 0;
+
+    &:hover:not(:disabled),
+    &:active:not(:disabled) {
+      border-color: $border-color !important;
+    }
+
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:first-child) {
+      margin-left: -1px;
+    }
+
+    @each $color, $value in $colors {
+      &--#{$color} {
+        border-color: darken($value, 20%) !important;
+        &:hover:not(:disabled),
+        &:active:not(:disabled) {
+          border-color: darken($value, 20%) !important;
+        }
+      }
+    }
+  }
 }

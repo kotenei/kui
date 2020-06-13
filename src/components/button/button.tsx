@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import classnames from 'classnames';
 
 import { Icon } from '../icon';
+import { Loading } from '../loading';
 import { ButtonProps } from './typing';
 
 const Button = (props: ButtonProps) => {
@@ -16,6 +17,7 @@ const Button = (props: ButtonProps) => {
     children,
     size,
     full,
+    loading,
     ...others
   } = props;
 
@@ -26,16 +28,20 @@ const Button = (props: ButtonProps) => {
       [`${prefixCls}--${size}`]: !!size,
       [`${prefixCls}--active`]: !!active,
       [`${prefixCls}--full`]: !!full,
+      [`${prefixCls}--loading`]: !!loading,
     },
     className,
   );
 
   return (
     <button type={type} className={classString} disabled={disabled} {...others}>
-      {icon && <Icon className={`${prefixCls}__icon`}>{icon}</Icon>}
+      {icon && !loading && <Icon className={`${prefixCls}__icon`}>{icon}</Icon>}
+      {loading && <Loading size={size === 'lg' ? 'sm' : 'xs'} />}
       <span className={`${prefixCls}__content`}>{children}</span>
     </button>
   );
 };
+
+Button.displayName = 'Button';
 
 export default memo(Button);

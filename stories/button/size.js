@@ -5,7 +5,7 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-button">
-        <Button color="primary"  size="xs">
+        <Button color="primary"  size="xs" >
           xs button
         </Button>
         <Button color="primary"  size="sm">

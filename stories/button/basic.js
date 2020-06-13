@@ -34,6 +34,26 @@ export default class Demo extends Component {
             danger
           </Button>
         </div>
+        <br />
+        <h4>Active</h4>
+        <div>
+          <Button active>default</Button>
+          <Button color="primary" active>
+            primary
+          </Button>
+          <Button color="info" active>
+            info
+          </Button>
+          <Button color="success" active>
+            success
+          </Button>
+          <Button color="warning" active>
+            warning
+          </Button>
+          <Button color="danger" active>
+            danger
+          </Button>
+        </div>
       </div>
     );
   }

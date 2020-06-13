@@ -4,7 +4,9 @@
     "description": "kui components build with react.js",
     "main": "index.js",
     "scripts": {
-        "start": "start-storybook -s ./src -p 8080"
+        "build": "npm run tslint && cross-env NODE_ENV=production node scripts/build.js",
+        "start": "start-storybook -s ./src -p 8080",
+        "tslint": "./node_modules/.bin/tslint -c tslint.json 'src/**/*.{ts,tsx}'"
     },
     "files": [
         "lib"

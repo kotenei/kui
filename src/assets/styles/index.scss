@@ -1,5 +1,5 @@
-@import "./global.scss";
-@import "../../components/index.scss";
+@import './global.scss';
+@import '../../components/index.scss';
 
 *,
 *::after,
@@ -25,6 +25,11 @@ a img {
 
 a {
   text-decoration: none;
+  color: $text-color-primary;
+
+  &:hover {
+    color: $primary-color;
+  }
 }
 
 .h1,

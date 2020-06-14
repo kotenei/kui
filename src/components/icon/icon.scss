@@ -11,10 +11,7 @@
   line-height: 0;
   display: inline-block;
   position: relative;
-
-  >svg{
-    // @include position-center();
-  }
+  margin-top: -1px;
 
   &--spin {
     animation: loadingCircle 1s infinite linear;

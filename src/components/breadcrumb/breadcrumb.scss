@@ -30,11 +30,17 @@
   }
 
   &__link {
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
+    color: $text-color-regular;
+
+    &:hover {
+      color: $text-color-primary;
+    }
   }
 
-  &__icon{
-      margin-right: $space-sm;
+
+  &__icon {
+    margin-right: $space-sm;
   }
 }

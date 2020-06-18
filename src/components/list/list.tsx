@@ -14,6 +14,7 @@ const List = (props: ListProps) => {
     footer,
     bordered,
     split,
+    size,
     renderItem,
     ...others
   } = props;
@@ -21,13 +22,13 @@ const List = (props: ListProps) => {
   const items = useMemo(() => {
     if (data && data.length) {
       return data.map((item, index) => {
-        return <ListItem key={index}>{renderItem(item, index)}</ListItem>;
+        return <ListItem key={index}>{renderItem ? renderItem(item, index) : item}</ListItem>;
       });
     } else {
-      return React.Children.map(children, (child, index) => {
+      return React.Children.map(children, (child: any, index) => {
         if (
-          (child && child.type && child.type.type.displayName == 'ListItem') ||
-          child.type.type.displayName == 'ListItemMeta'
+          (child && child.type && child.type.type.displayName === 'ListItem') ||
+          child.type.type.displayName === 'ListItemMeta'
         ) {
           return child;
         }
@@ -40,8 +41,9 @@ const List = (props: ListProps) => {
   const classString = classnames(
     {
       [prefixCls]: true,
-      [`${prefixCls}-bordered`]: bordered,
+      [`${prefixCls}-bordered`]: !!bordered,
       [`${prefixCls}-split`]: split,
+      [`${prefixCls}-${size}`]: !!size,
     },
     className,
   );

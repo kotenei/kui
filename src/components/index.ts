@@ -3,6 +3,7 @@ export * from './avatar';
 export * from './badge';
 export * from './breadcrumb';
 export * from './button';
+export * from './card';
 export * from './grid';
 export * from './icon';
 export * from './list';

@@ -1,7 +1,8 @@
 $white: #fff;
 $black: #000;
 
-$layout-color-primary: rgba($white, 0.85);
+$layout-bg-color: $white;
+$layout-overlay-color:$white;
 
 // status
 $primary-color: #2196f3;
@@ -19,22 +20,28 @@ $text-color-placeholder: rgba($black, 0.25);
 $disabled-color: $text-color-placeholder;
 
 // border
-$border-color: $text-color-primary;
+$border-color-base: rgba($black, 0.15);
+$border-hover-color:$text-color-primary;
 
 // box-shadow
 $box-shadow-base: 0 2px 8px rgba($black, 0.15);
 
 // avatar
-$avatar-bgColor: $text-color-primary;
-$avatar-font-color: $layout-color-primary;
+$avatar-bg-color: $text-color-primary;
+$avatar-font-color:$layout-bg-color;
 
 // button
+$button-border-color:$border-color-base;
 $button-hover-bg-color: $text-color-regular;
 $button-hover-border-color: transparent;
-$button-hover-font-color: $layout-color-primary;
+$button-hover-font-color:$layout-bg-color;
 $button-active-bg-color: $text-color-primary;
 $button-active-border-color: transparent;
-$button-active-font-color: $layout-color-primary;
+$button-active-font-color:$layout-bg-color;
+
+// list
+$list-bg-color:$layout-overlay-color;
+
 
 // tag
 $tag-bg-color: $text-color-primary;

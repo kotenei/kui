@@ -21,7 +21,7 @@ $button-size-map: (
   position: relative;
   outline: 0;
   border-collapse: collapse;
-  border: 1px solid $border-color;
+  border: 1px solid $button-border-color;
   padding: $space-base $space-lg;
   margin: 0 $space-sm;
   cursor: pointer;
@@ -54,7 +54,7 @@ $button-size-map: (
   }
 
   &:disabled {
-    opacity: 0.4;
+    opacity: 0.6;
     cursor: not-allowed;
   }
 
@@ -64,7 +64,7 @@ $button-size-map: (
   }
 
   &--loading{
-    opacity: 0.4;
+    opacity: 0.6;
     cursor: default;
   }
 
@@ -108,7 +108,7 @@ $button-size-map: (
 
     &:hover:not(:disabled),
     &:active:not(:disabled) {
-      border-color: $border-color !important;
+      border-color: $border-color-base !important;
     }
 
     &:first-child {

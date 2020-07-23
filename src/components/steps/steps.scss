@@ -1,0 +1,202 @@
+@import '../../assets/styles/global.scss';
+
+@mixin line($top, $bgColor) {
+  &::after {
+    content: '';
+    height: 1px;
+    width: 9999px;
+    background: $bgColor;
+    display: block;
+    position: absolute;
+    top: $top;
+    left: 100%;
+  }
+}
+
+.#{$namespace}-steps {
+  &--horizontal {
+    display: flex;
+
+    .#{$namespace}-steps-item {
+      &__tail {}
+
+      &__title {
+        @include line($space-xxl/2, $border-color-base);
+      }
+    }
+  }
+
+  &--vertical {
+    .#{$namespace}-steps-item {
+      
+    }
+  }
+
+  &--center {
+    .#{$namespace}-steps-item {
+      text-align: center;
+      display: block;
+
+      &:last-child {
+        .#{$namespace}-steps-item__tail {
+          display: none;
+        }
+      }
+
+      &__tail {
+        @include line($space-xxl/2, $border-color-base);
+
+        &::after {
+          left: calc(50% + #{$space-xxl});
+          width: calc(100% - #{$space-xxl*2});
+        }
+      }
+
+      &__icon {
+        margin: 0 auto;
+
+      }
+
+      &__content {}
+
+      &__title {
+        padding-right: 0;
+
+        &::after {
+          content: none;
+        }
+      }
+
+      &__description {
+        text-align: left;
+      }
+    }
+  }
+
+  &--sm {
+    .#{$namespace}-steps-item {
+
+      &__tail {
+        &:after {
+          top: $space-xl/2;
+        }
+      }
+
+      &__icon {
+        width: $space-xl;
+        height: $space-xl;
+        font-size: $font-size-sm;
+      }
+
+      &__title {
+        font-size: $font-size-base;
+
+        &:after {
+          top: $space-xl/2;
+        }
+      }
+
+      &__description {
+        font-size: $font-size-sm;
+      }
+    }
+  }
+
+  &-item {
+    flex: 1;
+    position: relative;
+    display: flex;
+
+
+    &__tail {
+      position: relative;
+    }
+
+    &__icon {
+      width: $space-xxl;
+      height: $space-xxl;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid $border-color-base;
+      border-radius: 50%;
+      color: $text-color-secondary;
+    }
+
+
+    &__content {
+      margin: 0 $space-lg;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    &__title {
+      position: relative;
+      font-size: $font-size-lg;
+      line-height: 2;
+      display: inline-block;
+      padding-right: $space-lg;
+    }
+
+    &__description {
+      color: $text-color-secondary;
+    }
+
+    &--process {
+      .#{$namespace}-steps-item {
+
+
+        &__icon {
+          color: $white;
+          border-color: $primary-color;
+          background-color: $primary-color;
+        }
+
+        &__description {
+          color: $text-color-primary;
+        }
+
+      }
+    }
+
+    &--finish {
+      .#{$namespace}-steps-item {
+
+        &__tail {
+          &:after {
+            background-color: $primary-color;
+          }
+        }
+
+        &__icon {
+          border-color: $primary-color;
+          color: $primary-color;
+        }
+
+        &__title {
+          &:after {
+            background-color: $primary-color;
+          }
+        }
+      }
+    }
+
+    &--error {
+      .#{$namespace}-steps-item {
+        &__icon {
+          border-color: $danger-color;
+          color: $danger-color;
+        }
+
+        &__title,
+        &__description {
+          color: $danger-color;
+        }
+      }
+    }
+
+
+  }
+
+}

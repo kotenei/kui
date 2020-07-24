@@ -1,10 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withDocs, withReadme } from 'storybook-readme';
-
-import Api from '../../src/components/breadcrumb/README.md';
+import breadcrumbDoc from '../../src/components/breadcrumb/README.md';
 import Basic from './basic';
-
-storiesOf('Breadcrumb', module)
-  .addDecorator(withReadme(Api))
-  .add('basic', () => <Basic />);
+import BasicDoc from './doc/basic.md';
+storiesOf('breadcrumb', module)
+              .addDecorator(withReadme(breadcrumbDoc))
+              .add('basic', withDocs(BasicDoc, () => <Basic/>));

@@ -1,3 +1,4 @@
+```jsx
 import React, { Component } from 'react';
 import { Steps, StepsItem } from 'kui-react';
 
@@ -5,7 +6,7 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-steps">
-        <Steps current={1} status="process" size="sm">
+        <Steps current={1} status="process" direction="vertical" size="sm">
           <StepsItem
             title="First"
             description="This is description! This is description! This is description! This is description! This is description! This is description! This is description! This is description! This is description! This is description! This is description! "
@@ -17,3 +18,5 @@ export default class Demo extends Component {
     );
   }
 }
+
+```

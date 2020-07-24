@@ -6,7 +6,7 @@ const ListItem = props => {
   const classString = classnames(prefixCls, className);
 
   const actionsContent = useMemo(() => {
-    let items: any = [];
+    const items: any = [];
     if (actions && actions.length) {
       actions.forEach((action, index) => {
         items.push(
@@ -15,7 +15,7 @@ const ListItem = props => {
           </li>,
         );
 
-        if (index + 1 != actions.length) {
+        if (index + 1 !== actions.length) {
           items.push(
             <li
               key={`${index}-separator`}

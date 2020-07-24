@@ -1,6 +1,6 @@
 export interface ListProps extends KUI.BasicProps<React.HTMLAttributes<HTMLUListElement>> {
   bordered?: boolean;
-  data?: Array<any>;
+  data?: any[];
   footer?: React.ReactNode | string;
   header?: React.ReactNode | string;
   size?: 'sm' | 'lg';
@@ -9,7 +9,7 @@ export interface ListProps extends KUI.BasicProps<React.HTMLAttributes<HTMLUList
 }
 
 export interface ListItemProps extends KUI.BasicProps<React.HTMLAttributes<HTMLLIElement>> {
-  actions?: Array<any>;
+  actions?: any[];
 }
 
 export interface ListItemMetaProps

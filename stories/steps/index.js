@@ -1,23 +1,21 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withDocs, withReadme } from 'storybook-readme';
-
-import Api from '../../src/components/steps/README.md';
-
-import Basic from './basic';
+import stepsDoc from '../../src/components/steps/README.md';
 import Align from './align';
+import AlignDoc from './doc/align.md';
+import Basic from './basic';
+import BasicDoc from './doc/basic.md';
 import Icon from './icon';
+import IconDoc from './doc/icon.md';
 import Size from './size';
-import Vertical from './vertical';
-import VerticalMini from './vertical-mini';
+import SizeDoc from './doc/size.md';
 import Status from './status';
-
-storiesOf('Steps', module)
-  .addDecorator(withReadme(Api))
-  .add('basic', () => <Basic />)
-  .add('size', () => <Size />)
-  .add('align', () => <Align />)
-  .add('icon', () => <Icon />)
-  .add('vertical', () => <Vertical />)
-  .add('vertical-mini', () => <VerticalMini />)
-  .add('status', () => <Status />);
+import StatusDoc from './doc/status.md';
+import Verticalmini from './vertical-mini';
+import VerticalminiDoc from './doc/vertical-mini.md';
+import Vertical from './vertical';
+import VerticalDoc from './doc/vertical.md';
+storiesOf('steps', module)
+              .addDecorator(withReadme(stepsDoc))
+              .add('align', withDocs(AlignDoc, () => <Align/>)).add('basic', withDocs(BasicDoc, () => <Basic/>)).add('icon', withDocs(IconDoc, () => <Icon/>)).add('size', withDocs(SizeDoc, () => <Size/>)).add('status', withDocs(StatusDoc, () => <Status/>)).add('vertical-mini', withDocs(VerticalminiDoc, () => <Verticalmini/>)).add('vertical', withDocs(VerticalDoc, () => <Vertical/>));

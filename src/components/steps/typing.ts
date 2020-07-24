@@ -4,6 +4,7 @@ export interface StepsProps extends KUI.BasicProps<React.HtmlHTMLAttributes<HTML
   direction?: 'horizontal' | 'vertical';
   status?: 'wait' | 'process' | 'finish' | 'error';
   size?: 'sm';
+  iconInner?: boolean;
 }
 
 export interface StepsItemProps
@@ -13,4 +14,5 @@ export interface StepsItemProps
   title?: React.ReactNode | string;
   description?: React.ReactNode | string;
   status?: 'wait' | 'process' | 'finish' | 'error';
+  iconInner?: boolean;
 }

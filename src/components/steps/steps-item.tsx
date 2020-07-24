@@ -13,6 +13,7 @@ const StepsItem = (props: StepsItemProps) => {
     icon,
     title,
     description,
+    iconInner,
     ...others
   } = props;
 
@@ -35,10 +36,15 @@ const StepsItem = (props: StepsItemProps) => {
     [`${prefixCls}--${status}`]: true,
   });
 
+  const iconClassString = classnames({
+    [`${prefixCls}__icon`]: true,
+    [`${prefixCls}__icon--customize`]: !!icon && !iconInner,
+  });
+
   return (
     <div className={classString} {...others}>
       <div className={`${prefixCls}__tail`} />
-      <div className={`${prefixCls}__icon`}>{<Icon>{iconContent}</Icon>}</div>
+      <div className={iconClassString}>{<Icon>{iconContent}</Icon>}</div>
       <div className={`${prefixCls}__content`}>
         <div className={`${prefixCls}__title`}>{title}</div>
         <div className={`${prefixCls}__description`}>{description}</div>

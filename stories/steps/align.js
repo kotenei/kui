@@ -5,7 +5,7 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-steps">
-        <Steps current={1} status="process">
+        <Steps current={1} status="process" alignCenter>
           <StepsItem
             title="First"
             description="This is description! This is description! This is description! This is description! This is description! This is description! This is description! This is description! This is description! This is description! This is description! "

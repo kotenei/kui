@@ -28,7 +28,26 @@
 
   &--vertical {
     .#{$namespace}-steps-item {
-      
+      padding-bottom: $space-lg;
+
+      &:last-child {
+        padding-bottom: 0;
+
+        .#{$namespace}-steps-item__tail {
+          display: none;
+        }
+      }
+
+      &__tail {
+        @include line($space-xxl/2, $border-color-base);
+
+        &::after {
+          width: 1px;
+          height: calc(100% - #{$space-xxl});
+          left: $space-xxl/2;
+          top: $space-xxl+$space-base;
+        }
+      }
     }
   }
 
@@ -86,10 +105,15 @@
         width: $space-xl;
         height: $space-xl;
         font-size: $font-size-sm;
+
+        &--customize {
+          font-size: 24px;
+        }
       }
 
       &__title {
         font-size: $font-size-base;
+        line-height: 1.5;
 
         &:after {
           top: $space-xl/2;
@@ -98,6 +122,22 @@
 
       &__description {
         font-size: $font-size-sm;
+      }
+    }
+
+
+
+    &.#{$namespace}-steps--vertical {
+      .#{$namespace}-steps-item {
+        &__tail {
+          &:after {
+            left: $space-xl/2;
+
+            height: calc(100% - #{$space-xl});
+
+            top: $space-xl+$space-base;
+          }
+        }
       }
     }
   }
@@ -122,6 +162,12 @@
       border: 1px solid $border-color-base;
       border-radius: 50%;
       color: $text-color-secondary;
+
+      &--customize {
+        border: 0 !important;
+        background: none !important;
+        font-size: 32px;
+      }
     }
 
 
@@ -150,7 +196,11 @@
         &__icon {
           color: $white;
           border-color: $primary-color;
-          background-color: $primary-color;
+          background: $primary-color;
+
+          &--customize {
+            color: $text-color-primary;
+          }
         }
 
         &__description {
@@ -165,7 +215,7 @@
 
         &__tail {
           &:after {
-            background-color: $primary-color;
+            background: $primary-color;
           }
         }
 
@@ -176,7 +226,7 @@
 
         &__title {
           &:after {
-            background-color: $primary-color;
+            background: $primary-color;
           }
         }
       }

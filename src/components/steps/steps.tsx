@@ -14,6 +14,7 @@ const Steps = (props: StepsProps) => {
     size,
     current = 0,
     status,
+    iconInner,
     ...others
   } = props;
 
@@ -44,6 +45,7 @@ const Steps = (props: StepsProps) => {
         React.cloneElement(child, {
           key: index,
           index,
+          iconInner,
           ...child.props,
           status: newStatus,
         }),
@@ -61,7 +63,7 @@ const Steps = (props: StepsProps) => {
     }
 
     return items;
-  }, [children, current, status]);
+  }, [children, current, status, iconInner]);
 
   const classString = classnames(
     {

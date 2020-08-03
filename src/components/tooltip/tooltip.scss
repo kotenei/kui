@@ -1,0 +1,7 @@
+@import '../../assets/styles/global.scss';
+
+$prefix:#{$namespace}-tooltip;
+
+.#{$prefix} {
+  @include popover($prefix, $tooltip-bg-color, $tooltip-font-color);
+}

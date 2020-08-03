@@ -1,0 +1,138 @@
+@mixin popover($prefix, $defaultBgColor, $defaultFontColor) {
+  border-radius: $radius-base;
+  position: absolute;
+  background-color: $defaultBgColor;
+  color: $defaultFontColor;
+  transition: opacity .3s ease;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+
+  &__arrow {
+    width: 0;
+    height: 0;
+    position: absolute;
+    border: 5px solid $defaultBgColor;
+  }
+
+  &__inner {
+    padding: $space-base;
+  }
+
+  @each $color,
+  $value in $colors {
+    &--#{$color} {
+      color: $white;
+      background: $value;
+
+      &.#{$prefix}--top .#{$prefix}__arrow,
+      &.#{$prefix}--topLeft .#{$prefix}__arrow,
+      &.#{$prefix}--topRight .#{$prefix}__arrow {
+        border-top-color: $value;
+      }
+
+      &.#{$prefix}--left .#{$prefix}__arrow,
+      &.#{$prefix}--leftTop .#{$prefix}__arrow,
+      &.#{$prefix}--leftBottom .#{$prefix}__arrow {
+        border-left-color: $value;
+      }
+
+      &.#{$prefix}--right .#{$prefix}__arrow,
+      &.#{$prefix}--rightTop .#{$prefix}__arrow,
+      &.#{$prefix}--rightBottom .#{$prefix}__arrow {
+        border-right-color: $value;
+      }
+
+      &.#{$prefix}--bottom .#{$prefix}__arrow,
+      &.#{$prefix}--bottomLeft .#{$prefix}__arrow,
+      &.#{$prefix}--bottomRight .#{$prefix}__arrow {
+        border-bottom-color: $value;
+      }
+    }
+  }
+
+  &--top,
+  &--topLeft,
+  &--topRight {
+    margin-top: -8px;
+
+    .#{$prefix}__arrow {
+      border-color: $defaultBgColor transparent transparent transparent;
+      left: 50%;
+      bottom: -10px;
+      margin-left: -5px;
+    }
+  }
+
+  &--left,
+  &--leftTop,
+  &--leftBottom {
+    margin-left: -8px;
+
+    .#{$prefix}__arrow {
+      border-color: transparent transparent transparent $defaultBgColor;
+      top: 50%;
+      margin-top: -5px;
+      right: -10px;
+    }
+  }
+
+
+  &--bottom,
+  &--bottomLeft,
+  &--bottomRight {
+    margin-top: 8px;
+
+    .#{$prefix}__arrow {
+      border-color: transparent transparent $defaultBgColor transparent;
+      left: 50%;
+      top: -10px;
+      margin-left: -5px;
+    }
+  }
+
+
+  &--right,
+  &--rightTop,
+  &--rightBottom {
+    margin-left: 8px;
+
+    .#{$prefix}__arrow {
+      border-color: transparent $defaultBgColor transparent transparent;
+      left: -10px;
+      top: 50%;
+      margin-top: -5px;
+    }
+  }
+
+
+  &--topLeft,
+  &--bottomLeft {
+    .#{$prefix}__arrow {
+      left: 16px;
+    }
+  }
+
+  &--topRight,
+  &--bottomRight {
+    .#{$prefix}__arrow {
+      right: 16px;
+      left: auto;
+    }
+  }
+
+  &--leftTop,
+  &--rightTop {
+    .#{$prefix}__arrow {
+      top: 14px;
+    }
+  }
+
+  &--leftBottom,
+  &--rightBottom {
+    .#{$prefix}__arrow {
+      top: auto;
+      bottom: 10px;
+    }
+  }
+}

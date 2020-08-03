@@ -10,3 +10,4 @@ export * from './list';
 export * from './loading';
 export * from './steps';
 export * from './tag';
+export * from './tooltip';

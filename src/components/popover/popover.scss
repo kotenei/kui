@@ -24,38 +24,11 @@ $prefix:#{$namespace}-popover;
     padding: $space-base;
   }
 
-  &__arrow {
-    // border: 10px solid $border-color-base;
-
-    // &::before {
-    //   position: absolute;
-    //   content: '';
-    //   width: 0;
-    //   height: 0;
-    //   border: 5px solid $popover-bg-color;
-    // }
-    // border-left: transparent;
-    // border-right: none;
-  }
-
   &--top,
   &--topLeft,
   &--topRight {
-    // margin-top: -10px;
-
     .#{$prefix}__arrow {
       box-shadow: $popover-top-box-shadow;
-      // border-color: $border-color-base transparent transparent transparent;
-      // left: 50%;
-      // bottom: -20px;
-      // margin-left: -10px;
-
-      // &::before {
-      //   bottom: -9px;
-      //   left: 50%;
-      //   margin-left: -10px;
-      //   border-color: $popover-bg-color transparent transparent transparent;
-      // }
     }
   }
 
@@ -63,67 +36,25 @@ $prefix:#{$namespace}-popover;
   &--left,
   &--leftTop,
   &--leftBottom {
-    // margin-left: -10px;
-
     .#{$prefix}__arrow {
       box-shadow: $popover-left-box-shadow;
-      // border-color: transparent transparent transparent $border-color-base;
-      // top: 50%;
-      // margin-top: -10px;
-      // right: -20px;
-
-      // &::before {
-      //   right: -9px;
-      //   top: 50%;
-      //   margin-top: -10px;
-      //   border-color: transparent transparent transparent $popover-bg-color;
-      // }
     }
   }
-
 
   &--bottom,
   &--bottomLeft,
   &--bottomRight {
-    //margin-top: 12px;
-
     .#{$prefix}__arrow {
       box-shadow: $popover-bottom-box-shadow;
-      // border-color: transparent transparent $border-color-base transparent;
-      // left: 50%;
-      // top: -20px;
-      // margin-left: -10px;
-
-      // &::before {
-      //   top: -9px;
-      //   left: 50%;
-      //   margin-left: -10px;
-      //   border-color: transparent transparent $popover-bg-color transparent;
-      // }
     }
   }
-
 
   &--right,
   &--rightTop,
   &--rightBottom {
-    // margin-left: 12px;
-
     .#{$prefix}__arrow {
       box-shadow: $popover-right-box-shadow;
-      // border-color: transparent $border-color-base transparent transparent;
-      // top: 50%;
-      // left: -20px;
-      // margin-top: -10px;
-
-      // &::before {
-      //   left: -9px;
-      //   top: 50%;
-      //   margin-top: -10px;
-      //   border-color: transparent $popover-bg-color transparent transparent;
-      // }
     }
   }
-
 
 }

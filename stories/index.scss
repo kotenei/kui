@@ -42,4 +42,17 @@
       }
     }
   }
+
+  &-popover {
+    padding:100px ;
+
+    &.placement {
+      padding-left: 200px;
+
+      .k-button {
+        margin-bottom: 10px;
+        width: 80px;
+      }
+    }
+  }
 }

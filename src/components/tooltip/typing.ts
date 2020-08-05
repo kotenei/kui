@@ -14,8 +14,8 @@ export type TooltipPlacementType =
 
 export interface TooltipProps
   extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>, 'title'> {
-  color: KUI.ColorTypes;
-  title: React.ReactNode | string;
+  color?: KUI.ColorTypes;
+  title?: React.ReactNode | string;
   placement?: TooltipPlacementType;
   trigger?: 'hover' | 'click';
   delay?: number;

@@ -32,9 +32,6 @@ export default class Demo extends Component {
         <Tooltip title="tooltip text" trigger="click">
           <Button style={style}>click</Button>
         </Tooltip>
-        <Tooltip title="tooltip text" trigger="click">
-          <Button style={style}>click</Button>
-        </Tooltip>
       </div>
     );
   }

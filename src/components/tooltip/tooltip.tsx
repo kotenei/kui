@@ -1,6 +1,7 @@
 import React, { memo, useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
+import { Portal } from '../portal';
 import { Transition } from 'react-transition-group';
 
 import { TooltipProps } from './typing';
@@ -20,6 +21,7 @@ const Tooltip = (props: TooltipProps) => {
   const [show, setShow] = useState(props.show);
   const triggerRef = useRef(null);
   const tooltipRef = useRef(null);
+  const timer = useRef(null);
 
   useEffect(() => {
     if (show !== undefined) {
@@ -31,12 +33,20 @@ const Tooltip = (props: TooltipProps) => {
     if (trigger === 'click') {
       document.addEventListener('click', hideTooltip);
     }
+
     return () => {
       if (trigger === 'click') {
         document.removeEventListener('click', hideTooltip);
       }
     };
-  }, []);
+  }, [trigger]);
+
+  useEffect(() => {
+    window.addEventListener('resize', setPosition);
+    return () => {
+      window.removeEventListener('resize', setPosition);
+    };
+  }, [show, placement]);
 
   const onTriggerMouseEnter = useCallback(() => {
     if (trigger !== 'hover') {
@@ -85,6 +95,23 @@ const Tooltip = (props: TooltipProps) => {
     setShow(false);
   }, []);
 
+  const setPosition = () => {
+    if (show) {
+      if (triggerRef.current && tooltipRef.current) {
+        if (timer.current) {
+          clearTimeout(timer.current);
+        }
+        timer.current = setTimeout(() => {
+          const elTrigger = triggerRef.current as any;
+          const elTooltip = tooltipRef.current as any;
+          const position = getPopoverPosition(elTrigger.firstChild, elTooltip, placement);
+          elTooltip.style.left = position.left + 'px';
+          elTooltip.style.top = position.top + 'px';
+        }, 300);
+      }
+    }
+  };
+
   const onEnter = useCallback(
     (node, isAppearing) => {
       if (triggerRef.current && tooltipRef.current) {
@@ -120,8 +147,8 @@ const Tooltip = (props: TooltipProps) => {
       className,
     );
 
-    return ReactDOM.createPortal(
-      <Transition
+    return (
+      <Portal
         in={show}
         timeout={300}
         appear
@@ -137,8 +164,7 @@ const Tooltip = (props: TooltipProps) => {
             </div>
           );
         }}
-      </Transition>,
-      document.body,
+      </Portal>
     );
   }, [show, placement]);
 

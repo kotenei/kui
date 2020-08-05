@@ -9,71 +9,45 @@
   visibility: hidden;
 
   &__arrow {
-    width: 0;
-    height: 0;
+    width: $space-base;
+    height: $space-base;
     position: absolute;
-    border: 5px solid $defaultBgColor;
+    // border: 5px solid $defaultBgColor;
+    background-color: $defaultBgColor;
+    transform: rotate(45deg);
+
   }
 
   &__inner {
     padding: $space-base;
   }
 
-  @each $color,
-  $value in $colors {
-    &--#{$color} {
-      color: $white;
-      background: $value;
 
-      &.#{$prefix}--top .#{$prefix}__arrow,
-      &.#{$prefix}--topLeft .#{$prefix}__arrow,
-      &.#{$prefix}--topRight .#{$prefix}__arrow {
-        border-top-color: $value;
-      }
-
-      &.#{$prefix}--left .#{$prefix}__arrow,
-      &.#{$prefix}--leftTop .#{$prefix}__arrow,
-      &.#{$prefix}--leftBottom .#{$prefix}__arrow {
-        border-left-color: $value;
-      }
-
-      &.#{$prefix}--right .#{$prefix}__arrow,
-      &.#{$prefix}--rightTop .#{$prefix}__arrow,
-      &.#{$prefix}--rightBottom .#{$prefix}__arrow {
-        border-right-color: $value;
-      }
-
-      &.#{$prefix}--bottom .#{$prefix}__arrow,
-      &.#{$prefix}--bottomLeft .#{$prefix}__arrow,
-      &.#{$prefix}--bottomRight .#{$prefix}__arrow {
-        border-bottom-color: $value;
-      }
-    }
-  }
 
   &--top,
   &--topLeft,
   &--topRight {
-    margin-top: -8px;
+    margin-top: -$space-base;
 
     .#{$prefix}__arrow {
-      border-color: $defaultBgColor transparent transparent transparent;
+      // border-color: $defaultBgColor transparent transparent transparent;
       left: 50%;
-      bottom: -10px;
-      margin-left: -5px;
+      bottom: -($space-base/2);
+      margin-left: -($space-base/2);
+
     }
   }
 
   &--left,
   &--leftTop,
   &--leftBottom {
-    margin-left: -8px;
+    margin-left: -$space-base;
 
     .#{$prefix}__arrow {
-      border-color: transparent transparent transparent $defaultBgColor;
+      // border-color: transparent transparent transparent $defaultBgColor;
       top: 50%;
-      margin-top: -5px;
-      right: -10px;
+      margin-top: -$space-base/2;
+      right: -$space-base/2;
     }
   }
 
@@ -81,13 +55,13 @@
   &--bottom,
   &--bottomLeft,
   &--bottomRight {
-    margin-top: 8px;
+    margin-top: $space-base;
 
     .#{$prefix}__arrow {
       border-color: transparent transparent $defaultBgColor transparent;
       left: 50%;
-      top: -10px;
-      margin-left: -5px;
+      top: -$space-base/2;
+      margin-left: -$space-base/2;
     }
   }
 
@@ -95,13 +69,13 @@
   &--right,
   &--rightTop,
   &--rightBottom {
-    margin-left: 8px;
+    margin-left: $space-base;
 
     .#{$prefix}__arrow {
       border-color: transparent $defaultBgColor transparent transparent;
-      left: -10px;
+      left: -$space-base/2;
       top: 50%;
-      margin-top: -5px;
+      margin-top: -$space-base/2;
     }
   }
 
@@ -109,14 +83,15 @@
   &--topLeft,
   &--bottomLeft {
     .#{$prefix}__arrow {
-      left: 16px;
+      left: $space-base;
+      margin-left: 0;
     }
   }
 
   &--topRight,
   &--bottomRight {
     .#{$prefix}__arrow {
-      right: 16px;
+      right: $space-base;
       left: auto;
     }
   }
@@ -124,7 +99,8 @@
   &--leftTop,
   &--rightTop {
     .#{$prefix}__arrow {
-      top: 14px;
+      top: $space-base;
+      margin-top: 0;
     }
   }
 
@@ -132,7 +108,7 @@
   &--rightBottom {
     .#{$prefix}__arrow {
       top: auto;
-      bottom: 10px;
+      bottom: $space-base;
     }
   }
 }

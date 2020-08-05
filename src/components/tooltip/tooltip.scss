@@ -4,4 +4,40 @@ $prefix:#{$namespace}-tooltip;
 
 .#{$prefix} {
   @include popover($prefix, $tooltip-bg-color, $tooltip-font-color);
+
+  @each $color,
+  $value in $colors {
+    &--#{$color} {
+      color: $white;
+      background: $value;
+
+      .#{$prefix}__arrow{
+        background: $value;
+      }
+
+      // &.#{$prefix}--top .#{$prefix}__arrow,
+      // &.#{$prefix}--topLeft .#{$prefix}__arrow,
+      // &.#{$prefix}--topRight .#{$prefix}__arrow {
+      //   border-top-color: $value;
+      // }
+
+      // &.#{$prefix}--left .#{$prefix}__arrow,
+      // &.#{$prefix}--leftTop .#{$prefix}__arrow,
+      // &.#{$prefix}--leftBottom .#{$prefix}__arrow {
+      //   border-left-color: $value;
+      // }
+
+      // &.#{$prefix}--right .#{$prefix}__arrow,
+      // &.#{$prefix}--rightTop .#{$prefix}__arrow,
+      // &.#{$prefix}--rightBottom .#{$prefix}__arrow {
+      //   border-right-color: $value;
+      // }
+
+      // &.#{$prefix}--bottom .#{$prefix}__arrow,
+      // &.#{$prefix}--bottomLeft .#{$prefix}__arrow,
+      // &.#{$prefix}--bottomRight .#{$prefix}__arrow {
+      //   border-bottom-color: $value;
+      // }
+    }
+  }
 }

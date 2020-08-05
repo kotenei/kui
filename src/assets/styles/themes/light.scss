@@ -43,10 +43,17 @@ $button-active-font-color:$layout-bg-color;
 $list-bg-color:$layout-overlay-color;
 
 
+// popover
+$popover-bg-color: $layout-overlay-color;
+$popover-left-box-shadow:3px -3px 8px rgba($black, 0.15);
+$popover-top-box-shadow:3px 3px 8px rgba($black, 0.15);
+$popover-right-box-shadow:-3px 3px 8px rgba($black, 0.15);
+$popover-bottom-box-shadow:-3px -3px 8px rgba($black, 0.15);
+
 // tag
 $tag-bg-color: $text-color-primary;
 $tag-font-color: $white;
 
 // tooltip
-$tooltip-bg-color:#333;
+$tooltip-bg-color:$black;
 $tooltip-font-color:$white;

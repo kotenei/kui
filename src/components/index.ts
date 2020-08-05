@@ -8,6 +8,7 @@ export * from './grid';
 export * from './icon';
 export * from './list';
 export * from './loading';
+export * from './popover';
 export * from './steps';
 export * from './tag';
 export * from './tooltip';

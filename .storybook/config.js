@@ -31,7 +31,7 @@ addParameters({
     enableShortcuts: true,
   },
   readme: {
-    codeTheme: 'hopscotch',
+    codeTheme: 'github',
   },
 });
 

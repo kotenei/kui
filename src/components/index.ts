@@ -8,5 +8,6 @@ export * from './grid';
 export * from './icon';
 export * from './list';
 export * from './loading';
+export * from './pagination';
 export * from './steps';
 export * from './tag';

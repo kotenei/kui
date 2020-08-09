@@ -1,5 +1,10 @@
 @import '../src/assets/styles/index.scss';
 
+.storybook-readme-story{
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .story-demo {
   padding: 16px;
   h4 {

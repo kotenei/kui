@@ -1,0 +1,60 @@
+@import '../../assets/styles/global.scss';
+
+
+$prefix:#{$namespace}-popover;
+
+.#{$namespace}-popover {
+  @include popover($prefix, $popover-bg-color, $text-color-primary);
+  min-height: 50px;
+  min-width: 200px;
+  box-shadow: $box-shadow-base;
+
+
+  &__inner {
+    padding: 0;
+  }
+
+  &__title {
+    padding: $space-sm $space-base;
+    border-bottom: 1px solid $border-color-base;
+    font-weight: bold;
+  }
+
+  &__content {
+    padding: $space-base;
+  }
+
+  &--top,
+  &--topLeft,
+  &--topRight {
+    .#{$prefix}__arrow {
+      box-shadow: $popover-top-box-shadow;
+    }
+  }
+
+
+  &--left,
+  &--leftTop,
+  &--leftBottom {
+    .#{$prefix}__arrow {
+      box-shadow: $popover-left-box-shadow;
+    }
+  }
+
+  &--bottom,
+  &--bottomLeft,
+  &--bottomRight {
+    .#{$prefix}__arrow {
+      box-shadow: $popover-bottom-box-shadow;
+    }
+  }
+
+  &--right,
+  &--rightTop,
+  &--rightBottom {
+    .#{$prefix}__arrow {
+      box-shadow: $popover-right-box-shadow;
+    }
+  }
+
+}

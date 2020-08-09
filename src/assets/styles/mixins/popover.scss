@@ -1,0 +1,111 @@
+@mixin popover($prefix, $defaultBgColor, $defaultFontColor) {
+  border-radius: $radius-base;
+  position: absolute;
+  background-color: $defaultBgColor;
+  color: $defaultFontColor;
+  transition: opacity .3s ease;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+
+  &__arrow {
+    width: $space-base;
+    height: $space-base;
+    position: absolute;
+    background-color: $defaultBgColor;
+    transform: rotate(45deg);
+
+  }
+
+  &__inner {
+    padding: $space-base;
+  }
+
+
+
+  &--top,
+  &--topLeft,
+  &--topRight {
+    margin-top: -$space-base;
+
+    .#{$prefix}__arrow {
+      left: 50%;
+      bottom: -($space-base/2);
+      margin-left: -($space-base/2);
+
+    }
+  }
+
+  &--left,
+  &--leftTop,
+  &--leftBottom {
+    margin-left: -$space-base;
+
+    .#{$prefix}__arrow {
+      top: 50%;
+      margin-top: -$space-base/2;
+      right: -$space-base/2;
+    }
+  }
+
+
+  &--bottom,
+  &--bottomLeft,
+  &--bottomRight {
+    margin-top: $space-base;
+
+    .#{$prefix}__arrow {
+      border-color: transparent transparent $defaultBgColor transparent;
+      left: 50%;
+      top: -$space-base/2;
+      margin-left: -$space-base/2;
+    }
+  }
+
+
+  &--right,
+  &--rightTop,
+  &--rightBottom {
+    margin-left: $space-base;
+
+    .#{$prefix}__arrow {
+      border-color: transparent $defaultBgColor transparent transparent;
+      left: -$space-base/2;
+      top: 50%;
+      margin-top: -$space-base/2;
+    }
+  }
+
+
+  &--topLeft,
+  &--bottomLeft {
+    .#{$prefix}__arrow {
+      left: $space-base;
+      margin-left: 0;
+    }
+  }
+
+  &--topRight,
+  &--bottomRight {
+    .#{$prefix}__arrow {
+      right: $space-base;
+      left: auto;
+    }
+  }
+
+  &--leftTop,
+  &--rightTop {
+    .#{$prefix}__arrow {
+      top: $space-base;
+      margin-top: 0;
+    }
+  }
+
+  &--leftBottom,
+  &--rightBottom {
+    .#{$prefix}__arrow {
+      top: auto;
+      bottom: $space-base;
+    }
+  }
+}

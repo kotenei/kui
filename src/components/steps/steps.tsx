@@ -57,7 +57,6 @@ const Steps = (props: StepsProps) => {
         const child = items[index];
         items[index] = React.cloneElement(child, {
           ...child.props,
-          nextError: true,
         });
       });
     }

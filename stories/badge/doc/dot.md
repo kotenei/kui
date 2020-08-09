@@ -8,7 +8,7 @@ export default class Demo extends Component {
       <div className="story-demo-badge">
         <Badge dot color="danger">
           <a
-            href="javascript:void(0);"
+            href="###"
             style={{
               width: 42,
               height: 42,
@@ -20,7 +20,7 @@ export default class Demo extends Component {
         </Badge>
         <Badge text={11} overflowCount={10}>
           <a
-            href="javascript:void(0);"
+            href="###"
             style={{
               width: 42,
               height: 42,

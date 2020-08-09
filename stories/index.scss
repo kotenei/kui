@@ -7,6 +7,7 @@
 
 .story-demo {
   padding: 16px;
+
   h4 {
     margin-bottom: 5px;
     color: $text-color-primary;
@@ -31,6 +32,32 @@
 
     .k-row {
       margin-bottom: 10px;
+    }
+  }
+
+  &-tooltip {
+    padding-top: 50px;
+
+    &.placement {
+      padding-left: 100px;
+
+      .k-button {
+        margin-bottom: 10px;
+        width: 80px;
+      }
+    }
+  }
+
+  &-popover {
+    padding:100px ;
+
+    &.placement {
+      padding-left: 200px;
+
+      .k-button {
+        margin-bottom: 10px;
+        width: 80px;
+      }
     }
   }
 }

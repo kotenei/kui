@@ -28,6 +28,7 @@
     "dependencies": {
         "classnames": "^2.2.6",
         "date-fns": "^2.11.0",
+        "dom-helpers": "^5.1.4",
         "react": "^16.13.0",
         "react-dnd": "^10.0.2",
         "react-dnd-html5-backend": "^10.0.2",

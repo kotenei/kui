@@ -1,0 +1,95 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-notification {
+  $num: 24px;
+  $width: 320px;
+  position: fixed;
+
+  &--topLeft {
+    left: 0;
+    top: $num;
+    margin-left: $num;
+    @include notification-left-effect($width);
+  }
+
+  &--topRight {
+    right: 0;
+    top: $num;
+    margin-right: $num;
+    @include notification-right-effect($width);
+  }
+
+  &--bottomLeft {
+    left: 0;
+    bottom: $num;
+    margin-left: $num;
+    @include notification-left-effect($width);
+  }
+
+  &--bottomRight {
+    right: 0;
+    bottom: $num;
+    margin-right: $num;
+    @include notification-right-effect($width);
+  }
+
+  .#{$namespace}-notice {
+    margin-bottom: 10px;
+    padding: $space-lg;
+    display: flex;
+    background: $layout-overlay-color;
+    position: relative;
+    overflow: hidden;
+    box-shadow: $box-shadow-base;
+    border-radius: $radius-base;
+    width: 300px;
+    transition: all ease .24s;
+
+    @include notification-notice-state('info', $info-color);
+    @include notification-notice-state('success', $success-color);
+    @include notification-notice-state('warning', $warning-color);
+    @include notification-notice-state('danger', $danger-color);
+
+
+    &-content {
+      flex: 1;
+
+      &__title {
+        padding-right: $num;
+        font-size: $font-size-lg;
+      }
+
+      &__description {
+        color: $text-color-secondary;
+      }
+    }
+
+    &-close {
+      cursor: pointer;
+      color: $text-color-secondary;
+    }
+  }
+
+
+}
+
+
+.notice-enter {
+  opacity: 0;
+}
+
+.notice-enter.notice-enter-active {
+  opacity: 1;
+}
+
+.notice-exit {
+  opacity: 1;
+}
+
+.notice-exit.notice-exit-active {
+  opacity: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 0;
+}

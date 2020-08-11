@@ -1,23 +1,24 @@
 ```jsx
 import React, { Component } from 'react';
-import { notification, Button } from 'kui-react';
-
+import { message, Button } from 'kui-react';
 
 export default class Demo extends Component {
   render() {
     return (
-      <div className="story-demo-notification">
+      <div className="story-demo-message">
         <Button
           onClick={() => {
-            notification.open('This is title', 'This is content This is content This is content');
+            message.loading('This is content', () => {
+              alert('Loading completed');
+            });
           }}
         >
-          Default
+          Loading
         </Button>
         <Button
           color="info"
           onClick={() => {
-            notification.info('This is title', 'This is content This is content This is content');
+            message.info('This is content');
           }}
         >
           Info
@@ -25,10 +26,7 @@ export default class Demo extends Component {
         <Button
           color="success"
           onClick={() => {
-            notification.success(
-              'This is title',
-              'This is content This is content This is content',
-            );
+            message.success('This is content');
           }}
         >
           Success
@@ -36,10 +34,7 @@ export default class Demo extends Component {
         <Button
           color="warning"
           onClick={() => {
-            notification.warning(
-              'This is title',
-              'This is content This is content This is content',
-            );
+            message.warning('This is content');
           }}
         >
           Warning
@@ -47,7 +42,7 @@ export default class Demo extends Component {
         <Button
           color="danger"
           onClick={() => {
-            notification.error('This is title', 'This is content This is content This is content');
+            message.error('This is content');
           }}
         >
           Error

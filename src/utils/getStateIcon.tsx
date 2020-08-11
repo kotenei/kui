@@ -26,7 +26,6 @@ export const getStateIcon = (state: KUI.StateTypes | 'loading', props?: any) => 
       break;
     case 'loading':
       return <Loading {...props} />;
-      break;
     default:
       break;
   }

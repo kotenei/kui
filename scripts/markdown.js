@@ -14,8 +14,8 @@ crateIndex = items => {
   str += `import { withDocs, withReadme } from 'storybook-readme';\n`;
 
   items.forEach(item => {
-    let importName=item.name.replace(/\-/g,'').replace(/^\S/, s => s.toUpperCase());
-    
+    let importName = item.name.replace(/\-/g, '').replace(/^\S/, s => s.toUpperCase());
+
     if (!folder) {
       folder = item.folder;
       str += `import ${folder}Doc from '../../src/components/${folder}/README.md';\n`;
@@ -35,7 +35,7 @@ crateIndex = items => {
 glob(`stories/${filePattern}`, (err, files) => {
   if (!err) {
     let hasRemove = false;
-    let dirMap = [];
+    let dirMap = {};
     let prevDir;
     let prevFolder;
 
@@ -47,18 +47,22 @@ glob(`stories/${filePattern}`, (err, files) => {
       const folderDir = path.resolve(`stories/${folder}`);
       const docDir = path.resolve(folderDir, 'doc');
 
-      if (fs.existsSync(docDir) && !dirMap[docDir]) {
-        fs.removeSync(docDir);
+      if (!dirMap[docDir]) {
         dirMap[docDir] = [];
-        if (!prevDir) {
-          prevDir = docDir;
-          prevFolder = folderDir;
+        if (fs.existsSync(docDir)) {
+          fs.removeSync(docDir);
         }
-        if (prevDir != docDir && dirMap[prevDir]) {
-          fs.writeFileSync(`${prevFolder}/index.js`, crateIndex(dirMap[prevDir]));
-          prevDir = docDir;
-          prevFolder = folderDir;
-        }
+      }
+
+      if (!prevDir) {
+        prevDir = docDir;
+        prevFolder = folderDir;
+      }
+
+      if (prevDir != docDir && dirMap[prevDir]) {
+        fs.writeFileSync(`${prevFolder}/index.js`, crateIndex(dirMap[prevDir]));
+        prevDir = docDir;
+        prevFolder = folderDir;
       }
 
       !fs.existsSync(folderDir) && fs.mkdirSync(folderDir);

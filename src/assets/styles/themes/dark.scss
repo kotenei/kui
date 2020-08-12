@@ -56,6 +56,11 @@ $popover-top-box-shadow:3px 3px 8px rgba($white, 0.15);
 $popover-right-box-shadow:-3px 3px 8px rgba($white, 0.15);
 $popover-bottom-box-shadow:-3px -3px 8px rgba($white, 0.15);
 
+// progress
+$progress-inner-bg-color:$white;
+$progress-inner-font-color:$black;
+$progress-outer-bg-color:$layout-overlay-color;
+
 // tag
 $tag-bg-color:$text-color-primary;
 $tag-font-color:$black;

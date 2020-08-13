@@ -18,4 +18,5 @@ export * from './popover';
 export * from './progress';
 export * from './steps';
 export * from './tag';
+export * from './timeline';
 export * from './tooltip';

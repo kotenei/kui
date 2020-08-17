@@ -8,6 +8,7 @@ export * from './collapse';
 export * from './divider';
 export * from './grid';
 export * from './icon';
+export * from './lazyload';
 export * from './list';
 export * from './loading';
 export * from './mask';

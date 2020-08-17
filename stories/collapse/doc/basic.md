@@ -13,7 +13,7 @@ export default class Demo extends Component {
     return (
       <div className="story-demo-collapse">
         <Collapse>
-          <CollapsePanel header="This is panel header 1" id="1">
+          <CollapsePanel header="This is panel header 1" id="1" >
             <p>{text}</p>
           </CollapsePanel>
           <CollapsePanel header="This is panel header 2" id="2">

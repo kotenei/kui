@@ -12,19 +12,22 @@ $danger-color: #f44336;
 $warning-color: #ff9800;
 
 // text
-$text-color-primary:rgba($white,.85);
-$text-color-regular: rgba($white, .65);
-$text-color-secondary: rgba($white, .45);
-$text-color-placeholder:rgba($white, .25);
-$disabled-color:$text-color-placeholder;
+$text-color-primary:#D9D9D9;
+$text-color-regular: #A6A6A6;
+$text-color-secondary: #737373;
+$text-color-placeholder:#404040;
+
+// disabled
+$disabled-color:$text-color-secondary;;
 
 // border
-$border-color-base:$text-color-placeholder;
+$border-color-base:$text-color-regular;
 $border-hover-color:$text-color-primary;
 
 
 // box-shadow
-$box-shadow-base: 0 2px 8px rgba($white, 0.15);
+$box-shadow-color:#262626;
+$box-shadow-base: 0 2px 8px $box-shadow-color;
 
 // avatar
 $avatar-bg-color: $text-color-primary;
@@ -40,6 +43,10 @@ $button-active-bg-color:$text-color-regular;
 $button-active-border-color:transparent;
 $button-active-font-color:$layout-bg-color;
 
+// collapse
+$collapse-header-bg-color:$layout-overlay-color;
+$collapse-panel-bg-color:$layout-overlay-color;
+
 // list
 $list-bg-color:$layout-overlay-color;
 
@@ -51,10 +58,10 @@ $pagination-active-font-color:$white;
 
 // popover
 $popover-bg-color: $layout-overlay-color;
-$popover-left-box-shadow:3px -3px 8px rgba($white, 0.15);
-$popover-top-box-shadow:3px 3px 8px rgba($white, 0.15);
-$popover-right-box-shadow:-3px 3px 8px rgba($white, 0.15);
-$popover-bottom-box-shadow:-3px -3px 8px rgba($white, 0.15);
+$popover-left-box-shadow:3px -3px 8px $box-shadow-color;
+$popover-top-box-shadow:3px 3px 8px $box-shadow-color;
+$popover-right-box-shadow:-3px 3px 8px $box-shadow-color;
+$popover-bottom-box-shadow:-3px -3px 8px $box-shadow-color;
 
 // progress
 $progress-inner-bg-color:$white;

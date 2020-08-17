@@ -13,7 +13,6 @@ const CollapsePanel = (props: CollapsePanelProps) => {
     className,
     activeIds = [],
     disabled,
-    border,
     children,
     header,
     onClick,
@@ -93,7 +92,7 @@ const CollapsePanel = (props: CollapsePanelProps) => {
         {state => {
           return (
             <div className={`${prefixCls}-panel-body`} ref={contentElement}>
-              {children}
+              <div className={`${prefixCls}-panel-body__inner`}>{children}</div>
             </div>
           );
         }}

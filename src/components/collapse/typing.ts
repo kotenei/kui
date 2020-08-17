@@ -8,9 +8,7 @@ export interface CollapseProps
 
 export interface CollapsePanelProps
   extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>, 'onClick'> {
-  border?: boolean;
   id: string;
-  icon?: React.ReactNode | string;
   header?: React.ReactNode | string;
   activeIds?: string[];
   disabled?: boolean;

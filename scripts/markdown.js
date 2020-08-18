@@ -15,10 +15,11 @@ crateIndex = items => {
 
   items.forEach(item => {
     let importName = item.name.replace(/\-/g, '').replace(/^\S/, s => s.toUpperCase());
+    let importDocName = item.folder.replace(/\-/g, '');
 
     if (!folder) {
       folder = item.folder;
-      str += `import ${folder}Doc from '../../src/components/${folder}/README.md';\n`;
+      str += `import ${importDocName}Doc from '../../src/components/${folder}/README.md';\n`;
     }
     str += `import ${importName} from './${item.name}';\n`;
     str += `import ${importName}Doc from './doc/${item.name}.md';\n`;
@@ -26,7 +27,7 @@ crateIndex = items => {
   });
 
   str += `storiesOf('${folder}', module)
-              .addDecorator(withReadme(${folder}Doc))
+              .addDecorator(withReadme(${folder.replace(/\-/g, '')}Doc))
               ${add};`;
 
   return str;

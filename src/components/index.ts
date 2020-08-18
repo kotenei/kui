@@ -15,6 +15,7 @@ export * from './mask';
 export * from './message';
 export * from './notification';
 export * from './pagination';
+export * from './pop-confirm';
 export * from './portal';
 export * from './popover';
 export * from './progress';

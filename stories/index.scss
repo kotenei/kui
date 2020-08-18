@@ -48,7 +48,8 @@
     }
   }
 
-  &-popover {
+  &-popover,
+  &-popconfirm {
     padding: 100px;
 
     &.placement {

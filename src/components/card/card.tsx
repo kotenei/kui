@@ -25,8 +25,12 @@ const Card = (props: CardProps) => {
 
   const actionItems = useMemo(() => {
     if (actions && actions.length) {
-      return actions.map(item => {
-        return <li className={`${prefixCls}-actions-item`}>{item}</li>;
+      return actions.map((item, index) => {
+        return (
+          <li key={index} className={`${prefixCls}-actions-item`}>
+            {item}
+          </li>
+        );
       });
     }
     return null;

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Popconfirm, Button, message } from 'kui-react';
 
 export default class Demo extends Component {
-  onCacnel = () => {
+  onCancel = () => {
     message.error('click cancel');
   };
   onConfirm = () => {
@@ -17,7 +17,7 @@ export default class Demo extends Component {
             placement="topLeft"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>TL</Button>
           </Popconfirm>
@@ -25,7 +25,7 @@ export default class Demo extends Component {
             placement="top"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>Top</Button>
           </Popconfirm>
@@ -33,7 +33,7 @@ export default class Demo extends Component {
             placement="topRight"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>TR</Button>
           </Popconfirm>
@@ -43,7 +43,7 @@ export default class Demo extends Component {
             placement="leftTop"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>LT</Button>
           </Popconfirm>
@@ -51,7 +51,7 @@ export default class Demo extends Component {
             placement="left"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>Left</Button>
           </Popconfirm>
@@ -59,7 +59,7 @@ export default class Demo extends Component {
             placement="leftBottom"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>LB</Button>
           </Popconfirm>
@@ -69,7 +69,7 @@ export default class Demo extends Component {
             placement="rightTop"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>RT</Button>
           </Popconfirm>
@@ -77,7 +77,7 @@ export default class Demo extends Component {
             placement="right"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>Right</Button>
           </Popconfirm>
@@ -85,7 +85,7 @@ export default class Demo extends Component {
             placement="rightBottom"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>RB</Button>
           </Popconfirm>
@@ -95,7 +95,7 @@ export default class Demo extends Component {
             placement="bottomLeft"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>BL</Button>
           </Popconfirm>
@@ -103,7 +103,7 @@ export default class Demo extends Component {
             placement="bottom"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>Bottom</Button>
           </Popconfirm>
@@ -111,7 +111,7 @@ export default class Demo extends Component {
             placement="bottomRight"
             title="Are you sure to delete this row?"
             onCancel={this.onCancel}
-            onClick={this.onClick}
+            onConfirm={this.onConfirm}
           >
             <Button>BR</Button>
           </Popconfirm>

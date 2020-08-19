@@ -4,6 +4,7 @@ export * from './badge';
 export * from './breadcrumb';
 export * from './button';
 export * from './card';
+export * from './carousel';
 export * from './collapse';
 export * from './divider';
 export * from './grid';

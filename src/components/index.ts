@@ -21,6 +21,7 @@ export * from './portal';
 export * from './popover';
 export * from './progress';
 export * from './steps';
+export * from './tabs';
 export * from './tag';
 export * from './timeline';
 export * from './tooltip';

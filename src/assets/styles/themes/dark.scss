@@ -43,12 +43,21 @@ $button-active-bg-color:$text-color-regular;
 $button-active-border-color:transparent;
 $button-active-font-color:$layout-bg-color;
 
+// card
+$card-bg-color:$layout-overlay-color;
+
 // collapse
 $collapse-header-bg-color:$layout-overlay-color;
 $collapse-panel-bg-color:$layout-overlay-color;
 
 // list
 $list-bg-color:$layout-overlay-color;
+
+// message
+$message-bg-color:$layout-overlay-color;
+
+// notification
+$notification-bg-color: $layout-overlay-color;
 
 // pagination
 $pagination-hover-bg-color:$text-color-regular;
@@ -71,6 +80,14 @@ $progress-outer-bg-color:$layout-overlay-color;
 // tag
 $tag-bg-color:$text-color-primary;
 $tag-font-color:$black;
+
+// tabs
+$tabs-nav-bg-color: $layout-overlay-color;
+$tabs-nav-icon-color:$text-color-regular;
+
+// timeline
+$timeline-head-bg-color:$layout-overlay-color;
+
 
 // tooltip
 $tooltip-bg-color:$white;

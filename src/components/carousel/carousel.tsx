@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import classnames from 'classnames';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
-import domHelpers from 'dom-helpers';
+import { domHelpers } from '../../utils';
 
 import { Icon } from '../icon';
 import CarouselPanel from './carousel-panel';

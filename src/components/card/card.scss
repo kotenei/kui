@@ -2,7 +2,7 @@
 
 .#{$namespace}-card {
   border-radius: $radius-base;
-  background-color: $layout-overlay-color;
+  background-color: $card-bg-color;
   position: relative;
   box-shadow: $box-shadow-base;
   min-width: 275px;

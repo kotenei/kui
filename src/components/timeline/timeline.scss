@@ -33,7 +33,7 @@ $prefix:#{$namespace}-timeline;
     position: absolute;
     width: $space-lg;
     height: $space-lg;
-    background-color: $layout-overlay-color;
+    background-color: $timeline-head-bg-color;
     border-radius: 50%;
     border: 1px solid $border-color-base;
     margin-top: 2px;

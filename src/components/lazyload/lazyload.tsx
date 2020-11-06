@@ -5,14 +5,7 @@ import domHepers from 'dom-helpers';
 import { LazyLoadProps } from './typing';
 
 const LazyLoad = (props: LazyLoadProps) => {
-  const {
-    prefixCls = 'k-lazyload',
-    className,
-    children,
-    loading,
-    container,
-    ...others
-  } = props;
+  const { prefixCls = 'k-lazyload', className, children, loading, container, ...others } = props;
   const count = useRef(0);
   const cache = useRef<any>([]);
   const elmContainer = useRef<any>(null);
@@ -70,7 +63,7 @@ const LazyLoad = (props: LazyLoadProps) => {
     load();
   }, []);
 
-  const load = useCallback(() => {
+  const load = () => {
     if (count.current <= 0) {
       return;
     }
@@ -122,9 +115,9 @@ const LazyLoad = (props: LazyLoadProps) => {
         );
       }
     });
-  }, []);
+  };
 
-  const loadImageAsync = useCallback((src, resolve?, reject?) => {
+  const loadImageAsync = (src, resolve?, reject?) => {
     if (loadingImgs.current[src]) {
       return;
     }
@@ -145,7 +138,7 @@ const LazyLoad = (props: LazyLoadProps) => {
         reject(e);
       }
     };
-  }, []);
+  };
 
   const classString = classnames(prefixCls, className);
 

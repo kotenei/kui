@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import { BadgeProps } from './typing';
@@ -6,7 +6,7 @@ import { BadgeProps } from './typing';
 const Badge = (props: BadgeProps) => {
   const { prefixCls = 'k-badge', children, className, color, dot, overflowCount, text } = props;
 
-  const badgeText = useMemo(() => {
+  const renderBadgeText = () => {
     if (dot) {
       return <sup className={`${prefixCls}__sup ${prefixCls}__dot`} />;
     }
@@ -20,7 +20,7 @@ const Badge = (props: BadgeProps) => {
       return <sup className={`${prefixCls}__sup ${prefixCls}__text`}>{content}</sup>;
     }
     return null;
-  }, [dot, overflowCount, text]);
+  };
 
   const classString = classnames(
     {
@@ -34,7 +34,7 @@ const Badge = (props: BadgeProps) => {
   return (
     <span className={classString}>
       {children}
-      {badgeText}
+      {renderBadgeText()}
     </span>
   );
 };

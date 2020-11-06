@@ -1,4 +1,4 @@
-import React, { PureComponent, memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import ProgressLine from './progress-line';
@@ -7,6 +7,17 @@ import { ProgressProps } from './typing';
 
 const Progress = (props: ProgressProps) => {
   const { prefixCls = 'k-progress', className, type, textInside, color } = props;
+
+  const renderContent = () => {
+    switch (type) {
+      case 'line':
+        return <ProgressLine prefixCls={prefixCls} {...props} />;
+      case 'circle':
+        return <ProgressCircle prefixCls={prefixCls} {...props} />;
+      default:
+        return null;
+    }
+  };
 
   const classString = classnames(
     {
@@ -18,18 +29,7 @@ const Progress = (props: ProgressProps) => {
     className,
   );
 
-  const content = useMemo(() => {
-    switch (type) {
-      case 'line':
-        return <ProgressLine prefixCls={prefixCls} {...props} />;
-      case 'circle':
-        return <ProgressCircle prefixCls={prefixCls} {...props} />;
-      default:
-        return null;
-    }
-  }, [type]);
-
-  return <div className={classString}>{content}</div>;
+  return <div className={classString}>{renderContent()}</div>;
 };
 
 Progress.defaultProps = {

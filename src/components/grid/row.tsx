@@ -16,12 +16,10 @@ const Row = (props: RowProps) => {
     return { ...style, ...gutterStyle };
   }, [gutter, style]);
 
-  const classString = useMemo(() => {
-    return classnames(prefixCls, className, {
-      [`${prefixCls}--${justify}`]: !!justify,
-      [`${prefixCls}--${align}`]: !!align,
-    });
-  }, [className, justify, align]);
+  const classString = classnames(prefixCls, className, {
+    [`${prefixCls}--${justify}`]: !!justify,
+    [`${prefixCls}--${align}`]: !!align,
+  });
 
   const cols = useMemo(() => {
     const ret = React.Children.map(children, (child: any) => {

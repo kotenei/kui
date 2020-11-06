@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import classnames from 'classnames';
 
 import { TabPanelProps } from './typing';
 

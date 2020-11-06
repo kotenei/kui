@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import { Icon } from '../icon';

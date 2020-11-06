@@ -1,8 +1,7 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import { StepsProps } from './typing';
-import { omit } from '../../utils';
 
 const Steps = (props: StepsProps) => {
   const {
@@ -18,7 +17,7 @@ const Steps = (props: StepsProps) => {
     ...others
   } = props;
 
-  const content = useMemo(() => {
+  const renderContent = () => {
     const items: any = [];
     const nextErrs: any = [];
 
@@ -62,7 +61,7 @@ const Steps = (props: StepsProps) => {
     }
 
     return items;
-  }, [children, current, status, iconInner]);
+  };
 
   const classString = classnames(
     {
@@ -76,7 +75,7 @@ const Steps = (props: StepsProps) => {
 
   return (
     <div className={classString} {...others}>
-      {content}
+      {renderContent()}
     </div>
   );
 };

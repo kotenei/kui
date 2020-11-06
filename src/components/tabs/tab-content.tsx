@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import { domHelpers } from '../../utils';
 

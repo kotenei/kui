@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import { Icon } from '../icon';
@@ -17,7 +17,7 @@ const ProgressLine = (props: ProgressLineProps) => {
     status,
   } = props;
 
-  const innerContent = useMemo(() => {
+  const renderInnerContent = () => {
     if (indeterminate) {
       return null;
     }
@@ -35,9 +35,9 @@ const ProgressLine = (props: ProgressLineProps) => {
         {innerText}
       </div>
     );
-  }, [indeterminate, textInside, percent, nativeColor]);
+  };
 
-  const indeterminateContent = useMemo(() => {
+  const renderIndeterminateContent = () => {
     if (!indeterminate) {
       return;
     }
@@ -58,9 +58,9 @@ const ProgressLine = (props: ProgressLineProps) => {
         <div className={secondClass} style={{ background: nativeColor }} />
       </React.Fragment>
     );
-  }, [indeterminate, nativeColor]);
+  };
 
-  const iconContent = useMemo(() => {
+  const renderIconContent = () => {
     if (status) {
       if (status === 'success') {
         if (percent !== undefined) {
@@ -83,14 +83,14 @@ const ProgressLine = (props: ProgressLineProps) => {
       }
     }
     return null;
-  }, [status, percent]);
+  };
 
-  const textContent = useMemo(() => {
+  const renderTextContent = () => {
     if (textInside || !showText || indeterminate) {
       return null;
     }
-    return <span className={`${prefixCls}__text`}>{iconContent || `${percent}%`}</span>;
-  }, [textInside, showText, indeterminate, percent, status]);
+    return <span className={`${prefixCls}__text`}>{renderIconContent() || `${percent}%`}</span>;
+  };
 
   const classString = classnames({
     [`${prefixCls}__bar`]: true,
@@ -101,11 +101,11 @@ const ProgressLine = (props: ProgressLineProps) => {
     <React.Fragment>
       <div className={classString}>
         <div className={`${prefixCls}__outer`} style={{ height: strokeWidth }}>
-          {innerContent}
-          {indeterminateContent}
+          {renderInnerContent()}
+          {renderIndeterminateContent()}
         </div>
       </div>
-      {textContent}
+      {renderTextContent()}
     </React.Fragment>
   );
 };

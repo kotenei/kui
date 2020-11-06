@@ -1,14 +1,12 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 
 import { Icon } from '../icon';
 import { BreadcrumbItemProps } from './typing';
 
 const BreadcrumbItem = (props: BreadcrumbItemProps) => {
   const { prefixCls, separator, href, children, current, icon } = props;
-
   const iconContent = icon && <Icon>{icon}</Icon>;
-
-  const itemContent = useMemo(() => {
+  const renderItemContent = () => {
     const curClass = current ? `${prefixCls}__current` : undefined;
     if (href) {
       return (
@@ -25,16 +23,12 @@ const BreadcrumbItem = (props: BreadcrumbItemProps) => {
         </React.Fragment>
       );
     }
-  }, [current, children, href]);
-
-  const separatorContent = useMemo(() => {
-    return <span className={`${prefixCls}__separator`}>{separator}</span>;
-  }, [separator]);
+  };
 
   return (
     <li className={`${prefixCls}__item`} onClick={props.onClick}>
-      {itemContent}
-      {separatorContent}
+      {renderItemContent()}
+      <span className={`${prefixCls}__separator`}>{separator}</span>
     </li>
   );
 };

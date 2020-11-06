@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useEffect } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import classnames from 'classnames';
 
 import { useStateCallback } from '../../hooks';

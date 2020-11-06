@@ -9,7 +9,7 @@ export default class Demo extends Component {
       activeIndex: 0,
       tabs: [
         { title: 'tab1', content: 'tab1' },
-        { title: 'tab2', content: 'tab2', disabled: true },
+        { title: 'tab2', content: 'tab2' },
         { title: 'tab3', content: 'tab3' },
       ],
     };

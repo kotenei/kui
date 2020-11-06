@@ -95,7 +95,7 @@ const Pagination = (props: PaginationProps) => {
     };
   }, [total, pageSize, current]);
 
-  const content = useMemo(() => {
+  const renderContent = () => {
     const info = getPageInfo();
 
     const items: any = [];
@@ -193,7 +193,7 @@ const Pagination = (props: PaginationProps) => {
     );
 
     return items;
-  }, [pageIndex, pageSize, total, jump, current, hoverType]);
+  };
 
   const classString = classnames({
     [prefixCls]: true,
@@ -201,7 +201,7 @@ const Pagination = (props: PaginationProps) => {
     [`${prefixCls}--${color}`]: !!color,
   });
 
-  return <ul className={classString}>{content}</ul>;
+  return <ul className={classString}>{renderContent()}</ul>;
 };
 
 export default memo(Pagination);

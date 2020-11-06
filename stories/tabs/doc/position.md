@@ -29,8 +29,8 @@ export default class Demo extends Component {
           <option value="right">right</option>
           <option value="bottom">bottom</option>
         </select>
-        <br />
-        <Tabs tabPosition={tabPosition} style={{ height: 200 }}>
+        <br /><br />
+        <Tabs tabPosition={tabPosition} style={{ height: 200 }} type="card">
           <TabPanel tab="Tab 1">Tab 1</TabPanel>
           <TabPanel tab="Tab 2">Tab 2</TabPanel>
           <TabPanel tab="Tab 3">Tab 3</TabPanel>

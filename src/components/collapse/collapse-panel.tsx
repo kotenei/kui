@@ -51,10 +51,10 @@ const CollapsePanel = (props: CollapsePanelProps) => {
     node.style.height = '0px';
   }, []);
 
-  const getContentHeight = useCallback(() => {
+  const getContentHeight = () => {
     const el = contentElement.current ? (contentElement.current as any) : null;
     return el ? el.offsetHeight || el.clientHeight || el.scrollHeight : 0;
-  }, []);
+  };
 
   const classString = classnames(
     {

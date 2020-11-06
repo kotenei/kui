@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import classnames from 'classnames';
 
@@ -17,7 +17,7 @@ const StepsItem = (props: StepsItemProps) => {
     ...others
   } = props;
 
-  const iconContent = useMemo(() => {
+  const renderIconContent = () => {
     if (icon) {
       return icon;
     }
@@ -29,7 +29,7 @@ const StepsItem = (props: StepsItemProps) => {
     }
 
     return index + 1;
-  }, [icon, status, index]);
+  };
 
   const classString = classnames({
     [prefixCls]: true,
@@ -44,7 +44,7 @@ const StepsItem = (props: StepsItemProps) => {
   return (
     <div className={classString} {...others}>
       <div className={`${prefixCls}__tail`} />
-      <div className={iconClassString}>{<Icon>{iconContent}</Icon>}</div>
+      <div className={iconClassString}>{<Icon>{renderIconContent()}</Icon>}</div>
       <div className={`${prefixCls}__content`}>
         <div className={`${prefixCls}__title`}>{title}</div>
         <div className={`${prefixCls}__description`}>{description}</div>

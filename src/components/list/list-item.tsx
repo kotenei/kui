@@ -5,7 +5,7 @@ const ListItem = props => {
   const { prefixCls = 'k-list-item', children, className, actions, ...others } = props;
   const classString = classnames(prefixCls, className);
 
-  const actionsContent = useMemo(() => {
+  const renderActionsContent = () => {
     const items: any = [];
     if (actions && actions.length) {
       actions.forEach((action, index) => {
@@ -31,12 +31,12 @@ const ListItem = props => {
       });
     }
     return items;
-  }, [actions]);
+  };
 
   return (
     <li className={classString} {...others}>
       <div className={`${prefixCls}-content`}>{children}</div>
-      <ul className={`${prefixCls}-actions`}>{actionsContent}</ul>
+      <ul className={`${prefixCls}-actions`}>{renderActionsContent()}</ul>
     </li>
   );
 };

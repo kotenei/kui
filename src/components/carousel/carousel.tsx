@@ -1,11 +1,4 @@
-import React, {
-  memo,
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-  CSSProperties,
-} from 'react';
+import React, { memo, useRef, useEffect, useCallback, CSSProperties } from 'react';
 import classnames from 'classnames';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { domHelpers } from '../../utils';
@@ -43,7 +36,14 @@ const Carousel = (props: CarouselProps) => {
     init();
   }, []);
 
-  const init = useCallback(() => {
+  useEffect(() => {
+    run();
+    return () => {
+      stop();
+    };
+  }, [state]);
+
+  const init = () => {
     const { children } = props;
     const length = children && children.length ? children.length : 0;
     const max = length + 2;
@@ -64,14 +64,7 @@ const Carousel = (props: CarouselProps) => {
       y,
       transition: '',
     });
-  }, []);
-
-  useEffect(() => {
-    run();
-    return ()=>{
-      stop();
-    }
-  }, [state]);
+  };
 
   const run = () => {
     stop();
@@ -82,84 +75,81 @@ const Carousel = (props: CarouselProps) => {
     }
   };
 
-  const active = useCallback(
-    (index: number, callback?) => {
-      const { width, height, max } = state;
+  const active = (index: number, callback?) => {
+    const { width, height, max } = state;
 
-      let transition = 'all .3s ease',
-        x,
-        y;
+    let transition = 'all .3s ease',
+      x,
+      y;
 
-      const newState: any = {
-        activeIndex: index,
-      };
+    const newState: any = {
+      activeIndex: index,
+    };
 
-      if (index === max) {
-        index = 1;
-        transition = '';
-      }
+    if (index === max) {
+      index = 1;
+      transition = '';
+    }
 
-      if (index < 0) {
-        index = max - 2;
-        transition = '';
-      }
+    if (index < 0) {
+      index = max - 2;
+      transition = '';
+    }
 
-      if (vertical) {
-        y = index * height;
-        newState.y = y;
-      } else {
-        x = index * width;
-        newState.x = x;
-      }
-      newState.transition = transition;
+    if (vertical) {
+      y = index * height;
+      newState.y = y;
+    } else {
+      x = index * width;
+      newState.x = x;
+    }
+    newState.transition = transition;
 
-      setState(newState, () => {
-        setTimeout(() => {
-          if (index >= max - 1) {
-            setState(
-              {
-                activeIndex: 1,
-                x: width,
-                y: height,
-                transition: '',
-              },
-              () => {
-                if (callback) {
-                  callback();
-                }
-              },
-            );
-          } else if (index <= 0) {
-            const num = max - 2;
-            setState(
-              {
-                activeIndex: num,
-                x: num * width,
-                y: num * height,
-                transition: '',
-              },
-              () => {
-                if (callback) {
-                  callback();
-                }
-              },
-            );
-          } else {
-            if (callback) {
-              callback();
-            }
+    setState(newState, () => {
+      setTimeout(() => {
+        if (index >= max - 1) {
+          setState(
+            {
+              activeIndex: 1,
+              x: width,
+              y: height,
+              transition: '',
+            },
+            () => {
+              if (callback) {
+                callback();
+              }
+            },
+          );
+        } else if (index <= 0) {
+          const num = max - 2;
+          setState(
+            {
+              activeIndex: num,
+              x: num * width,
+              y: num * height,
+              transition: '',
+            },
+            () => {
+              if (callback) {
+                callback();
+              }
+            },
+          );
+        } else {
+          if (callback) {
+            callback();
           }
-        }, 300);
-      });
-    },
-    [state],
-  );
+        }
+      }, 300);
+    });
+  };
 
-  const stop = useCallback(() => {
+  const stop = () => {
     if (timer.current) {
       clearTimeout(timer.current);
     }
-  }, [state]);
+  };
 
   const onMouseEnter = useCallback(() => {
     stop();
@@ -185,7 +175,7 @@ const Carousel = (props: CarouselProps) => {
     active(state.activeIndex + 1);
   }, [state]);
 
-  const content = useMemo(() => {
+  const renderContent = () => {
     const { children } = props;
     const items: any = [];
     const style: CSSProperties = { transition: state.transition };
@@ -236,9 +226,9 @@ const Carousel = (props: CarouselProps) => {
         {items}
       </div>
     );
-  }, [state, vertical]);
+  };
 
-  const dotsContent = useMemo(() => {
+  const renderDotsContent = () => {
     const { children } = props;
     const items: any = [];
     const len = children.length;
@@ -264,7 +254,7 @@ const Carousel = (props: CarouselProps) => {
     }
 
     return items;
-  }, [state]);
+  };
 
   const classString = classnames(
     {
@@ -282,8 +272,8 @@ const Carousel = (props: CarouselProps) => {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {content}
-      <div className={`${prefixCls}-dots`}>{dotsContent}</div>
+      {renderContent()}
+      <div className={`${prefixCls}-dots`}>{renderDotsContent()}</div>
       <span
         className={classnames({
           [`${prefixCls}-control`]: true,

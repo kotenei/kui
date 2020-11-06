@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useCallback } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import { Button } from '../button';
@@ -20,7 +20,7 @@ const Popconfirm = (props: PopconfirmProps) => {
     ...others
   } = props;
 
-  const popConfirmContent = useMemo(() => {
+  const renderPopConfirmContent = () => {
     return (
       <React.Fragment>
         <div className={`${prefixCls}-message`}>
@@ -39,7 +39,7 @@ const Popconfirm = (props: PopconfirmProps) => {
         </div>
       </React.Fragment>
     );
-  }, [title, cancelText, confirmText]);
+  };
 
   const classString = classnames(prefixCls, className);
 
@@ -47,7 +47,7 @@ const Popconfirm = (props: PopconfirmProps) => {
     <Tooltip
       prefixCls={'k-popover'}
       className={classString}
-      title={popConfirmContent}
+      title={renderPopConfirmContent()}
       {...others}
       trigger="click"
     >

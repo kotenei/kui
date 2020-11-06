@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import { ProgressCircleProps } from './typing';
@@ -8,24 +8,24 @@ import { Icon } from '../icon';
 const ProgressCircle = (props: ProgressCircleProps) => {
   const { prefixCls, width, status, percent, text, nativeColor, strokeWidth } = props;
 
-  const getFontSize = useCallback(() => {
+  const getFontSize = () => {
     return (width || 0) * 0.16 + 6;
-  }, [width]);
+  };
 
-  const relativeStrokeWidth = useCallback(() => {
+  const relativeStrokeWidth = () => {
     return strokeWidth !== undefined && width !== undefined
       ? ((strokeWidth / width) * 100).toFixed(1)
       : '0';
-  }, [strokeWidth, width]);
+  };
 
-  const trackPath = useCallback(() => {
+  const trackPath = () => {
     const sw = relativeStrokeWidth();
     const radius = parseInt(String(50 - parseFloat(sw) / 2), 10);
     return `M 50 50 m 0 -${radius} a ${radius} ${radius} 0 1 1 0 ${radius *
       2} a ${radius} ${radius} 0 1 1 0 -${radius * 2}`;
-  }, [strokeWidth, width]);
+  };
 
-  const circlePathStyle = useCallback(() => {
+  const circlePathStyle = () => {
     const pm = perimeter();
     return {
       strokeDasharray: `${pm}px,${pm}px`,
@@ -33,15 +33,15 @@ const ProgressCircle = (props: ProgressCircleProps) => {
       transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease',
       stroke: nativeColor,
     };
-  }, [percent, nativeColor]);
+  };
 
-  const perimeter = useCallback(() => {
+  const perimeter = () => {
     const sw = relativeStrokeWidth();
     const radius = 50 - parseFloat(sw) / 2;
     return 2 * Math.PI * radius;
-  }, [percent, nativeColor, strokeWidth, width]);
+  };
 
-  const iconContent = useMemo(() => {
+  const renderIconContent = () => {
     const fontSize = getFontSize();
     const tmpPercent = percent || 0;
 
@@ -65,7 +65,7 @@ const ProgressCircle = (props: ProgressCircleProps) => {
       }
     }
     return null;
-  }, [status, percent, width]);
+  };
 
   const _d = trackPath();
   const _circlePathStyle = circlePathStyle();
@@ -89,7 +89,7 @@ const ProgressCircle = (props: ProgressCircleProps) => {
           style={_circlePathStyle}
         />
       </svg>
-      <div className={`${prefixCls}__text`}>{iconContent || text || `${percent}%`}</div>
+      <div className={`${prefixCls}__text`}>{renderIconContent() || text || `${percent}%`}</div>
     </div>
   );
 };

@@ -11,18 +11,17 @@ const useStateCallback = initialState => {
     }
   }, [state]);
 
-  const setState = useCallback(
-    (newState, callback?) => {
-      set({
-        ...state,
+  const setState = (newState, callback?) => {
+    set(prevState => {
+      return {
+        ...prevState,
         ...newState,
-      });
-      if (typeof callback === 'function') {
-        callbackRef.current = callback;
-      }
-    },
-    [state],
-  );
+      };
+    });
+    if (typeof callback === 'function') {
+      callbackRef.current = callback;
+    }
+  };
 
   return [state, setState];
 };

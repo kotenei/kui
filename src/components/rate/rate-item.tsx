@@ -4,30 +4,53 @@ import classnames from 'classnames';
 import { RateItemProps } from './typing';
 
 const RateItem = (props: RateItemProps) => {
-  const { prefixCls, current, allowHalf, value, character } = props;
+  const { prefixCls, current, allowHalf, value, character, onHover, onClick } = props;
+  const halfNum = 0.5;
 
-  const onFirstClick = useCallback(e => {}, []);
+  const onFirstChange = useCallback(
+    e => {
+      change(e, allowHalf ? value - halfNum : value);
+    },
+    [allowHalf, value],
+  );
 
-  const onFirstOver = useCallback(e => {}, []);
+  const onSecondChange = useCallback(
+    e => {
+      change(e, value);
+    },
+    [allowHalf, value],
+  );
 
-  const onSecondClick = useCallback(e => {}, []);
-
-  const onSecondOver = useCallback(e => {}, []);
+  const change = (e, val) => {
+    if (e.type === 'mouseover') {
+      if (onHover) {
+        onHover(val);
+      }
+    } else {
+      if (onClick) {
+        onClick(val);
+      }
+    }
+  };
 
   const classString = classnames({
     [`${prefixCls}-star`]: true,
-    [`${prefixCls}-star-half`]: current === value - 0.5 && allowHalf,
-    [`${prefixCls}-star-full`]: current >= value && value.toString().indexOf('.') === -1,
+    [`${prefixCls}-star--half`]: current === value - halfNum && allowHalf,
+    [`${prefixCls}-star--full`]: current >= value && value.toString().indexOf('.') === -1,
   });
   return (
     <li className={classString}>
-      <div className={`${prefixCls}-star-first`} onMouseOver={onFirstOver} onClick={onFirstClick}>
+      <div
+        className={`${prefixCls}-star-first`}
+        onMouseOver={onFirstChange}
+        onClick={onFirstChange}
+      >
         {character}
       </div>
       <div
         className={`${prefixCls}-star-second`}
-        onMouseOver={onSecondOver}
-        onClick={onSecondClick}
+        onMouseOver={onSecondChange}
+        onClick={onSecondChange}
       >
         {character}
       </div>

@@ -1,10 +1,10 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import classnames from 'classnames';
 
 import { Icon } from '../icon';
 import RateItem from './rate-item';
 import { RateProps } from './typing';
-import { useStateCallback } from 'src/hooks';
+import { useStateCallback } from '../../hooks';
 import { AiFillStar } from 'react-icons/ai';
 
 const Rate = (props: RateProps) => {
@@ -26,46 +26,43 @@ const Rate = (props: RateProps) => {
     orgValue: value || defaultValue,
   });
 
-  const onStarHover = useCallback(
-    val => {
-      if (disabled) {
-        return;
-      }
+  const onStarHover = useCallback(val => {
+    if (disabled) {
+      return;
+    }
 
+    setState({
+      value: val,
+    });
+
+    if (onChange) {
+      onChange(val);
+    }
+  }, []);
+
+  const onStarClick = useCallback((val: number) => {
+    if (disabled) {
+      return;
+    }
+    if (!('value' in props)) {
       setState({
         value: val,
+        orgValue: val,
       });
-
-      if (onChange) {
-        onChange(val);
-      }
-    },
-    [onChange],
-  );
-
-  const onStarClick = useCallback(
-    (val: number) => {
-      if (disabled) {
-        return;
-      }
-      if (!('value' in props)) {
-        setState({
-          value,
-          orgValue: val,
-        });
-      }
-      if (onChange) {
-        onChange(val);
-      }
-    },
-    [onChange],
-  );
-
-  const onLeave = useCallback(() => {
-    setState({
-      value: state.orgValue,
-    });
+    }
+    if (onChange) {
+      onChange(val);
+    }
   }, []);
+
+  const onLeave = useCallback(
+    e => {
+      setState({
+        value: state.orgValue,
+      });
+    },
+    [state],
+  );
 
   const renderStar = () => {
     const items: any = [];

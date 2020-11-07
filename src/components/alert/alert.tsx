@@ -1,4 +1,4 @@
-import React, { memo, useState, useMemo, useCallback } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import classnames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import {
@@ -26,13 +26,21 @@ const Alert = (props: AlertProps) => {
   } = props;
   const [closed, setClosed] = useState(false);
 
-  const stateIcon = useMemo(() => {
+  const handleClose = useCallback(() => {
+    if (!closable) {
+      return;
+    }
+    if (!onClose || (typeof onClose === 'function' && onClose() !== false)) {
+      setClosed(true);
+    }
+  }, [closable, onClose]);
+
+  const renderStateIcon = () => {
     const iconClassString = classnames({
       [`${prefixCls}__icon`]: true,
       [`${prefixCls}__icon--lg`]: !!description,
     });
     let icon;
-
     switch (state) {
       case 'info':
         icon = <AiFillInfoCircle />;
@@ -48,16 +56,7 @@ const Alert = (props: AlertProps) => {
         break;
     }
     return icon ? <Icon className={iconClassString}>{icon}</Icon> : null;
-  }, [state]);
-
-  const handleClose = useCallback(() => {
-    if (!closable) {
-      return;
-    }
-    if (!onClose || (typeof onClose === 'function' && onClose() !== false)) {
-      setClosed(true);
-    }
-  }, [closable, onClose]);
+  };
 
   const classString = classnames(
     {
@@ -70,7 +69,7 @@ const Alert = (props: AlertProps) => {
   return (
     <CSSTransition in={!closed} timeout={300} classNames="fade" unmountOnExit>
       <div className={classString}>
-        {showIcon && stateIcon}
+        {showIcon && renderStateIcon()}
         <div className={`${prefixCls}__content`}>
           <div className={`${prefixCls}__title`}>{title}</div>
           {description ? <div className={`${prefixCls}__description`}>{description}</div> : null}

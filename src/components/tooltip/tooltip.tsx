@@ -1,9 +1,7 @@
-import React, { memo, useMemo, useState, useCallback, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import React, { memo, useState, useCallback, useEffect, useRef } from 'react';
 import classnames from 'classnames';
-import { Portal } from '../portal';
-import { Transition } from 'react-transition-group';
 
+import { Portal } from '../portal';
 import { TooltipProps } from './typing';
 import { getPopoverPosition } from '../../utils';
 
@@ -21,7 +19,7 @@ const Tooltip = (props: TooltipProps) => {
   const [show, setShow] = useState(props.show);
   const triggerRef = useRef(null);
   const tooltipRef = useRef(null);
-  const timer = useRef(null);
+  const timer = useRef<any>(null);
 
   useEffect(() => {
     if (show !== undefined) {
@@ -101,7 +99,7 @@ const Tooltip = (props: TooltipProps) => {
         if (timer.current) {
           clearTimeout(timer.current);
         }
-        timer.current = setTimeout(() => {
+        timer.current = window.setTimeout(() => {
           const elTrigger = triggerRef.current as any;
           const elTooltip = tooltipRef.current as any;
           const position = getPopoverPosition(elTrigger.firstChild, elTooltip, placement);
@@ -137,7 +135,7 @@ const Tooltip = (props: TooltipProps) => {
     node.style.visibility = 'hidden';
   }, []);
 
-  const tooltip = useMemo(() => {
+  const renderTooltip = () => {
     const classString = classnames(
       {
         [prefixCls]: true,
@@ -166,7 +164,7 @@ const Tooltip = (props: TooltipProps) => {
         }}
       </Portal>
     );
-  }, [show, placement]);
+  };
 
   return (
     <React.Fragment>
@@ -178,7 +176,7 @@ const Tooltip = (props: TooltipProps) => {
       >
         {children}
       </span>
-      {tooltip}
+      {renderTooltip()}
     </React.Fragment>
   );
 };

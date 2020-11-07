@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useState, useCallback } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import classnames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -18,13 +18,11 @@ const Tag = (props: TagProps) => {
     }
   }, [closable, onClose]);
 
-  const classString = useMemo(() => {
-    return classnames({
-      [prefixCls]: true,
-      [`${prefixCls}--${color}`]: !!color,
-      [`${prefixCls}--line`]: !!line,
-    });
-  }, []);
+  const classString = classnames({
+    [prefixCls]: true,
+    [`${prefixCls}--${color}`]: !!color,
+    [`${prefixCls}--line`]: !!line,
+  });
 
   return (
     <CSSTransition in={!closed} timeout={300} classNames="fade" unmountOnExit>

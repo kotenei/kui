@@ -1,5 +1,4 @@
-import React, { PureComponent, Children } from 'react';
-import classnames from 'classnames';
+import React, { PureComponent } from 'react';
 import { NoticeProps } from './typing';
 
 class Notice extends PureComponent<NoticeProps> {

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { notification, Button } from 'kui-react';
 
+
 export default class Demo extends Component {
   render() {
     return (

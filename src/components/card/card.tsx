@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import { CardProps } from './typing';
@@ -23,14 +23,18 @@ const Card = (props: CardProps) => {
     className,
   );
 
-  const actionItems = useMemo(() => {
+  const renderActionItems = () => {
     if (actions && actions.length) {
-      return actions.map(item => {
-        return <li className={`${prefixCls}-actions-item`}>{item}</li>;
+      return actions.map((item, index) => {
+        return (
+          <li key={index} className={`${prefixCls}-actions-item`}>
+            {item}
+          </li>
+        );
       });
     }
     return null;
-  }, [actions]);
+  };
 
   return (
     <div className={classString} {...others}>
@@ -42,7 +46,7 @@ const Card = (props: CardProps) => {
       )}
       {cover && <div className={`${prefixCls}-cover`}>{cover}</div>}
       <div className={`${prefixCls}-body`}>{children}</div>
-      {actions && <ul className={`${prefixCls}-actions`}>{actionItems}</ul>}
+      {actions && <ul className={`${prefixCls}-actions`}>{renderActionItems()}</ul>}
     </div>
   );
 };

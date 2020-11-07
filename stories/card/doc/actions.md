@@ -13,8 +13,8 @@ export default class Demo extends Component {
           style={{ width: 300 }}
           bordered={false}
           actions={[
-            <AiFillHeart fontSize={24} style={{ marginRight: 8 }} />,
-            <AiOutlineShareAlt fontSize={24} />,
+            <AiFillHeart key="icon_1" fontSize={24} style={{ marginRight: 8 }} />,
+            <AiOutlineShareAlt key="icon_2" fontSize={24} />,
           ]}
           extra={<AiOutlineMore />}
         >

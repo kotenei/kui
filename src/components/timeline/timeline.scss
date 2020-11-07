@@ -1,0 +1,64 @@
+@import '../../assets/styles/global.scss';
+
+$prefix:#{$namespace}-timeline;
+
+.#{$prefix} {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    list-style: none;
+    margin: 0;
+    position: relative;
+    padding: 0 0 12px;
+
+    &:last-child {
+      .#{$prefix}__tail {
+        display: none;
+      }
+    }
+  }
+
+  &__tail {
+    position: absolute;
+    top: 2px;
+    height: 100%;
+    left: $space-lg/2;
+    width: 1px;
+    background-color: $border-color-base;
+  }
+
+  &__head {
+    position: absolute;
+    width: $space-lg;
+    height: $space-lg;
+    background-color: $timeline-head-bg-color;
+    border-radius: 50%;
+    border: 1px solid $border-color-base;
+    margin-top: 2px;
+
+    @each $color,
+    $value in $colors {
+      &--#{$color} {
+        border-color: $value;
+      }
+    }
+
+    &--dot {
+      border: 0;
+      >*{
+        position: absolute;
+        left:50%;
+        transform: translateX(-50%);
+        margin: 0;
+      }
+    }
+  }
+
+  &__content {
+    position: relative;
+    padding: 0 0 10px 24px;
+    top: 0px;
+  }
+}

@@ -19,7 +19,7 @@ const List = (props: ListProps) => {
     ...others
   } = props;
 
-  const items = useMemo(() => {
+  const renderItems = () => {
     if (data && data.length) {
       return data.map((item, index) => {
         return <ListItem key={index}>{renderItem ? renderItem(item, index) : item}</ListItem>;
@@ -36,7 +36,7 @@ const List = (props: ListProps) => {
       });
     }
     return null;
-  }, [data]);
+  };
 
   const classString = classnames(
     {
@@ -50,7 +50,7 @@ const List = (props: ListProps) => {
   return (
     <ul className={classString} {...others}>
       {header && <li className={`${prefixCls}-header`}>{header}</li>}
-      {items}
+      {renderItems()}
       {footer && <li className={`${prefixCls}-footer`}>{footer}</li>}
     </ul>
   );

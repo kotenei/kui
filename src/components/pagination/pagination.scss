@@ -41,7 +41,6 @@
       span {
         cursor: not-allowed;
         color: $disabled-color!important;
-        border-color: $disabled-color!important;
         &:hover {
           background: none;
         }
@@ -65,6 +64,12 @@
           span {
             background-color: $value;
             border-color: $value;
+          }
+        }
+
+        &.disabled{
+          span{
+            border-color: $border-color-base;
           }
         }
       }

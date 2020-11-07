@@ -2,7 +2,7 @@ $white: #fff;
 $black: #000;
 
 $layout-bg-color: $white;
-$layout-overlay-color:$white;
+$layout-overlay-color:#F7F7F7;
 
 // status
 $primary-color: #2196f3;
@@ -12,19 +12,22 @@ $danger-color: #f44336;
 $warning-color: #ff9800;
 
 // text
-$text-color-primary: rgba($black, 0.85);
-$text-color-regular: rgba($black, 0.65);
-$text-color-secondary: rgba($black, 0.45);
-$text-color-placeholder: rgba($black, 0.25);
+$text-color-primary: #262626;
+$text-color-regular: #595959;
+$text-color-secondary: #8C8C8C;
+$text-color-placeholder: #BFBFBF;
 
+// disabled
 $disabled-color: $text-color-placeholder;
 
+
 // border
-$border-color-base: rgba($black, 0.15);
+$border-color-base: #ccc;
 $border-hover-color:$text-color-primary;
 
 // box-shadow
-$box-shadow-base: 0 2px 8px rgba($black, 0.15);
+$box-shadow-color:$border-color-base;
+$box-shadow-base: 0 2px 8px $box-shadow-color;
 
 // avatar
 $avatar-bg-color: $text-color-primary;
@@ -39,9 +42,21 @@ $button-active-bg-color: $text-color-primary;
 $button-active-border-color: transparent;
 $button-active-font-color:$layout-bg-color;
 
-// list
-$list-bg-color:$layout-overlay-color;
+// card
+$card-bg-color:$white;
 
+// collapse
+$collapse-header-bg-color:#F7F7F7;
+$collapse-panel-bg-color:$white;
+
+// list
+$list-bg-color:$white;
+
+// message
+$message-bg-color:$white;
+
+// notification
+$notification-bg-color: $white;
 
 // pagination
 $pagination-hover-bg-color:$text-color-regular;
@@ -50,11 +65,23 @@ $pagination-active-bg-color:$black;
 $pagination-active-font-color:$white;
 
 // popover
-$popover-bg-color: $layout-overlay-color;
-$popover-left-box-shadow:3px -3px 8px rgba($black, 0.15);
-$popover-top-box-shadow:3px 3px 8px rgba($black, 0.15);
-$popover-right-box-shadow:-3px 3px 8px rgba($black, 0.15);
-$popover-bottom-box-shadow:-3px -3px 8px rgba($black, 0.15);
+$popover-bg-color: $white;
+$popover-left-box-shadow:3px -3px 8px $box-shadow-color;
+$popover-top-box-shadow:3px 3px 8px $box-shadow-color;
+$popover-right-box-shadow:-3px 3px 8px $box-shadow-color;
+$popover-bottom-box-shadow:-3px -3px 8px $box-shadow-color;
+
+// progress
+$progress-inner-bg-color:$black;
+$progress-inner-font-color:$white;
+$progress-outer-bg-color:#e4e8f1;
+
+// tabs
+$tabs-nav-bg-color: $layout-overlay-color;
+$tabs-nav-icon-color:$text-color-placeholder;
+
+// timeline
+$timeline-head-bg-color:$white;
 
 // tag
 $tag-bg-color: $text-color-primary;

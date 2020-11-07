@@ -14,11 +14,12 @@ crateIndex = items => {
   str += `import { withDocs, withReadme } from 'storybook-readme';\n`;
 
   items.forEach(item => {
-    let importName=item.name.replace(/\-/g,'').replace(/^\S/, s => s.toUpperCase());
-    
+    let importName = item.name.replace(/\-/g, '').replace(/^\S/, s => s.toUpperCase());
+    let importDocName = item.folder.replace(/\-/g, '');
+
     if (!folder) {
       folder = item.folder;
-      str += `import ${folder}Doc from '../../src/components/${folder}/README.md';\n`;
+      str += `import ${importDocName}Doc from '../../src/components/${folder}/README.md';\n`;
     }
     str += `import ${importName} from './${item.name}';\n`;
     str += `import ${importName}Doc from './doc/${item.name}.md';\n`;
@@ -26,7 +27,7 @@ crateIndex = items => {
   });
 
   str += `storiesOf('${folder}', module)
-              .addDecorator(withReadme(${folder}Doc))
+              .addDecorator(withReadme(${folder.replace(/\-/g, '')}Doc))
               ${add};`;
 
   return str;
@@ -35,7 +36,7 @@ crateIndex = items => {
 glob(`stories/${filePattern}`, (err, files) => {
   if (!err) {
     let hasRemove = false;
-    let dirMap = [];
+    let dirMap = {};
     let prevDir;
     let prevFolder;
 
@@ -47,18 +48,22 @@ glob(`stories/${filePattern}`, (err, files) => {
       const folderDir = path.resolve(`stories/${folder}`);
       const docDir = path.resolve(folderDir, 'doc');
 
-      if (fs.existsSync(docDir) && !dirMap[docDir]) {
-        fs.removeSync(docDir);
+      if (!dirMap[docDir]) {
         dirMap[docDir] = [];
-        if (!prevDir) {
-          prevDir = docDir;
-          prevFolder = folderDir;
+        if (fs.existsSync(docDir)) {
+          fs.removeSync(docDir);
         }
-        if (prevDir != docDir && dirMap[prevDir]) {
-          fs.writeFileSync(`${prevFolder}/index.js`, crateIndex(dirMap[prevDir]));
-          prevDir = docDir;
-          prevFolder = folderDir;
-        }
+      }
+
+      if (!prevDir) {
+        prevDir = docDir;
+        prevFolder = folderDir;
+      }
+
+      if (prevDir != docDir && dirMap[prevDir]) {
+        fs.writeFileSync(`${prevFolder}/index.js`, crateIndex(dirMap[prevDir]));
+        prevDir = docDir;
+        prevFolder = folderDir;
       }
 
       !fs.existsSync(folderDir) && fs.mkdirSync(folderDir);

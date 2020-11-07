@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import classnames from 'classnames';
 
 import { BreadcrumbProps } from './typing';
@@ -6,7 +6,7 @@ import { BreadcrumbProps } from './typing';
 const Breadcrumb = (props: BreadcrumbProps) => {
   const { prefixCls = 'k-breadcrumb', className, children, separator, ...others } = props;
 
-  const content = useMemo(() => {
+  const renderContent = () => {
     return React.Children.map(children, (child: any, index) => {
       if (child && child.type && child.type.type.displayName === 'BreadcrumbItem') {
         return React.cloneElement(child, {
@@ -17,11 +17,11 @@ const Breadcrumb = (props: BreadcrumbProps) => {
       }
       return null;
     });
-  }, [separator]);
+  };
 
   return (
     <ul className={classnames(prefixCls, className)} {...others}>
-      {content}
+      {renderContent()}
     </ul>
   );
 };

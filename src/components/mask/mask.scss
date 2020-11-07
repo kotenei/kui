@@ -1,0 +1,11 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-mask {
+  position: fixed;
+  z-index: 800;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .5);
+}

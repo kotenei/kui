@@ -11,7 +11,7 @@ let placement = 'topRight';
 
 const prefixCls = 'k-notification';
 
-const notice = (state, title, content, duration, onClose) => {
+const notice = (state, title, content, duration = defaultDuration, onClose) => {
   const key = uuid();
 
   if (!title || !content) {
@@ -22,6 +22,7 @@ const notice = (state, title, content, duration, onClose) => {
     onClose = duration;
     duration = defaultDuration;
   }
+
 
   if (!instance) {
     instance = Notification.newInstance({

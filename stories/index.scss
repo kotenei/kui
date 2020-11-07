@@ -1,6 +1,6 @@
 @import '../src/assets/styles/index.scss';
 
-.storybook-readme-story{
+.storybook-readme-story {
   display: flex;
   flex-direction: column-reverse;
 }
@@ -48,8 +48,9 @@
     }
   }
 
-  &-popover {
-    padding:100px ;
+  &-popover,
+  &-popconfirm {
+    padding: 100px;
 
     &.placement {
       padding-left: 200px;
@@ -58,6 +59,21 @@
         margin-bottom: 10px;
         width: 80px;
       }
+    }
+  }
+
+  &-lazyload {
+    .k-lazyload {
+      height: 400px;
+      width: 400px;
+      border: 1px solid #ccc;
+      overflow-y: auto;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
   }
 }

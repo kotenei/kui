@@ -1,0 +1,39 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-modal {
+  border-radius: $radius-base;
+  position: fixed;
+  background: #fff;
+  left: 50%;
+  top: 0;
+  z-index: 1050;
+  opacity: 0;
+  transform: translate(-50%, -100%);
+  transition: top 0.3s, opacity 0.3s, transform 0.3s;
+
+  &--in {
+    top: 50%;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:$space-lg;
+    border-bottom: 1px solid $border-color-base;
+  }
+
+  &-body {
+    padding: $space-lg;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  &-footer {
+    padding: $space-lg;
+    border-top: 1px solid $border-color-base;
+    text-align: right;
+  }
+}

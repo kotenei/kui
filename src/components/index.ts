@@ -14,6 +14,7 @@ export * from './list';
 export * from './loading';
 export * from './mask';
 export * from './message';
+export * from './modal';
 export * from './notification';
 export * from './pagination';
 export * from './pop-confirm';

@@ -8,7 +8,7 @@ import { Portal } from '../portal';
 import { Mask } from '../mask';
 import { ModalProps } from './typing';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useWinSize, useStateCallback } from '../../hooks';
+import { useStateCallback } from '../../hooks';
 
 let zIndex = 1000;
 
@@ -21,7 +21,7 @@ const Modal = (props: ModalProps) => {
     footer,
     open = false,
     mask = true,
-    maskClose = true,
+    maskClose = false,
     showHeader,
     showFooter,
     showCancel,
@@ -32,17 +32,15 @@ const Modal = (props: ModalProps) => {
   } = props;
 
   const [state, setState] = useStateCallback({
-    show: open,
+    show: false,
     showMask: false,
     modalWidth: props.width || 720,
     modalHeight: props.height || 480,
     bodyHeight: 400,
   });
-  const minHeight = 200;
+  const minHeight = 180;
   const elmHeader = useRef<any>(null);
   const elmFooter = useRef<any>(null);
-
-  const winSize = useWinSize();
 
   useEffect(() => {
     if (open) {
@@ -57,6 +55,7 @@ const Modal = (props: ModalProps) => {
     adpHeight();
     return () => {
       window.removeEventListener('resize', adpHeight);
+      zIndex--;
     };
   }, []);
 
@@ -126,15 +125,15 @@ const Modal = (props: ModalProps) => {
   };
 
   const onMaskClick = useCallback(() => {
-    if (maskClose) {
-      closeModal();
+    if (maskClose && props.onCancel) {
+      props.onCancel();
     }
-  }, []);
+  }, [state]);
 
   const classString = classnames(
     {
       [prefixCls]: true,
-      [`${prefixCls}--in`]: state.show,
+      [`in`]: state.show,
     },
     className,
   );
@@ -145,12 +144,13 @@ const Modal = (props: ModalProps) => {
         <div
           className={classString}
           style={{ ...props.style, width: state.modalWidth, height: state.modalHeight, zIndex }}
+          id={props.id}
         >
           {showHeader && header && (
             <div className={`${prefixCls}-header`} ref={elmHeader}>
               {header}
               {showCloseIcon ? (
-                <Icon className="close">
+                <Icon className="close" onClick={props.onCancel}>
                   <AiOutlineClose />
                 </Icon>
               ) : null}
@@ -178,7 +178,12 @@ const Modal = (props: ModalProps) => {
             </div>
           )}
         </div>
-        <Mask show={state.showMask} onClick={onMaskClick} zIndex={zIndex - 1} />
+        <Mask
+          show={state.showMask}
+          id={`mask_${props.id}`}
+          onClick={onMaskClick}
+          zIndex={zIndex - 1}
+        />
       </React.Fragment>
     </Portal>
   );
@@ -189,11 +194,12 @@ Modal.defaultProps = {
   height: 480,
   mask: true,
   maskClose: false,
-  okText: '确定',
-  cancelText: '取消',
+  okText: 'OK',
+  cancelText: 'Cancel',
   showCancel: true,
   showHeader: true,
   showFooter: true,
+  showCloseIcon: true,
   space: 50,
 };
 

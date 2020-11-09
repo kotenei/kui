@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'kui-react';
+import {  modal, Button } from 'kui-react';
 
 function confirm() {
-  Modal.confirm({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+  modal.confirm({
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },
@@ -15,9 +15,9 @@ function confirm() {
 }
 
 function info() {
-  Modal.info({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+  modal.info({
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },
@@ -25,9 +25,9 @@ function info() {
 }
 
 function success() {
-  Modal.success({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+  modal.success({
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },
@@ -35,9 +35,9 @@ function success() {
 }
 
 function warning() {
-  Modal.warning({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+  modal.warning({
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },
@@ -45,9 +45,9 @@ function warning() {
 }
 
 function error() {
-  Modal.error({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+  modal.error({
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },

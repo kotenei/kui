@@ -19,3 +19,11 @@ export interface ModalProps extends KUI.BasicProps<HTMLAttributes<HTMLDivElement
   onCancel?: () => void;
   onOK?: () => void;
 }
+
+export interface ConfirmProps extends ModalProps {
+  Icon?: React.ReactNode;
+  type?: KUI.StateTypes;
+  okCancel?: boolean;
+  onCancel?: () => void | boolean;
+  onOK?: () => void | boolean;
+}

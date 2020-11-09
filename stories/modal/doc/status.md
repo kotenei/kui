@@ -1,9 +1,9 @@
 ```jsx
 import React, { Component } from 'react';
-import { Modal, Button } from 'kui-react';
+import {  modal, Button } from 'kui-react';
 
 function confirm() {
-  Modal.confirm({
+  modal.confirm({
     header: '这是消息标题',
     content: <div>这里是提示消息</div>,
     onOK() {
@@ -16,7 +16,9 @@ function confirm() {
 }
 
 function info() {
-  Modal.info({
+  console.log(modal);
+  return;
+  modal.info({
     header: '这是消息标题',
     content: <div>这里是提示消息</div>,
     onOK() {
@@ -26,7 +28,7 @@ function info() {
 }
 
 function success() {
-  Modal.success({
+  modal.success({
     header: '这是消息标题',
     content: <div>这里是提示消息</div>,
     onOK() {
@@ -36,7 +38,7 @@ function success() {
 }
 
 function warning() {
-  Modal.warning({
+  modal.warning({
     header: '这是消息标题',
     content: <div>这里是提示消息</div>,
     onOK() {
@@ -46,7 +48,7 @@ function warning() {
 }
 
 function error() {
-  Modal.error({
+  modal.error({
     header: '这是消息标题',
     content: <div>这里是提示消息</div>,
     onOK() {

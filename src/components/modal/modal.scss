@@ -11,7 +11,7 @@
   transform: translate(-50%, -100%);
   transition: top 0.3s, opacity 0.3s, transform 0.3s;
 
-  &--in {
+  &.in {
     top: 50%;
     opacity: 1;
     transform: translate(-50%, -50%);
@@ -21,8 +21,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding:$space-lg;
+    padding: $space-lg;
     border-bottom: 1px solid $border-color-base;
+
+    .close{
+      cursor: pointer;
+    }
   }
 
   &-body {
@@ -35,5 +39,40 @@
     padding: $space-lg;
     border-top: 1px solid $border-color-base;
     text-align: right;
+  }
+
+  &-confirm {
+   
+    .#{$namespace}-modal-body{
+      padding:$space-xxl $space-xxl $space-xl;
+    }
+
+    &-body {
+      >.#{$namespace}-icon {
+        font-size: 26px;
+        margin-right: $space-lg;
+        float: left;
+      }
+
+    }
+
+    &-title {
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    &-content {
+      margin-left: 48px;
+      margin-top: $space-base;
+    }
+
+    &-btns {
+      text-align: right;
+      margin-top: $space-xl;
+
+      .#{$namespace}-btn {
+        margin-left: 10px;
+      }
+    }
   }
 }

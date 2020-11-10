@@ -1,5 +1,4 @@
-import ReactDOM from 'react-dom';
-import { domHelpers } from '../utils';
+import domHelpers from './dom';
 
 export const getPopoverPosition = (elTrigger, elPopover, placement) => {
   let parent = elTrigger;

@@ -4,8 +4,8 @@ import {  modal, Button } from 'kui-react';
 
 function confirm() {
   modal.confirm({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },
@@ -16,11 +16,9 @@ function confirm() {
 }
 
 function info() {
-  console.log(modal);
-  return;
   modal.info({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },
@@ -29,8 +27,8 @@ function info() {
 
 function success() {
   modal.success({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },
@@ -39,8 +37,8 @@ function success() {
 
 function warning() {
   modal.warning({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },
@@ -49,8 +47,8 @@ function warning() {
 
 function error() {
   modal.error({
-    header: '这是消息标题',
-    content: <div>这里是提示消息</div>,
+    header: 'This is title',
+    content: <div>This is content.</div>,
     onOK() {
       console.log('ok');
     },

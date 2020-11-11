@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
+import { SubMenuProps } from './typing';
 
-const SubMenu = props => {
+const SubMenu = (props: SubMenuProps) => {
   return <li></li>;
 };
 

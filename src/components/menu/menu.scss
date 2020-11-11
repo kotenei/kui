@@ -1,5 +1,32 @@
 @import '../../assets/styles/global.scss';
 
-.#{$namespace}-menu{
-  
+.#{$namespace}-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-top: $space-base;
+    padding-right: $space-lg;
+    padding-bottom: $space-base;
+    cursor: pointer;
+
+    &--disabled {
+      cursor: not-allowed;
+    }
+
+    &--active {
+      color: $primary-color;
+    }
+  }
+
+  &--inline {
+    
+  }
 }

@@ -49,6 +49,7 @@ const Menu = (props: MenuProps) => {
     let newSelectedKeys = [...state.selectedKeys];
     const newOpenKeys = [...state.openKeys];
     let index = -1;
+    const newState: any = {};
 
     if (isLeaf) {
       index = newSelectedKeys.indexOf(componentKey);
@@ -70,21 +71,19 @@ const Menu = (props: MenuProps) => {
       }
     }
 
-    setState({
-      selectedSubMenuKeys: parentKeys,
-    });
+    if (isLeaf) {
+      newState.selectedSubMenuKeys = parentKeys;
+    }
 
     if (!('selectedKeys' in props)) {
-      setState({
-        selectedKeys: newSelectedKeys,
-      });
+      newState.selectedKeys = newSelectedKeys;
     }
 
     if (!('openKeys' in props)) {
-      setState({
-        openKeys: newOpenKeys,
-      });
+      newState.openKeys = newOpenKeys;
     }
+
+    setState(newState);
 
     if (onClick) {
       onClick(componentKey, newSelectedKeys);

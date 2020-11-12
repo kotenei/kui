@@ -26,13 +26,11 @@ const SubMenu = (props: SubMenuProps) => {
     if (disabled) {
       return;
     }
-    if (componentKey && selectedSubMenuKeys && selectedSubMenuKeys.indexOf(componentKey) !== -1) {
-      return;
-    }
+
     if (componentKey && parentKeys && onItemClick) {
       onItemClick(componentKey, parentKeys, false);
     }
-  }, [componentKey, parentKeys, selectedSubMenuKeys, onItemClick]);
+  }, [componentKey, parentKeys, onItemClick]);
 
   const renderTitle = () => {
     return (

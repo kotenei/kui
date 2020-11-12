@@ -1,18 +1,38 @@
 import React, { Component } from 'react';
-import { AiOutlineHome, AiOutlineSetting } from 'react-icons/ai';
-import { Menu, MenuItem } from 'kui-react';
+import {
+  AiOutlineAndroid,
+  AiOutlineApple,
+  AiOutlineGithub,
+  AiOutlineHome,
+  AiOutlineSetting,
+  AiOutlineWindows,
+} from 'react-icons/ai';
+import { Menu, MenuItem, SubMenu } from 'kui-react';
 
 export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-menu">
-        <Menu mode="horizontal">
-          <MenuItem id="1" icon={<AiOutlineHome />}>
+        <Menu>
+          <MenuItem key="1" icon={<AiOutlineHome />}>
             Menu 1
           </MenuItem>
-          <MenuItem id="2" icon={<AiOutlineSetting />}>
-            Menu 2
-          </MenuItem>
+          <SubMenu key="2" icon={<AiOutlineSetting />} title="Menu 2">
+            <MenuItem key="2-1" icon={<AiOutlineAndroid />}>
+              Android
+            </MenuItem>
+            <MenuItem key="2-2" icon={<AiOutlineApple />}>
+              Apple
+            </MenuItem>
+            <MenuItem key="2-3" icon={<AiOutlineWindows />}>
+              Windows
+            </MenuItem>
+            {/* <SubMenu key="2-4" icon={<AiOutlineGithub />} title="gihub">
+              <MenuItem key="2-4-1" icon={<AiOutlineSetting />}>
+                Setting
+              </MenuItem>
+            </SubMenu> */}
+          </SubMenu>
         </Menu>
       </div>
     );

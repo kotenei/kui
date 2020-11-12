@@ -1,6 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import classnames from 'classnames';
 
+import { MenuContext } from './context';
 import { MenuProps } from './typing';
 import { useStateCallback } from '../../hooks';
 
@@ -27,6 +28,7 @@ const Menu = (props: MenuProps) => {
   const [state, setState] = useStateCallback({
     openKeys: openKeys || defaultOpenKeys || [],
     selectedKeys: selectedKeys || defaultSelectedKeys || [],
+    selectedSubMenuKeys: [],
   });
   const level = 1;
 
@@ -43,6 +45,52 @@ const Menu = (props: MenuProps) => {
     }
   }, [selectedKeys, openKeys]);
 
+  const onItemClick = (componentKey, parentKeys, isLeaf) => {
+    let newSelectedKeys = [...state.selectedKeys];
+    const newOpenKeys = [...state.openKeys];
+    let index = -1;
+
+    if (isLeaf) {
+      index = newSelectedKeys.indexOf(componentKey);
+      if (multiple) {
+        if (index === -1) {
+          newSelectedKeys.push(componentKey);
+        } else {
+          newSelectedKeys.splice(index, 1);
+        }
+      } else {
+        newSelectedKeys = [componentKey];
+      }
+    } else {
+      index = newOpenKeys.indexOf(componentKey);
+      if (index === -1) {
+        newOpenKeys.push(componentKey);
+      } else {
+        newOpenKeys.splice(index, 1);
+      }
+    }
+
+    setState({
+      selectedSubMenuKeys: parentKeys,
+    });
+
+    if (!('selectedKeys' in props)) {
+      setState({
+        selectedKeys: newSelectedKeys,
+      });
+    }
+
+    if (!('openKeys' in props)) {
+      setState({
+        openKeys: newOpenKeys,
+      });
+    }
+
+    if (onClick) {
+      onClick(componentKey, newSelectedKeys);
+    }
+  };
+
   const renderContent = () => {
     return React.Children.map(children, (child: any, i) => {
       if (!child) {
@@ -52,12 +100,11 @@ const Menu = (props: MenuProps) => {
         ...child.props,
         prefixCls,
         level,
-        parentIds: [],
-        parentId: '',
-        openKeys: state.openKeys,
-        selectedKeys: state.selectedKeys,
+        parentKeys: [],
+        parentKey: '',
+        componentKey: child.key,
         mode,
-        inlineIndent
+        inlineIndent,
       });
     });
   };
@@ -70,15 +117,22 @@ const Menu = (props: MenuProps) => {
     className,
   );
 
+  const contextValue = {
+    ...state,
+    onItemClick,
+  };
+
   return (
-    <ul className={classString} {...others}>
-      {renderContent()}
-    </ul>
+    <MenuContext.Provider value={contextValue}>
+      <ul className={classString} {...others}>
+        {renderContent()}
+      </ul>
+    </MenuContext.Provider>
   );
 };
 
 Menu.defaultProps = {
-  inlineIndent: 24,
+  inlineIndent: 16,
   inlineCollapsed: false,
   mode: 'inline',
   selectable: true,

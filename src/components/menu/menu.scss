@@ -1,6 +1,8 @@
 @import '../../assets/styles/global.scss';
 
-.#{$namespace}-menu {
+$prefixCls:#{$namespace}-menu;
+
+.#{$prefixCls} {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -12,21 +14,40 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding-top: $space-base;
+    padding-top: $space-sm;
     padding-right: $space-lg;
-    padding-bottom: $space-base;
+    padding-bottom: $space-sm;
     cursor: pointer;
 
     &--disabled {
       cursor: not-allowed;
+      color: $disabled-color;
     }
 
-    &--active {
+    &--selected {
       color: $primary-color;
     }
   }
 
-  &--inline {
-    
+  &-submenu {
+    position: relative;
+
+    &-title {
+      padding-top: $space-sm;
+      padding-right: $space-lg;
+      padding-bottom: $space-sm;
+      cursor: pointer;
+
+
+    }
+
+    &--disabled {
+      .#{$prefixCls}-submenu {
+        &-title {
+          cursor: not-allowed;
+          color: $disabled-color;
+        }
+      }
+    }
   }
 }

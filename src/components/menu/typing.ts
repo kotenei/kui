@@ -11,21 +11,20 @@ export interface MenuProps
   inlineCollapsed?: boolean;
   mode?: MenuMode;
   multiple?: boolean;
-  onClick?: (key: string) => void;
+  onClick?: (key: string, selectedKeys: string[]) => void;
   onOpened?: (keys: string[]) => void;
   onSelected?: (keys: string[]) => void;
 }
 
 export interface MenuItemProps
   extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLLIElement>, 'title'> {
-  key?: string;
+  key: any;
+  componentKey?: string;
   disabled?: boolean;
   icon?: React.ReactNode;
   parentKey?: string;
   parentKeys?: string[];
   level?: number;
-  openKeys?: string[];
-  selectedKeys?: string[];
   title?: string;
   mode?: MenuMode;
   inlineIndent?: number;

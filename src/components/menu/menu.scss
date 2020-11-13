@@ -7,6 +7,10 @@ $prefixCls:#{$namespace}-menu;
   padding: 0;
   list-style: none;
 
+  &.root {
+    border-right: 1px solid $border-color-base;
+  }
+
   &-item {
     display: flex;
     align-items: center;
@@ -15,9 +19,11 @@ $prefixCls:#{$namespace}-menu;
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-top: $space-sm;
-    padding-right: $space-lg;
+    padding-right: $space-xl;
     padding-bottom: $space-sm;
     cursor: pointer;
+    height: 36px;
+    line-height: 36px;
 
     &--disabled {
       cursor: not-allowed;
@@ -25,7 +31,17 @@ $prefixCls:#{$namespace}-menu;
     }
 
     &--selected {
-      color: $primary-color;
+      color: $menu-selected-font-color;
+      background-color: $menu-selected-bg-color;
+
+      &::after {
+        content: ' ';
+        position: absolute;
+        height: 100%;
+        width: 3px;
+        background: $primary-color;
+        right: 0;
+      }
     }
   }
 
@@ -34,11 +50,19 @@ $prefixCls:#{$namespace}-menu;
 
     &-title {
       padding-top: $space-sm;
-      padding-right: $space-lg;
-      padding-bottom: $space-sm;
+      padding-right: $space-xl;
+      padding-bottom: $space-xs;
       cursor: pointer;
+      position: relative;
 
-
+      .direction {
+        position: absolute;
+        transform: translateY(-50%);
+        top: 50%;
+        right: $space-base;
+        margin: 0;
+        color: $text-color-primary !important;
+      }
     }
 
     &--disabled {
@@ -49,5 +73,21 @@ $prefixCls:#{$namespace}-menu;
         }
       }
     }
+
+    &--selected {
+      >.#{$prefixCls}-submenu {
+        &-title {
+          color: $primary-color;
+
+        }
+      }
+    }
+
+    .#{$prefixCls}-sub {
+      transition: height .3s ease-in-out;
+      height: 0;
+      overflow: hidden;
+    }
+
   }
 }

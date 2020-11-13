@@ -1,10 +1,17 @@
-import React, { memo, useCallback, useContext } from 'react';
+import React, { memo, useCallback, useContext, useRef } from 'react';
 import classnames from 'classnames';
+import { Transition } from 'react-transition-group';
 
 import { MenuContext } from './context';
 import { Icon } from '../icon';
 import { Tooltip } from '../tooltip';
 import { SubMenuProps } from './typing';
+import {
+  AiOutlineArrowDown,
+  AiOutlineArrowRight,
+  AiOutlineArrowUp,
+  AiOutlineUp,
+} from 'react-icons/ai';
 
 const SubMenu = (props: SubMenuProps) => {
   const {
@@ -21,6 +28,8 @@ const SubMenu = (props: SubMenuProps) => {
   } = props;
 
   const { openKeys, selectedSubMenuKeys, onItemClick } = useContext(MenuContext);
+  const contentElement = useRef(null);
+  const isOpen = openKeys && componentKey && openKeys.indexOf(componentKey) !== -1;
 
   const onMenuItemClick = useCallback(() => {
     if (disabled) {
@@ -31,6 +40,34 @@ const SubMenu = (props: SubMenuProps) => {
       onItemClick(componentKey, parentKeys, false);
     }
   }, [componentKey, parentKeys, onItemClick]);
+
+  const onEnter = useCallback(node => {
+    node.style.height = '0px';
+  }, []);
+
+  const onEntering = useCallback(node => {
+    node.style.height = getContentHeight() + 'px';
+  }, []);
+
+  const onEntered = useCallback(node => {
+    node.style.height = 'auto';
+    node.style.overflow = 'auto';
+  }, []);
+
+  const onExit = useCallback(node => {
+    node.style.height = getContentHeight() + 'px';
+    node.style.overflow = 'hidden';
+    node.offsetHeight;
+  }, []);
+
+  const onExiting = useCallback(node => {
+    node.style.height = '0px';
+  }, []);
+
+  const getContentHeight = () => {
+    const el = contentElement.current ? (contentElement.current as any) : null;
+    return el ? el.offsetHeight || el.clientHeight || el.scrollHeight : 0;
+  };
 
   const renderTitle = () => {
     return (
@@ -45,10 +82,26 @@ const SubMenu = (props: SubMenuProps) => {
           <React.Fragment>
             {icon && <Icon>{icon}</Icon>}
             {title}
+            {renderIcon()}
           </React.Fragment>
         )}
       </div>
     );
+  };
+
+  const renderIcon = () => {
+    if (!children || (mode === 'inlineCollapsed' && level === 1)) {
+      return null;
+    }
+    if (mode === 'inline' || (mode === 'horizontal' && level === 1)) {
+      return (
+        <Icon
+          className="direction"
+          children={isOpen ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />}
+        />
+      );
+    }
+    return <Icon className="direction" children={<AiOutlineArrowRight />} />;
   };
 
   const renderSubMenus = () => {
@@ -77,7 +130,27 @@ const SubMenu = (props: SubMenuProps) => {
       [`${prefixCls}--${mode}`]: !!mode,
       [`${prefixCls}-sub`]: true,
     });
-    return <ul className={subMenuClass}>{menus}</ul>;
+
+    return (
+      <Transition
+        in={isOpen}
+        timeout={300}
+        appear
+        onEnter={onEnter}
+        onEntering={onEntering}
+        onEntered={onEntered}
+        onExit={onExit}
+        onExiting={onExiting}
+      >
+        {state => {
+          return (
+            <ul className={subMenuClass} ref={contentElement}>
+              {menus}
+            </ul>
+          );
+        }}
+      </Transition>
+    );
   };
 
   const classString = classnames({

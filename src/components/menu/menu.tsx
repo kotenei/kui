@@ -112,6 +112,7 @@ const Menu = (props: MenuProps) => {
     {
       [prefixCls]: true,
       [`${prefixCls}--${mode}`]: !!mode,
+      root: true,
     },
     className,
   );

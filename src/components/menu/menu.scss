@@ -1,11 +1,32 @@
 @import '../../assets/styles/global.scss';
 
-$prefixCls:#{$namespace}-menu;
+$prefixCls: #{$namespace}-menu;
+
+@mixin selected-line($isRight, $show) {
+  content: ' ';
+
+  @if $isRight {
+    height: 100%;
+    width: 2px;
+    right: 0;
+  } @else {
+    height: 2px;
+    width: 100%;
+    bottom: 0;
+  }
+
+  @if $show {
+    display: block;
+  }
+  position: absolute;
+  background: $primary-color;
+}
 
 .#{$prefixCls} {
   margin: 0;
   padding: 0;
   list-style: none;
+  background-color: $menu-bg-color;
 
   &.root {
     border-right: 1px solid $border-color-base;
@@ -35,12 +56,7 @@ $prefixCls:#{$namespace}-menu;
       background-color: $menu-selected-bg-color;
 
       &::after {
-        content: ' ';
-        position: absolute;
-        height: 100%;
-        width: 3px;
-        background: $primary-color;
-        right: 0;
+        @include selected-line(true, true);
       }
     }
   }
@@ -51,9 +67,13 @@ $prefixCls:#{$namespace}-menu;
     &-title {
       padding-top: $space-sm;
       padding-right: $space-xl;
-      padding-bottom: $space-xs;
+      padding-bottom: $space-sm;
+      height: 36px;
+      line-height: 36px;
       cursor: pointer;
       position: relative;
+      display: flex;
+      align-items: center;
 
       .direction {
         position: absolute;
@@ -75,19 +95,87 @@ $prefixCls:#{$namespace}-menu;
     }
 
     &--selected {
-      >.#{$prefixCls}-submenu {
+      > .#{$prefixCls}-submenu {
         &-title {
           color: $primary-color;
-
         }
       }
     }
 
     .#{$prefixCls}-sub {
-      transition: height .3s ease-in-out;
+      transition: height 0.3s ease-in-out;
       height: 0;
       overflow: hidden;
     }
+  }
 
+  &--horizontal {
+    display: flex;
+    align-items: center;
+    &.root {
+      border-right: 0;
+      border-bottom: 1px solid $border-color-base;
+
+      > li {
+        width: auto;
+
+        &.#{$prefixCls}-item {
+          &--selected {
+            background: transparent;
+            &::after {
+              @include selected-line(false, true);
+            }
+          }
+        }
+
+        > .#{$prefixCls}-sub {
+          left: 0;
+          top: auto;
+        }
+      }
+    }
+
+    .#{$prefixCls} {
+      &-item {
+        &--selected {
+          &::after {
+            content: '';
+            display: none;
+          }
+        }
+      }
+
+      &-submenu {
+        &--selected {
+          &::after {
+            @include selected-line(false, true);
+          }
+        }
+      }
+
+      &-sub {
+        position: absolute;
+        display: block;
+        box-shadow: $box-shadow-base;
+        border-radius: $radius-base;
+        overflow: initial !important;
+        top: 0;
+        left: calc(100% + #{$space-sm});
+      }
+    }
+  }
+
+  &--vertical {
+    .#{$prefixCls} {
+      &-sub {
+        position: absolute;
+        display: block;
+        box-shadow: $box-shadow-base;
+        border-radius: $radius-base;
+        overflow: initial !important;
+        top: 0;
+        left: calc(100% + #{$space-sm});
+      }
+    }
   }
 }

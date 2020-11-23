@@ -27,12 +27,12 @@ const SubMenu = (props: SubMenuProps) => {
     parentKeys = [],
   } = props;
 
-  const { openKeys, selectedSubMenuKeys, onItemClick } = useContext(MenuContext);
+  const { openKeys, selectedSubMenuKeys, onItemClick, onItemHover } = useContext(MenuContext);
   const contentElement = useRef(null);
   const isOpen = openKeys && componentKey && openKeys.indexOf(componentKey) !== -1;
 
   const onMenuItemClick = useCallback(() => {
-    if (disabled) {
+    if (disabled || mode !== 'inline') {
       return;
     }
 
@@ -41,27 +41,72 @@ const SubMenu = (props: SubMenuProps) => {
     }
   }, [componentKey, parentKeys, onItemClick]);
 
+  const onMenuItemEnter = useCallback(() => {
+    if (disabled || mode === 'inline') {
+      return;
+    }
+
+    if (componentKey && parentKeys && onItemHover) {
+      onItemHover(componentKey, parentKeys, 'enter', false);
+    }
+  }, [componentKey, parentKeys, onItemHover]);
+
+  const onMenuItemLeave = useCallback(() => {
+    if (disabled || mode === 'inline') {
+      return;
+    }
+
+    if (componentKey && parentKeys && onItemHover) {
+      onItemHover(componentKey, parentKeys, 'leave', false);
+    }
+  }, [componentKey, parentKeys, onItemHover]);
+
   const onEnter = useCallback(node => {
-    node.style.height = '0px';
+    if (mode === 'inline') {
+      node.style.height = '0px';
+    } else {
+      node.style.opacity = 0;
+      node.style.visibility = 'hidden';
+    }
   }, []);
 
   const onEntering = useCallback(node => {
-    node.style.height = getContentHeight() + 'px';
+    if (mode === 'inline') {
+      node.style.height = getContentHeight() + 'px';
+    } else {
+      // node.style.opacity = 0;
+      // node.style.visibility = 'visible';
+    }
   }, []);
 
   const onEntered = useCallback(node => {
-    node.style.height = 'auto';
-    node.style.overflow = 'auto';
+    if (mode === 'inline') {
+      node.style.height = 'auto';
+      node.style.overflow = 'auto';
+    } else {
+      node.style.visibility = 'visible';
+      node.style.opacity = 1;
+    }
   }, []);
 
   const onExit = useCallback(node => {
-    node.style.height = getContentHeight() + 'px';
-    node.style.overflow = 'hidden';
-    node.offsetHeight;
+    if (mode === 'inline') {
+      node.style.height = getContentHeight() + 'px';
+      node.style.overflow = 'hidden';
+      node.offsetHeight;
+    } else {
+      // node.style.visibility = 'hidden';
+      // node.style.opacity = 0;
+    }
   }, []);
 
   const onExiting = useCallback(node => {
-    node.style.height = '0px';
+    if (mode === 'inline') {
+      node.style.height = '0px';
+    } else {
+      node.style.visibility = 'hidden';
+      node.style.opacity = 0;
+    }
   }, []);
 
   const getContentHeight = () => {
@@ -75,9 +120,11 @@ const SubMenu = (props: SubMenuProps) => {
         className={`${prefixCls}-submenu-title`}
         style={{ paddingLeft: mode === 'inline' ? inlineIndent : 0 }}
         onClick={onMenuItemClick}
+        onMouseEnter={onMenuItemEnter}
+        onMouseLeave={onMenuItemLeave}
       >
         {mode === 'inlineCollapsed' && level === 1 ? (
-          <Tooltip title={title}>{icon ? <Icon>{icon}</Icon> : title}</Tooltip>
+          <Icon>{icon}</Icon>
         ) : (
           <React.Fragment>
             {icon && <Icon>{icon}</Icon>}
@@ -90,10 +137,10 @@ const SubMenu = (props: SubMenuProps) => {
   };
 
   const renderIcon = () => {
-    if (!children || (mode === 'inlineCollapsed' && level === 1)) {
+    if (!children || ((mode === 'horizontal' || mode === 'inlineCollapsed') && level === 1)) {
       return null;
     }
-    if (mode === 'inline' || (mode === 'horizontal' && level === 1)) {
+    if (mode === 'inline' ) {
       return (
         <Icon
           className="direction"
@@ -134,7 +181,7 @@ const SubMenu = (props: SubMenuProps) => {
     return (
       <Transition
         in={isOpen}
-        timeout={300}
+        timeout={mode === 'inline' ? 300 : 200}
         appear
         onEnter={onEnter}
         onEntering={onEntering}

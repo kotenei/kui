@@ -1,4 +1,3 @@
-```jsx
 import React, { Component } from 'react';
 import {
   AiOutlineAndroid,
@@ -15,8 +14,8 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-menu">
-        <Menu mode="horizontal">
-          <MenuItem key="1" icon={<AiOutlineHome />}>
+        <Menu mode="inlineCollapsed">
+          <MenuItem key="1" icon={<AiOutlineHome />} >
             Menu 1
           </MenuItem>
           <SubMenu key="2" icon={<AiOutlineSetting />} title="Menu 2">
@@ -40,5 +39,3 @@ export default class Demo extends Component {
     );
   }
 }
-
-```

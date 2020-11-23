@@ -9,7 +9,9 @@ $prefixCls: #{$namespace}-menu;
     height: 100%;
     width: 2px;
     right: 0;
-  } @else {
+  }
+
+  @else {
     height: 2px;
     width: 100%;
     bottom: 0;
@@ -18,6 +20,7 @@ $prefixCls: #{$namespace}-menu;
   @if $show {
     display: block;
   }
+
   position: absolute;
   background: $primary-color;
 }
@@ -59,6 +62,7 @@ $prefixCls: #{$namespace}-menu;
         @include selected-line(true, true);
       }
     }
+
   }
 
   &-submenu {
@@ -95,7 +99,7 @@ $prefixCls: #{$namespace}-menu;
     }
 
     &--selected {
-      > .#{$prefixCls}-submenu {
+      >.#{$prefixCls}-submenu {
         &-title {
           color: $primary-color;
         }
@@ -103,39 +107,24 @@ $prefixCls: #{$namespace}-menu;
     }
 
     .#{$prefixCls}-sub {
-      transition: height 0.3s ease-in-out;
-      height: 0;
-      overflow: hidden;
+      transition: all 0.3s ease-in-out;
     }
   }
 
-  &--horizontal {
-    display: flex;
-    align-items: center;
-    &.root {
-      border-right: 0;
-      border-bottom: 1px solid $border-color-base;
-
-      > li {
-        width: auto;
-
-        &.#{$prefixCls}-item {
-          &--selected {
-            background: transparent;
-            &::after {
-              @include selected-line(false, true);
-            }
-          }
-        }
-
-        > .#{$prefixCls}-sub {
-          left: 0;
-          top: auto;
-        }
+  &--inline {
+    .#{$prefixCls} {
+      &-sub {
+        height: 0;
+        overflow: hidden;
       }
     }
+  }
 
+  &--horizontal,
+  &--vertical,
+  &--inlineCollapsed {
     .#{$prefixCls} {
+
       &-item {
         &--selected {
           &::after {
@@ -145,14 +134,6 @@ $prefixCls: #{$namespace}-menu;
         }
       }
 
-      &-submenu {
-        &--selected {
-          &::after {
-            @include selected-line(false, true);
-          }
-        }
-      }
-
       &-sub {
         position: absolute;
         display: block;
@@ -161,21 +142,91 @@ $prefixCls: #{$namespace}-menu;
         overflow: initial !important;
         top: 0;
         left: calc(100% + #{$space-sm});
+        visibility: hidden;
+        transition: all 0.2s ease-in-out;
       }
     }
   }
 
-  &--vertical {
-    .#{$prefixCls} {
-      &-sub {
-        position: absolute;
-        display: block;
-        box-shadow: $box-shadow-base;
-        border-radius: $radius-base;
-        overflow: initial !important;
-        top: 0;
-        left: calc(100% + #{$space-sm});
+  &--horizontal {
+    display: flex;
+    align-items: center;
+
+    &.root {
+      border-right: 0;
+      border-bottom: 1px solid $border-color-base;
+
+      >li {
+        width: auto;
+
+        &.#{$prefixCls}-item {
+          &--selected {
+            background: transparent;
+
+            &::after {
+              @include selected-line(false, true);
+            }
+          }
+        }
+
+        &.#{$prefixCls}-submenu {
+          &--selected {
+            &::after {
+              @include selected-line(false, true);
+            }
+          }
+
+          >.#{$prefixCls}-sub {
+            left: 0;
+            top: auto;
+          }
+        }
+
       }
     }
+
+  }
+
+  &--vertical {
+    // &.root {
+    //   >li {
+    //     &.#{$prefixCls}-item {
+    //       &--selected {
+    //         &::after {
+    //           @include selected-line(true, true);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+  }
+
+  &--inlineCollapsed {
+    &.root {
+      width: 80px !important;
+
+      >li {
+        min-width: auto;
+        padding: 0;
+
+        &.#{$prefixCls}-item {
+          justify-content: center;
+        }
+
+        &.#{$prefixCls}-submenu {
+          >div {
+            justify-content: center;
+            padding: 0;
+          }
+        }
+
+        >.#{$namespace}-tooltip-handle {
+          flex: 1;
+          text-align: center;
+        }
+
+      }
+    }
+
   }
 }

@@ -15,7 +15,7 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-menu">
-        <Menu mode="horizontal">
+        <Menu mode="inlineCollapsed">
           <MenuItem key="1" icon={<AiOutlineHome />}>
             Menu 1
           </MenuItem>

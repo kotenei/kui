@@ -15,7 +15,7 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-menu">
-        <Menu mode="horizontal">
+        <Menu mode="vertical" style={{ width: 256 }}>
           <MenuItem key="1" icon={<AiOutlineHome />}>
             Menu 1
           </MenuItem>

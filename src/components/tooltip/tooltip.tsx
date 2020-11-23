@@ -169,6 +169,7 @@ const Tooltip = (props: TooltipProps) => {
   return (
     <React.Fragment>
       <span
+        className={`${prefixCls}-handle`}
         ref={triggerRef}
         onMouseEnter={onTriggerMouseEnter}
         onMouseLeave={onTriggerMouseLeave}

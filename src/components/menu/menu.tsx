@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 
 import { MenuContext } from './context';
@@ -16,12 +16,8 @@ const Menu = (props: MenuProps) => {
     selectedKeys,
     children,
     inlineIndent,
-    inlineCollapsed,
-    selectable,
     multiple,
     onClick,
-    onSelected,
-    onOpened,
     ...others
   } = props;
 
@@ -30,6 +26,7 @@ const Menu = (props: MenuProps) => {
     selectedKeys: selectedKeys || defaultSelectedKeys || [],
     selectedSubMenuKeys: [],
   });
+  const timer = useRef<number>();
   const level = 1;
 
   useEffect(() => {
@@ -47,7 +44,7 @@ const Menu = (props: MenuProps) => {
 
   const onItemClick = (componentKey, parentKeys, isLeaf) => {
     let newSelectedKeys = [...state.selectedKeys];
-    const newOpenKeys = [...state.openKeys];
+    let newOpenKeys = [...state.openKeys];
     let index = -1;
     const newState: any = {};
 
@@ -80,13 +77,41 @@ const Menu = (props: MenuProps) => {
     }
 
     if (!('openKeys' in props)) {
+      if (mode !== 'inline') {
+        newOpenKeys = [];
+      }
       newState.openKeys = newOpenKeys;
     }
 
     setState(newState);
 
     if (onClick) {
-      onClick(componentKey, newSelectedKeys);
+      onClick(componentKey, newSelectedKeys, newOpenKeys);
+    }
+  };
+
+  const onItemHover = (componentKey, parentKeys, type, isLeaf) => {
+    let newOpenKeys: string[] = [];
+    const newState: any = { openKeys: [] };
+
+    if (type === 'enter') {
+      if (parentKeys.length) {
+        newOpenKeys = parentKeys;
+      }
+
+      if (!isLeaf) {
+        newOpenKeys.push(componentKey);
+      }
+    }
+
+    if (!('openKeys' in props)) {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      newState.openKeys = newOpenKeys;
+      timer.current = window.setTimeout(() => {
+        setState(newState);
+      }, 50);
     }
   };
 
@@ -120,6 +145,7 @@ const Menu = (props: MenuProps) => {
   const contextValue = {
     ...state,
     onItemClick,
+    onItemHover,
   };
 
   return (
@@ -133,9 +159,7 @@ const Menu = (props: MenuProps) => {
 
 Menu.defaultProps = {
   inlineIndent: 16,
-  inlineCollapsed: false,
   mode: 'inline',
-  selectable: true,
   multiple: false,
 };
 

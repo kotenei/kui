@@ -5,15 +5,11 @@ export interface MenuProps
   defaultOpenKeys?: string[];
   defaultSelectedKeys?: string[];
   selectedKeys?: string[];
-  selectable?: boolean;
   openKeys?: string[];
   inlineIndent?: number;
-  inlineCollapsed?: boolean;
   mode?: MenuMode;
   multiple?: boolean;
-  onClick?: (key: string, selectedKeys: string[]) => void;
-  onOpened?: (keys: string[]) => void;
-  onSelected?: (keys: string[]) => void;
+  onClick?: (key: string, selectedKeys: string[], openKeys: string[]) => void;
 }
 
 export interface MenuItemProps

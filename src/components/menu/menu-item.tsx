@@ -19,7 +19,7 @@ const MenuItem = (props: MenuItemProps) => {
     title,
     parentKeys,
   } = props;
-  const { selectedKeys, onItemClick } = useContext(MenuContext);
+  const { selectedKeys, onItemClick, onItemHover } = useContext(MenuContext);
 
   const onMenuItemClick = useCallback(() => {
     if (disabled) {
@@ -32,6 +32,25 @@ const MenuItem = (props: MenuItemProps) => {
       onItemClick(componentKey, parentKeys, true);
     }
   }, [componentKey, parentKeys, selectedKeys, onItemClick]);
+
+  const onMenuItemEnter = useCallback(() => {
+    if (disabled || mode === 'inline') {
+      return;
+    }
+
+    if (componentKey && parentKeys && onItemHover) {
+      onItemHover(componentKey, parentKeys, 'enter', true);
+    }
+  }, [componentKey, parentKeys, onItemHover]);
+
+  const onMenuItemLeave = useCallback(() => {
+    if (disabled || mode === 'inline') {
+      return;
+    }
+    if (componentKey && parentKeys && onItemHover) {
+      onItemHover(componentKey, parentKeys, 'leave', true);
+    }
+  }, [componentKey, parentKeys, onItemHover]);
 
   const classString = classnames({
     [`${prefixCls}-item`]: true,
@@ -46,9 +65,17 @@ const MenuItem = (props: MenuItemProps) => {
   };
 
   return (
-    <li className={classString} style={_style} onClick={onMenuItemClick}>
+    <li
+      className={classString}
+      style={_style}
+      onClick={onMenuItemClick}
+      onMouseEnter={onMenuItemEnter}
+      onMouseLeave={onMenuItemLeave}
+    >
       {mode === 'inlineCollapsed' && level === 1 ? (
-        <Tooltip title={title || children}>{icon ? <Icon>{icon}</Icon> : children}</Tooltip>
+        <Tooltip title={title || children} placement="right">
+          {icon ? <div><Icon>{icon}</Icon></div> : children}
+        </Tooltip>
       ) : (
         <React.Fragment>
           {icon && <Icon>{icon}</Icon>}

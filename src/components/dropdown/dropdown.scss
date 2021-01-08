@@ -1,0 +1,24 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-dropdown {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+
+  &-menu {
+    position: absolute;
+    box-shadow: $box-shadow-base;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+
+    >.#{$namespace}-menu {
+      border-right: none !important;
+      border-radius: $radius-base;
+
+      li {
+        min-width: 120px;
+      }
+    }
+
+  }
+}

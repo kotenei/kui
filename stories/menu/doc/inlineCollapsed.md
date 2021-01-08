@@ -16,7 +16,7 @@ export default class Demo extends Component {
     return (
       <div className="story-demo-menu">
         <Menu mode="inlineCollapsed">
-          <MenuItem key="1" icon={<AiOutlineHome />}>
+          <MenuItem key="1" icon={<AiOutlineHome />} >
             Menu 1
           </MenuItem>
           <SubMenu key="2" icon={<AiOutlineSetting />} title="Menu 2">

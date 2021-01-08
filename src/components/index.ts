@@ -7,6 +7,7 @@ export * from './card';
 export * from './carousel';
 export * from './collapse';
 export * from './divider';
+export * from './dropdown';
 export * from './grid';
 export * from './icon';
 export * from './lazyload';

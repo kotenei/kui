@@ -1,4 +1,3 @@
-```jsx
 import React, { Component } from 'react';
 import {
   AiOutlineAndroid,
@@ -9,7 +8,7 @@ import {
   AiOutlineWindows,
   AiOutlineAmazon,
 } from 'react-icons/ai';
-import { Dropdown, Menu, MenuItem, SubMenu } from 'kui-react';
+import { Dropdown, Menu, MenuItem, SubMenu, Button } from 'kui-react';
 
 export default class Demo extends Component {
   render() {
@@ -37,16 +36,31 @@ export default class Demo extends Component {
       </Menu>
     );
     return (
-      <div className="story-demo-dropdown">
-        <Dropdown menu={menu} style={{ marginRight: 50 }} >
-          <a href="javascript:void(0);">Hover me!</a>
+      <div className="story-demo-dropdown" style={{ padding: 80 }}>
+        <Dropdown menu={menu} placement="bottomLeft">
+          <Button>bottomLeft</Button>
         </Dropdown>
-        <Dropdown menu={menu} trigger="click">
-          <a href="javascript:void(0);">Click me!</a>
+        &nbsp;&nbsp;
+        <Dropdown menu={menu} placement="bottom">
+          <Button>bottomCenter</Button>
+        </Dropdown>
+        &nbsp;&nbsp;
+        <Dropdown menu={menu} placement="bottomRight">
+          <Button>bottomRight</Button>
+        </Dropdown>
+        &nbsp;&nbsp;
+        <Dropdown menu={menu} placement="topLeft">
+          <Button>topLeft</Button>
+        </Dropdown>
+        &nbsp;&nbsp;
+        <Dropdown menu={menu} placement="top">
+          <Button>topCenter</Button>
+        </Dropdown>
+        &nbsp;&nbsp;
+        <Dropdown menu={menu} placement="topRight">
+          <Button>topRight</Button>
         </Dropdown>
       </div>
     );
   }
 }
-
-```

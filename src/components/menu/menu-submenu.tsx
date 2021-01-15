@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useRef } from 'react';
+import React, { memo, useCallback, useContext, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import { Transition } from 'react-transition-group';
 
@@ -24,11 +24,13 @@ const SubMenu = (props: SubMenuProps) => {
     title,
     children,
     inlineIndent = 24,
+    parentKey,
     parentKeys = [],
   } = props;
 
   const { openKeys, selectedSubMenuKeys, onItemClick, onItemHover } = useContext(MenuContext);
   const contentElement = useRef(null);
+  const isSet = useRef(false);
   const isOpen = openKeys && componentKey && openKeys.indexOf(componentKey) !== -1;
 
   const onMenuItemClick = useCallback(() => {
@@ -140,7 +142,7 @@ const SubMenu = (props: SubMenuProps) => {
     if (!children || ((mode === 'horizontal' || mode === 'inlineCollapsed') && level === 1)) {
       return null;
     }
-    if (mode === 'inline' ) {
+    if (mode === 'inline') {
       return (
         <Icon
           className="direction"
@@ -161,6 +163,7 @@ const SubMenu = (props: SubMenuProps) => {
       if (!child) {
         return null;
       }
+
       return React.cloneElement(child, {
         ...child.props,
         prefixCls,

@@ -1,10 +1,10 @@
-import React, { Children, memo, useCallback, useRef } from 'react';
+import React, { Children, memo, useCallback, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 
 import { Portal } from '../portal';
 import { DropdownProps } from './typing';
 import { useStateCallback } from '../../hooks';
-import { getPopoverPosition } from '../../utils';
+import { domHelpers, getPopoverPosition } from '../../utils';
 
 const Dropdown = (props: DropdownProps) => {
   const {
@@ -22,25 +22,48 @@ const Dropdown = (props: DropdownProps) => {
   });
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
+  const classString = classnames(
+    {
+      [prefixCls]: true,
+    },
+    className,
+  );
 
-  const classString = classnames(prefixCls, className);
+  useEffect(() => {
+    document.addEventListener('click', hide);
+    return () => {
+      document.removeEventListener('click', hide);
+    };
+  }, [state.show]);
+
+  useEffect(() => {
+    if ('show' in props) {
+      setState({
+        show: props.show,
+      });
+    }
+  }, [props.show]);
 
   const show = () => {
-    if (state.show) {
+    if (state.show || disabled) {
       return;
     }
-    setState({
-      show: true,
-    });
+    if (!('show' in props)) {
+      setState({
+        show: true,
+      });
+    }
   };
 
   const hide = () => {
-    if (!state.show) {
+    if (!state.show || disabled) {
       return;
     }
-    setState({
-      show: false,
-    });
+    if (!('show' in props)) {
+      setState({
+        show: false,
+      });
+    }
   };
 
   const onMouseEnter = useCallback(() => {
@@ -75,15 +98,20 @@ const Dropdown = (props: DropdownProps) => {
         node.style.visibility = 'visible';
         node.style.left = position.left + 'px';
         node.style.top = position.top + 'px';
-        node.style.opacity = 1;
-        console.log(position);
+        node.style.opacity = 0;
       }
     },
     [placement],
   );
 
+  const onEntering = useCallback(node => {
+    node.style.opacity = 1;
+    node.style.visibility = 'visible';
+  }, []);
+
   const onExiting = useCallback(node => {
     node.style.opacity = 0;
+    node.style.visibility = 'hidden';
   }, []);
 
   const renderMenu = () => {
@@ -91,15 +119,15 @@ const Dropdown = (props: DropdownProps) => {
       menu &&
       React.cloneElement(menu, {
         ...menu.props,
-        // multiple,
-        // selectedIds,
         mode: 'vertical',
-        // className: classnames(menu.props.className, {
-        //   [`${prefixCls}-menu`]: true,
-        // }),
-        // onMouseEnter: this.handleMenuEnter,
-        // onMouseLeave: this.handleMenuLeave,
-        // onSelect: this.handleMenuSelect,
+        onClick: (key: string, selectedKeys: string[], openKeys: string[]) => {
+          if (menu.props.onClick) {
+            menu.props.onClick(key, selectedKeys, openKeys);
+          }
+          if (!menu.props.multiple) {
+            hide();
+          }
+        },
       })
     );
   };
@@ -119,10 +147,18 @@ const Dropdown = (props: DropdownProps) => {
         timeout={300}
         appear
         onEnter={onEnter}
+        onEntering={onEntering}
         onExiting={onExiting}
-        // onExited={onExited}
       >
-        <div ref={menuRef} className={`${prefixCls}-menu`}>{renderMenu()}</div>
+        <div
+          ref={menuRef}
+          className={classnames({
+            [`${prefixCls}-menu`]: true,
+            [`${prefixCls}-menu--${placement}`]: !!placement,
+          })}
+        >
+          {renderMenu()}
+        </div>
       </Portal>
     </div>
   );

@@ -11,4 +11,9 @@ export interface DropdownProps extends KUI.BasicProps<React.HtmlHTMLAttributes<H
   trigger?: 'hover' | 'click' | 'manual';
   placement?: DropdownPlacementType;
   disabled?: boolean;
+  show?: boolean;
+}
+
+export interface DropdownButtonProps extends DropdownProps {
+  onClick?: () => void;
 }

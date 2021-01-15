@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import { MenuContext } from './context';
 import { MenuProps } from './typing';
 import { useStateCallback } from '../../hooks';
+import { generateTree } from '../../utils';
 
 const Menu = (props: MenuProps) => {
   const {
@@ -27,6 +28,7 @@ const Menu = (props: MenuProps) => {
     selectedSubMenuKeys: [],
   });
   const timer = useRef<number>();
+  const treeInfo = useRef<any>();
   const level = 1;
 
   useEffect(() => {
@@ -42,9 +44,14 @@ const Menu = (props: MenuProps) => {
     }
   }, [selectedKeys, openKeys]);
 
+  useEffect(() => {
+    treeInfo.current = generateTree(props.children);
+  }, []);
+
   const onItemClick = (componentKey, parentKeys, isLeaf) => {
     let newSelectedKeys = [...state.selectedKeys];
     let newOpenKeys = [...state.openKeys];
+    const newSelectedSubMenuKeys: any = [];
     let index = -1;
     const newState: any = {};
 
@@ -69,7 +76,18 @@ const Menu = (props: MenuProps) => {
     }
 
     if (isLeaf) {
-      newState.selectedSubMenuKeys = parentKeys;
+      const tmp: any = {};
+      newSelectedKeys.forEach(key => {
+        const node = treeInfo.current.dicNode[key];
+        node.parentKeys.forEach(p => {
+          if (!tmp[p]) {
+            tmp[p] = p;
+            newSelectedSubMenuKeys.push(p);
+          }
+        });
+      });
+
+      newState.selectedSubMenuKeys = newSelectedSubMenuKeys;
     }
 
     if (!('selectedKeys' in props)) {
@@ -77,7 +95,7 @@ const Menu = (props: MenuProps) => {
     }
 
     if (!('openKeys' in props)) {
-      if (mode !== 'inline') {
+      if (!multiple) {
         newOpenKeys = [];
       }
       newState.openKeys = newOpenKeys;
@@ -120,6 +138,7 @@ const Menu = (props: MenuProps) => {
       if (!child) {
         return null;
       }
+
       return React.cloneElement(child, {
         ...child.props,
         prefixCls,

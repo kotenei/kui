@@ -5,3 +5,4 @@ export * from './popover-position';
 export { uuid } from './uuid';
 export { default as domHelpers } from './dom';
 export * from './event';
+export * from './generateTree';

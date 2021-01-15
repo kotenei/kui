@@ -20,5 +20,24 @@
       }
     }
 
+    &--topLeft,
+    &--top,
+    &--topRight {
+      margin-top: -$space-base;
+    }
+
+
+    &--bottomLeft,
+    &--bottom,
+    &--bottomRight {
+      margin-top: $space-base;
+    }
+
   }
+
+
+  &-button-icon {
+    padding: $space-base;
+  }
+
 }

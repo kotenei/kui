@@ -5,4 +5,7 @@ export const eventOmitHandler = (event: any) => {
   if (event.preventDefault) {
     event.preventDefault();
   }
+  if (event.nativeEvent) {
+    event.nativeEvent.stopImmediatePropagation();
+  }
 };

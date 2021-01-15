@@ -1,10 +1,11 @@
-import React, { CSSProperties, memo, useCallback, useContext } from 'react';
+import React, { CSSProperties, memo, useCallback, useContext, useEffect } from 'react';
 import classnames from 'classnames';
 
 import { MenuContext } from './context';
 import { Icon } from '../icon';
 import { Tooltip } from '../tooltip';
 import { MenuItemProps } from './typing';
+import { eventOmitHandler } from '../../utils';
 
 const MenuItem = (props: MenuItemProps) => {
   const {
@@ -17,17 +18,19 @@ const MenuItem = (props: MenuItemProps) => {
     mode,
     level,
     title,
+    parentKey,
     parentKeys,
   } = props;
   const { selectedKeys, onItemClick, onItemHover } = useContext(MenuContext);
 
-  const onMenuItemClick = useCallback(() => {
+  const onMenuItemClick = useCallback((e) => {
+    eventOmitHandler(e)
     if (disabled) {
       return;
     }
-    if (componentKey && selectedKeys && selectedKeys.indexOf(componentKey) !== -1) {
-      return;
-    }
+    // if (componentKey && selectedKeys && selectedKeys.indexOf(componentKey) !== -1) {
+    //   return;
+    // }
     if (componentKey && parentKeys && onItemClick) {
       onItemClick(componentKey, parentKeys, true);
     }
@@ -74,7 +77,13 @@ const MenuItem = (props: MenuItemProps) => {
     >
       {mode === 'inlineCollapsed' && level === 1 ? (
         <Tooltip title={title || children} placement="right">
-          {icon ? <div><Icon>{icon}</Icon></div> : children}
+          {icon ? (
+            <div>
+              <Icon>{icon}</Icon>
+            </div>
+          ) : (
+            children
+          )}
         </Tooltip>
       ) : (
         <React.Fragment>

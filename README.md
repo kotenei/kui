@@ -1,8 +1,8 @@
-# KUI of React
+# KUI of React （重构中...）
  基于React开发的前端组件库，旨在帮助开发者快速构建网站，后台系统等。
 
-## 支持环境
-现代浏览器（不建议使用IE）。
+## Demo
+[Demo](https://kotenei.github.io/kui/dist/index.html)
 
 ## 安装
 ```jsx

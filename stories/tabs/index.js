@@ -1,19 +1,40 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withDocs, withReadme } from 'storybook-readme';
 import tabsDoc from '../../src/components/tabs/README.md';
 import Basic from './basic';
-import BasicDoc from './doc/basic.md';
 import Card from './card';
-import CardDoc from './doc/card.md';
 import Disabled from './disabled';
-import DisabledDoc from './doc/disabled.md';
 import Edit from './edit';
-import EditDoc from './doc/edit.md';
 import Edtra from './edtra';
-import EdtraDoc from './doc/edtra.md';
+import Index.stories from './index.stories';
 import Position from './position';
-import PositionDoc from './doc/position.md';
-storiesOf('tabs', module)
-              .addDecorator(withReadme(tabsDoc))
-              .add('basic', withDocs(BasicDoc, () => <Basic/>)).add('card', withDocs(CardDoc, () => <Card/>)).add('disabled', withDocs(DisabledDoc, () => <Disabled/>)).add('edit', withDocs(EditDoc, () => <Edit/>)).add('edtra', withDocs(EdtraDoc, () => <Edtra/>)).add('position', withDocs(PositionDoc, () => <Position/>));
+
+export default {
+    title: 'KUI/Components/tabs',
+    parameters: {
+      docs: {
+        page: tabsDoc,
+      },
+    },
+  };
+
+export const story0 = () => <Basic/>;
+story0.storyName = 'basic';
+
+export const story1 = () => <Card/>;
+story1.storyName = 'card';
+
+export const story2 = () => <Disabled/>;
+story2.storyName = 'disabled';
+
+export const story3 = () => <Edit/>;
+story3.storyName = 'edit';
+
+export const story4 = () => <Edtra/>;
+story4.storyName = 'edtra';
+
+export const story5 = () => <Index.stories/>;
+story5.storyName = 'index.stories';
+
+export const story6 = () => <Position/>;
+story6.storyName = 'position';
+

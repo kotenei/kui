@@ -1,11 +1,24 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withDocs, withReadme } from 'storybook-readme';
 import tagDoc from '../../src/components/tag/README.md';
 import Basic from './basic';
-import BasicDoc from './doc/basic.md';
+import Index.stories from './index.stories';
 import Line from './line';
-import LineDoc from './doc/line.md';
-storiesOf('tag', module)
-              .addDecorator(withReadme(tagDoc))
-              .add('basic', withDocs(BasicDoc, () => <Basic/>)).add('line', withDocs(LineDoc, () => <Line/>));
+
+export default {
+    title: 'KUI/Components/tag',
+    parameters: {
+      docs: {
+        page: tagDoc,
+      },
+    },
+  };
+
+export const story0 = () => <Basic/>;
+story0.storyName = 'basic';
+
+export const story1 = () => <Index.stories/>;
+story1.storyName = 'index.stories';
+
+export const story2 = () => <Line/>;
+story2.storyName = 'line';
+

@@ -5,16 +5,16 @@ const chalk = require('chalk');
 
 const filePattern = '/**/!(index).js';
 
-crateIndex = items => {
+crateIndex = (items) => {
   let add = '';
   let str = `import React from 'react';\n`;
   let folder;
 
-  str += `import { storiesOf } from '@storybook/react';\n`;
-  str += `import { withDocs, withReadme } from 'storybook-readme';\n`;
+  // str += `import { storiesOf } from '@storybook/react';\n`;
+  // str += `import { withDocs, withReadme } from 'storybook-readme';\n`;
 
-  items.forEach(item => {
-    let importName = item.name.replace(/\-/g, '').replace(/^\S/, s => s.toUpperCase());
+  items.forEach((item, index) => {
+    let importName = item.name.replace(/\-/g, '').replace(/^\S/, (s) => s.toUpperCase());
     let importDocName = item.folder.replace(/\-/g, '');
 
     if (!folder) {
@@ -22,13 +22,27 @@ crateIndex = items => {
       str += `import ${importDocName}Doc from '../../src/components/${folder}/README.md';\n`;
     }
     str += `import ${importName} from './${item.name}';\n`;
-    str += `import ${importName}Doc from './doc/${item.name}.md';\n`;
-    add += `.add('${item.name}', withDocs(${importName}Doc, () => <${importName}/>))`;
+    // str += `import ${importName}Doc from './doc/${item.name}.md';\n`;
+    // add += `.add('${item.name}', withDocs(${importName}Doc, () => <${importName}/>))`;
+
+    add += `export const story${index} = () => <${importName}/>;\n`;
+    add += `story${index}.storyName = '${item.name}';\n\n`;
   });
 
-  str += `storiesOf('${folder}', module)
-              .addDecorator(withReadme(${folder.replace(/\-/g, '')}Doc))
-              ${add};`;
+  str += `\nexport default {
+    title: 'KUI/Components/${folder}',
+    parameters: {
+      docs: {
+        page: ${folder.replace(/\-/g, '')}Doc,
+      },
+    },
+  };\n\n`;
+
+  str += add;
+
+  // str += `storiesOf('${folder}', module)
+  //             .addDecorator(withReadme(${folder.replace(/\-/g, '')}Doc))
+  //             ${add};`;
 
   return str;
 };
@@ -40,7 +54,7 @@ glob(`stories/${filePattern}`, (err, files) => {
     let prevDir;
     let prevFolder;
 
-    files.forEach(file => {
+    files.forEach((file) => {
       const { dir, name, root, base } = path.parse(file);
       const folder = dir.substr(dir.lastIndexOf('/') + 1);
       const fileString = fs.readFileSync(file).toString();

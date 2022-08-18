@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-const useStateCallback = initialState => {
-  const [state, set] = useState(initialState);
+const useStateCallback = (initialState: object) => {
+  const [state, set] = useState<any>(initialState);
   const callbackRef = useRef<any>(null);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const useStateCallback = initialState => {
   }, [state]);
 
   const setState = (newState, callback?) => {
-    set(prevState => {
+    set((prevState) => {
       return {
         ...prevState,
         ...newState,

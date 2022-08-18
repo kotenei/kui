@@ -1,11 +1,24 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withDocs, withReadme } from 'storybook-readme';
 import tooltipDoc from '../../src/components/tooltip/README.md';
 import Basic from './basic';
-import BasicDoc from './doc/basic.md';
+import Index.stories from './index.stories';
 import Placement from './placement';
-import PlacementDoc from './doc/placement.md';
-storiesOf('tooltip', module)
-              .addDecorator(withReadme(tooltipDoc))
-              .add('basic', withDocs(BasicDoc, () => <Basic/>)).add('placement', withDocs(PlacementDoc, () => <Placement/>));
+
+export default {
+    title: 'KUI/Components/tooltip',
+    parameters: {
+      docs: {
+        page: tooltipDoc,
+      },
+    },
+  };
+
+export const story0 = () => <Basic/>;
+story0.storyName = 'basic';
+
+export const story1 = () => <Index.stories/>;
+story1.storyName = 'index.stories';
+
+export const story2 = () => <Placement/>;
+story2.storyName = 'placement';
+

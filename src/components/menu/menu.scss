@@ -9,9 +9,7 @@ $prefixCls: #{$namespace}-menu;
     height: 100%;
     width: 2px;
     right: 0;
-  }
-
-  @else {
+  } @else {
     height: 2px;
     width: 100%;
     bottom: 0;
@@ -63,6 +61,9 @@ $prefixCls: #{$namespace}-menu;
       }
     }
 
+    &:hover {
+      color: $menu-selected-font-color;
+    }
   }
 
   &-submenu {
@@ -87,6 +88,10 @@ $prefixCls: #{$namespace}-menu;
         margin: 0;
         color: $text-color-primary !important;
       }
+
+      &:hover {
+        color: $menu-selected-font-color;
+      }
     }
 
     &--disabled {
@@ -99,7 +104,7 @@ $prefixCls: #{$namespace}-menu;
     }
 
     &--selected {
-      >.#{$prefixCls}-submenu {
+      > .#{$prefixCls}-submenu {
         &-title {
           color: $primary-color;
         }
@@ -124,7 +129,6 @@ $prefixCls: #{$namespace}-menu;
   &--vertical,
   &--inlineCollapsed {
     .#{$prefixCls} {
-
       &-item {
         &--selected {
           &::after {
@@ -156,7 +160,7 @@ $prefixCls: #{$namespace}-menu;
       border-right: 0;
       border-bottom: 1px solid $border-color-base;
 
-      >li {
+      > li {
         width: auto;
 
         &.#{$prefixCls}-item {
@@ -176,15 +180,13 @@ $prefixCls: #{$namespace}-menu;
             }
           }
 
-          >.#{$prefixCls}-sub {
+          > .#{$prefixCls}-sub {
             left: 0;
             top: auto;
           }
         }
-
       }
     }
-
   }
 
   &--vertical {
@@ -205,7 +207,7 @@ $prefixCls: #{$namespace}-menu;
     &.root {
       width: 80px !important;
 
-      >li {
+      > li {
         min-width: auto;
         padding: 0;
 
@@ -214,19 +216,17 @@ $prefixCls: #{$namespace}-menu;
         }
 
         &.#{$prefixCls}-submenu {
-          >div {
+          > div {
             justify-content: center;
             padding: 0;
           }
         }
 
-        >.#{$namespace}-tooltip-handle {
+        > .#{$namespace}-tooltip-handle {
           flex: 1;
           text-align: center;
         }
-
       }
     }
-
   }
 }

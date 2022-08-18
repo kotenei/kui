@@ -80,7 +80,9 @@ const Dropdown = (props: DropdownProps) => {
     hide();
   }, [trigger, state.show]);
 
-  const onClick = useCallback(() => {
+  const onClick = useCallback((e) => {
+    e.stopPropagation();
+
     if (trigger === 'hover' || trigger === 'manual') {
       return;
     }

@@ -1,9 +1,20 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withDocs, withReadme } from 'storybook-readme';
 import timelineDoc from '../../src/components/timeline/README.md';
 import Basic from './basic';
-import BasicDoc from './doc/basic.md';
-storiesOf('timeline', module)
-              .addDecorator(withReadme(timelineDoc))
-              .add('basic', withDocs(BasicDoc, () => <Basic/>));
+import Index.stories from './index.stories';
+
+export default {
+    title: 'KUI/Components/timeline',
+    parameters: {
+      docs: {
+        page: timelineDoc,
+      },
+    },
+  };
+
+export const story0 = () => <Basic/>;
+story0.storyName = 'basic';
+
+export const story1 = () => <Index.stories/>;
+story1.storyName = 'index.stories';
+

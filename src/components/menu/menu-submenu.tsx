@@ -33,7 +33,8 @@ const SubMenu = (props: SubMenuProps) => {
   const isSet = useRef(false);
   const isOpen = openKeys && componentKey && openKeys.indexOf(componentKey) !== -1;
 
-  const onMenuItemClick = useCallback(() => {
+  const onMenuItemClick = useCallback((e) => {
+    e.stopPropagation();
     if (disabled || mode !== 'inline') {
       return;
     }

@@ -95,7 +95,7 @@ const Menu = (props: MenuProps) => {
     }
 
     if (!('openKeys' in props)) {
-      if (!multiple) {
+      if (!multiple && isLeaf && mode !== "inline") {
         newOpenKeys = [];
       }
       newState.openKeys = newOpenKeys;

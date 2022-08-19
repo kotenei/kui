@@ -1,13 +1,12 @@
-```jsx
 import React from 'react';
-import timelineDoc from '../../src/components/timeline/README.md';
+import tableDoc from '../../src/components/table/README.md';
 import Basic from './basic';
 
 export default {
-    title: 'KUI/Components/timeline',
+    title: 'KUI/Components/table',
     parameters: {
       docs: {
-        page: timelineDoc,
+        page: tableDoc,
       },
     },
   };
@@ -15,5 +14,3 @@ export default {
 export const story0 = () => <Basic/>;
 story0.storyName = 'basic';
 
-
-```

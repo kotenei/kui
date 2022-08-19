@@ -1,7 +1,7 @@
 import React from 'react';
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
-import '!style-loader!css-loader!sass-loader!../stories/index.scss';
+import '!style-loader!css-loader!sass-loader!./index.scss';
 
 export const decorators = [
   (Story) => (

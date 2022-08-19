@@ -25,6 +25,7 @@ export * from './popover';
 export * from './progress';
 export * from './rate';
 export * from './steps';
+export * from './table';
 export * from './tabs';
 export * from './tag';
 export * from './timeline';

@@ -1,0 +1,34 @@
+@import '../../assets/styles/global.scss';
+
+$prefixCls: #{$namespace}-table;
+
+.#{$prefixCls} {
+  position: relative;
+
+  &--scroller {
+    overflow: auto;
+    overflow-x: hidden;
+
+    #{$prefixCls}-header {
+      overflow: scroll;
+      overflow-x: scroll;
+      // margin-bottom: torem(-21px);
+    }
+
+    #{$prefixCls}-body {
+      overflow: scroll;
+    }
+  }
+
+  &-bottom {
+    text-align: right;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+    table-layout: fixed;
+  }
+}

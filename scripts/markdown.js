@@ -75,11 +75,11 @@ glob(`stories/${filePattern}`, (err, files) => {
       }
 
       if (prevDir != docDir && dirMap[prevDir]) {
-        fs.writeFileSync(`${prevFolder}/index.stories.js`, crateIndex(dirMap[prevDir]));
+        fs.writeFileSync(`${prevFolder}/index.js`, crateIndex(dirMap[prevDir]));
         prevDir = docDir;
         prevFolder = folderDir;
       }
-
+      
       !fs.existsSync(folderDir) && fs.mkdirSync(folderDir);
       !fs.existsSync(docDir) && fs.mkdirSync(docDir);
       fs.writeFileSync(`${docDir}/${name}.md`, codeString);

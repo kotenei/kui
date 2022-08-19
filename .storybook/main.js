@@ -3,7 +3,7 @@ const fs = require('fs');
 const resolve = (relativePath) => path.resolve(fs.realpathSync(process.cwd()), relativePath);
 
 module.exports = {
-  stories: ['../stories/**/index.stories.js'],
+  stories: ['../stories/**/index.js'],
   addons: [
     {
       name: '@storybook/addon-docs',

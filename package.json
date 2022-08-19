@@ -6,7 +6,7 @@
     "scripts": {
         "start": "start-storybook -p 8080",
         "build": "node scripts/build.js",
-        "prerestart": "node scripts/markdown.js"
+        "prestart": "node scripts/markdown.js"
     },
     "files": [
         "lib"

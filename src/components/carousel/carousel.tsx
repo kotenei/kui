@@ -290,9 +290,7 @@ const Carousel = (props: CarouselProps) => {
         })}
         onClick={onNext}
       >
-        <Icon>
-          <Icon>{<AiOutlineRight />}</Icon>
-        </Icon>
+        <Icon>{<AiOutlineRight />}</Icon>
       </span>
     </div>
   );

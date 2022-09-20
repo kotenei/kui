@@ -1,4 +1,3 @@
-```jsx
 import React, { Component } from 'react';
 import { Table, TableColumn } from 'kui-react';
 
@@ -52,10 +51,27 @@ const data = [
 ];
 
 export default class Demo extends Component {
+  state = {
+    expandedRowKeys: [],
+  };
   render() {
     return (
       <div className="story-demo-table">
-        <Table dataSource={data}>
+        <Table
+          dataSource={data}
+          rowExpansion={{
+            expandedRowKeys: this.state.expandedRowKeys,
+            onChange: (expandedRowKeys) => {
+              this.setState({
+                expandedRowKeys,
+              });
+            },
+            expandedRowRender: (rowData) => {
+              const index = this.state.expandedRowKeys.indexOf(rowData.id);
+              return index === -1 ? null : <div>Expanded</div>;
+            },
+          }}
+        >
           <TableColumn title="FirstName" field="firstName" />
           <TableColumn title="LastName" field="lastName" />
           <TableColumn title="Age" field="age" />
@@ -66,5 +82,3 @@ export default class Demo extends Component {
     );
   }
 }
-
-```

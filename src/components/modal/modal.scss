@@ -3,7 +3,7 @@
 .#{$namespace}-modal {
   border-radius: $radius-base;
   position: fixed;
-  background: #fff;
+  background: $modal-bg-color;
   left: 50%;
   top: 0;
   z-index: 1050;

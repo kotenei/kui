@@ -1,17 +1,19 @@
 import React, { memo } from 'react';
 import classnames from 'classnames';
 
-const TableBodyContainer = props => {
+const TableBodyContainer = React.forwardRef((props: any, ref) => {
+  const { prefixCls = 'k-table', ...others } = props;
   return <div
     ref={props.elRef}
     className={classnames(props.className, {
-      [`${props.prefixCls}-body`]: true,
-      [`${props.prefixCls}-body--scroll`]: props.scroll
+      [`${prefixCls}-body`]: true,
+      [`${prefixCls}-body--scroll`]: props.scroll
     })}
-    style={props.style}
+    {...others}
+    ref={ref}
   >
     {props.children}
   </div>
-}
+})
 
 export default memo(TableBodyContainer)

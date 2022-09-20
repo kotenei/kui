@@ -26,6 +26,7 @@ const Icon = (props: IconProps) => {
 
   const _style = {
     fontSize,
+    cursor: others.onClick ? 'pointer' : undefined,
     ...style,
   };
 

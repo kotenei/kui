@@ -1,4 +1,3 @@
-```jsx
 import React, { Component } from 'react';
 import { Table, TableColumn } from 'kui-react';
 
@@ -55,7 +54,7 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-table">
-        <Table dataSource={data}>
+        <Table dataSource={data} bordered>
           <TableColumn title="FirstName" field="firstName" />
           <TableColumn title="LastName" field="lastName" />
           <TableColumn title="Age" field="age" />
@@ -66,5 +65,3 @@ export default class Demo extends Component {
     );
   }
 }
-
-```

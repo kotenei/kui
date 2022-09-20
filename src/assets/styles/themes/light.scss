@@ -46,7 +46,7 @@ $button-active-font-color:$layout-bg-color;
 $card-bg-color:$white;
 
 // collapse
-$collapse-header-bg-color:#F7F7F7;
+$collapse-header-bg-color:$layout-overlay-color;
 $collapse-panel-bg-color:$white;
 
 // list
@@ -83,6 +83,10 @@ $popover-bottom-box-shadow:-3px -3px 8px $box-shadow-color;
 $progress-inner-bg-color:$black;
 $progress-inner-font-color:$white;
 $progress-outer-bg-color:#e4e8f1;
+
+// table
+$table-cell-bg-color:$layout-overlay-color;
+$table-bg-color: $white;
 
 // rate
 $rate-font-color:#e8e8e8;

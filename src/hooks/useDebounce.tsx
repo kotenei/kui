@@ -1,29 +1,38 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
-const useStateCallback = (initialState: object) => {
-  const [state, set] = useState<any>(initialState);
-  const callbackRef = useRef<any>(null);
+interface DebounceOption {
+  fn?: Function;
+  delay?: number;
+  deps?: never[];
+}
+
+const useDebounce = (options: DebounceOption = { delay: 300, deps: [] }) => {
+  const timeout = useRef<number>();
+  const { fn, delay, deps } = options;
 
   useEffect(() => {
-    if (callbackRef.current) {
-      callbackRef.current(state);
-      callbackRef.current = null;
+    if (timeout.current) {
+      clearTimeout(timeout.current);
     }
-  }, [state]);
 
-  const setState = (newState, callback?) => {
-    set((prevState) => {
-      return {
-        ...prevState,
-        ...newState,
-      };
-    });
-    if (typeof callback === 'function') {
-      callbackRef.current = callback;
+    timeout.current = window.setTimeout(() => {
+      fn && fn();
+    }, delay);
+  }, deps);
+
+  const action = (fn: Function) => {
+    timeout.current = window.setTimeout(() => {
+      fn();
+    }, delay);
+  };
+
+  const cancel = () => {
+    if (timeout.current) {
+      clearTimeout(timeout.current);
     }
   };
 
-  return [state, setState];
+  return { action, cancel };
 };
 
-export default useStateCallback;
+export default useDebounce;

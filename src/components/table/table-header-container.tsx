@@ -1,14 +1,16 @@
 import React, { memo } from 'react';
 import classnames from 'classnames';
 
-const TableHeaderContainer = props => {
+const TableHeaderContainer = React.forwardRef((props: any, ref) => {
+  const { prefixCls = 'k-table', ...others } = props;
   return <div className={classnames(props.className, {
-    [`${props.prefixCls}-header`]: true
+    [`${prefixCls}-header`]: true
   })}
-    style={props.style}
+    {...others}
+    ref={ref}
   >
     {props.children}
   </div>
-}
+})
 
 export default memo(TableHeaderContainer)

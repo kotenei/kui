@@ -1,0 +1,57 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-checkbox {
+  display: flex;
+  align-items: center;
+  margin: 8px;
+  margin-left: 0;
+
+  &--disabled,
+  &--readOnly {
+    color: $disabled-color;
+    > label {
+      cursor: not-allowed !important;
+    }
+    .#{$namespace}-icon {
+      > svg {
+        fill: $disabled-color;
+      }
+    }
+  }
+
+  &--readOnly{
+    > label {
+      cursor: default !important;
+    }
+  }
+
+  > label {
+    cursor: pointer;
+  }
+
+  input {
+    display: none;
+  }
+
+  &-icon {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: $text-color-regular;
+    }
+
+    @each $color, $value in $colors {
+      &--#{$color} {
+        svg {
+          fill: $value;
+        }
+      }
+    }
+  }
+
+  &-label {
+    margin-left: 4px;
+  }
+}

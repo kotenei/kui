@@ -51,10 +51,26 @@ const data = [
 ];
 
 export default class Demo extends Component {
+  state = {
+    selectedRowKeys: ['1'],
+  };
   render() {
     return (
       <div className="story-demo-table">
-        <Table dataSource={data}>
+        <Table
+          dataSource={data}
+          rowSelection={{
+            selectedRowKeys: this.state.selectedRowKeys,
+            onChange: (selectedRowKeys) => {
+              this.setState({
+                selectedRowKeys,
+              });
+            },
+            onSelect: (record, checked, selectedRowKeys) => {
+              console.log(record, checked, selectedRowKeys);
+            },
+          }}
+        >
           <TableColumn title="FirstName" field="firstName" />
           <TableColumn title="LastName" field="lastName" />
           <TableColumn title="Age" field="age" />

@@ -24,6 +24,7 @@ export * from './pop-confirm';
 export * from './portal';
 export * from './popover';
 export * from './progress';
+export * from './radio';
 export * from './rate';
 export * from './steps';
 export * from './table';

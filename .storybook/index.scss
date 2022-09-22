@@ -14,7 +14,8 @@
     font-weight: normal;
   }
 
-  &-checkbox{
+  &-checkbox,
+  &-radio {
     display: flex;
     align-items: center;
   }

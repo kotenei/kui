@@ -1,20 +1,19 @@
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { useEffect, useCallback, memo } from 'react';
 import classnames from 'classnames';
 
 import { Icon } from '../icon';
-import { CheckboxProps } from './typing';
+import { RadioProps } from './typing';
 import { useStateCallback } from '../../hooks';
-import { IconCheck, IconIndeterminate, IconUnCheck } from './icons';
+import { IconCheck, IconUnCheck } from './icons';
 
-const Checkbox = (props: CheckboxProps) => {
+const Radio = (props: RadioProps) => {
   const {
-    prefixCls = 'k-checkbox',
+    prefixCls = 'k-radio',
     className,
     readOnly,
     checked,
     defaultChecked,
     disabled,
-    indeterminate,
     label,
     color,
     id,
@@ -40,13 +39,15 @@ const Checkbox = (props: CheckboxProps) => {
       if (readOnly || disabled) {
         return;
       }
+      const checked = e.target.checked;
+
       if (!('checked' in props)) {
         setState({
-          checked: !state.checked,
+          checked,
         });
       }
       if (onChange) {
-        onChange(e, !state.checked);
+        onChange(e, checked);
       }
     },
     [state.checked, readOnly, disabled, onChange],
@@ -61,9 +62,9 @@ const Checkbox = (props: CheckboxProps) => {
     <div className={classString}>
       <label>
         <input
+          type="radio"
           id={id}
           name={name}
-          type="checkbox"
           checked={state.checked}
           readOnly={readOnly}
           disabled={disabled}
@@ -73,18 +74,16 @@ const Checkbox = (props: CheckboxProps) => {
         <Icon
           className={classnames({
             [`${prefixCls}-icon`]: true,
-            [`${prefixCls}-icon--checked`]: state.checked || indeterminate,
-            [`${prefixCls}-icon--${color}`]: !!color && (state.checked || indeterminate),
+            [`${prefixCls}-icon--checked`]: state.checked,
+            [`${prefixCls}-icon--${color}`]: !!color && state.checked,
           })}
         >
-          {state.checked && <IconCheck />}
-          {!state.checked && !indeterminate && <IconUnCheck />}
-          {!state.checked && indeterminate && <IconIndeterminate />}
-          <span className={`${prefixCls}-label`}>{label || props.children}</span>
+          {state.checked ? <IconCheck /> : <IconUnCheck />}
         </Icon>
+        <span className={`${prefixCls}-label`}>{label || props.children}</span>
       </label>
     </div>
   );
 };
 
-export default memo(Checkbox);
+export default memo(Radio);

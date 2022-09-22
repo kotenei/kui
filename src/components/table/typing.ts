@@ -13,16 +13,13 @@ export interface RowSelection {
 
 export interface RowExpansion {
   expandedRowKeys?: string[];
-  custom?: boolean;
   onChange?: (expandedRowKeys: string[], event: React.ChangeEvent<HTMLInputElement>) => any;
   expandedRowRender?: (record: any, index?: number, expanded?: boolean) => any;
 }
 
 export interface TableProps extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>> {
   bordered?: boolean;
-  expandable?: boolean;
   loading?: boolean;
-  sortable?: boolean;
   scrollHeight?: number;
   stripe?: boolean;
   dataSource?: any;

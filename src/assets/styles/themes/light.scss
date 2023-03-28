@@ -2,7 +2,7 @@ $white: #fff;
 $black: #000;
 
 $layout-bg-color: $white;
-$layout-overlay-color:#F7F7F7;
+$layout-overlay-color: #f7f7f7;
 
 // status
 $primary-color: #2196f3;
@@ -14,95 +14,104 @@ $warning-color: #ff9800;
 // text
 $text-color-primary: #262626;
 $text-color-regular: #595959;
-$text-color-secondary: #8C8C8C;
-$text-color-placeholder: #BFBFBF;
+$text-color-secondary: #8c8c8c;
+$text-color-placeholder: #bfbfbf;
 
 // disabled
 $disabled-color: $text-color-placeholder;
 
-
 // border
 $border-color-base: #ccc;
-$border-hover-color:$text-color-primary;
+$border-hover-color: $text-color-primary;
 
 // box-shadow
-$box-shadow-color:$border-color-base;
+$box-shadow-color: $border-color-base;
 $box-shadow-base: 0 2px 8px $box-shadow-color;
 
 // avatar
 $avatar-bg-color: $text-color-primary;
-$avatar-font-color:$layout-bg-color;
+$avatar-font-color: $layout-bg-color;
 
 // button
-$button-border-color:$border-color-base;
+$button-border-color: $border-color-base;
 $button-hover-bg-color: $text-color-regular;
 $button-hover-border-color: transparent;
-$button-hover-font-color:$layout-bg-color;
+$button-hover-font-color: $layout-bg-color;
 $button-active-bg-color: $text-color-primary;
 $button-active-border-color: transparent;
-$button-active-font-color:$layout-bg-color;
+$button-active-font-color: $layout-bg-color;
 
 // card
-$card-bg-color:$white;
+$card-bg-color: $white;
 
 // collapse
-$collapse-header-bg-color:$layout-overlay-color;
-$collapse-panel-bg-color:$white;
+$collapse-header-bg-color: $layout-overlay-color;
+$collapse-panel-bg-color: $white;
+
+// input
+$input-addon-bg-color: $layout-overlay-color;
+$input-bg-color: $white;
 
 // list
-$list-bg-color:$white;
+$list-bg-color: $white;
 
 // message
-$message-bg-color:$white;
+$message-bg-color: $white;
 
 // menu
-$menu-selected-bg-color:lighten($primary-color,40%);
-$menu-selected-font-color:$primary-color;
-$menu-bg-color:$white;
+$menu-selected-bg-color: lighten($primary-color, 40%);
+$menu-selected-font-color: $primary-color;
+$menu-bg-color: $white;
 
 // modal
-$modal-bg-color:$white;
+$modal-bg-color: $white;
 
 // notification
 $notification-bg-color: $white;
 
 // pagination
-$pagination-hover-bg-color:$text-color-regular;
-$pagination-hover-font-color:$white;
-$pagination-active-bg-color:$black;
-$pagination-active-font-color:$white;
+$pagination-hover-bg-color: $text-color-regular;
+$pagination-hover-font-color: $white;
+$pagination-active-bg-color: $black;
+$pagination-active-font-color: $white;
 
 // popover
 $popover-bg-color: $white;
-$popover-left-box-shadow:3px -3px 8px $box-shadow-color;
-$popover-top-box-shadow:3px 3px 8px $box-shadow-color;
-$popover-right-box-shadow:-3px 3px 8px $box-shadow-color;
-$popover-bottom-box-shadow:-3px -3px 8px $box-shadow-color;
+$popover-left-box-shadow: 3px -3px 8px $box-shadow-color;
+$popover-top-box-shadow: 3px 3px 8px $box-shadow-color;
+$popover-right-box-shadow: -3px 3px 8px $box-shadow-color;
+$popover-bottom-box-shadow: -3px -3px 8px $box-shadow-color;
 
 // progress
-$progress-inner-bg-color:$black;
-$progress-inner-font-color:$white;
-$progress-outer-bg-color:#e4e8f1;
+$progress-inner-bg-color: $black;
+$progress-inner-font-color: $white;
+$progress-outer-bg-color: #e4e8f1;
 
 // table
-$table-cell-bg-color:$layout-overlay-color;
+$table-cell-bg-color: $layout-overlay-color;
 $table-bg-color: $white;
 
 // rate
-$rate-font-color:#e8e8e8;
-$rate-active-font-color:#fadb14;
+$rate-font-color: #e8e8e8;
+$rate-active-font-color: #fadb14;
+
+// switch
+$switch-dot-bg-color: $black;
+$switch-dot-checked-bg-color: $white;
+$switch-inner-color: $black;
+$switch-inner-checked-color: $white;
 
 // tabs
 $tabs-nav-bg-color: $layout-overlay-color;
-$tabs-nav-icon-color:$text-color-placeholder;
+$tabs-nav-icon-color: $text-color-placeholder;
 
 // timeline
-$timeline-head-bg-color:$white;
+$timeline-head-bg-color: $white;
 
 // tag
 $tag-bg-color: $text-color-primary;
 $tag-font-color: $white;
 
 // tooltip
-$tooltip-bg-color:$black;
-$tooltip-font-color:$white;
+$tooltip-bg-color: $black;
+$tooltip-font-color: $white;

@@ -6,12 +6,15 @@ import { LoadingProps } from './typing';
 const Loading = (props: LoadingProps) => {
   const { prefixCls = 'k-loading', className, color, tip, vertical, size, ...others } = props;
 
-  const classString = classnames({
-    [prefixCls]: true,
-    [`${prefixCls}--${color}`]: !!color,
-    [`${prefixCls}--${size}`]: !!size,
-    [`${prefixCls}--vertical`]: !!vertical,
-  });
+  const classString = classnames(
+    {
+      [prefixCls]: true,
+      [`${prefixCls}--${color}`]: !!color,
+      [`${prefixCls}--${size}`]: !!size,
+      [`${prefixCls}--vertical`]: !!vertical,
+    },
+    className,
+  );
 
   return (
     <div className={classString} {...others}>

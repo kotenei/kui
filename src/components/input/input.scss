@@ -1,0 +1,121 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-input {
+  display: flex;
+  align-items: center;
+  border-radius: $radius-base;
+  border: 1px solid $border-color-base;
+  overflow: hidden;
+  height: 40px;
+
+  input,
+  textarea {
+    padding: $space-base;
+    flex: 1;
+    height: 100%;
+    border: none;
+    color: $text-color-primary;
+    outline: 0;
+    font-size: $font-size-base;
+    background: none;
+  }
+
+  input {
+    border-radius: $radius-base;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  > span {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-textarea {
+    height: auto;
+  }
+
+  &-affix {
+    input {
+      &:not(:first-child) {
+        padding-left: 0;
+      }
+
+      &:not(:last-child) {
+        padding-right: 0;
+      }
+    }
+    > span {
+      width: 34px;
+    }
+  }
+
+  &-group {
+    > span {
+      padding: $space-base;
+      background-color: $input-addon-bg-color;
+      height: 100%;
+      width: 40px;
+    }
+    input:not(:first-child) {
+      border-left: 1px solid $border-color-base;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    input:not(:last-child) {
+      border-right: 1px solid $border-color-base;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  &--focus{
+    border-color: $primary-color;
+  }
+
+  &--disabled,
+  &--readOnly {
+    color: $disabled-color;
+    input,
+    textarea {
+      color: $disabled-color;
+      cursor: not-allowed;
+    }
+  }
+
+  &--sm {
+    height: 34px;
+    font-size: $font-size-sm;
+    input {
+      font-size: $font-size-sm;
+      height: 100%;
+    }
+    > .#{$namespace}-input-prefix,
+    .#{$namespace}-input-suffix {
+      width: 24px;
+    }
+    > .#{$namespace}-input-addon {
+      width: 32px;
+    }
+  }
+
+  &--lg {
+    height: 52px;
+    font-size: $font-size-lg;
+    input {
+      font-size: $font-size-lg;
+      height: 100%;
+    }
+    > .#{$namespace}-input-prefix,
+    .#{$namespace}-input-suffix {
+      width: 34px;
+    }
+    > .#{$namespace}-input-addon {
+      width: 50px;
+    }
+  }
+}

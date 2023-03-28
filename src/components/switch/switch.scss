@@ -1,0 +1,75 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-switch {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  min-width: 44px;
+  height: 22px;
+  line-height: 20px;
+  border-radius: 100px;
+  border: 1px solid $border-color-base;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &--disabled,
+  &--loading {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+  }
+
+  &--checked {
+    background: $primary-color;
+    border-color: $primary-color;
+
+    .#{$namespace}-switch-inner {
+      margin-left: 6px;
+      margin-right: 24px;
+      color:$switch-inner-checked-color;
+      &__dot {
+        left: 100%;
+        margin-left: -18px;
+        background-color: $switch-dot-checked-bg-color;
+      }
+    }
+    &:before {
+      left: 100%;
+      margin-left: -18px;
+    }
+  }
+
+  &-inner {
+    font-size: 12px;
+    display: block;
+    margin-left: 24px;
+    margin-right: 6px;
+
+    &__dot {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      left: 2px;
+      top: 2px;
+      background: $switch-dot-bg-color;
+      transition: all 0.3s ease;
+   
+
+    //   .#{$namespace}-loading {
+    //     height: 10px;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     text-align: center;
+    //     // &__circle {
+    //     //   width: 10px;
+    //     //   height: 10px;
+    //     // }
+    //   }
+    }
+  }
+}

@@ -23,7 +23,7 @@ const Switch = (props: SwitchProps) => {
   });
 
   useEffect(() => {
-    if (checked !== undefined) {
+    if (checked !== undefined && checked !== null) {
       setState({
         checked,
       });

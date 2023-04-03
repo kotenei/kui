@@ -9,7 +9,7 @@ import { eventOmitHandler } from '../../utils';
 
 const MenuItem = (props: MenuItemProps) => {
   const {
-    prefixCls,
+    prefixCls = 'k-menu',
     componentKey,
     disabled,
     inlineIndent = 24,
@@ -23,18 +23,22 @@ const MenuItem = (props: MenuItemProps) => {
   } = props;
   const { selectedKeys, onItemClick, onItemHover } = useContext(MenuContext);
 
-  const onMenuItemClick = useCallback((e) => {
-    eventOmitHandler(e)
-    if (disabled) {
-      return;
-    }
-    // if (componentKey && selectedKeys && selectedKeys.indexOf(componentKey) !== -1) {
-    //   return;
-    // }
-    if (componentKey && parentKeys && onItemClick) {
-      onItemClick(componentKey, parentKeys, true);
-    }
-  }, [componentKey, parentKeys, selectedKeys, onItemClick]);
+  const onMenuItemClick = useCallback(
+    (e) => {
+      eventOmitHandler(e);
+      if (disabled) {
+        return;
+      }
+      // if (componentKey && selectedKeys && selectedKeys.indexOf(componentKey) !== -1) {
+      //   return;
+      // }
+
+      if (componentKey && parentKeys && onItemClick) {
+        onItemClick(componentKey, parentKeys, true);
+      }
+    },
+    [componentKey, parentKeys, selectedKeys, onItemClick],
+  );
 
   const onMenuItemEnter = useCallback(() => {
     if (disabled || mode === 'inline') {

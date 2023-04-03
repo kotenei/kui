@@ -77,9 +77,9 @@ const Menu = (props: MenuProps) => {
 
     if (isLeaf) {
       const tmp: any = {};
-      newSelectedKeys.forEach(key => {
+      newSelectedKeys.forEach((key) => {
         const node = treeInfo.current.dicNode[key];
-        node.parentKeys.forEach(p => {
+        node.parentKeys.forEach((p) => {
           if (!tmp[p]) {
             tmp[p] = p;
             newSelectedSubMenuKeys.push(p);
@@ -95,7 +95,7 @@ const Menu = (props: MenuProps) => {
     }
 
     if (!('openKeys' in props)) {
-      if (!multiple && isLeaf && mode !== "inline") {
+      if (!multiple && isLeaf && mode !== 'inline') {
         newOpenKeys = [];
       }
       newState.openKeys = newOpenKeys;
@@ -138,9 +138,9 @@ const Menu = (props: MenuProps) => {
       if (!child) {
         return null;
       }
-
       return React.cloneElement(child, {
         ...child.props,
+        key: child.key,
         prefixCls,
         level,
         parentKeys: [],

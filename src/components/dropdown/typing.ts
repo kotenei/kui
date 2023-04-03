@@ -14,6 +14,3 @@ export interface DropdownProps extends KUI.BasicProps<React.HtmlHTMLAttributes<H
   show?: boolean;
 }
 
-export interface DropdownButtonProps extends DropdownProps {
-  onClick?: () => void;
-}

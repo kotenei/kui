@@ -13,12 +13,12 @@ module.exports = {
     },
     {
       name: '@storybook/addon-storysource',
-      // options: {
-      //   rule: {
-      //     test: [/\.(ts|js)x?$/],
-      //     include: [path.resolve(__dirname, '../stories')], // You can specify directories
-      //   },
-      // },
+      options: {
+        rule: {
+          test: [/\.(ts|js)x?$/],
+          include: [path.resolve(__dirname, '../stories')], // You can specify directories
+        },
+      },
     },
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',

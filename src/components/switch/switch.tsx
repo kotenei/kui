@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import { Loading } from '../loading';
 import { SwitchProps } from './typing';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 
 const Switch = (props: SwitchProps) => {
   const {
@@ -18,7 +18,7 @@ const Switch = (props: SwitchProps) => {
     ...others
   } = props;
 
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     checked: checked || defaultChecked,
   });
 

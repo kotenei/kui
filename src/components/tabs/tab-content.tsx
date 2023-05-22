@@ -3,11 +3,11 @@ import classnames from 'classnames';
 import { domHelpers } from '../../utils';
 
 import { TabContentProps } from './typing';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 
 const TabContent = (props: TabContentProps) => {
   const { prefixCls, activeIndex, children, tabPosition } = props;
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     scrollLeft: 0,
   });
   const element = useRef<HTMLDivElement>(null);

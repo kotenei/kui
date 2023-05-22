@@ -24,9 +24,9 @@ export const parameters = {
   docs: {
     // theme: themes.light,
     // theme: themes.dark,
-    // page: () => <DocsPage subtitleSlot={({ kind }) => `Subtitle: ${kind}`} />,
-    container: DocsContainer,
-    page: DocsPage,
+    page: () => <DocsPage subtitleSlot={({ kind }) => `Subtitle: ${kind}`} />,
+    // container: DocsContainer,
+    // page: DocsPage,
   },
   viewport: {
     viewports: MINIMAL_VIEWPORTS, // newViewports would be an ViewportMap. (see below for examples)

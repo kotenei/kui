@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback, useEffect, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 
 import { Portal } from '../portal';
@@ -16,7 +16,7 @@ const Tooltip = (props: TooltipProps) => {
     trigger,
     ...others
   } = props;
-  const [show, setShow] = useState(props.show);
+  const [show, setShow] = React.useState(props.show);
   const triggerRef = useRef(null);
   const tooltipRef = useRef(null);
   const timer = useRef<any>(null);

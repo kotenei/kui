@@ -7,7 +7,7 @@ import { Icon } from '../icon';
 import CarouselPanel from './carousel-panel';
 import CarouselDot from './carousel-dot';
 import { CarouselProps } from './typing';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 
 const Carousel = (props: CarouselProps) => {
   const {
@@ -18,7 +18,7 @@ const Carousel = (props: CarouselProps) => {
     delay = 3000,
     ...others
   } = props;
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     activeIndex: 1,
     max: 0,
     width: 0,

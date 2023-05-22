@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 const useWinSize = () => {
-  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [size, setSize] = React.useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const onResize = () => {

@@ -1,10 +1,10 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback } from 'react';
 import classnames from 'classnames';
 
 import { Icon } from '../icon';
 import RateItem from './rate-item';
 import { RateProps } from './typing';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import { AiFillStar } from 'react-icons/ai';
 
 const Rate = (props: RateProps) => {
@@ -21,7 +21,7 @@ const Rate = (props: RateProps) => {
     ...others
   } = props;
 
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     value: value || defaultValue,
     orgValue: value || defaultValue,
   });

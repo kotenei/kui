@@ -8,7 +8,7 @@ import { Portal } from '../portal';
 import { Mask } from '../mask';
 import { ModalProps } from './typing';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 
 let zIndex = 1000;
 
@@ -31,7 +31,7 @@ const Modal = (props: ModalProps) => {
     okText = 'Confirm',
   } = props;
 
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     show: false,
     showMask: false,
     modalWidth: props.width || 720,

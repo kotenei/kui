@@ -1,10 +1,10 @@
-import React, { memo, useCallback } from 'react';
+import React, { LegacyRef, memo, useCallback } from 'react';
 import classnames from 'classnames';
 
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import { InputProps } from './typing';
 
-const Input = (props: InputProps) => {
+const Input = React.forwardRef((props: InputProps, ref: LegacyRef<HTMLDivElement>) => {
   const {
     prefixCls = 'k-input',
     className,
@@ -17,7 +17,7 @@ const Input = (props: InputProps) => {
     suffix,
     ...others
   } = props;
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     focus: false,
   });
 
@@ -104,10 +104,10 @@ const Input = (props: InputProps) => {
   };
 
   return (
-    <div className={classString} style={style}>
+    <div ref={ref} className={classString} style={style}>
       {renderContent()}
     </div>
   );
-};
+});
 
 export default memo(Input);

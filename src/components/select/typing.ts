@@ -7,7 +7,6 @@ export interface SelectProps
   value?: string[];
   size?: 'sm' | 'lg';
   onChange?: (value: string[]) => void;
-  onSelect?: (value: string[]) => void;
 }
 
 export interface SelectOptionProps extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLElement>> {

@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import classnames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import {
@@ -24,7 +24,7 @@ const Alert = (props: AlertProps) => {
     className,
     onClose,
   } = props;
-  const [closed, setClosed] = useState(false);
+  const [closed, setClosed] = React.useState(false);
 
   const handleClose = useCallback(() => {
     if (!closable) {

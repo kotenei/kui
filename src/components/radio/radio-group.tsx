@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, memo } from 'react';
 import classnames from 'classnames';
 
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import Radio from './radio';
 import { RadioGroupProps } from './typing';
 
@@ -15,7 +15,7 @@ const RadioGroup = (props: RadioGroupProps) => {
     disabled,
     color,
   } = props;
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     value: value || defaultValue || '',
   });
 

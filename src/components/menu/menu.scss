@@ -61,7 +61,7 @@ $prefixCls: #{$namespace}-menu;
       }
     }
 
-    &:hover {
+    &--hover {
       color: $menu-selected-font-color;
     }
   }
@@ -88,10 +88,6 @@ $prefixCls: #{$namespace}-menu;
         margin: 0;
         color: $text-color-primary !important;
       }
-
-      &:hover {
-        color: $menu-selected-font-color;
-      }
     }
 
     &--disabled {
@@ -108,6 +104,12 @@ $prefixCls: #{$namespace}-menu;
         &-title {
           color: $primary-color;
         }
+      }
+    }
+
+    &--hover {
+      > .#{$prefixCls}-submenu-title {
+        color: $menu-selected-font-color;
       }
     }
 

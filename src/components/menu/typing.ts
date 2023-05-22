@@ -9,7 +9,9 @@ export interface MenuProps
   inlineIndent?: number;
   mode?: MenuMode;
   multiple?: boolean;
+  hoverKey?: string;
   onClick?: (key: string, selectedKeys: string[], openKeys: string[]) => void;
+  onHover?: (key: string, type: 'enter' | 'leave') => void;
 }
 
 export interface MenuItemProps

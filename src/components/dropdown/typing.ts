@@ -12,5 +12,5 @@ export interface DropdownProps extends KUI.BasicProps<React.HtmlHTMLAttributes<H
   placement?: DropdownPlacementType;
   disabled?: boolean;
   show?: boolean;
+  menuClassName?: string;
 }
-

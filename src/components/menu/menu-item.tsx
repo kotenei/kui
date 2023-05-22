@@ -18,10 +18,9 @@ const MenuItem = (props: MenuItemProps) => {
     mode,
     level,
     title,
-    parentKey,
     parentKeys,
   } = props;
-  const { selectedKeys, onItemClick, onItemHover } = useContext(MenuContext);
+  const { selectedKeys, hoverKey, onItemClick, onItemHover } = useContext(MenuContext);
 
   const onMenuItemClick = useCallback(
     (e) => {
@@ -29,9 +28,6 @@ const MenuItem = (props: MenuItemProps) => {
       if (disabled) {
         return;
       }
-      // if (componentKey && selectedKeys && selectedKeys.indexOf(componentKey) !== -1) {
-      //   return;
-      // }
 
       if (componentKey && parentKeys && onItemClick) {
         onItemClick(componentKey, parentKeys, true);
@@ -64,6 +60,7 @@ const MenuItem = (props: MenuItemProps) => {
     [`${prefixCls}-item--selected`]:
       componentKey && selectedKeys && selectedKeys.indexOf(componentKey) !== -1,
     [`${prefixCls}-item--disabled`]: disabled,
+    [`${prefixCls}-item--hover`]: hoverKey===componentKey,
   });
 
   const _style: CSSProperties = {

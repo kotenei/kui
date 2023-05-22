@@ -3,10 +3,10 @@ import classnames from 'classnames';
 
 import { Portal } from '../portal';
 import { DropdownProps } from './typing';
-import { useStateCallback } from '../../hooks';
-import { domHelpers, getPopoverPosition } from '../../utils';
+import { useState, useOutsideClick } from '../../hooks';
+import { getPopoverPosition } from '../../utils';
 
-const Dropdown = (props: DropdownProps) => {
+const Dropdown = React.forwardRef((props: DropdownProps, ref) => {
   const {
     prefixCls = 'k-dropdown',
     className,
@@ -15,12 +15,13 @@ const Dropdown = (props: DropdownProps) => {
     placement,
     disabled,
     children,
+    show,
+    menuClassName,
     ...others
   } = props;
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     show: false,
   });
-  const triggerRef = useRef(null);
   const menuRef = useRef(null);
   const classString = classnames(
     {
@@ -29,12 +30,15 @@ const Dropdown = (props: DropdownProps) => {
     className,
   );
 
-  useEffect(() => {
-    document.addEventListener('click', hide);
-    return () => {
-      document.removeEventListener('click', hide);
-    };
-  }, [state.show]);
+  const [triggerRef] = useOutsideClick(
+    {
+      orgRef: ref,
+      onClick: (e) => {
+        hideDropdown();
+      },
+    },
+    [state.show],
+  );
 
   useEffect(() => {
     if ('show' in props) {
@@ -44,7 +48,7 @@ const Dropdown = (props: DropdownProps) => {
     }
   }, [props.show]);
 
-  const show = () => {
+  const showDropdown = () => {
     if (state.show || disabled) {
       return;
     }
@@ -55,7 +59,7 @@ const Dropdown = (props: DropdownProps) => {
     }
   };
 
-  const hide = () => {
+  const hideDropdown = () => {
     if (!state.show || disabled) {
       return;
     }
@@ -70,28 +74,32 @@ const Dropdown = (props: DropdownProps) => {
     if (trigger === 'click' || trigger === 'manual') {
       return;
     }
-    show();
+    showDropdown();
   }, [trigger, state.show]);
 
   const onMouseLeave = useCallback(() => {
     if (trigger === 'click' || trigger === 'manual') {
       return;
     }
-    hide();
+    hideDropdown();
   }, [trigger, state.show]);
 
-  const onClick = useCallback((e) => {
-    e.stopPropagation();
-
-    if (trigger === 'hover' || trigger === 'manual') {
-      return;
-    }
-    if (state.show) {
-      hide();
-    } else {
-      show();
-    }
-  }, [trigger, state.show]);
+  const onClick = useCallback(
+    (e) => {
+      if (trigger === 'manual' && others.onClick) {
+        others.onClick(e);
+      }
+      if (trigger === 'hover' || trigger === 'manual') {
+        return;
+      }
+      if (state.show) {
+        hideDropdown();
+      } else {
+        showDropdown();
+      }
+    },
+    [trigger, state.show, others.onClick],
+  );
 
   const onEnter = useCallback(
     (node, isAppearing) => {
@@ -106,12 +114,12 @@ const Dropdown = (props: DropdownProps) => {
     [placement],
   );
 
-  const onEntering = useCallback(node => {
+  const onEntering = useCallback((node) => {
     node.style.opacity = 1;
     node.style.visibility = 'visible';
   }, []);
 
-  const onExiting = useCallback(node => {
+  const onExiting = useCallback((node) => {
     node.style.opacity = 0;
     node.style.visibility = 'hidden';
   }, []);
@@ -127,7 +135,7 @@ const Dropdown = (props: DropdownProps) => {
             menu.props.onClick(key, selectedKeys, openKeys);
           }
           if (!menu.props.multiple) {
-            hide();
+            hideDropdown();
           }
         },
       })
@@ -154,17 +162,20 @@ const Dropdown = (props: DropdownProps) => {
       >
         <div
           ref={menuRef}
-          className={classnames({
-            [`${prefixCls}-menu`]: true,
-            [`${prefixCls}-menu--${placement}`]: !!placement,
-          })}
+          className={classnames(
+            {
+              [`${prefixCls}-menu`]: true,
+              [`${prefixCls}-menu--${placement}`]: !!placement,
+            },
+            menuClassName,
+          )}
         >
           {renderMenu()}
         </div>
       </Portal>
     </div>
   );
-};
+});
 
 Dropdown.defaultProps = {
   placement: 'bottomLeft',

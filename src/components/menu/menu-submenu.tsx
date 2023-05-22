@@ -24,25 +24,28 @@ const SubMenu = (props: SubMenuProps) => {
     title,
     children,
     inlineIndent = 24,
-    parentKey,
     parentKeys = [],
   } = props;
 
-  const { openKeys, selectedSubMenuKeys, onItemClick, onItemHover } = useContext(MenuContext);
+  const { openKeys, selectedSubMenuKeys, hoverKey, onItemClick, onItemHover } =
+    useContext(MenuContext);
   const contentElement = useRef(null);
   const isSet = useRef(false);
   const isOpen = openKeys && componentKey && openKeys.indexOf(componentKey) !== -1;
 
-  const onMenuItemClick = useCallback((e) => {
-    e.stopPropagation();
-    if (disabled || mode !== 'inline') {
-      return;
-    }
+  const onMenuItemClick = useCallback(
+    (e) => {
+      e.stopPropagation();
+      if (disabled || mode !== 'inline') {
+        return;
+      }
 
-    if (componentKey && parentKeys && onItemClick) {
-      onItemClick(componentKey, parentKeys, false);
-    }
-  }, [componentKey, parentKeys, onItemClick]);
+      if (componentKey && parentKeys && onItemClick) {
+        onItemClick(componentKey, parentKeys, false);
+      }
+    },
+    [componentKey, parentKeys, onItemClick],
+  );
 
   const onMenuItemEnter = useCallback(() => {
     if (disabled || mode === 'inline') {
@@ -64,7 +67,7 @@ const SubMenu = (props: SubMenuProps) => {
     }
   }, [componentKey, parentKeys, onItemHover]);
 
-  const onEnter = useCallback(node => {
+  const onEnter = useCallback((node) => {
     if (mode === 'inline') {
       node.style.height = '0px';
     } else {
@@ -73,16 +76,13 @@ const SubMenu = (props: SubMenuProps) => {
     }
   }, []);
 
-  const onEntering = useCallback(node => {
+  const onEntering = useCallback((node) => {
     if (mode === 'inline') {
       node.style.height = getContentHeight() + 'px';
-    } else {
-      // node.style.opacity = 0;
-      // node.style.visibility = 'visible';
     }
   }, []);
 
-  const onEntered = useCallback(node => {
+  const onEntered = useCallback((node) => {
     if (mode === 'inline') {
       node.style.height = 'auto';
       node.style.overflow = 'auto';
@@ -92,18 +92,15 @@ const SubMenu = (props: SubMenuProps) => {
     }
   }, []);
 
-  const onExit = useCallback(node => {
+  const onExit = useCallback((node) => {
     if (mode === 'inline') {
       node.style.height = getContentHeight() + 'px';
       node.style.overflow = 'hidden';
       node.offsetHeight;
-    } else {
-      // node.style.visibility = 'hidden';
-      // node.style.opacity = 0;
     }
   }, []);
 
-  const onExiting = useCallback(node => {
+  const onExiting = useCallback((node) => {
     if (mode === 'inline') {
       node.style.height = '0px';
     } else {
@@ -193,7 +190,7 @@ const SubMenu = (props: SubMenuProps) => {
         onExit={onExit}
         onExiting={onExiting}
       >
-        {state => {
+        {(state) => {
           return (
             <ul className={subMenuClass} ref={contentElement}>
               {menus}
@@ -212,6 +209,7 @@ const SubMenu = (props: SubMenuProps) => {
     [`${prefixCls}-submenu--disabled`]: disabled,
     [`${prefixCls}-submenu--selected`]:
       componentKey && selectedSubMenuKeys && selectedSubMenuKeys.indexOf(componentKey) !== -1,
+    [`${prefixCls}-submenu--hover`]: hoverKey === componentKey,
   });
 
   return (

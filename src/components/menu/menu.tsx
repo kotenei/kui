@@ -3,10 +3,10 @@ import classnames from 'classnames';
 
 import { MenuContext } from './context';
 import { MenuProps } from './typing';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import { generateTree } from '../../utils';
 
-const Menu = (props: MenuProps) => {
+const Menu = React.forwardRef((props: MenuProps, ref) => {
   const {
     prefixCls = 'k-menu',
     className,
@@ -18,14 +18,17 @@ const Menu = (props: MenuProps) => {
     children,
     inlineIndent,
     multiple,
+    hoverKey,
     onClick,
+    onHover,
     ...others
   } = props;
 
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     openKeys: openKeys || defaultOpenKeys || [],
     selectedKeys: selectedKeys || defaultSelectedKeys || [],
     selectedSubMenuKeys: [],
+    hoverKey,
   });
   const timer = useRef<number>();
   const treeInfo = useRef<any>();
@@ -47,6 +50,14 @@ const Menu = (props: MenuProps) => {
   useEffect(() => {
     treeInfo.current = generateTree(props.children);
   }, []);
+
+  useEffect(() => {
+    if ('hoverKey' in props) {
+      setState({
+        hoverKey,
+      });
+    }
+  }, [hoverKey]);
 
   const onItemClick = (componentKey, parentKeys, isLeaf) => {
     let newSelectedKeys = [...state.selectedKeys];
@@ -116,9 +127,19 @@ const Menu = (props: MenuProps) => {
       if (parentKeys.length) {
         newOpenKeys = parentKeys;
       }
-
       if (!isLeaf) {
         newOpenKeys.push(componentKey);
+      }
+      if (!('hoverKey' in props)) {
+        setState({
+          hoverKey: componentKey,
+        });
+      }
+    } else {
+      if (!('hoverKey' in props)) {
+        setState({
+          hoverKey: '',
+        });
       }
     }
 
@@ -130,6 +151,10 @@ const Menu = (props: MenuProps) => {
       timer.current = window.setTimeout(() => {
         setState(newState);
       }, 50);
+    }
+
+    if (onHover) {
+      onHover(componentKey, type);
     }
   };
 
@@ -169,12 +194,12 @@ const Menu = (props: MenuProps) => {
 
   return (
     <MenuContext.Provider value={contextValue}>
-      <ul className={classString} {...others}>
+      <ul ref={ref} className={classString} {...others}>
         {renderContent()}
       </ul>
     </MenuContext.Provider>
   );
-};
+});
 
 Menu.defaultProps = {
   inlineIndent: 16,

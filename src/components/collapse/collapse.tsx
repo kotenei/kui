@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState, useEffect } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import classnames from 'classnames';
 
 import { CollapseProps } from './typing';
@@ -14,7 +14,7 @@ const Collapse = (props: CollapseProps) => {
     ...others
   } = props;
 
-  const [activeIds, setActiveIds] = useState(props.activeIds || defaultActiveIds);
+  const [activeIds, setActiveIds] = React.useState(props.activeIds || defaultActiveIds);
 
   useEffect(() => {
     if (props.activeIds) {

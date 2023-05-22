@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useEffect, useState, useCallback } from 'react';
+import React, { memo, useMemo, useEffect, useCallback } from 'react';
 import classnames from 'classnames';
 import {
   AiOutlineLeft,
@@ -24,8 +24,8 @@ const Pagination = (props: PaginationProps) => {
     onChange,
     ...others
   } = props;
-  const [current, setCurrent] = useState(1);
-  const [hoverType, setHoverType] = useState(0);
+  const [current, setCurrent] = React.useState(1);
+  const [hoverType, setHoverType] = React.useState(0);
 
   useEffect(() => {
     if (pageIndex !== undefined && pageIndex !== null && pageIndex !== current - 1) {

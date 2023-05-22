@@ -12,7 +12,7 @@ import { domHelpers } from '../../utils';
 import TabNavItem from './tab-nav-item';
 import { Icon } from '../icon';
 import { TabNavProps } from './typing';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 
 const initState = {
   scrollTop: 0,
@@ -38,7 +38,7 @@ const TabNav = (props: TabNavProps) => {
     onEdit,
   } = props;
 
-  const [state, setState] = useStateCallback(initState);
+  const [state, setState] = useState(initState);
   const tabsInfo = useRef<any>({
     arrHeight: [],
     arrWidth: [],

@@ -7,7 +7,7 @@ import TableBodyContainer from './table-body-container';
 import { Checkbox } from '../checkbox';
 import { TableProps } from './typing';
 import { omit, uuid, domHelpers } from '../../utils';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import { Icon } from '../icon';
 
 const FLEX_WIDTH = 50;
@@ -33,7 +33,7 @@ const Table = (props: TableProps) => {
   const elmScroller = useRef<any>(null);
   const timer = useRef<any>(null);
 
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     columnsWidth: {},
     heightInfo: {
       header: 0,

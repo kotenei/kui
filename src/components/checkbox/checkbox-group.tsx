@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, memo } from 'react';
 import classnames from 'classnames';
 
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import Checkbox from './checkbox';
 import { CheckboxGroupProps } from './typing';
 
@@ -15,7 +15,7 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
     disabled,
     color,
   } = props;
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     value: value || defaultValue || [],
   });
 

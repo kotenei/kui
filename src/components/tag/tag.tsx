@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import classnames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -7,7 +7,7 @@ import { TagProps } from './typing';
 
 const Tag = (props: TagProps) => {
   const { prefixCls = 'k-tag', closable, color, line, children, onClose, ...others } = props;
-  const [closed, setClosed] = useState(false);
+  const [closed, setClosed] = React.useState(false);
 
   const handleClose = useCallback(() => {
     if (!closable) {

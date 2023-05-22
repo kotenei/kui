@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect } from 'react';
 import classnames from 'classnames';
 
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import TabNav from './tab-nav';
 import TabContent from './tab-content';
 import { TabsProps } from './typing';
@@ -21,7 +21,7 @@ const Tabs = (props: TabsProps) => {
     ...others
   } = props;
 
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     activeIndex: activeIndex || defaultActiveIndex || 0,
   });
 

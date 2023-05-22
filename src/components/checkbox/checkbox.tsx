@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import { Icon } from '../icon';
 import { CheckboxProps } from './typing';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import { IconCheck, IconIndeterminate, IconUnCheck } from './icons';
 
 const Checkbox = (props: CheckboxProps) => {
@@ -23,7 +23,7 @@ const Checkbox = (props: CheckboxProps) => {
     onChange,
   } = props;
 
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     checked: checked || defaultChecked || false,
   });
 

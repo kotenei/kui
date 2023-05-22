@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import { Icon } from '../icon';
 import { RadioProps } from './typing';
-import { useStateCallback } from '../../hooks';
+import { useState } from '../../hooks';
 import { IconCheck, IconUnCheck } from './icons';
 
 const Radio = (props: RadioProps) => {
@@ -22,7 +22,7 @@ const Radio = (props: RadioProps) => {
     onChange,
   } = props;
 
-  const [state, setState] = useStateCallback({
+  const [state, setState] = useState({
     checked: checked || defaultChecked || false,
   });
 

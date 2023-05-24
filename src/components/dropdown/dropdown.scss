@@ -23,14 +23,14 @@
     &--topLeft,
     &--top,
     &--topRight {
-      margin-top: -$space-base;
+      margin-top: -$space-sm;
     }
 
 
     &--bottomLeft,
     &--bottom,
     &--bottomRight {
-      margin-top: $space-base;
+      margin-top: $space-sm;
     }
 
   }

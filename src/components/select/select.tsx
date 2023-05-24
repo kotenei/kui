@@ -144,7 +144,6 @@ const Select = (props: SelectProps) => {
 
   const onInputKeyDown = useCallback(
     (e) => {
-      eventOmitHandler(e);
       switch (e.key) {
         case 'Backspace':
           const value = e.target.value;
@@ -162,12 +161,15 @@ const Select = (props: SelectProps) => {
           }
           break;
         case 'ArrowUp':
+          eventOmitHandler(e);
           onArrowUp(e);
           break;
         case 'ArrowDown':
+          eventOmitHandler(e);
           onArrowDown(e);
           break;
         case 'Enter':
+          eventOmitHandler(e);
           onEnter(e);
           break;
         default:
@@ -403,7 +405,7 @@ const Select = (props: SelectProps) => {
       menuClassName={`${prefixCls}-menu`}
       tabIndex={-1}
       onClick={onDropdownClick}
-      onKeyDown={onDropdownKeyDown}
+      onKeyDown={!multiple ? onDropdownKeyDown : undefined}
     >
       <div className={`${prefixCls}-container`}>
         <div className={`${prefixCls}-container__content`}>

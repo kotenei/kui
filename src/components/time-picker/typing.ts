@@ -19,8 +19,11 @@ export interface TimePickerProps
 }
 
 export interface TimePickerSelectProps
-  extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>> {
+  extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>, 'onScroll'> {
   data: string[];
   type: 'hour' | 'minute' | 'second' | 'timeSlot';
+  disabled?: boolean;
   value?: string;
+  onItemClick?: (type: string, value: string, index: number) => void;
+  onScroll?: (type: string, value: string, index: number) => void;
 }

@@ -1,13 +1,14 @@
-import React, { memo, useCallback, useEffect, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useMemo } from 'react';
 import classnames from 'classnames';
 import { AiOutlineClose, AiOutlineClockCircle } from 'react-icons/ai';
 
 import TimePickerSelect from './time-picker-select';
 import { Input } from '../input';
+import { Button } from '../button';
 import { Portal } from '../portal';
 import { TimePickerProps } from './typing';
 import { useOutsideClick, useState } from '../../hooks';
-import { getPopoverPosition } from '../../utils';
+import { eventOmitHandler, getPopoverPosition } from '../../utils';
 
 const TimePicker = (props: TimePickerProps) => {
   const {
@@ -27,7 +28,7 @@ const TimePicker = (props: TimePickerProps) => {
     secondStep = 1,
     minTime,
     maxTime,
-    onChange,
+    defaultValue,
   } = props;
 
   const [state, setState] = useState({
@@ -47,14 +48,16 @@ const TimePicker = (props: TimePickerProps) => {
     [show],
   );
 
+  const mounted = useRef(false);
   const tmpValue = useRef('');
-  const reg = /^(\d{1,2})(:)?(\d{1,2})\2(\d{1,2})(\s(PM|AM))?$/i;
+  const reg = /^(\d{1,2})(:)?(\d{1,2})\2(\d{1,2})(\s(PM|AM|am|pm))?$/i;
 
   useEffect(() => {
+    let val = value || (defaultValue && !mounted.current ? defaultValue : '');
     tmpValue.current = `00:00:00${use12Hours ? ' AM' : ''}`;
 
-    if (value && isTime(value)) {
-      let val = value;
+    if (val && isTime(val)) {
+      val = val.toUpperCase();
       if (use12Hours && val.indexOf('AM') === -1 && val.indexOf('PM') === -1) {
         val += ' AM';
       }
@@ -62,7 +65,12 @@ const TimePicker = (props: TimePickerProps) => {
       setState({
         value: val,
       });
+    } else if ('value' in props && !value) {
+      setState({
+        value: '',
+      });
     }
+    mounted.current = true;
   }, [value, use12Hours]);
 
   useEffect(() => {
@@ -72,24 +80,6 @@ const TimePicker = (props: TimePickerProps) => {
       });
     }
   }, [show]);
-
-  const showPicker = () => {
-    if (disabled || state.show) {
-      return;
-    }
-    setState({
-      show: true,
-    });
-  };
-
-  const hidePicker = () => {
-    if (disabled || !state.show) {
-      return;
-    }
-    setState({
-      show: false,
-    });
-  };
 
   //是否时间格式
   const isTime = (str) => {
@@ -111,7 +101,7 @@ const TimePicker = (props: TimePickerProps) => {
   };
 
   //小时列表项
-  const getHours = () => {
+  const hours = useMemo(() => {
     let data: string[] = [],
       min = 0,
       max = use12Hours ? 12 : 23;
@@ -125,9 +115,10 @@ const TimePicker = (props: TimePickerProps) => {
       data.push(String(i).padStart(2, '0'));
     }
     return data;
-  };
+  }, []);
+
   //分钟列表项
-  const getMinutes = () => {
+  const minutes = useMemo(() => {
     let data: string[] = [],
       min = 0,
       max = 59;
@@ -141,9 +132,10 @@ const TimePicker = (props: TimePickerProps) => {
       data.push(String(i).padStart(2, '0'));
     }
     return data;
-  };
+  }, []);
+
   //秒列表项
-  const getSeconds = () => {
+  const seconds = useMemo(() => {
     let data: string[] = [],
       min = 0,
       max = 59;
@@ -157,15 +149,18 @@ const TimePicker = (props: TimePickerProps) => {
       data.push(String(i).padStart(2, '0'));
     }
     return data;
-  };
+  }, []);
 
   const onInputClick = useCallback(() => {
+    if (disabled) {
+      return;
+    }
     if (!('show' in props)) {
       setState({
         show: true,
       });
     }
-  }, [show]);
+  }, [disabled, show]);
 
   const onEnter = useCallback((node, isAppearing) => {
     if (triggerRef.current) {
@@ -187,6 +182,89 @@ const TimePicker = (props: TimePickerProps) => {
     node.style.visibility = 'hidden';
   }, []);
 
+  const onSelected = useCallback(
+    (type, val, index) => {
+      let arrTime: any = [],
+        timeSlot;
+
+      if (tmpValue.current) {
+        const match = tmpValue.current.match(reg);
+        if (match) {
+          arrTime.push(match[1], match[3], match[4]);
+          timeSlot = match[6];
+        }
+      }
+
+      if (arrTime.length) {
+        switch (type) {
+          case 'hour':
+            arrTime[0] = val;
+            break;
+          case 'minute':
+            arrTime[1] = val;
+            break;
+          case 'second':
+            arrTime[2] = val;
+            break;
+          case 'timeSlot':
+            timeSlot = val;
+            break;
+          default:
+            break;
+        }
+        tmpValue.current = arrTime.join(':');
+        if (use12Hours && timeSlot) {
+          tmpValue.current += ' ' + timeSlot;
+        }
+      }
+    },
+    [use12Hours],
+  );
+
+  const onCancel = useCallback(() => {
+    const { value } = state;
+    tmpValue.current = value || '00:00:00';
+    if (!('show' in props)) {
+      setState({
+        show: false,
+      });
+    }
+  }, [state.value]);
+
+  const onOK = useCallback(() => {
+    const value = tmpValue.current;
+    if (!('show' in props)) {
+      setState({
+        show: false,
+      });
+    }
+    if (!('value' in props)) {
+      setState({
+        value,
+      });
+    }
+
+    if (props.onChange && value != state.value) {
+      props.onChange(value);
+    }
+  }, [state.value, props.onChange]);
+
+  const onClear = useCallback(() => {
+    if (!('value' in props)) {
+      tmpValue.current = '00:00:00';
+      if (use12Hours) {
+        tmpValue.current += ' am';
+      }
+      setState({
+        value: '',
+      });
+    }
+
+    if (props.onChange) {
+      props.onChange('');
+    }
+  }, [use12Hours, disabled, props.onChange]);
+
   const classString = classnames(
     {
       [`${prefixCls}`]: true,
@@ -196,29 +274,74 @@ const TimePicker = (props: TimePickerProps) => {
   );
 
   const renderPicker = () => {
-    console.log(state.show);
+    const { value, show } = state;
+    let arrTime = [],
+      hour,
+      minute,
+      second,
+      timeSlot;
+
+    if (value) {
+      let match = value.match(reg);
+      hour = match[1];
+      minute = match[3];
+      second = match[4];
+      timeSlot = match[6];
+    }
+
     return (
       <Portal
         in={state.show}
-        appear
         onEnter={onEnter}
         onEntering={onEntering}
         onExiting={onExiting}
+        unmountOnExit
       >
-        <div className={classString}>
+        <div className={classString} onClick={(e) => eventOmitHandler(e)}>
           <div className={`${prefixCls}-wrapper`}>
+            <TimePickerSelect
+              prefixCls={prefixCls}
+              data={hours}
+              value={hour}
+              type="hour"
+              onItemClick={onSelected}
+              onScroll={onSelected}
+            />
+            <TimePickerSelect
+              prefixCls={prefixCls}
+              data={minutes}
+              value={minute}
+              type="minute"
+              onItemClick={onSelected}
+              onScroll={onSelected}
+            />
+            <TimePickerSelect
+              prefixCls={prefixCls}
+              data={seconds}
+              value={second}
+              type="second"
+              onItemClick={onSelected}
+              onScroll={onSelected}
+            />
             {use12Hours ? (
               <TimePickerSelect
                 prefixCls={prefixCls}
-                data={['am', 'pm']}
+                data={['AM', 'PM']}
                 type="timeSlot"
-                // value={timeSlot}
-                // onItemClick={this.handleItemClick}
-                // onScroll={this.handleItemScroll}
+                value={timeSlot}
+                onItemClick={onSelected}
+                onScroll={onSelected}
               />
             ) : null}
           </div>
-          <div className={`${prefixCls}-bottom`}></div>
+          <div className={`${prefixCls}-bottom`}>
+            <Button size="sm" onClick={onCancel}>
+              {cancelText}
+            </Button>
+            <Button size="sm" color="primary" onClick={onOK}>
+              {okText}
+            </Button>
+          </div>
         </div>
       </Portal>
     );
@@ -227,24 +350,37 @@ const TimePicker = (props: TimePickerProps) => {
   const renderSuffix = () => {
     const { value } = state;
     if (value && showClearIcon && !disabled) {
-      return <AiOutlineClose />;
+      return <AiOutlineClose className={`${prefixCls}-input-close`} onClick={onClear} />;
     }
-    return <AiOutlineClockCircle />;
+    return (
+      <AiOutlineClockCircle
+        opacity={0.6}
+        onClick={() => {
+          onInputClick();
+          triggerRef.current.children[0].focus();
+        }}
+      />
+    );
   };
 
   return (
-    <React.Fragment>
+    <>
       <Input
-        className={`${prefixCls}-input`}
         ref={triggerRef}
+        className={classnames({
+          [`${prefixCls}-input`]: true,
+          [`${prefixCls}-input--disabled`]: disabled,
+        })}
         size={size}
         suffix={renderSuffix()}
         placeholder={placeholder}
         disabled={disabled}
+        value={state.value}
         onClick={onInputClick}
+        onChange={() => {}}
       />
       {renderPicker()}
-    </React.Fragment>
+    </>
   );
 };
 

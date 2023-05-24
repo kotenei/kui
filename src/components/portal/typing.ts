@@ -1,5 +1,5 @@
 export interface PortalProps {
-  container?: Element;
+  container?: Element | null;
   timeout?: number;
   in?: boolean;
   appear?: boolean;

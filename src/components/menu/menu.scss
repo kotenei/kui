@@ -53,8 +53,9 @@ $prefixCls: #{$namespace}-menu;
     }
 
     &--selected {
-      color: $menu-selected-font-color;
+      color: $menu-selected-font-color!important;
       background-color: $menu-selected-bg-color;
+
 
       &::after {
         @include selected-line(true, true);
@@ -62,7 +63,7 @@ $prefixCls: #{$namespace}-menu;
     }
 
     &--hover {
-      color: $menu-selected-font-color;
+      color: $menu-hover-font-color;
     }
   }
 
@@ -109,7 +110,7 @@ $prefixCls: #{$namespace}-menu;
 
     &--hover {
       > .#{$prefixCls}-submenu-title {
-        color: $menu-selected-font-color;
+        color: $menu-hover-font-color;
       }
     }
 

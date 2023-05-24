@@ -9,6 +9,8 @@ $prefix: #{$namespace}-timepicker;
   transition: all 0.2s ease-in-out;
   border-radius: $radius-base;
   box-shadow: $box-shadow-base;
+  background-color: $timepicker-bg-color;
+  margin-top: $space-sm;
 
   &::before,
   &::after {
@@ -26,6 +28,23 @@ $prefix: #{$namespace}-timepicker;
     top: 105px;
     border-top: none;
     border-bottom: 1px solid $border-color-base;
+  }
+
+  &-input {
+    input {
+      cursor: pointer;
+    }
+    svg {
+      cursor: pointer;
+    }
+    &--disabled {
+      input {
+        cursor: not-allowed;
+      }
+      svg {
+        cursor: not-allowed;
+      }
+    }
   }
 
   &-wrapper {

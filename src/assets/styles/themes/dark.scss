@@ -61,6 +61,7 @@ $message-bg-color: $layout-overlay-color;
 // menu
 $menu-selected-bg-color: $primary-color;
 $menu-selected-font-color: $white;
+$menu-hover-font-color:$primary-color;
 $menu-bg-color: $layout-overlay-color;
 
 // modal
@@ -104,6 +105,9 @@ $table-bg-color: $black;
 // tag
 $tag-bg-color: $text-color-primary;
 $tag-font-color: $black;
+
+// timepicker
+$timepicker-bg-color: $layout-overlay-color;
 
 // tabs
 $tabs-nav-bg-color: $layout-overlay-color;

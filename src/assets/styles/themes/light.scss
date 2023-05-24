@@ -61,6 +61,7 @@ $message-bg-color: $white;
 // menu
 $menu-selected-bg-color: lighten($primary-color, 40%);
 $menu-selected-font-color: $primary-color;
+$menu-hover-font-color: $primary-color;
 $menu-bg-color: $white;
 
 // modal
@@ -111,6 +112,9 @@ $timeline-head-bg-color: $white;
 // tag
 $tag-bg-color: $text-color-primary;
 $tag-font-color: $white;
+
+// timepicker
+$timepicker-bg-color: $white;
 
 // tooltip
 $tooltip-bg-color: $black;

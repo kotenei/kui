@@ -6,12 +6,13 @@ import { Transition } from 'react-transition-group';
 const Portal = (props: PortalProps) => {
   const { container = document.body, timeout = 300, children, ...others } = props;
 
-  return ReactDOM.createPortal(
+  const content = (
     <Transition timeout={timeout} {...others}>
       {children}
-    </Transition>,
-    container,
+    </Transition>
   );
+
+  return container ? ReactDOM.createPortal(content, container) : content;
 };
 
 export default memo(Portal);

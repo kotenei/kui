@@ -29,6 +29,7 @@ export * from './progress';
 export * from './radio';
 export * from './rate';
 export * from './select';
+export * from './slider';
 export * from './steps';
 export * from './steps';
 export * from './switch';

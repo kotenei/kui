@@ -16,16 +16,22 @@ const Tooltip = (props: TooltipProps) => {
     trigger,
     ...others
   } = props;
-  const [show, setShow] = React.useState(props.show);
+  const [show, setShow] = React.useState(false);
   const triggerRef = useRef(null);
   const tooltipRef = useRef(null);
   const timer = useRef<any>(null);
 
   useEffect(() => {
-    if (show !== undefined) {
-      setShow(show);
+    if ('show' in props && props.show !== undefined) {
+      setShow(props.show);
     }
-  }, [show]);
+  }, [props.show]);
+
+  useEffect(() => {
+    if (show) {
+      setPosition();
+    }
+  }, [show, title]);
 
   useEffect(() => {
     if (trigger === 'click') {
@@ -40,9 +46,9 @@ const Tooltip = (props: TooltipProps) => {
   }, [trigger]);
 
   useEffect(() => {
-    window.addEventListener('resize', setPosition);
+    window.addEventListener('resize', resize);
     return () => {
-      window.removeEventListener('resize', setPosition);
+      window.removeEventListener('resize', resize);
     };
   }, [show, placement]);
 
@@ -63,7 +69,7 @@ const Tooltip = (props: TooltipProps) => {
   }, [trigger]);
 
   const onTriggerClick = useCallback(
-    e => {
+    (e) => {
       if (trigger !== 'click') {
         return;
       }
@@ -93,21 +99,26 @@ const Tooltip = (props: TooltipProps) => {
     setShow(false);
   }, []);
 
-  const setPosition = () => {
+  const resize = () => {
     if (show) {
-      if (triggerRef.current && tooltipRef.current) {
-        if (timer.current) {
-          clearTimeout(timer.current);
-        }
-        timer.current = window.setTimeout(() => {
-          const elTrigger = triggerRef.current as any;
-          const elTooltip = tooltipRef.current as any;
-          const position = getPopoverPosition(elTrigger.firstChild, elTooltip, placement);
-          elTooltip.style.left = position.left + 'px';
-          elTooltip.style.top = position.top + 'px';
-        }, 300);
+      if (timer.current) {
+        clearTimeout(timer.current);
       }
+      timer.current = window.setTimeout(() => {
+        setPosition();
+      }, 300);
     }
+  };
+
+  const setPosition = () => {
+    if (!triggerRef.current || !tooltipRef.current) {
+      return;
+    }
+    const elTrigger = triggerRef.current as any;
+    const elTooltip = tooltipRef.current as any;
+    const position = getPopoverPosition(elTrigger.firstChild, elTooltip, placement);
+    elTooltip.style.left = position.left + 'px';
+    elTooltip.style.top = position.top + 'px';
   };
 
   const onEnter = useCallback(
@@ -127,11 +138,11 @@ const Tooltip = (props: TooltipProps) => {
     [placement],
   );
 
-  const onExiting = useCallback(node => {
+  const onExiting = useCallback((node) => {
     node.style.opacity = 0;
   }, []);
 
-  const onExited = useCallback(node => {
+  const onExited = useCallback((node) => {
     node.style.visibility = 'hidden';
   }, []);
 
@@ -154,7 +165,7 @@ const Tooltip = (props: TooltipProps) => {
         onExiting={onExiting}
         onExited={onExited}
       >
-        {state => {
+        {(state) => {
           return (
             <div ref={tooltipRef} className={classString} {...others}>
               <div className={`${prefixCls}__arrow`} />

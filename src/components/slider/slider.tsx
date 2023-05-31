@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import SliderHandle from './slider-handle';
 import { SliderProps } from './typing';
 import { useState } from '../../hooks';
-import { getMouseCoord } from '../../utils';
+import { getMouseCoord, uuid } from '../../utils';
 import dom from '../../utils/dom';
 
 const Slider = (props: SliderProps) => {
@@ -92,39 +92,25 @@ const Slider = (props: SliderProps) => {
     mounted.current = true;
   }, [value, min, max, range]);
 
-  const onMouseEnter = useCallback((value) => {
-    if (isMoving.current) {
-      console.log('iiii')
-      return;
-    }
+  const onMouseEnter = (value) => {
     isEnter.current = true;
     setState({
       activeValue: value,
     });
-  }, []);
+  };
 
-  const onMouseLeave = useCallback((value) => {
-    if(isMoving.current){
-      return;
-    }
+  const onMouseLeave = (value) => {
     isEnter.current = false;
-    if (!isMoving.current) {
-      setState({
-        activeValue: -1,
-      });
-    }
-  }, []);
+    setState({
+      activeValue: -1,
+    });
+  };
 
   const onDragStart = (e, index) => {
-    let val = getValue(e);
-    if (range) {
-      tmpDragIndex.current = state.value.findIndex((item) => {
-        return item === val;
-      });
-    }
+    tmpDragIndex.current = index;
     isMoving.current = true;
     if (props.onDragStart) {
-      props.onDragStart(val);
+      props.onDragStart(state.value[index]);
     }
   };
 
@@ -134,20 +120,19 @@ const Slider = (props: SliderProps) => {
     if (range) {
       let newValue = [...state.value];
       newValue[tmpDragIndex.current] = activeValue;
-      val = newValue;
+      val = newValue.sort((a, b) => {
+        return a - b;
+      });
     }
     tmpValue.current = val;
+
     setState({
       value: val,
       activeValue,
     });
-    if (props.onChange && Array.isArray(val)) {
-      let returnValue = range
-        ? [...val].sort((a, b) => {
-            return a - b;
-          })
-        : val;
-      props.onChange(returnValue);
+
+    if (props.onChange) {
+      props.onChange(tmpValue.current);
     }
   };
 
@@ -155,25 +140,20 @@ const Slider = (props: SliderProps) => {
     if (!tmpValue.current) {
       return;
     }
-    let newValue = tmpValue.current;
-    isMoving.current = false;
+
+    const newState: any = { value: tmpValue.current };
+
     if (!isEnter.current) {
-      setState({
-        activeValue: -1,
-      });
-    }
-    if (range) {
-      newValue = tmpValue.current.sort((a, b) => {
-        return a - b;
-      });
-      setState({
-        value: newValue,
-      });
+      newState.activeValue = -1;
     }
 
+    setState(newState);
+
     if (props.onDragStop) {
-      props.onDragStop(newValue);
+      props.onDragStop(tmpValue.current);
     }
+
+    tmpDragIndex.current = -1;
     tmpValue.current = null;
   };
 
@@ -257,8 +237,7 @@ const Slider = (props: SliderProps) => {
     return (100 * (value - min)) / (max - min);
   };
 
-  const getSliderHandle = (value, index = 0) => {
-    const { activeValue } = state;
+  const getSliderHandle = (value, index, activeIndex?) => {
     let title = tipFormatter && typeof tipFormatter === 'function' ? tipFormatter(value) : null,
       percentage = toPercentage(value),
       style = vertical ? { bottom: `${percentage}%` } : { left: `${percentage}%` };
@@ -271,7 +250,7 @@ const Slider = (props: SliderProps) => {
         title={title}
         style={style}
         value={value}
-        showTooltip={value === activeValue ? true : false}
+        showTooltip={activeIndex === index ? true : false}
         onDragStart={onDragStart}
         onChange={onChange}
         onDragStop={onDragStop}
@@ -366,15 +345,14 @@ const Slider = (props: SliderProps) => {
   );
 
   const renderHandles = () => {
-    if (range) {
-      return (
-        Array.isArray(state.value) &&
-        state.value.map((val, index) => {
-          return getSliderHandle(val, index);
-        })
-      );
+    const { activeValue } = state;
+    if (range && Array.isArray(state.value)) {
+      const activeIndex = state.value.findIndex((val) => val === activeValue);
+      return state.value.map((val, index) => {
+        return getSliderHandle(val, index, activeIndex);
+      });
     } else {
-      return getSliderHandle(state.value);
+      return getSliderHandle(state.value, 0, activeValue !== -1 ? 0 : -1);
     }
   };
 

@@ -32,6 +32,6 @@ export interface SliderHandleProps
   onMouseEnter?: (value: number) => void;
   onMouseLeave?: (value: number) => void;
   onDragStart?: (event, index: number) => void;
-  onChange?: (event) => void;
+  onChange?: (event, index?: number) => void;
   onDragStop?: (event) => void;
 }

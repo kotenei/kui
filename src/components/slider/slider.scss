@@ -27,7 +27,7 @@ $prefixCls: '.k-slider';
   &-track {
     position: absolute;
     height: 4px;
-    background: $primary-color;
+    background: $slider-track-bg-color;
   }
 
   &-step {
@@ -45,7 +45,7 @@ $prefixCls: '.k-slider';
       top: -2px;
       margin-left: -4px;
       &--active {
-        border-color: $primary-color;
+        border-color: $slider-track-bg-color;
       }
     }
   }
@@ -61,9 +61,11 @@ $prefixCls: '.k-slider';
       width: 30%;
       margin-left: -15%;
       vertical-align: middle;
-      color: rgba(0, 0, 0, 0.45);
+      // color: rgba(0, 0, 0, 0.45);
+      opacity: .5;
       &--active {
-        color: rgba(0, 0, 0, 0.65);
+        // color: rgba(0, 0, 0, 0.65);
+        opacity: .65;
       }
     }
   }
@@ -74,8 +76,8 @@ $prefixCls: '.k-slider';
     height: 14px;
     margin-left: -7px;
     margin-top: -5px;
-    border: 2px solid $primary-color;
-    background: white;
+    border: 2px solid $slider-track-bg-color;
+    background: $slider-track-bg-color;
     border-radius: 50%;
     transition: scale 0.3s ease;
     &:hover {
@@ -119,12 +121,22 @@ $prefixCls: '.k-slider';
       }
     }
     #{$prefixCls}-handle {
-      margin-left: torem(-5px);
-      margin-bottom: torem(-7px);
+      margin-left: -5px;
+      margin-bottom: -7px;
     }
   }
 
   &--disabled {
     cursor: not-allowed;
+    #{$prefixCls}-track {
+      background: $disabled-color;
+    }
+    #{$prefixCls}-handle {
+      border-color: $disabled-color;
+      background-color: $disabled-color;
+      &:hover {
+        transform: none;
+      }
+    }
   }
 }

@@ -58,7 +58,11 @@ glob(`stories/${filePattern}`, (err, files) => {
     files.forEach((file) => {
       const { dir, name, root, base } = path.parse(file);
       const folder = dir.substr(dir.lastIndexOf('/') + 1);
-      const fileString = fs.readFileSync(file).toString().replace(/`/g,"\\`");
+      const fileString = fs
+        .readFileSync(file)
+        .toString()
+        .replace(/`/g, '\\`')
+        .replace('${', '\\${');
       const mdString = '```jsx\n' + fileString + '\n```\n';
       const codeString = 'export default `' + fileString + '`';
       const folderDir = path.resolve(`stories/${folder}`);
@@ -84,7 +88,7 @@ glob(`stories/${filePattern}`, (err, files) => {
 
       !fs.existsSync(folderDir) && fs.mkdirSync(folderDir);
       !fs.existsSync(docDir) && fs.mkdirSync(docDir);
-     // fs.writeFileSync(`${docDir}/${name}.md`, mdString);
+      // fs.writeFileSync(`${docDir}/${name}.md`, mdString);
       fs.writeFileSync(`${docDir}/${name}.source.js`, codeString);
       dirMap[docDir].push({ name, folder });
     });

@@ -61,13 +61,13 @@ const SliderHandle = (props: SliderHandleProps) => {
       target.setCapture();
     }
     if (onDragStart) {
-      onDragStart(e,index);
+      onDragStart(e, index);
     }
   };
 
   const move = (e) => {
     if (onChange) {
-      onChange(e);
+      onChange(e, index);
     }
   };
 
@@ -78,7 +78,12 @@ const SliderHandle = (props: SliderHandleProps) => {
   };
 
   return (
-    <Tooltip title={title} show={showTooltip} style={{ zIndex: showTooltip ? 2 : 1 }}>
+    <Tooltip
+      className={`${prefixCls}-tooltip`}
+      title={title}
+      show={showTooltip}
+      style={{ zIndex: showTooltip ? 2 : 1 }}
+    >
       <div
         className={`${prefixCls}-handle`}
         style={{ ...style, zIndex: showTooltip ? 2 : 1 }}

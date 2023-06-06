@@ -39,3 +39,4 @@ export * from './tag';
 export * from './time-picker';
 export * from './timeline';
 export * from './tooltip';
+export * from './upload';

@@ -1,0 +1,308 @@
+@import '../../assets/styles/global.scss';
+
+$prefix: #{$namespace}-upload;
+
+.#{$prefix} {
+  &-wrapper {
+  }
+
+  &__file {
+    display: none;
+  }
+
+  &-list {
+    &-item {
+      position: relative;
+      color: #606266;
+      margin-top: $space-base;
+      &:last-child {
+        margin-bottom: $space-base;
+      }
+
+      &__info {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      &__text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &__icon {
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+      }
+
+      &--uploading {
+        .#{$prefix}-list-item {
+          &__text {
+            color: $text-color-primary !important;
+            cursor: default;
+          }
+        }
+      }
+
+      &--error {
+        .#{$prefix}-list-item {
+          &__text {
+            color: $danger-color !important;
+            cursor: default;
+          }
+        }
+      }
+    }
+
+    &-text {
+      .#{$prefix}-list-item {
+        &__info {
+          line-height: 24px;
+        }
+
+        &__text {
+          margin-left: $space-sm;
+          color: $primary-color;
+        }
+
+        &__textIcon {
+          .#{$namespace}-icon {
+            margin: 0;
+          }
+        }
+
+        &__icon {
+          top: 50%;
+          transform: translateY(-50%);
+          display: none;
+        }
+
+        &-progress {
+          position: absolute;
+          width: 100%;
+          margin-top: -8px;
+          width: calc(100% - 18px);
+          left: 18px;
+          &__text {
+            display: none;
+          }
+        }
+
+        &:hover {
+          .#{$prefix}-list-item__icon {
+            display: block;
+          }
+        }
+      }
+    }
+
+    &-picture {
+      .#{$prefix}-list-item {
+        border: 1px solid $border-color-base;
+        border-radius: $radius-base;
+        padding: $space-base;
+        height: 66px;
+
+        &__info {
+          display: flex;
+          align-items: center;
+        }
+
+        &__text {
+          color: $primary-color;
+        }
+
+        &__icon {
+          top: $space-base;
+          right: $space-base;
+        }
+
+        &__thumb {
+          overflow: hidden;
+          text-align: center;
+          display: block;
+          margin-right: $space-base;
+          img {
+            width: 48px;
+            height: 48px;
+          }
+        }
+
+        &-progress {
+          position: absolute;
+          width: 100%;
+          margin-top: -16px;
+          width: calc(100% - 72px);
+          left: 64px;
+          &__text {
+            display: none;
+          }
+        }
+
+        &__textIcon {
+          width: 56px;
+          height: 48px;
+          svg {
+            font-size: 48px;
+          }
+        }
+      }
+    }
+
+    &-picture-card {
+      overflow: hidden;
+      float: left;
+      .#{$prefix}-list-item {
+        border: 1px solid $border-color-base;
+        border-radius: $radius-lg;
+        padding: $space-base;
+        float: left;
+        width: 104px;
+        height: 104px;
+        overflow: hidden;
+        margin-right: $space-base;
+        margin-bottom: $space-base;
+        margin-top: 0;
+
+        &:hover {
+          .#{$prefix}-list-item__info {
+            &::after {
+              opacity: 0.7;
+            }
+          }
+          .#{$prefix}-list-item__action {
+            a {
+              opacity: 1;
+            }
+          }
+        }
+
+        &__info {
+          height: 100%;
+          &::after {
+            transition: all 0.3s ease;
+            content: ' ';
+            background: rgba(0, 0, 0, 0.7);
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+          }
+        }
+
+        &__icon {
+          display: none;
+        }
+
+        &__thumb {
+          overflow: hidden;
+          text-align: center;
+          display: block;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        &__text {
+          display: none;
+        }
+
+        &__action {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          z-index: 10;
+          width: 100%;
+
+          a {
+            transition: all 0.3s ease;
+            color: white;
+            cursor: pointer;
+            margin: 0 2px;
+            font-size: 18px;
+            opacity: 0;
+            .k-icon svg {
+              fill: white;
+            }
+          }
+        }
+
+        &__textIcon {
+          width: 100%;
+          text-align: center;
+          svg {
+            font-size: 48px;
+          }
+        }
+
+        &--uploading {
+          .#{$prefix}-list-item {
+            &-progress {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              height: 100%;
+            }
+
+            &__icon {
+              display: block;
+              right: 8px;
+              top: 8px;
+            }
+
+            &__info {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &-picture-card {
+    border: 1px dashed $border-color-base;
+    border-radius: $radius-lg;
+    padding: $space-base;
+    float: left;
+    width: 104px;
+    height: 104px;
+    overflow: hidden;
+    margin-right: $space-base;
+    margin-bottom: $space-base;
+    margin-top: 0;
+    position: relative;
+    cursor: pointer;
+    > span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 36px;
+    }
+  }
+
+  &-dragger {
+    width: 100%;
+    height: 100%;
+    border: 1px dashed $border-color-base;
+    position: relative;
+    background: #fafafa;
+    cursor: pointer;
+    padding: $space-base 0;
+    display: table;
+
+    > span {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+}

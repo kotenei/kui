@@ -27,7 +27,7 @@ export default class Demo extends Component {
     ];
     return (
       <div className="story-demo-upload" action={action}>
-        <Upload action={action} fileList={fileList} listType="picture">
+        <Upload action={action} defaultFileList={fileList} listType="picture">
           <Button style={{ margin: 0 }}>上传</Button>
         </Upload>
       </div>

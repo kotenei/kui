@@ -304,5 +304,9 @@ $prefix: #{$namespace}-upload;
       vertical-align: middle;
       text-align: center;
     }
+
+    &--over {
+      border-color: $primary-color;
+    }
   }
 }

@@ -51,7 +51,14 @@ export interface UploadListProps extends KUI.BasicProps<React.HtmlHTMLAttributes
   listType?: UploadListType;
   fileList?: UploadFile[];
   uploadingText?: string;
+  onRemove?: (file) => void;
 }
 
 export interface UploadDraggerProps
-  extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>> {}
+  extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>> {
+  disabled?: boolean;
+  accept?: string;
+  onDragOver?: (e) => void;
+  onDragLeave?: (e) => void;
+  onDrop?: (e) => void;
+}

@@ -4,6 +4,8 @@ import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 export default class Demo extends Component {
   render() {
+    const action = 'https://jsonplaceholder.typicode.com/posts/';
+    
     return (
       <div className="story-demo-upload" action={action}>
         <Upload action={action} dragger>

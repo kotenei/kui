@@ -13,7 +13,7 @@ import { Progress } from '../progress';
 import { UploadListProps } from './typing';
 
 const UploadList = (props: UploadListProps) => {
-  const { listType, fileList, uploadingText } = props;
+  const { listType, fileList, uploadingText, onRemove } = props;
   const prefixCls = `${props.prefixCls}-list`;
 
   const classString = classnames({
@@ -21,13 +21,19 @@ const UploadList = (props: UploadListProps) => {
     [`${prefixCls}-${listType}`]: !!listType,
   });
 
+  const onFileRemove = (file) => {
+    onRemove && onRemove(file);
+  };
+
   const renderFileList = () => {
     if (!fileList || !fileList.length) {
       return null;
     }
+
     return fileList.map((item, index) => {
       return (
         <div
+          key={item.id}
           className={classnames({
             [`${prefixCls}-item`]: true,
             [`${prefixCls}-item--${item.status}`]: !!item.status,
@@ -49,7 +55,7 @@ const UploadList = (props: UploadListProps) => {
             {listType !== 'text' && (
               <span className={`${prefixCls}-item__textIcon`}>
                 {item.url ? (
-                  <a className={`${prefixCls}-item__thumb`} href={item.url} target='__blank'>
+                  <a className={`${prefixCls}-item__thumb`} href={item.url} target="__blank">
                     <img src={item.thumbUrl} />
                   </a>
                 ) : (
@@ -65,7 +71,7 @@ const UploadList = (props: UploadListProps) => {
                   </a>
                 )}
                 <a>
-                  <AiOutlineDelete />
+                  <AiOutlineDelete onClick={() => onFileRemove(item)}/>
                 </a>
               </span>
             )}
@@ -74,7 +80,7 @@ const UploadList = (props: UploadListProps) => {
             </a>
           </div>
           <div className={`${prefixCls}-item__icon`}>
-            <AiOutlineClose />
+            <AiOutlineClose onClick={() => onFileRemove(item)} />
           </div>
           {item.status === 'uploading' && item.percent && item.percent < 100 && (
             <div className={`${prefixCls}-item-progress`}>

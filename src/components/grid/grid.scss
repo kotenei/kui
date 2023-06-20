@@ -38,7 +38,7 @@ $grid-colums: 24;
     width: ($i / $grid-colums * 100) * 1%;
   }
 
-  .#{$namespace}-col-offset--#{$i} {
+  .#{$namespace}-col-offset-#{$i} {
     margin-left: ($i / $grid-colums * 100) * 1%;
   }
 }

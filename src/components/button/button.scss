@@ -23,7 +23,7 @@ $button-size-map: (
   border-collapse: collapse;
   border: 1px solid $button-border-color;
   padding: $space-base $space-lg;
-  margin: 0 $space-sm;
+  // margin: 0 $space-sm;
   cursor: pointer;
   text-shadow: none;
   text-indent: 0;
@@ -31,6 +31,10 @@ $button-size-map: (
   background-color: transparent;
   color: $text-color-primary;
   font-size: $font-size-base;
+
+  &~.#{$namespace}-button{
+    margin-left: $space-base;
+  }
 
   &:hover:not(:disabled):not(&--loading) {
     background: $button-hover-bg-color;
@@ -54,7 +58,7 @@ $button-size-map: (
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 
@@ -108,7 +112,7 @@ $button-size-map: (
 
     &:hover:not(:disabled),
     &:active:not(:disabled) {
-      border-color: $border-color-base !important;
+     // border-color: $border-color-base !important;
     }
 
     &:first-child {

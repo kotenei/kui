@@ -19,6 +19,7 @@ const Select = (props: SelectProps) => {
     children,
     size,
     placeholder,
+    style,
     onChange,
   } = props;
   const [state, setState] = useState({
@@ -404,6 +405,7 @@ const Select = (props: SelectProps) => {
       show={state.show}
       menuClassName={`${prefixCls}-menu`}
       tabIndex={-1}
+      style={style}
       onClick={onDropdownClick}
       onKeyDown={!multiple ? onDropdownKeyDown : undefined}
     >

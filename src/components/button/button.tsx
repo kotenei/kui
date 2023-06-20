@@ -12,7 +12,7 @@ const Button = (props: ButtonProps) => {
     icon,
     active,
     disabled,
-    type,
+    type = 'button',
     className,
     children,
     size,

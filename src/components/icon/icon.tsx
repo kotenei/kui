@@ -12,6 +12,7 @@ const Icon = (props: IconProps) => {
     color,
     style,
     fontSize,
+    disabled = false,
     ...others
   } = props;
 
@@ -20,18 +21,24 @@ const Icon = (props: IconProps) => {
       [prefixCls]: true,
       [`${prefixCls}--${color}`]: !!color,
       [`${prefixCls}--spin`]: spin,
+      [`${prefixCls}--disabled`]: disabled,
     },
     className,
   );
 
   const _style = {
     fontSize,
-    cursor: others.onClick ? 'pointer' : undefined,
+    cursor: others.onClick && !disabled ? 'pointer' : undefined,
     ...style,
   };
 
   return (
-    <i className={classString} style={_style} {...others}>
+    <i
+      className={classString}
+      style={_style}
+      {...others}
+      onClick={others.onClick && !disabled ? others.onClick : undefined}
+    >
       {children}
     </i>
   );

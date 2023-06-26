@@ -1,0 +1,96 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-calendar {
+  min-width: 250px;
+  max-width: 320px;
+
+  &-header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 $space-base;
+    text-align: center;
+
+    > i {
+      width: 15px;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+
+    &-select {
+      flex: 1;
+      > span {
+        margin: 0 4px;
+      }
+
+      a {
+        cursor: pointer;
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  &-body {
+    padding: $space-base;
+
+    table {
+      width: 100%;
+      tr {
+        td {
+          text-align: center;
+          padding: 0 6px;
+          a {
+            cursor: pointer;
+            &:hover {
+              color: $primary-color;
+            }
+            &.active {
+              background: $primary-color;
+              color: white;
+            }
+            &.disabled {
+              cursor: not-allowed;
+            }
+          }
+          a,
+          span {
+            font-size: 12px;
+            padding: 0 6px;
+            border-radius: 2px;
+            display: block;
+            height: 24px;
+            line-height: 24px;
+            &.prev,
+            &.next,
+            &.week {
+              color: #c0c4cc;
+            }
+            &.disabled {
+              color: #bcbcbc;
+              background: #f5f5f5;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &-day {
+    th,
+    td {
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+
+  &-year,
+  &-month {
+    td {
+      height: 66px;
+      width: 66px;
+    }
+  }
+}

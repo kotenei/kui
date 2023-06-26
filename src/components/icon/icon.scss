@@ -1,7 +1,7 @@
 @import '../../assets/styles/global.scss';
 
 .#{$namespace}-icon {
-  margin: 0 $space-sm;
+  //margin: 0 $space-sm;
   text-align: center;
   font-style: normal;
   vertical-align: middle;
@@ -13,8 +13,17 @@
   position: relative;
   margin-top: -1px;
 
+  // &~.#{$namespace}-icon{
+  //   margin-left: $space-sm;
+  // }
+
   &--spin {
     animation: loadingCircle 1s infinite linear;
+  }
+
+  &--disabled {
+    color: $disabled-color;
+    cursor: not-allowed;
   }
 
   @each $color, $value in $colors {

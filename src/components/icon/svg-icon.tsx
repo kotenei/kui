@@ -14,6 +14,7 @@ const SvgIcon = (props: SvgIconProps) => {
     color,
     nativeColor,
     style,
+    disabled,
     ...others
   } = props;
 
@@ -21,12 +22,14 @@ const SvgIcon = (props: SvgIconProps) => {
     {
       [prefixCls]: true,
       [`${prefixCls}--${color}`]: !!color,
+      [`${prefixCls}--disabled`]: disabled,
     },
     className,
   );
 
   const _style = {
     fontSize,
+    cursor: others.onClick && !disabled ? 'pointer' : undefined,
     ...style,
   };
 
@@ -39,6 +42,7 @@ const SvgIcon = (props: SvgIconProps) => {
       aria-hidden={title ? 'false' : 'true'}
       style={_style}
       {...others}
+      onClick={others.onClick && !disabled ? others.onClick : undefined}
     >
       {title && <title>{title}</title>}
       {children}

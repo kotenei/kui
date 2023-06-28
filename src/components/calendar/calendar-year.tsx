@@ -10,9 +10,17 @@ const CalendarYear = (props: CalendarYearProps) => {
   const onClick = (e) => {
     const { target } = e;
     let year = target.getAttribute('data-year');
-    if (onChange) {
-      onChange(year);
-    }
+
+    const newDate = new Date(
+      year,
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+      date.getSeconds(),
+    );
+
+    onChange && onChange(newDate);
   };
 
   const renderContent = () => {

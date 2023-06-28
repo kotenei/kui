@@ -12,9 +12,11 @@
     text-align: center;
 
     > i {
-      width: 15px;
+      width: 20px;
+      opacity: 0.6;
       &:hover {
         color: $primary-color;
+        opacity: 1;
       }
     }
 
@@ -38,6 +40,9 @@
 
     table {
       width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      border-spacing: 0;
       tr {
         td {
           text-align: center;
@@ -53,8 +58,16 @@
             }
             &.disabled {
               cursor: not-allowed;
+              color: $text-color-primary;
             }
           }
+
+          span {
+            &.disabled {
+              color: $text-color-primary;
+            }
+          }
+
           a,
           span {
             font-size: 12px;
@@ -63,14 +76,9 @@
             display: block;
             height: 24px;
             line-height: 24px;
-            &.prev,
-            &.next,
-            &.week {
-              color: #c0c4cc;
-            }
+
             &.disabled {
-              color: #bcbcbc;
-              background: #f5f5f5;
+              opacity: 0.4;
             }
           }
         }
@@ -79,10 +87,53 @@
   }
 
   &-day {
+    tr.week {
+      cursor: pointer;
+      &:hover {
+        background-color: $calendar-row-hover-bg-color;
+        color: $calendar-row-hover-font-color;
+        opacity: 0.8;
+        span.today {
+          color: $calendar-row-hover-font-color;
+        }
+      }
+      &.active {
+        background-color: $primary-color !important;
+        color: white;
+        opacity: 1;
+        td {
+          opacity: 1;
+        }
+        span {
+          color: white;
+          opacity: 1;
+        }
+      }
+    }
+
     th,
     td {
       height: 30px;
       line-height: 30px;
+      font-weight: normal;
+    }
+
+    &__day {
+      > a,
+      span {
+        opacity: 0.4;
+      }
+
+      &--inview {
+        > a,
+        span {
+          opacity: 1;
+        }
+      }
+    }
+
+    .today {
+      color: $primary-color;
     }
   }
 

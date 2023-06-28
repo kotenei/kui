@@ -25,10 +25,16 @@ const CalendarMonth = (props: CalendarMonthProps) => {
 
   const onClick = (e) => {
     const { target } = e;
-    let year = target.getAttribute('data-month');
-    if (onChange) {
-      onChange(year);
-    }
+    let month = target.getAttribute('data-month');
+    const newDate = new Date(
+      date.getFullYear(),
+      month,
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+      date.getSeconds(),
+    );
+    onChange && onChange(newDate);
   };
 
   const renderContent = () => {
@@ -36,8 +42,8 @@ const CalendarMonth = (props: CalendarMonthProps) => {
       year = date.getFullYear(),
       month = date.getMonth(),
       flag = 0,
-      min = minDate ? format(minDate, 'YYYYMM') : null,
-      max = maxDate ? format(maxDate, 'YYYYMM') : null,
+      min = minDate ? format(minDate, 'yyyyMM') : null,
+      max = maxDate ? format(maxDate, 'yyyyMM') : null,
       disabled;
 
     for (let i = 0; i < 3; i++) {

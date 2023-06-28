@@ -17,6 +17,8 @@ const Calendar = (props: CalendarProps) => {
     value,
     minDate,
     maxDate,
+    onChange,
+    onViewChange,
   } = props;
   const now = new Date();
   const [state, setState] = useState({
@@ -46,12 +48,33 @@ const Calendar = (props: CalendarProps) => {
     });
   };
 
-  const onViewChange = (view) => {
+  const onHeaderViewChange = (view) => {
     if (!('view' in props)) {
       setState({
         view,
       });
     }
+
+    onViewChange && onViewChange(view);
+  };
+
+  const onDateChange = (date) => {
+    const newState: any = {
+      date,
+    };
+
+    if (!('value' in props)) {
+      if (state.view === 'day' || state.view === 'week') {
+        newState.value = date;
+      }
+    }
+
+    if (!('view' in props)) {
+      newState.view = 'day';
+    }
+
+    setState(newState);
+    onChange && onChange(date);
   };
 
   const classString = classnames(prefixCls, className);
@@ -63,6 +86,7 @@ const Calendar = (props: CalendarProps) => {
       maxDate,
       date: state.date,
       value: state.value,
+      onChange: onDateChange,
     };
     switch (state.view) {
       case 'year':
@@ -70,7 +94,7 @@ const Calendar = (props: CalendarProps) => {
       case 'month':
         return <CalendarMonth {...viewProps} />;
       case 'day':
-        return <CalendarDay {...viewProps} />;
+        return <CalendarDay {...viewProps} value={state.value} />;
       case 'week':
         return <CalendarDay {...viewProps} showWeek />;
       default:
@@ -85,7 +109,7 @@ const Calendar = (props: CalendarProps) => {
         view={state.view}
         date={state.date}
         onChange={onHeaderDateChange}
-        onViewChange={onViewChange}
+        onViewChange={onHeaderViewChange}
       />
       <div className={`${prefixCls}-body`}>{renderView()}</div>
     </div>

@@ -13,10 +13,6 @@ export interface CalendarProps
   defaultValue?: Date;
   minDate?: Date;
   maxDate?: Date;
-  showPrevYear?: boolean;
-  showNextYear?: boolean;
-  showToday?: boolean;
-  showWeek?: boolean;
   view?: CalendarViewType;
   value?: Date;
   onPrev?: (date: Date) => void;
@@ -42,6 +38,7 @@ export interface CalendarYearProps extends CalendarViewProps {}
 export interface CalendarMonthProps extends CalendarViewProps {}
 
 export interface CalendarDayProps extends CalendarViewProps {
+  value?: Date;
   showWeek?: boolean;
 }
 

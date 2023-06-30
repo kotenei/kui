@@ -8,10 +8,10 @@ export default class Demo extends Component {
         <div style={{ marginLeft: 80 }}>
           <Tooltip placement="topLeft" title="tooltip text">
             <Button>TL</Button>
-          </Tooltip>
+          </Tooltip>&nbsp;&nbsp;
           <Tooltip placement="top" title="tooltip text">
             <Button>Top</Button>
-          </Tooltip>
+          </Tooltip>&nbsp;&nbsp;
           <Tooltip placement="topRight" title="tooltip text">
             <Button>TR</Button>
           </Tooltip>
@@ -41,10 +41,10 @@ export default class Demo extends Component {
         <div style={{ marginLeft: 80, clear: 'both' }}>
           <Tooltip placement="bottomLeft" title="tooltip text">
             <Button>BL</Button>
-          </Tooltip>
+          </Tooltip>&nbsp;&nbsp;
           <Tooltip placement="bottom" title="tooltip text">
             <Button>Bottom</Button>
-          </Tooltip>
+          </Tooltip>&nbsp;&nbsp;
           <Tooltip placement="bottomRight" title="tooltip text">
             <Button>BR</Button>
           </Tooltip>

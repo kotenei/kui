@@ -193,20 +193,23 @@ const CalendarDay = (props: CalendarDayProps) => {
       const weekDateList = tmpDate.splice(0, 7);
       let weekDisabled = true;
 
-      if (showWeek && (min || max)) {
-        for (let j = 0; j < weekDateList.length; j++) {
-          const item = format(weekDateList[j], formatStr);
-
-          if (minDate && maxDate && item >= min && item <= max) {
-            weekDisabled = false;
-            break;
-          } else if (minDate && !maxDate && item >= min) {
-            weekDisabled = false;
-            break;
-          } else if (maxDate && !minDate && item <= max) {
-            weekDisabled = false;
-            break;
+      if (showWeek) {
+        if (min || max) {
+          for (let j = 0; j < weekDateList.length; j++) {
+            const item = format(weekDateList[j], formatStr);
+            if (minDate && maxDate && item >= min && item <= max) {
+              weekDisabled = false;
+              break;
+            } else if (minDate && !maxDate && item >= min) {
+              weekDisabled = false;
+              break;
+            } else if (maxDate && !minDate && item <= max) {
+              weekDisabled = false;
+              break;
+            }
           }
+        } else {
+          weekDisabled = false;
         }
       }
 

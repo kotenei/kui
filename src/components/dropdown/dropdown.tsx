@@ -1,10 +1,9 @@
-import React, { Children, memo, useCallback, useEffect, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 
-import { Portal } from '../portal';
+import { PopPanel } from '../pop-panel';
 import { DropdownProps } from './typing';
 import { useState, useOutsideClick } from '../../hooks';
-import { getPopoverPosition } from '../../utils';
 
 const Dropdown = React.forwardRef((props: DropdownProps, ref) => {
   const {
@@ -101,29 +100,6 @@ const Dropdown = React.forwardRef((props: DropdownProps, ref) => {
     [trigger, state.show, others.onClick],
   );
 
-  const onEnter = useCallback(
-    (node, isAppearing) => {
-      if (triggerRef.current && menuRef.current) {
-        const position = getPopoverPosition(triggerRef.current as any, node, placement);
-        node.style.visibility = 'visible';
-        node.style.left = position.left + 'px';
-        node.style.top = position.top + 'px';
-        node.style.opacity = 0;
-      }
-    },
-    [placement],
-  );
-
-  const onEntering = useCallback((node) => {
-    node.style.opacity = 1;
-    node.style.visibility = 'visible';
-  }, []);
-
-  const onExiting = useCallback((node) => {
-    node.style.opacity = 0;
-    node.style.visibility = 'hidden';
-  }, []);
-
   const renderMenu = () => {
     return (
       menu &&
@@ -152,14 +128,7 @@ const Dropdown = React.forwardRef((props: DropdownProps, ref) => {
       onClick={onClick}
     >
       {children}
-      <Portal
-        in={state.show}
-        timeout={300}
-        appear
-        onEnter={onEnter}
-        onEntering={onEntering}
-        onExiting={onExiting}
-      >
+      <PopPanel trigger={triggerRef.current} show={state.show} appear placement={placement}>
         <div
           ref={menuRef}
           className={classnames(
@@ -172,7 +141,7 @@ const Dropdown = React.forwardRef((props: DropdownProps, ref) => {
         >
           {renderMenu()}
         </div>
-      </Portal>
+      </PopPanel>
     </div>
   );
 });

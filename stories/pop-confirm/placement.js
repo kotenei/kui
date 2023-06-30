@@ -20,6 +20,7 @@ export default class Demo extends Component {
           >
             <Button>TL</Button>
           </Popconfirm>
+          &nbsp;&nbsp;
           <Popconfirm
             placement="top"
             title="Are you sure to delete this row?"
@@ -28,6 +29,7 @@ export default class Demo extends Component {
           >
             <Button>Top</Button>
           </Popconfirm>
+          &nbsp;&nbsp;
           <Popconfirm
             placement="topRight"
             title="Are you sure to delete this row?"
@@ -98,6 +100,7 @@ export default class Demo extends Component {
           >
             <Button>BL</Button>
           </Popconfirm>
+          &nbsp;&nbsp;
           <Popconfirm
             placement="bottom"
             title="Are you sure to delete this row?"
@@ -106,6 +109,7 @@ export default class Demo extends Component {
           >
             <Button>Bottom</Button>
           </Popconfirm>
+          &nbsp;&nbsp;
           <Popconfirm
             placement="bottomRight"
             title="Are you sure to delete this row?"

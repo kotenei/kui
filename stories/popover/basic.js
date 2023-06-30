@@ -7,7 +7,7 @@ export default class Demo extends Component {
       <div className="story-demo-popover">
         <Popover title="Title" content="Content" color="primary">
           <Button>Hover</Button>
-        </Popover>
+        </Popover>&nbsp;&nbsp;
         <Popover title="Title" content="Content" trigger="click">
           <Button>Click</Button>
         </Popover>

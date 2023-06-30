@@ -8,10 +8,10 @@ export default class Demo extends Component {
         <div style={{ marginLeft: 80 }}>
           <Popover placement="topLeft" title="Title" content="content">
             <Button>TL</Button>
-          </Popover>
+          </Popover>&nbsp;&nbsp;
           <Popover placement="top" title="Title" content="content">
             <Button>Top</Button>
-          </Popover>
+          </Popover>&nbsp;&nbsp;
           <Popover placement="topRight" title="Title" content="content">
             <Button>TR</Button>
           </Popover>
@@ -41,10 +41,10 @@ export default class Demo extends Component {
         <div style={{ marginLeft: 80, clear: 'both' }}>
           <Popover placement="bottomLeft" title="Title" content="content">
             <Button>BL</Button>
-          </Popover>
+          </Popover>&nbsp;&nbsp;
           <Popover placement="bottom" title="Title" content="content">
             <Button>Bottom</Button>
-          </Popover>
+          </Popover>&nbsp;&nbsp;
           <Popover placement="bottomRight" title="Title" content="content">
             <Button>BR</Button>
           </Popover>

@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 
-import { Portal } from '../portal';
+import { PopPanel } from '../pop-panel';
 import { TooltipProps } from './typing';
 import { getPopoverPosition } from '../../utils';
 
@@ -17,8 +17,8 @@ const Tooltip = (props: TooltipProps) => {
     ...others
   } = props;
   const [show, setShow] = React.useState(false);
-  const triggerRef = useRef(null);
-  const tooltipRef = useRef(null);
+  const triggerRef = useRef<any>(null);
+  const tooltipRef = useRef<any>(null);
   const timer = useRef<any>(null);
 
   useEffect(() => {
@@ -121,31 +121,6 @@ const Tooltip = (props: TooltipProps) => {
     elTooltip.style.top = position.top + 'px';
   };
 
-  const onEnter = useCallback(
-    (node, isAppearing) => {
-      if (triggerRef.current && tooltipRef.current) {
-        const position = getPopoverPosition(
-          (triggerRef.current as any).firstChild,
-          node,
-          placement,
-        );
-        node.style.visibility = 'visible';
-        node.style.left = position.left + 'px';
-        node.style.top = position.top + 'px';
-        node.style.opacity = 1;
-      }
-    },
-    [placement],
-  );
-
-  const onExiting = useCallback((node) => {
-    node.style.opacity = 0;
-  }, []);
-
-  const onExited = useCallback((node) => {
-    node.style.visibility = 'hidden';
-  }, []);
-
   const renderTooltip = () => {
     const classString = classnames(
       {
@@ -157,23 +132,12 @@ const Tooltip = (props: TooltipProps) => {
     );
 
     return (
-      <Portal
-        in={show}
-        timeout={300}
-        appear
-        onEnter={onEnter}
-        onExiting={onExiting}
-        onExited={onExited}
-      >
-        {(state) => {
-          return (
-            <div ref={tooltipRef} className={classString} {...others}>
-              <div className={`${prefixCls}__arrow`} />
-              <div className={`${prefixCls}__inner`}>{title}</div>
-            </div>
-          );
-        }}
-      </Portal>
+      <PopPanel trigger={triggerRef.current} show={show} appear placement={placement}>
+        <div ref={tooltipRef} className={classString} {...others}>
+          <div className={`${prefixCls}__arrow`} />
+          <div className={`${prefixCls}__inner`}>{title}</div>
+        </div>
+      </PopPanel>
     );
   };
 

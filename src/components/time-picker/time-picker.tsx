@@ -2,13 +2,13 @@ import React, { memo, useCallback, useEffect, useRef, useMemo } from 'react';
 import classnames from 'classnames';
 import { AiOutlineClose, AiOutlineClockCircle } from 'react-icons/ai';
 
+import { PopPanel } from '../pop-panel';
 import TimePickerSelect from './time-picker-select';
 import { Input } from '../input';
 import { Button } from '../button';
-import { Portal } from '../portal';
 import { TimePickerProps } from './typing';
 import { useOutsideClick, useState } from '../../hooks';
-import { eventOmitHandler, getPopoverPosition } from '../../utils';
+import { eventOmitHandler } from '../../utils';
 
 const TimePicker = (props: TimePickerProps) => {
   const {
@@ -162,26 +162,6 @@ const TimePicker = (props: TimePickerProps) => {
     }
   }, [disabled, show]);
 
-  const onEnter = useCallback((node, isAppearing) => {
-    if (triggerRef.current) {
-      const position = getPopoverPosition(triggerRef.current as any, node, 'bottomLeft');
-      node.style.visibility = 'visible';
-      node.style.left = position.left + 'px';
-      node.style.top = position.top + 'px';
-      node.style.opacity = 0;
-    }
-  }, []);
-
-  const onEntering = useCallback((node) => {
-    node.style.opacity = 1;
-    node.style.visibility = 'visible';
-  }, []);
-
-  const onExiting = useCallback((node) => {
-    node.style.opacity = 0;
-    node.style.visibility = 'hidden';
-  }, []);
-
   const onSelected = useCallback(
     (type, val, index) => {
       let arrTime: any = [],
@@ -275,11 +255,7 @@ const TimePicker = (props: TimePickerProps) => {
 
   const renderPicker = () => {
     const { value, show } = state;
-    let arrTime = [],
-      hour,
-      minute,
-      second,
-      timeSlot;
+    let hour, minute, second, timeSlot;
 
     if (value) {
       let match = value.match(reg);
@@ -290,13 +266,7 @@ const TimePicker = (props: TimePickerProps) => {
     }
 
     return (
-      <Portal
-        in={state.show}
-        onEnter={onEnter}
-        onEntering={onEntering}
-        onExiting={onExiting}
-        unmountOnExit
-      >
+      <PopPanel trigger={triggerRef.current} show={state.show} unmountOnExit>
         <div className={classString} onClick={(e) => eventOmitHandler(e)}>
           <div className={`${prefixCls}-wrapper`}>
             <TimePickerSelect
@@ -343,7 +313,7 @@ const TimePicker = (props: TimePickerProps) => {
             </Button>
           </div>
         </div>
-      </Portal>
+      </PopPanel>
     );
   };
 

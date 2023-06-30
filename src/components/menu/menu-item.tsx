@@ -60,7 +60,7 @@ const MenuItem = (props: MenuItemProps) => {
     [`${prefixCls}-item--selected`]:
       componentKey && selectedKeys && selectedKeys.indexOf(componentKey) !== -1,
     [`${prefixCls}-item--disabled`]: disabled,
-    [`${prefixCls}-item--hover`]: hoverKey===componentKey,
+    [`${prefixCls}-item--hover`]: hoverKey === componentKey,
   });
 
   const _style: CSSProperties = {

@@ -13,4 +13,4 @@ type ContextMenu = {
   ) => void;
 };
 
-export const MenuContext: React.Context<ContextMenu> = React.createContext({});
+export const MenuContext: React.Context<ContextMenu> = React.createContext<any>({});

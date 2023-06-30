@@ -47,6 +47,11 @@ $prefixCls: #{$namespace}-menu;
     height: 36px;
     line-height: 36px;
 
+    >.#{$namespace}-icon{
+      margin-right: $space-sm;
+      margin-left: $space-sm;
+    }
+
     &--disabled {
       cursor: not-allowed;
       color: $disabled-color;
@@ -88,6 +93,11 @@ $prefixCls: #{$namespace}-menu;
         right: $space-base;
         margin: 0;
         color: $text-color-primary !important;
+      }
+
+      >.#{$namespace}-icon{
+        margin-right: $space-sm;
+        margin-left: $space-sm;
       }
     }
 

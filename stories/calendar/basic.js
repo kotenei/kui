@@ -6,7 +6,7 @@ export default class Demo extends Component {
     const now = new Date();
     return (
       <div className="story-demo-calendar">
-        <Calendar />
+        <Calendar/>
       </div>
     );
   }

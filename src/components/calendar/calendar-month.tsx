@@ -2,22 +2,8 @@ import React, { memo } from 'react';
 import classnames from 'classnames';
 import { format } from 'date-fns';
 
+import { MONTHS } from './constants';
 import { CalendarMonthProps } from './typing';
-
-const months = [
-  '一月',
-  '二月',
-  '三月',
-  '四月',
-  '五月',
-  '六月',
-  '七月',
-  '八月',
-  '九月',
-  '十月',
-  '十一月',
-  '十二月',
-];
 
 const CalendarMonth = (props: CalendarMonthProps) => {
   const { date = new Date(), minDate, maxDate, onChange } = props;
@@ -48,7 +34,7 @@ const CalendarMonth = (props: CalendarMonthProps) => {
 
     for (let i = 0; i < 3; i++) {
       let cells: any = [];
-      for (let j = flag, num; j < months.length; j++) {
+      for (let j = flag, num; j < MONTHS.length; j++) {
         disabled = false;
         num = year + (j + 1).toString().padStart(2, '0');
         if ((min && num < min) || (max && num > max)) {
@@ -64,7 +50,7 @@ const CalendarMonth = (props: CalendarMonthProps) => {
               })}
               onClick={!disabled ? onClick : undefined}
             >
-              {months[j]}
+              {MONTHS[j]}
             </a>
           </td>,
         );

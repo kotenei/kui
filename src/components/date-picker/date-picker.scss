@@ -3,5 +3,159 @@
 $prefix: #{$namespace}-datepicker;
 
 .#{$prefix} {
-    
+  &-calendar {
+    border: 1px solid $border-color-base;
+    position: absolute;
+    box-shadow: $box-shadow-base;
+    border-radius: $radius-base;
+    margin-top: $space-sm;
+    visibility: hidden;
+    background-color: $datepicker-bg-color;
+    min-width: 300px;
+    transition: all 0.2s ease-in-out;
+
+    &-header {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid $border-color-base;
+      padding: $space-base;
+      > div {
+        padding: 0 $space-sm;
+        input {
+          width: 160px;
+        }
+        .#{$namespace}-timepicker-input {
+          input {
+            width: calc(160px - 34px);
+          }
+        }
+      }
+    }
+
+    &-footer {
+      border-top: 1px solid $border-color-base;
+      padding: $space-base;
+      text-align: center;
+      &__today {
+        cursor: pointer;
+        color: $primary-color;
+      }
+      &__right {
+        text-align: right;
+        > span {
+          margin-right: $space-base;
+          cursor: pointer;
+          color: $primary-color;
+        }
+      }
+    }
+
+    .#{$namespace}-calendar {
+      max-width: none;
+    }
+  }
+  &-input {
+    &__close {
+      cursor: pointer;
+    }
+  }
+}
+
+.#{$namespace}-range-picker {
+  border: 1px solid $border-color-base;
+  position: absolute;
+  box-shadow: $box-shadow-base;
+  border-radius: $radius-base;
+  margin-top: $space-sm;
+  visibility: hidden;
+  background-color: $datepicker-bg-color;
+  min-width: 300px;
+  transition: all 0.2s ease-in-out;
+
+  &-body {
+    display: flex;
+  }
+
+  &-footer {
+    border-top: 1px solid $border-color-base;
+    padding: $space-base;
+    text-align: right;
+  }
+
+  &-calendar {
+    &-header {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid $border-color-base;
+      padding: $space-base;
+      > div {
+        padding: 0 $space-sm;
+        input {
+          width: 160px;
+        }
+        .#{$namespace}-timepicker-input {
+          input {
+            width: calc(160px - 34px);
+          }
+        }
+      }
+    }
+
+    &-footer {
+      display: none;
+    }
+
+    .#{$namespace}-calendar {
+      max-width: none;
+    }
+  }
+
+  &-control {
+    &-input {
+      border: 1px solid $border-color-base;
+      border-radius: $radius-base;
+      padding: $space-base;
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      input {
+        border: 0;
+        background: transparent;
+        outline: 0;
+        text-align: center;
+        height: 100%;
+        width: 48%;
+      }
+
+      &__wrapper {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      &__icon {
+        position: absolute;
+        right: 0;
+      }
+
+      &--sm {
+        height: 34px;
+        font-size: 12px;
+        input {
+          font-size: 12px;
+        }
+      }
+
+      &--lg {
+        height: 52px;
+        font-size: 16px;
+        padding-left: $space-base;
+        padding-right: $space-base;
+        input {
+          font-size: 16px;
+        }
+      }
+    }
+  }
 }

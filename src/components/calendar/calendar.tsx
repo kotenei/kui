@@ -12,11 +12,16 @@ const Calendar = (props: CalendarProps) => {
   const {
     prefixCls = 'k-calendar',
     className,
-    view = 'day',
+    view,
     defaultValue,
     value,
     minDate,
     maxDate,
+    weekStartsOn = 0,
+    showPrevYear = true,
+    showPrevMonth = true,
+    showNextMonth = true,
+    showNextYear = true,
     onChange,
     onViewChange,
   } = props;
@@ -24,23 +29,27 @@ const Calendar = (props: CalendarProps) => {
   const [state, setState] = useState({
     date: value || defaultValue || now,
     value: value || defaultValue,
-    view,
+    view: view || 'day',
+    orgView: view || 'day',
   });
 
   useEffect(() => {
-    if ('view' in props) {
-      setState({
-        view,
-      });
-    }
-
     if ('value' in props) {
       setState({
         date: value,
         value,
       });
     }
-  }, [view, value]);
+  }, [value]);
+
+  useEffect(() => {
+    if ('view' in props && view !== undefined) {
+      setState({
+        view,
+        orgView: view,
+      });
+    }
+  }, [view]);
 
   const onHeaderDateChange = (date) => {
     setState({
@@ -49,11 +58,9 @@ const Calendar = (props: CalendarProps) => {
   };
 
   const onHeaderViewChange = (view) => {
-    if (!('view' in props)) {
-      setState({
-        view,
-      });
-    }
+    setState({
+      view,
+    });
 
     onViewChange && onViewChange(view);
   };
@@ -61,6 +68,7 @@ const Calendar = (props: CalendarProps) => {
   const onDateChange = (date) => {
     const newState: any = {
       date,
+      view: state.orgView,
     };
 
     if (!('value' in props)) {
@@ -69,12 +77,8 @@ const Calendar = (props: CalendarProps) => {
       }
     }
 
-    if (!('view' in props)) {
-      newState.view = 'day';
-    }
-
     setState(newState);
-    onChange && onChange(date);
+    onChange && onChange(date, state.view);
   };
 
   const classString = classnames(prefixCls, className);
@@ -94,9 +98,9 @@ const Calendar = (props: CalendarProps) => {
       case 'month':
         return <CalendarMonth {...viewProps} />;
       case 'day':
-        return <CalendarDay {...viewProps} value={state.value} />;
+        return <CalendarDay {...viewProps} weekStartsOn={weekStartsOn} value={state.value} />;
       case 'week':
-        return <CalendarDay {...viewProps} showWeek />;
+        return <CalendarDay {...viewProps} weekStartsOn={weekStartsOn} showWeek />;
       default:
         return null;
     }
@@ -108,6 +112,10 @@ const Calendar = (props: CalendarProps) => {
         prefixCls={prefixCls}
         view={state.view}
         date={state.date}
+        showPrevYear={showPrevYear}
+        showPrevMonth={showPrevMonth}
+        showNextMonth={showNextMonth}
+        showNextYear={showNextYear}
         onChange={onHeaderDateChange}
         onViewChange={onHeaderViewChange}
       />

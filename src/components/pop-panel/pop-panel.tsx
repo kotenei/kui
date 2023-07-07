@@ -29,7 +29,7 @@ const PopPanel = (props: PopPanelProps) => {
     node.style.opacity = 0;
     node.style.visibility = 'hidden';
   }, []);
-
+  
   return (
     <Portal
       in={show}

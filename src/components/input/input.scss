@@ -73,18 +73,24 @@
     }
   }
 
-  &--focus{
+  &--focus {
     border-color: $primary-color;
   }
 
-  &--disabled,
-  &--readOnly {
+  &--disabled {
     color: $disabled-color;
     input,
     textarea {
       color: $disabled-color;
       cursor: not-allowed;
     }
+  }
+
+  &--readOnly {
+    // input,
+    // textarea {
+    //   cursor: not-allowed;
+    // }
   }
 
   &--sm {

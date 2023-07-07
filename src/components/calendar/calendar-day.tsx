@@ -1,9 +1,15 @@
 import React, { memo } from 'react';
 import classnames from 'classnames';
-import { format, getDaysInMonth, addMonths, lastDayOfMonth, addDays, isToday } from 'date-fns';
+import {
+  format,
+  getDaysInMonth,
+  addDays,
+  isToday,
+  getWeek,
+} from 'date-fns';
 
+import { DAYS_MAP } from './constants';
 import { CalendarDayProps } from './typing';
-import { getWeek } from './utils';
 
 const Cell = (props) => {
   const { prefixCls, disabled, showWeek, selected, isToday, inView, date, onClick } = props;
@@ -47,7 +53,15 @@ const Cell = (props) => {
 };
 
 const CalendarDay = (props: CalendarDayProps) => {
-  const { date = new Date(), minDate, maxDate, showWeek, value, onChange } = props;
+  const {
+    date = new Date(),
+    minDate,
+    maxDate,
+    showWeek,
+    value,
+    weekStartsOn = 1,
+    onChange,
+  } = props;
   const prefixCls = `${props.prefixCls}-day`;
   const formatStr = 'yyyyMMdd';
 
@@ -90,55 +104,42 @@ const CalendarDay = (props: CalendarDayProps) => {
   //   return false;
   // };
 
+  const getDaysArray = () => {
+    const a = [0, 1, 2, 3, 4, 5, 6];
+    const b = a.splice(weekStartsOn);
+    const res = b.concat(a);
+    return res;
+  };
+
+  const renderHeader = () => {
+    const days = getDaysArray();
+    return (
+      <tr>
+        {showWeek && <th></th>}
+        {days.map((item) => {
+          return <th key={item}>{DAYS_MAP[item]}</th>;
+        })}
+      </tr>
+    );
+  };
+
   const renderContent = () => {
     const rows: any = [];
     const cells: any = [];
     const tmpDate: any = [];
     const min = minDate ? format(minDate, formatStr) : '';
     const max = maxDate ? format(maxDate, formatStr) : '';
-    let days = getDaysInMonth(date);
-    let firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    let dayOfWeek = firstDate.getDay();
-    let lastDayOfPrevMonth = lastDayOfMonth(addMonths(date, -1)).getDate();
-    let index = 0;
-    let start, startDate, end, endDate, disabled, selected, inRange, today;
-
-    if (dayOfWeek === 0) {
-      start = lastDayOfPrevMonth - 6;
-      startDate = addDays(firstDate, -7);
-    } else {
-      start = lastDayOfPrevMonth - dayOfWeek + 1;
-      startDate = addDays(firstDate, -dayOfWeek);
-    }
+    const totalDays = getDaysInMonth(date);
+    const daysArr = getDaysArray();
+    const firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    const dayOfWeek = firstDate.getDay();
+    const dayOfWeekIndex = daysArr.indexOf(dayOfWeek);
+    let startDate = addDays(firstDate, -dayOfWeekIndex);
+    let disabled, selected, today, inRange, end;
 
     tmpDate.push(startDate);
 
-    for (let i = start; i <= lastDayOfPrevMonth; i++) {
-      disabled = isDisabled(startDate);
-      selected = isSelected(startDate);
-      today = isToday(startDate);
-      // inRange = isInRange(startDate);
-
-      if (dayOfWeek !== 0) {
-        cells.push(
-          <Cell
-            prefixCls={prefixCls}
-            key={index}
-            disabled={disabled}
-            selected={selected}
-            today={today}
-            date={startDate}
-            showWeek={showWeek}
-            onClick={onDateChange}
-          />,
-        );
-      }
-      startDate = addDays(startDate, 1);
-      index++;
-      tmpDate.push(startDate);
-    }
-
-    for (let i = 1; i <= days; i++) {
+    for (let i = 0; i < dayOfWeekIndex; i++) {
       disabled = isDisabled(startDate);
       selected = isSelected(startDate);
       today = isToday(startDate);
@@ -147,7 +148,29 @@ const CalendarDay = (props: CalendarDayProps) => {
       cells.push(
         <Cell
           prefixCls={prefixCls}
-          key={index}
+          key={startDate}
+          disabled={disabled}
+          selected={selected}
+          today={today}
+          date={startDate}
+          showWeek={showWeek}
+          onClick={onDateChange}
+        />,
+      );
+
+      startDate = addDays(startDate, 1);
+      tmpDate.push(startDate);
+    }
+
+    for (let i = 1; i <= totalDays; i++) {
+      disabled = isDisabled(startDate);
+      selected = isSelected(startDate);
+      today = isToday(startDate);
+      // inRange = isInRange(startDate);
+      cells.push(
+        <Cell
+          prefixCls={prefixCls}
+          key={startDate}
           disabled={disabled}
           selected={selected}
           isToday={today}
@@ -159,7 +182,6 @@ const CalendarDay = (props: CalendarDayProps) => {
       );
 
       startDate = addDays(startDate, 1);
-      index++;
       tmpDate.push(startDate);
     }
 
@@ -174,7 +196,7 @@ const CalendarDay = (props: CalendarDayProps) => {
       cells.push(
         <Cell
           prefixCls={prefixCls}
-          key={index}
+          key={startDate}
           disabled={disabled}
           selected={selected}
           today={today}
@@ -185,7 +207,6 @@ const CalendarDay = (props: CalendarDayProps) => {
       );
 
       startDate = addDays(startDate, 1);
-      index++;
       tmpDate.push(startDate);
     }
 
@@ -230,7 +251,7 @@ const CalendarDay = (props: CalendarDayProps) => {
         >
           {showWeek && (
             <td className={classnames({ [`${prefixCls}__day `]: true })}>
-              <span>{getWeek(weekDateList[0])}</span>
+              <span>{getWeek(weekDateList[0], { weekStartsOn })}</span>
             </td>
           )}
           {cells.splice(0, 7)}
@@ -243,18 +264,7 @@ const CalendarDay = (props: CalendarDayProps) => {
 
   return (
     <table className={prefixCls}>
-      <thead>
-        <tr>
-          {showWeek && <th></th>}
-          <th>日</th>
-          <th>一</th>
-          <th>二</th>
-          <th>三</th>
-          <th>四</th>
-          <th>五</th>
-          <th>六</th>
-        </tr>
-      </thead>
+      <thead>{renderHeader()}</thead>
       <tbody>{renderContent()}</tbody>
     </table>
   );

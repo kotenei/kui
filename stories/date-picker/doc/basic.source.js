@@ -5,7 +5,7 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-datepicker">
-        <DatePicker />
+        <DatePicker format="yyyy-ww 周" view="week" />
       </div>
     );
   }

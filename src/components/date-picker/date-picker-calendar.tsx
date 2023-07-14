@@ -18,7 +18,9 @@ const DatePickerCalendar = (props: DatePickerCalendarProps) => {
     view,
     value,
     weekStartsOn = 1,
+    rangeDate,
     onChange,
+    onPrevNextChange,
     ...others
   } = props;
   const prefixCls = `${props.prefixCls}-calendar`;
@@ -61,17 +63,28 @@ const DatePickerCalendar = (props: DatePickerCalendarProps) => {
   }, [onChange]);
 
   const renderHeader = () => {
-    const dateStr = value ? format(value, 'yyyy-MM-dd') : '';
-    const timeStr = value ? format(value, 'HH:mm:ss') : '';
+    let dateStr = value ? format(value, 'yyyy-MM-dd') : '';
+    let timeStr = value ? format(value, 'HH:mm:ss') : '';
+    let timeDisabled = false;
+
+    if (rangeDate && !value) {
+      timeDisabled = true;
+    }
 
     return (
-      showTime && (
+      showTime &&
+      view === 'day' && (
         <div className={`${prefixCls}-header`}>
           <div>
             <Input readOnly value={dateStr} />
           </div>
           <div>
-            <TimePicker showClearIcon={false} value={timeStr} onChange={onTimeChange} />
+            <TimePicker
+              showClearIcon={false}
+              value={timeStr}
+              disabled={timeDisabled}
+              onChange={onTimeChange}
+            />
           </div>
         </div>
       )
@@ -108,8 +121,10 @@ const DatePickerCalendar = (props: DatePickerCalendarProps) => {
           value={value}
           view={view}
           weekStartsOn={weekStartsOn}
-          onChange={onCalendarChange}
+          rangeDate={rangeDate}
           {...calendarProps}
+          onChange={onCalendarChange}
+          onPrevNextChange={onPrevNextChange}
         />
       </div>
       {renderFooter()}

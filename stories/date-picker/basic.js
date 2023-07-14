@@ -5,9 +5,9 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-datepicker">
-        <DatePicker />
+        <DatePicker defaultDate={new Date('2022-10-1')} />
         <br></br>
-        <RangePicker showTime showToday/>
+        <RangePicker view='year'  />
       </div>
     );
   }

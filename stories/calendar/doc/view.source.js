@@ -10,7 +10,7 @@ export default class Demo extends Component {
         <div style={{ display: 'flex' }}>
           <div>
             <h4>年</h4>
-            <Calendar view="year" />
+            <Calendar view="year"  />
           </div>
           <div>
             <h4>月</h4>

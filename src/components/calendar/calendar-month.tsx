@@ -6,7 +6,7 @@ import { MONTHS } from './constants';
 import { CalendarMonthProps } from './typing';
 
 const CalendarMonth = (props: CalendarMonthProps) => {
-  const { date = new Date(), minDate, maxDate, onChange } = props;
+  const { date , minDate, maxDate, rangeDate, value, onChange } = props;
   const prefixCls = `${props.prefixCls}-month`;
 
   const onClick = (e) => {
@@ -23,6 +23,13 @@ const CalendarMonth = (props: CalendarMonthProps) => {
     onChange && onChange(newDate);
   };
 
+  const isInRange = (val) => {
+    if (rangeDate && rangeDate.length === 2) {
+      return val >= rangeDate[0].getMonth() && val <= rangeDate[1].getMonth();
+    }
+    return false;
+  };
+
   const renderContent = () => {
     let rows: any = [],
       year = date.getFullYear(),
@@ -30,22 +37,26 @@ const CalendarMonth = (props: CalendarMonthProps) => {
       flag = 0,
       min = minDate ? format(minDate, 'yyyyMM') : null,
       max = maxDate ? format(maxDate, 'yyyyMM') : null,
-      disabled;
+      disabled,
+      active,
+      inRange;
 
     for (let i = 0; i < 3; i++) {
       let cells: any = [];
       for (let j = flag, num; j < MONTHS.length; j++) {
         disabled = false;
+        active = value && value.getMonth() === j;
+        inRange = isInRange(j);
         num = year + (j + 1).toString().padStart(2, '0');
         if ((min && num < min) || (max && num > max)) {
           disabled = true;
         }
         cells.push(
-          <td key={`cell_${j}`}>
+          <td key={`cell_${j}`} className={`${inRange ? 'inRange' : ''}`}>
             <a
               data-month={j}
               className={classnames({
-                active: month == j,
+                active,
                 disabled,
               })}
               onClick={!disabled ? onClick : undefined}

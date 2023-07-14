@@ -11,7 +11,7 @@ $prefix: #{$namespace}-datepicker;
     margin-top: $space-sm;
     visibility: hidden;
     background-color: $datepicker-bg-color;
-    min-width: 300px;
+    
     transition: all 0.2s ease-in-out;
 
     &-header {
@@ -69,7 +69,6 @@ $prefix: #{$namespace}-datepicker;
   margin-top: $space-sm;
   visibility: hidden;
   background-color: $datepicker-bg-color;
-  min-width: 300px;
   transition: all 0.2s ease-in-out;
 
   &-body {

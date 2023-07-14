@@ -1,11 +1,13 @@
 export default `import React, { Component } from 'react';
-import { DatePicker } from 'kui-react';
+import { DatePicker, RangePicker } from 'kui-react';
 
 export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-datepicker">
-        <DatePicker format="yyyy-ww 周" view="week" />
+        <DatePicker defaultDate={new Date('2022-10-1')} />
+        <br></br>
+        <RangePicker showTime showToday view="month" />
       </div>
     );
   }

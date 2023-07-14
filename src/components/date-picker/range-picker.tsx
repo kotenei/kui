@@ -1,6 +1,6 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import classnames from 'classnames';
-import { format } from 'date-fns';
+import { format, addYears, addMonths, differenceInCalendarMonths } from 'date-fns';
 import { AiOutlineClose, AiOutlineCalendar } from 'react-icons/ai';
 
 import { Button } from '../button';
@@ -31,11 +31,35 @@ const RangePicker = (props: RangePickerProps) => {
     view = 'day',
     onChange,
   } = props;
+  const now = new Date();
 
   const [state, setState] = useState({
     show: false,
-    value: value || defaultValue,
+    rangeDate: value ||
+      defaultValue || [now, view === 'year' ? addYears(now, 10) : addMonths(now, 1)],
+    tmpValue: value || defaultValue || [],
+    showCalendarIndex: -1,
   });
+
+  useEffect(() => {
+    if ('value' in props && value && value.length === 2) {
+      // const tmpValue = [
+      //   new Date(value[0].getFullYear(), value[0].getMonth(), 1, 0, 0, 0),
+      //   new Date(value[1].getFullYear(), value[1].getMonth(), 1, 0, 0, 0),
+      // ];
+      // if (
+      //   tmpValue &&
+      //   tmpValue.length === 2 &&
+      //   format(tmpValue[0], 'yyyymm') === format(tmpValue[1], 'yyyymm')
+      // ) {
+      //   tmpValue[1] = view === 'year' ? addYears(tmpValue[0], 10) : addMonths(tmpValue[0], 1);
+      // }
+      // setState({
+      //   rangeDate: value,
+      //   tmpValue,
+      // });
+    }
+  }, [view, value]);
 
   const [triggerRef] = useOutsideClick(
     {
@@ -56,6 +80,132 @@ const RangePicker = (props: RangePickerProps) => {
       show: true,
     });
   }, []);
+
+  const onStartViewChange = useCallback((view) => {
+    setState({
+      showCalendarIndex: 0,
+    });
+  }, []);
+
+  const onEndViewChange = useCallback((view) => {
+    setState({
+      showCalendarIndex: 1,
+    });
+  }, []);
+
+  const onStartPrevNextChange = useCallback(
+    (date, type) => {
+      const newRangeDate: any = [];
+      switch (type) {
+        case 'prevYear':
+        case 'nextYear':
+          newRangeDate[0] = date;
+          newRangeDate[1] = view === 'year' ? addYears(date, 10) : addMonths(date, 1);
+          break;
+        case 'prevMonth':
+        case 'nextMonth':
+          newRangeDate[0] = date;
+          newRangeDate[1] = addMonths(date, 1);
+          break;
+        default:
+          break;
+      }
+      setState({
+        rangeDate: newRangeDate,
+      });
+    },
+    [view, state.rangeDate],
+  );
+
+  const onEndPrevNextChange = useCallback(
+    (date, type) => {
+      const newRangeDate: any = [];
+      switch (type) {
+        case 'prevYear':
+        case 'nextYear':
+          newRangeDate[0] = view === 'year' ? addYears(date, -10) : addMonths(date, -1);
+          newRangeDate[1] = date;
+          break;
+        case 'prevMonth':
+        case 'nextMonth':
+          newRangeDate[0] = addMonths(date, -1);
+          newRangeDate[1] = date;
+          break;
+        default:
+          break;
+      }
+      setState({
+        rangeDate: newRangeDate,
+      });
+    },
+    [view, state.rangeDate],
+  );
+
+  const onStartCalendarChange = useCallback(
+    (date, info) => {
+      const val = getVal(date, 0);
+      console.log(val);
+      setState({
+        showCalendarIndex: -1,
+        rangeDate: [date, view === 'year' ? addYears(date, 10) : addMonths(date, 1)],
+        tmpValue: val,
+      });
+    },
+    [view, state],
+  );
+
+  const onEndCalendarChange = useCallback(
+    (date, info) => {
+      const val = getVal(date, 1);
+      console.log(val);
+      setState({
+        showCalendarIndex: -1,
+        rangeDate: [view === 'year' ? addYears(date, -10) : addMonths(date, -1), date],
+        tmpValue: val,
+      });
+    },
+    [view, state],
+  );
+
+  const getVal = (date, index) => {
+    let newTmpValue = [...state.tmpValue];
+
+    if (newTmpValue[0] && newTmpValue[1]) {
+      newTmpValue = [];
+      newTmpValue[index] = date;
+    } else {
+      const tmpDate = newTmpValue[0] || newTmpValue[1];
+      if (tmpDate) {
+        if (tmpDate.getTime() > date.getTime()) {
+          newTmpValue = [date, tmpDate];
+        } else {
+          newTmpValue = [tmpDate, date];
+        }
+      } else {
+        newTmpValue[index] = date;
+      }
+    }
+
+    return newTmpValue;
+  };
+
+  const arrowInfo = useMemo(() => {
+    const { tmpValue } = state;
+    let showStartNext = true;
+    let showEndPrev = true;
+
+    let diff =
+      tmpValue && tmpValue.length && tmpValue.length === 2
+        ? differenceInCalendarMonths(tmpValue[1], tmpValue[0])
+        : 0;
+
+    if (diff <= 1) {
+      showStartNext = false;
+      showEndPrev = false;
+    }
+
+    return { showStartNext, showEndPrev };
+  }, [state.tmpValue]);
 
   const renderTrigger = () => {
     const { value } = state;
@@ -117,40 +267,56 @@ const RangePicker = (props: RangePickerProps) => {
       },
       className,
     );
+
     return (
       <PopPanel trigger={triggerRef.current} show={state.show} placement={placement}>
         <div className={classString}>
           <div className={`${prefixCls}-body`}>
-            <DatePickerCalendar
-              prefixCls={prefixCls}
-              showTime={showTime}
-              showNextMonth={false}
-              showNextYear={false}
-              minDate={minDate}
-              maxDate={maxDate}
-              view={view}
-              // value={state.value}
-              weekStartsOn={weekStartsOn}
-              // onChange={onCalendarChange}
-            />
-            <DatePickerCalendar
-              prefixCls={prefixCls}
-              showTime={showTime}
-              showPrevMonth={false}
-              showPrevYear={false}
-              minDate={minDate}
-              maxDate={maxDate}
-              view={view}
-              // value={state.value}
-              weekStartsOn={weekStartsOn}
-              // onChange={onCalendarChange}
-            />
+            {(state.showCalendarIndex === -1 || state.showCalendarIndex === 0) && (
+              <DatePickerCalendar
+                prefixCls={prefixCls}
+                showTime={showTime}
+                showNextMonth={state.showCalendarIndex === 0}
+                showNextYear={state.showCalendarIndex === 0}
+                minDate={minDate}
+                maxDate={maxDate}
+                view={view}
+                rangeDate={state.rangeDate}
+                date={state.rangeDate[0]}
+                value={state.tmpValue[0]}
+                weekStartsOn={weekStartsOn}
+                onViewChange={onStartViewChange}
+                onPrevNextChange={onStartPrevNextChange}
+                onChange={onStartCalendarChange}
+              />
+            )}
+
+            {(state.showCalendarIndex === -1 || state.showCalendarIndex === 1) && (
+              <DatePickerCalendar
+                prefixCls={prefixCls}
+                showTime={showTime}
+                showPrevMonth={state.showCalendarIndex === 1}
+                showPrevYear={state.showCalendarIndex === 1}
+                minDate={minDate}
+                maxDate={maxDate}
+                view={view}
+                rangeDate={state.rangeDate}
+                date={state.rangeDate[1]}
+                value={state.tmpValue[1]}
+                weekStartsOn={weekStartsOn}
+                onViewChange={onEndViewChange}
+                onPrevNextChange={onEndPrevNextChange}
+                onChange={onEndCalendarChange}
+              />
+            )}
           </div>
-          <div className={`${prefixCls}-footer`}>
-            <Button color="primary" size="sm">
-              确定
-            </Button>
-          </div>
+          {state.showCalendarIndex === -1 && showTime && (
+            <div className={`${prefixCls}-footer`}>
+              <Button color="primary" size="sm">
+                确定
+              </Button>
+            </div>
+          )}
         </div>
       </PopPanel>
     );

@@ -14,6 +14,7 @@ const Calendar = (props: CalendarProps) => {
     className,
     view,
     defaultValue,
+    date,
     value,
     minDate,
     maxDate,
@@ -22,23 +23,27 @@ const Calendar = (props: CalendarProps) => {
     showPrevMonth = true,
     showNextMonth = true,
     showNextYear = true,
+    rangeDate,
     onChange,
     onViewChange,
   } = props;
-  const now = new Date();
   const [state, setState] = useState({
-    date: value || defaultValue || now,
+    date: value || defaultValue || date || new Date(),
     value: value || defaultValue,
     view: view || 'day',
     orgView: view || 'day',
+    hoverDate: null,
   });
 
   useEffect(() => {
     if ('value' in props) {
-      setState({
-        date: value,
+      const newState: any = {
         value,
-      });
+      };
+      if (value !== undefined) {
+        newState.date = value;
+      }
+      setState(newState);
     }
   }, [value]);
 
@@ -51,10 +56,19 @@ const Calendar = (props: CalendarProps) => {
     }
   }, [view]);
 
-  const onHeaderDateChange = (date) => {
+  useEffect(() => {
+    if (date) {
+      setState({
+        date,
+      });
+    }
+  }, [date]);
+
+  const onPrevNextChange = (date, type) => {
     setState({
       date,
     });
+    props.onPrevNextChange && props.onPrevNextChange(date, type);
   };
 
   const onHeaderViewChange = (view) => {
@@ -71,14 +85,18 @@ const Calendar = (props: CalendarProps) => {
       view: state.orgView,
     };
 
-    if (!('value' in props)) {
-      if (state.view === 'day' || state.view === 'week') {
-        newState.value = date;
-      }
+    if (!('value' in props) && state.view === state.orgView) {
+      newState.value = date;
     }
 
     setState(newState);
     onChange && onChange(date, state.view);
+  };
+
+  const onHover = (date) => {
+    setState({
+      hoverDate: date,
+    });
   };
 
   const classString = classnames(prefixCls, className);
@@ -90,7 +108,10 @@ const Calendar = (props: CalendarProps) => {
       maxDate,
       date: state.date,
       value: state.value,
+      rangeDate,
+      hoverDate: state.hoverDate,
       onChange: onDateChange,
+      onHover,
     };
     switch (state.view) {
       case 'year':
@@ -98,7 +119,7 @@ const Calendar = (props: CalendarProps) => {
       case 'month':
         return <CalendarMonth {...viewProps} />;
       case 'day':
-        return <CalendarDay {...viewProps} weekStartsOn={weekStartsOn} value={state.value} />;
+        return <CalendarDay {...viewProps} weekStartsOn={weekStartsOn} />;
       case 'week':
         return <CalendarDay {...viewProps} weekStartsOn={weekStartsOn} showWeek />;
       default:
@@ -116,7 +137,7 @@ const Calendar = (props: CalendarProps) => {
         showPrevMonth={showPrevMonth}
         showNextMonth={showNextMonth}
         showNextYear={showNextYear}
-        onChange={onHeaderDateChange}
+        onChange={onPrevNextChange}
         onViewChange={onHeaderViewChange}
       />
       <div className={`${prefixCls}-body`}>{renderView()}</div>

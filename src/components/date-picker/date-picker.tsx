@@ -24,6 +24,7 @@ const DatePicker = (props: DatePickerProps) => {
     minDate,
     maxDate,
     defaultValue,
+    date = new Date(),
     value,
     view = 'day',
     weekStartsOn = 1,
@@ -126,6 +127,7 @@ const DatePicker = (props: DatePickerProps) => {
           minDate={minDate}
           maxDate={maxDate}
           view={view}
+          date={state.value || date}
           value={state.value}
           weekStartsOn={weekStartsOn}
           onChange={onCalendarChange}

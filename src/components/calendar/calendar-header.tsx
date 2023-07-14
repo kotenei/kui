@@ -24,22 +24,22 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
 
   const onPrevYearClick = () => {
     const val = addYears(date, view === 'year' ? -10 : -1);
-    onChange && onChange(val);
+    onChange && onChange(val, 'prevYear');
   };
 
   const onPrevMonthClick = () => {
     const val = addMonths(date, -1);
-    onChange && onChange(val);
+    onChange && onChange(val, 'prevMonth');
   };
 
   const onNextYearClick = () => {
     const val = addYears(date, view === 'year' ? 10 : 1);
-    onChange && onChange(val);
+    onChange && onChange(val, 'nextYear');
   };
 
   const onNextMonthClick = () => {
     const val = addMonths(date, 1);
-    onChange && onChange(val);
+    onChange && onChange(val, 'nextMonth');
   };
 
   const onYearClick = () => {
@@ -64,7 +64,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
         </Icon>
       ) : null}
       {view !== 'year' && view !== 'month' && showPrevMonth ? (
-        <Icon fontSize={12}  onClick={onPrevMonthClick}>
+        <Icon fontSize={12} onClick={onPrevMonthClick}>
           <AiOutlineLeft />
         </Icon>
       ) : null}
@@ -73,18 +73,18 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
           {view !== 'year' ? <a onClick={onYearClick}>{`${year}年`} </a> : `${start}-${end}`}
         </span>
         {view !== 'year' && view !== 'month' ? (
-          <span className={`${prefixCls}-select__month`} >
+          <span className={`${prefixCls}-select__month`}>
             <a onClick={onMonthClick}>{date.getMonth() + 1}月</a>
           </span>
         ) : null}
       </div>
       {view !== 'year' && view !== 'month' && showNextMonth ? (
-        <Icon fontSize={12}  onClick={onNextMonthClick}>
+        <Icon fontSize={12} onClick={onNextMonthClick}>
           <AiOutlineRight />
         </Icon>
       ) : null}
       {showNextYear ? (
-        <Icon fontSize={12}  onClick={onNextYearClick}>
+        <Icon fontSize={12} onClick={onNextYearClick}>
           <AiOutlineDoubleRight />
         </Icon>
       ) : null}

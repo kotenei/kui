@@ -2,29 +2,36 @@ export type CalendarViewType = 'year' | 'month' | 'day' | 'week';
 
 export interface CalendarViewProps
   extends KUI.BasicProps<React.HTMLAttributes<HTMLElement>, 'onChange'> {
-  date?: Date;
+  date: Date;
+  value?: Date;
   minDate?: Date;
   maxDate?: Date;
+  rangeDate?: [Date, Date];
+  hoverDate?: Date;
   onChange?: (date: Date) => void;
+  onHover?: (date?: Date) => void;
 }
 
 export interface CalendarProps
   extends KUI.BasicProps<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   defaultValue?: Date;
+  date?: Date;
   minDate?: Date;
   maxDate?: Date;
   view?: CalendarViewType;
   value?: Date;
   weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  rangeDate?: [Date, Date];
   showPrevYear?: boolean;
   showPrevMonth?: boolean;
   showNextYear?: boolean;
   showNextMonth?: boolean;
-  onPrev?: (date: Date) => void;
-  onNext?: (date: Date) => void;
+  onPrevNextChange?: (date: Date, type: CalendarPrevNextType) => void;
   onViewChange?: (view: CalendarViewType) => void;
   onChange?: (date: Date, view: CalendarViewType) => void;
 }
+
+export type CalendarPrevNextType = 'prevYear' | 'prevMonth' | 'nextYear' | 'nextMonth';
 
 export interface CalendarHeaderProps
   extends KUI.BasicProps<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
@@ -35,7 +42,7 @@ export interface CalendarHeaderProps
   showNextYear?: boolean;
   showNextMonth?: boolean;
   onViewChange?: (view: CalendarViewType) => void;
-  onChange?: (date: Date) => void;
+  onChange?: (date: Date, type: CalendarPrevNextType) => void;
 }
 
 export interface CalendarYearProps extends CalendarViewProps {}

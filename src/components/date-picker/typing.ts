@@ -4,6 +4,7 @@ import { PopPanelPlacementType } from '../pop-panel/typing';
 export interface DatePickerProps
   extends KUI.BasicProps<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   defaultValue?: Date;
+  date?: Date;
   disabled?: boolean;
   format?: string;
   placeholder?: string;
@@ -38,7 +39,7 @@ export interface RangePickerProps
   separator?: string | React.ReactNode;
   trigger?: React.ReactElement;
   size?: 'sm' | 'lg';
-  defaultValue?: Date[];
-  value?: Date[];
-  onChange?: (val: Date[]) => void;
+  defaultValue?: [Date, Date];
+  value?: [Date, Date];
+  onChange?: (val: [Date, Date]) => void;
 }

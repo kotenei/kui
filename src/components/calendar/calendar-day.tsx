@@ -54,7 +54,7 @@ const Cell = (props) => {
 
 const CalendarDay = (props: CalendarDayProps) => {
   const {
-    date = new Date(),
+    date,
     minDate,
     maxDate,
     showWeek,

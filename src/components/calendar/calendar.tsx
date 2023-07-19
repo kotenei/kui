@@ -24,26 +24,23 @@ const Calendar = (props: CalendarProps) => {
     showNextMonth = true,
     showNextYear = true,
     rangeDate,
+    rangeHoverDate,
     onChange,
     onViewChange,
+    onHover,
   } = props;
   const [state, setState] = useState({
     date: value || defaultValue || date || new Date(),
     value: value || defaultValue,
     view: view || 'day',
     orgView: view || 'day',
-    hoverDate: null,
   });
 
   useEffect(() => {
     if ('value' in props) {
-      const newState: any = {
+      setState({
         value,
-      };
-      if (value !== undefined) {
-        newState.date = value;
-      }
-      setState(newState);
+      });
     }
   }, [value]);
 
@@ -93,12 +90,6 @@ const Calendar = (props: CalendarProps) => {
     onChange && onChange(date, state.view);
   };
 
-  const onHover = (date) => {
-    setState({
-      hoverDate: date,
-    });
-  };
-
   const classString = classnames(prefixCls, className);
 
   const renderView = () => {
@@ -109,7 +100,7 @@ const Calendar = (props: CalendarProps) => {
       date: state.date,
       value: state.value,
       rangeDate,
-      hoverDate: state.hoverDate,
+      rangeHoverDate,
       onChange: onDateChange,
       onHover,
     };

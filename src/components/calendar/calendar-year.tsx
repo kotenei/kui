@@ -5,19 +5,10 @@ import { format } from 'date-fns';
 import { CalendarYearProps } from './typing';
 
 const CalendarYear = (props: CalendarYearProps) => {
-  const {
-    date,
-    value,
-    minDate,
-    maxDate,
-    rangeDate,
-    hoverDate,
-    onChange,
-    onHover,
-  } = props;
+  const { date, value, minDate, maxDate, rangeDate, rangeHoverDate, onChange, onHover } = props;
   const prefixCls = `${props.prefixCls}-year`;
 
-  const onClick = (e) => {
+  const getNewDate = (e) => {
     const { target } = e;
     let year = target.getAttribute('data-year');
     const newDate = new Date(
@@ -28,31 +19,44 @@ const CalendarYear = (props: CalendarYearProps) => {
       date.getMinutes(),
       date.getSeconds(),
     );
+    return newDate;
+  };
 
+  const onClick = (e) => {
+    const newDate = getNewDate(e);
     onChange && onChange(newDate);
   };
 
   const onMouseEnter = (e) => {
-    const { target } = e;
-    let year = target.getAttribute('data-year');
-    const newDate = new Date(
-      year,
-      date.getMonth(),
-      date.getDate(),
-      date.getHours(),
-      date.getMinutes(),
-      date.getSeconds(),
-    );
+    const newDate = getNewDate(e);
     onHover && onHover(newDate);
   };
 
+  const isSelected = (year) => {
+    if (rangeDate && rangeDate.length) {
+      return (
+        (rangeDate[0] && year === rangeDate[0].getFullYear()) ||
+        (rangeDate[1] && year === rangeDate[1].getFullYear())
+      );
+    }
+
+    return value && value.getFullYear().toString() === year;
+  };
+
   const isInRange = (val) => {
-    if (rangeDate && rangeDate.length === 2) {
-      return val >= rangeDate[0].getFullYear() && val <= rangeDate[1].getFullYear();
+    if (rangeDate) {
+      if (rangeDate.length === 1 && rangeHoverDate) {
+        return (
+          (val >= rangeDate[0].getFullYear() && val <= rangeHoverDate.getFullYear()) ||
+          (val <= rangeDate[0].getFullYear() && val >= rangeHoverDate.getFullYear())
+        );
+      }
+      if (rangeDate.length === 2) {
+        return val >= rangeDate[0].getFullYear() && val <= rangeDate[1].getFullYear();
+      }
     }
     return false;
   };
-
 
   const renderContent = () => {
     let rows: any = [],
@@ -70,7 +74,7 @@ const CalendarYear = (props: CalendarYearProps) => {
       for (let j = flag, y; j < 10; j++) {
         y = start + j;
         disabled = false;
-        active = value && value.getFullYear() === y;
+        active = isSelected(y);
         inRange = isInRange(y);
 
         if ((minDate && y < minDate.getFullYear()) || (maxDate && y > maxDate.getFullYear())) {
@@ -79,7 +83,6 @@ const CalendarYear = (props: CalendarYearProps) => {
         cells.push(
           <td
             key={`cell-${j}`}
-            className={`${inRange ? 'inRange' : ''}`}
             data-year={y}
             onMouseEnter={onMouseEnter}
             onMouseLeave={() => {
@@ -90,6 +93,7 @@ const CalendarYear = (props: CalendarYearProps) => {
               data-year={y}
               className={classnames({
                 active,
+                inRange,
                 disabled,
               })}
               onClick={!disabled ? onClick : undefined}

@@ -6,8 +6,8 @@ export interface CalendarViewProps
   value?: Date;
   minDate?: Date;
   maxDate?: Date;
-  rangeDate?: [Date, Date];
-  hoverDate?: Date;
+  rangeDate?: Date[];
+  rangeHoverDate?: Date;
   onChange?: (date: Date) => void;
   onHover?: (date?: Date) => void;
 }
@@ -21,13 +21,15 @@ export interface CalendarProps
   view?: CalendarViewType;
   value?: Date;
   weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-  rangeDate?: [Date, Date];
+  rangeDate?: Date[];
+  rangeHoverDate?: Date;
   showPrevYear?: boolean;
   showPrevMonth?: boolean;
   showNextYear?: boolean;
   showNextMonth?: boolean;
   onPrevNextChange?: (date: Date, type: CalendarPrevNextType) => void;
   onViewChange?: (view: CalendarViewType) => void;
+  onHover?: (date: Date) => void;
   onChange?: (date: Date, view: CalendarViewType) => void;
 }
 

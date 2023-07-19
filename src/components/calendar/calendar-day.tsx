@@ -1,18 +1,27 @@
 import React, { memo } from 'react';
 import classnames from 'classnames';
-import {
-  format,
-  getDaysInMonth,
-  addDays,
-  isToday,
-  getWeek,
-} from 'date-fns';
+import { format, getDaysInMonth, addDays, isToday, getWeek } from 'date-fns';
 
 import { DAYS_MAP } from './constants';
 import { CalendarDayProps } from './typing';
 
 const Cell = (props) => {
-  const { prefixCls, disabled, showWeek, selected, isToday, inView, date, onClick } = props;
+  const {
+    prefixCls,
+    disabled,
+    showWeek,
+    selected,
+    inRange,
+    isToday,
+    inView,
+    date,
+    onClick,
+    onHover,
+  } = props;
+
+  const onMouseEnter = (e) => {
+    onHover && onHover(date);
+  };
 
   return (
     <td
@@ -20,11 +29,16 @@ const Cell = (props) => {
         [`${prefixCls}__day `]: true,
         [`${prefixCls}__day--inview`]: inView,
       })}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={() => {
+        onHover && onHover();
+      }}
     >
       {!showWeek ? (
         <a
           className={classnames({
-            active: selected,
+            active: selected && inView,
+            inRange: inRange && inView,
             today: isToday,
             disabled,
           })}
@@ -60,7 +74,10 @@ const CalendarDay = (props: CalendarDayProps) => {
     showWeek,
     value,
     weekStartsOn = 1,
+    rangeDate,
+    rangeHoverDate,
     onChange,
+    onHover,
   } = props;
   const prefixCls = `${props.prefixCls}-day`;
   const formatStr = 'yyyyMMdd';
@@ -87,22 +104,30 @@ const CalendarDay = (props: CalendarDayProps) => {
   const isSelected = (val) => {
     const dateStr = format(val, formatStr);
 
-    // if (rangeDate && rangeDate.length) {
-    //   return (
-    //     (rangeDate[0] && dateStr === format(rangeDate[0], formatStr)) ||
-    //     (rangeDate[1] && dateStr === format(rangeDate[1], formatStr))
-    //   );
-    // }
+    if (rangeDate && rangeDate.length) {
+      return (
+        (rangeDate[0] && dateStr === format(rangeDate[0], formatStr)) ||
+        (rangeDate[1] && dateStr === format(rangeDate[1], formatStr))
+      );
+    }
 
     return value && dateStr === format(value, formatStr);
   };
 
-  // const isInRange = (val) => {
-  //   if (rangeDate && rangeDate.length === 2) {
-  //     return val >= rangeDate[0] && date <= rangeDate[1];
-  //   }
-  //   return false;
-  // };
+  const isInRange = (val) => {
+    if (rangeDate) {
+      if (rangeDate.length === 1 && rangeHoverDate) {
+        return (
+          (val >= rangeDate[0] && val <= rangeHoverDate) ||
+          (val <= rangeDate[0] && val >= rangeHoverDate)
+        );
+      }
+      if (rangeDate.length === 2) {
+        return val >= rangeDate[0] && val <= rangeDate[1];
+      }
+    }
+    return false;
+  };
 
   const getDaysArray = () => {
     const a = [0, 1, 2, 3, 4, 5, 6];
@@ -143,7 +168,7 @@ const CalendarDay = (props: CalendarDayProps) => {
       disabled = isDisabled(startDate);
       selected = isSelected(startDate);
       today = isToday(startDate);
-      // inRange = isInRange(startDate);
+      inRange = isInRange(startDate);
 
       cells.push(
         <Cell
@@ -151,10 +176,12 @@ const CalendarDay = (props: CalendarDayProps) => {
           key={startDate}
           disabled={disabled}
           selected={selected}
+          inRange={inRange}
           today={today}
           date={startDate}
           showWeek={showWeek}
           onClick={onDateChange}
+          onHover={onHover}
         />,
       );
 
@@ -166,18 +193,21 @@ const CalendarDay = (props: CalendarDayProps) => {
       disabled = isDisabled(startDate);
       selected = isSelected(startDate);
       today = isToday(startDate);
-      // inRange = isInRange(startDate);
+      inRange = isInRange(startDate);
+
       cells.push(
         <Cell
           prefixCls={prefixCls}
           key={startDate}
           disabled={disabled}
           selected={selected}
+          inRange={inRange}
           isToday={today}
           inView
           date={startDate}
           showWeek={showWeek}
           onClick={onDateChange}
+          onHover={onHover}
         />,
       );
 
@@ -191,7 +221,7 @@ const CalendarDay = (props: CalendarDayProps) => {
       disabled = isDisabled(startDate);
       selected = isSelected(startDate);
       today = isToday(startDate);
-      // inRange = isInRange(startDate);
+      inRange = isInRange(startDate);
 
       cells.push(
         <Cell
@@ -199,10 +229,12 @@ const CalendarDay = (props: CalendarDayProps) => {
           key={startDate}
           disabled={disabled}
           selected={selected}
+          inRange={inRange}
           today={today}
           date={startDate}
           showWeek={showWeek}
           onClick={onDateChange}
+          onHover={onHover}
         />,
       );
 
@@ -239,6 +271,7 @@ const CalendarDay = (props: CalendarDayProps) => {
           className={classnames({
             week: showWeek && !weekDisabled,
             active: isSelected(weekDateList[0]),
+            inRange: showWeek && isInRange(weekDateList[0]),
           })}
           key={i}
           onClick={

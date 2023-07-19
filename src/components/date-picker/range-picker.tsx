@@ -1,6 +1,6 @@
-import React, { memo, useCallback, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import classnames from 'classnames';
-import { format, addYears, addMonths, differenceInCalendarMonths } from 'date-fns';
+import { format as formatter, addYears, addMonths } from 'date-fns';
 import { AiOutlineClose, AiOutlineCalendar } from 'react-icons/ai';
 
 import { Button } from '../button';
@@ -18,6 +18,7 @@ const RangePicker = (props: RangePickerProps) => {
     trigger,
     defaultValue,
     value,
+    format = 'yyyy-MM-dd',
     startPlaceholder = '开始日期',
     endPlaceholder = '结束日期',
     separator = '-',
@@ -31,45 +32,81 @@ const RangePicker = (props: RangePickerProps) => {
     view = 'day',
     onChange,
   } = props;
-  const now = new Date();
+  let now = new Date();
+  now = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
 
   const [state, setState] = useState({
     show: false,
-    rangeDate: value ||
-      defaultValue || [now, view === 'year' ? addYears(now, 10) : addMonths(now, 1)],
-    tmpValue: value || defaultValue || [],
+    focus: false,
+    viewDate: value ||
+      defaultValue || [
+        now,
+        view === 'year' || view === 'month'
+          ? addYears(now, view === 'year' ? 10 : 1)
+          : addMonths(now, 1),
+      ],
+    rangeDate: value || defaultValue || [],
+    rangeHoverDate: null,
     showCalendarIndex: -1,
   });
 
   useEffect(() => {
     if ('value' in props && value && value.length === 2) {
-      // const tmpValue = [
-      //   new Date(value[0].getFullYear(), value[0].getMonth(), 1, 0, 0, 0),
-      //   new Date(value[1].getFullYear(), value[1].getMonth(), 1, 0, 0, 0),
-      // ];
-      // if (
-      //   tmpValue &&
-      //   tmpValue.length === 2 &&
-      //   format(tmpValue[0], 'yyyymm') === format(tmpValue[1], 'yyyymm')
-      // ) {
-      //   tmpValue[1] = view === 'year' ? addYears(tmpValue[0], 10) : addMonths(tmpValue[0], 1);
-      // }
-      // setState({
-      //   rangeDate: value,
-      //   tmpValue,
-      // });
+      let viewDate = [
+        new Date(value[0].getFullYear(), value[0].getMonth(), 1, 0, 0, 0),
+        new Date(value[1].getFullYear(), value[1].getMonth(), 1, 0, 0, 0),
+      ];
+      let tmpRangeDate = [...value];
+
+      if (value[1].getTime() < value[0].getTime()) {
+        viewDate = viewDate.reverse();
+        tmpRangeDate = tmpRangeDate.reverse();
+      }
+
+      if (view === 'year' && viewDate[0].getFullYear() === viewDate[1].getFullYear()) {
+        viewDate[1] = addYears(viewDate[0], 10);
+      }
+
+      if (
+        view === 'month' &&
+        formatter(viewDate[0], 'yyyymm') === formatter(viewDate[1], 'yyyymm')
+      ) {
+        viewDate[1] = addYears(viewDate[0], 1);
+      }
+
+      if (
+        (view === 'day' || view === 'week') &&
+        formatter(viewDate[0], 'yyyymm') === formatter(viewDate[1], 'yyyymm')
+      ) {
+        viewDate[1] = addMonths(viewDate[0], 1);
+      }
+
+      setState({
+        viewDate,
+        rangeDate: tmpRangeDate,
+      });
     }
   }, [view, value]);
 
   const [triggerRef] = useOutsideClick(
     {
       onClick: (e) => {
-        setState({
+        const newState: any = {
           show: false,
-        });
+          focus: false,
+        };
+        if (state.rangeDate) {
+          if (state.rangeDate.length === 1) {
+            newState.rangeDate = [];
+          }
+          if (state.rangeDate.length === 2 && showTime && onChange) {
+            onChange(state.rangeDate);
+          }
+          setState(newState);
+        }
       },
     },
-    [],
+    [state.rangeDate, showTime, onChange],
   );
 
   const onClick = useCallback((e) => {
@@ -78,6 +115,23 @@ const RangePicker = (props: RangePickerProps) => {
     }
     setState({
       show: true,
+      focus: true,
+    });
+  }, []);
+
+  const onClear = useCallback(
+    (e) => {
+      setState({
+        rangeDate: [],
+      });
+      onChange && onChange();
+    },
+    [onChange],
+  );
+
+  const onHover = useCallback((date) => {
+    setState({
+      rangeHoverDate: date,
     });
   }, []);
 
@@ -95,120 +149,153 @@ const RangePicker = (props: RangePickerProps) => {
 
   const onStartPrevNextChange = useCallback(
     (date, type) => {
-      const newRangeDate: any = [];
+      const newViewDate: any = [];
       switch (type) {
         case 'prevYear':
         case 'nextYear':
-          newRangeDate[0] = date;
-          newRangeDate[1] = view === 'year' ? addYears(date, 10) : addMonths(date, 1);
+          newViewDate[0] = date;
+          newViewDate[1] =
+            view === 'year' || view === 'month'
+              ? addYears(date, view === 'year' ? 10 : 1)
+              : addMonths(date, 1);
           break;
         case 'prevMonth':
         case 'nextMonth':
-          newRangeDate[0] = date;
-          newRangeDate[1] = addMonths(date, 1);
+          newViewDate[0] = date;
+          newViewDate[1] = addMonths(date, 1);
           break;
         default:
           break;
       }
       setState({
-        rangeDate: newRangeDate,
+        viewDate: newViewDate,
       });
     },
-    [view, state.rangeDate],
+    [view],
   );
 
   const onEndPrevNextChange = useCallback(
     (date, type) => {
-      const newRangeDate: any = [];
+      const newViewDate: any = [];
       switch (type) {
         case 'prevYear':
         case 'nextYear':
-          newRangeDate[0] = view === 'year' ? addYears(date, -10) : addMonths(date, -1);
-          newRangeDate[1] = date;
+          newViewDate[0] =
+            view === 'year' || view === 'month'
+              ? addYears(date, view === 'year' ? -10 : -1)
+              : addMonths(date, -1);
+          newViewDate[1] = date;
           break;
         case 'prevMonth':
         case 'nextMonth':
-          newRangeDate[0] = addMonths(date, -1);
-          newRangeDate[1] = date;
+          newViewDate[0] = addMonths(date, -1);
+          newViewDate[1] = date;
           break;
         default:
           break;
       }
       setState({
-        rangeDate: newRangeDate,
+        viewDate: newViewDate,
       });
     },
-    [view, state.rangeDate],
+    [view],
   );
 
   const onStartCalendarChange = useCallback(
     (date, info) => {
-      const val = getVal(date, 0);
-      console.log(val);
+      const val: any = getVal(date, { index: 0, isTime: info.isTime });
+      const show = !showTime && val.length === 2 && info.view === view ? false : true;
+
       setState({
         showCalendarIndex: -1,
-        rangeDate: [date, view === 'year' ? addYears(date, 10) : addMonths(date, 1)],
-        tmpValue: val,
+        viewDate: info.isTime
+          ? state.viewDate
+          : [
+              date,
+              view === 'year' || view === 'month'
+                ? addYears(date, view === 'year' ? 10 : 1)
+                : addMonths(date, 1),
+            ],
+        rangeDate: info.view === view ? val : state.rangeDate,
+        show,
       });
+      !show && onChange && onChange(val);
     },
-    [view, state],
+    [view, state, showTime, onChange],
   );
 
   const onEndCalendarChange = useCallback(
     (date, info) => {
-      const val = getVal(date, 1);
-      console.log(val);
+      const val: any = getVal(date, { index: 1, isTime: info.isTime });
+      const show = !showTime && val.length === 2 && info.view === view ? false : true;
       setState({
         showCalendarIndex: -1,
-        rangeDate: [view === 'year' ? addYears(date, -10) : addMonths(date, -1), date],
-        tmpValue: val,
+        viewDate: info.isTime
+          ? state.viewDate
+          : [
+              view === 'year' || view === 'month'
+                ? addYears(date, view === 'year' ? -10 : -1)
+                : addMonths(date, -1),
+              date,
+            ],
+        rangeDate: info.view === view ? val : state.rangeDate,
+        show,
       });
+      !show && onChange && onChange(val);
     },
-    [view, state],
+    [view, state, showTime, onChange],
   );
 
-  const getVal = (date, index) => {
-    let newTmpValue = [...state.tmpValue];
+  const onOK = useCallback(() => {
+    const newState: any = {
+      show: false,
+      focus: false,
+    };
+    if (state.rangeDate) {
+      if (state.rangeDate.length === 1) {
+        newState.rangeDate = [];
+      }
+      if (state.rangeDate.length === 2 &&onChange) {
+        onChange(state.rangeDate);
+      }
+      setState(newState);
+    }
+  }, [state]);
 
-    if (newTmpValue[0] && newTmpValue[1]) {
-      newTmpValue = [];
-      newTmpValue[index] = date;
+  const getVal = (date, { index, isTime }) => {
+    let newRange = [...state.rangeDate];
+
+    if (isTime) {
+      newRange[index] = date;
+      if (newRange[0] && newRange[1] && newRange[0].getTime() > newRange[1].getTime()) {
+        newRange[1] = newRange[0];
+      }
     } else {
-      const tmpDate = newTmpValue[0] || newTmpValue[1];
-      if (tmpDate) {
-        if (tmpDate.getTime() > date.getTime()) {
-          newTmpValue = [date, tmpDate];
-        } else {
-          newTmpValue = [tmpDate, date];
-        }
+      if (newRange[0] && newRange[1]) {
+        newRange = [date];
       } else {
-        newTmpValue[index] = date;
+        const tmpDate = newRange[0] || newRange[1];
+        if (tmpDate) {
+          if (tmpDate.getTime() > date.getTime()) {
+            if (formatter(tmpDate, 'yyyyMMdd') === formatter(date, 'yyyyMMdd')) {
+              newRange = [tmpDate, tmpDate];
+            } else {
+              newRange = [date, tmpDate];
+            }
+          } else {
+            newRange = [tmpDate, date];
+          }
+        } else {
+          newRange = [date];
+        }
       }
     }
 
-    return newTmpValue;
+    return newRange;
   };
 
-  const arrowInfo = useMemo(() => {
-    const { tmpValue } = state;
-    let showStartNext = true;
-    let showEndPrev = true;
-
-    let diff =
-      tmpValue && tmpValue.length && tmpValue.length === 2
-        ? differenceInCalendarMonths(tmpValue[1], tmpValue[0])
-        : 0;
-
-    if (diff <= 1) {
-      showStartNext = false;
-      showEndPrev = false;
-    }
-
-    return { showStartNext, showEndPrev };
-  }, [state.tmpValue]);
-
   const renderTrigger = () => {
-    const { value } = state;
+    const { rangeDate, focus } = state;
     return (
       <div ref={triggerRef} className={`${prefixCls}-control`} onClick={onClick}>
         {trigger ? (
@@ -218,6 +305,7 @@ const RangePicker = (props: RangePickerProps) => {
             className={classnames({
               [`${prefixCls}-control-input`]: true,
               [`${prefixCls}-control-input--${size}`]: !!size,
+              [`${prefixCls}-control-input--focus`]: focus,
             })}
           >
             <div className={`${prefixCls}-control-input__wrapper`}>
@@ -225,33 +313,21 @@ const RangePicker = (props: RangePickerProps) => {
                 type="text"
                 placeholder={startPlaceholder}
                 readOnly
-                //   value={value && value[0] ? formatter(value[0], format) : ''}
-                //   onChange={() => {}}
-                //   onFocus={onFocus}
-                //   onBlur={onBlur}
+                value={rangeDate && rangeDate[0] ? formatter(rangeDate[0], format) : ''}
               />
               <span className={`${prefixCls}-control-input__separator`}>{separator}</span>
               <input
                 type="text"
                 placeholder={endPlaceholder}
                 readOnly
-                //   value={value && value[1] ? formatter(value[1], format) : ''}
-                //   onChange={() => {}}
-                //   onFocus={onFocus}
-                //   onBlur={onBlur}
+                value={rangeDate && rangeDate[1] ? formatter(rangeDate[1], format) : ''}
               />
             </div>
             <Icon className={`${prefixCls}-control-input__icon`}>
-              {value && !disabled ? (
-                <AiOutlineClose />
+              {rangeDate && rangeDate.length && !disabled ? (
+                <AiOutlineClose onClick={onClear} />
               ) : (
-                <AiOutlineCalendar
-                  opacity={0.6}
-                  onClick={(e) => {
-                    onClick(e);
-                    triggerRef.current.children[0].focus();
-                  }}
-                />
+                <AiOutlineCalendar opacity={0.6} onClick={onClick} />
               )}
             </Icon>
           </div>
@@ -270,7 +346,7 @@ const RangePicker = (props: RangePickerProps) => {
 
     return (
       <PopPanel trigger={triggerRef.current} show={state.show} placement={placement}>
-        <div className={classString}>
+        <div className={classString} onClick={(e) => eventOmitHandler(e)}>
           <div className={`${prefixCls}-body`}>
             {(state.showCalendarIndex === -1 || state.showCalendarIndex === 0) && (
               <DatePickerCalendar
@@ -282,12 +358,14 @@ const RangePicker = (props: RangePickerProps) => {
                 maxDate={maxDate}
                 view={view}
                 rangeDate={state.rangeDate}
-                date={state.rangeDate[0]}
-                value={state.tmpValue[0]}
+                rangeHoverDate={state.rangeHoverDate}
+                date={state.viewDate[0]}
+                value={state.rangeDate[0]}
                 weekStartsOn={weekStartsOn}
                 onViewChange={onStartViewChange}
                 onPrevNextChange={onStartPrevNextChange}
                 onChange={onStartCalendarChange}
+                onHover={onHover}
               />
             )}
 
@@ -301,18 +379,20 @@ const RangePicker = (props: RangePickerProps) => {
                 maxDate={maxDate}
                 view={view}
                 rangeDate={state.rangeDate}
-                date={state.rangeDate[1]}
-                value={state.tmpValue[1]}
+                rangeHoverDate={state.rangeHoverDate}
+                date={state.viewDate[1]}
+                value={state.rangeDate[1]}
                 weekStartsOn={weekStartsOn}
                 onViewChange={onEndViewChange}
                 onPrevNextChange={onEndPrevNextChange}
                 onChange={onEndCalendarChange}
+                onHover={onHover}
               />
             )}
           </div>
           {state.showCalendarIndex === -1 && showTime && (
             <div className={`${prefixCls}-footer`}>
-              <Button color="primary" size="sm">
+              <Button color="primary" size="sm" onClick={onOK}>
                 确定
               </Button>
             </div>

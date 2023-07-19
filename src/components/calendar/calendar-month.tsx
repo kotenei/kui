@@ -6,10 +6,11 @@ import { MONTHS } from './constants';
 import { CalendarMonthProps } from './typing';
 
 const CalendarMonth = (props: CalendarMonthProps) => {
-  const { date , minDate, maxDate, rangeDate, value, onChange } = props;
+  const { date, minDate, maxDate, rangeDate, value, rangeHoverDate, onChange, onHover } = props;
   const prefixCls = `${props.prefixCls}-month`;
+  const formatStr = 'yyyyMM';
 
-  const onClick = (e) => {
+  const getNewDate = (e) => {
     const { target } = e;
     let month = target.getAttribute('data-month');
     const newDate = new Date(
@@ -20,12 +21,42 @@ const CalendarMonth = (props: CalendarMonthProps) => {
       date.getMinutes(),
       date.getSeconds(),
     );
+    return newDate;
+  };
+
+  const onClick = (e) => {
+    const newDate = getNewDate(e);
     onChange && onChange(newDate);
   };
 
+  const onMouseEnter = (e) => {
+    const newDate = getNewDate(e);
+    onHover && onHover(newDate);
+  };
+
+  const isSelected = (val) => {
+    if (rangeDate && rangeDate.length) {
+      return (
+        (rangeDate[0] && val === format(rangeDate[0], formatStr)) ||
+        (rangeDate[1] && val === format(rangeDate[1], formatStr))
+      );
+    }
+
+    return value && format(value, formatStr) === val;
+  };
+
   const isInRange = (val) => {
-    if (rangeDate && rangeDate.length === 2) {
-      return val >= rangeDate[0].getMonth() && val <= rangeDate[1].getMonth();
+    if (rangeDate) {
+      if (rangeDate.length === 1 && rangeHoverDate) {
+        return (
+          (val >= format(rangeDate[0], formatStr) && val <= format(rangeHoverDate, formatStr)) ||
+          (val <= format(rangeDate[0], formatStr) && val >= format(rangeHoverDate, formatStr))
+        );
+      }
+
+      if (rangeDate.length === 2) {
+        return val >= format(rangeDate[0], formatStr) && val <= format(rangeDate[1], formatStr);
+      }
     }
     return false;
   };
@@ -33,10 +64,9 @@ const CalendarMonth = (props: CalendarMonthProps) => {
   const renderContent = () => {
     let rows: any = [],
       year = date.getFullYear(),
-      month = date.getMonth(),
       flag = 0,
-      min = minDate ? format(minDate, 'yyyyMM') : null,
-      max = maxDate ? format(maxDate, 'yyyyMM') : null,
+      min = minDate ? format(minDate, formatStr) : null,
+      max = maxDate ? format(maxDate, formatStr) : null,
       disabled,
       active,
       inRange;
@@ -45,18 +75,29 @@ const CalendarMonth = (props: CalendarMonthProps) => {
       let cells: any = [];
       for (let j = flag, num; j < MONTHS.length; j++) {
         disabled = false;
-        active = value && value.getMonth() === j;
-        inRange = isInRange(j);
+
         num = year + (j + 1).toString().padStart(2, '0');
+        active = isSelected(num);
+        inRange = isInRange(num);
+
         if ((min && num < min) || (max && num > max)) {
           disabled = true;
         }
         cells.push(
-          <td key={`cell_${j}`} className={`${inRange ? 'inRange' : ''}`}>
+          <td
+            key={`cell_${j}`}
+            data-month={j}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={() => {
+              onHover && onHover();
+            }}
+          >
             <a
               data-month={j}
               className={classnames({
+                inRange,
                 active,
+
                 disabled,
               })}
               onClick={!disabled ? onClick : undefined}

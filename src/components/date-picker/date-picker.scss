@@ -107,9 +107,11 @@ $prefix: #{$namespace}-datepicker;
     .#{$namespace}-calendar {
       max-width: none;
     }
+
   }
 
   &-control {
+   
     &-input {
       border: 1px solid $border-color-base;
       border-radius: $radius-base;
@@ -117,6 +119,10 @@ $prefix: #{$namespace}-datepicker;
       display: flex;
       align-items: center;
       position: relative;
+
+      &--focus{
+        border-color: $primary-color;
+      }
 
       input {
         border: 0;
@@ -136,6 +142,7 @@ $prefix: #{$namespace}-datepicker;
       &__icon {
         position: absolute;
         right: 0;
+        cursor: pointer;
       }
 
       &--sm {

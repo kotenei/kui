@@ -44,18 +44,27 @@
       border-collapse: collapse;
       border-spacing: 0;
       tr {
+        &.inRange{
+          background-color: #E6F7FF;
+        }
         td {
           text-align: center;
-          padding: 0 6px;
+          // padding: 0 6px;
+         
           a {
             cursor: pointer;
             &:hover {
               color: $primary-color;
             }
+            &.inRange{
+              background-color: #E6F7FF;
+            }
             &.active {
               background: $primary-color;
               color: white;
             }
+
+           
             &.disabled {
               cursor: not-allowed;
               color: $text-color-primary;
@@ -72,7 +81,7 @@
           span {
             font-size: 12px;
             padding: 0 6px;
-            border-radius: 2px;
+            // border-radius: 2px;
             display: block;
             height: 24px;
             line-height: 24px;

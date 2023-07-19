@@ -24,6 +24,7 @@ export interface DatePickerProps
 export interface DatePickerCalendarAction {
   show: boolean;
   view?: CalendarViewType;
+  isTime?: boolean;
 }
 
 export interface DatePickerCalendarProps extends KUI.BasicProps<CalendarProps, 'onChange'> {
@@ -38,8 +39,7 @@ export interface RangePickerProps
   endPlaceholder?: string;
   separator?: string | React.ReactNode;
   trigger?: React.ReactElement;
-  size?: 'sm' | 'lg';
   defaultValue?: [Date, Date];
   value?: [Date, Date];
-  onChange?: (val: [Date, Date]) => void;
+  onChange?: (val?: [Date, Date]) => void;
 }

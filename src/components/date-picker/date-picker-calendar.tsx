@@ -38,9 +38,9 @@ const DatePickerCalendar = (props: DatePickerCalendarProps) => {
       const date = value ? value : new Date();
       const newDate = new Date(`${format(date, 'yyyy-MM-dd')} ${val}`);
       tmpDate.current = newDate;
-      onChange && onChange(newDate, { show: true, view });
+      onChange && onChange(newDate, { show: true, view, isTime: true });
     },
-    [value],
+    [value, onChange],
   );
 
   const onCalendarChange = useCallback(

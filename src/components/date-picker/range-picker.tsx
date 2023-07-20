@@ -345,7 +345,7 @@ const RangePicker = (props: RangePickerProps) => {
     );
 
     return (
-      <PopPanel trigger={triggerRef.current} show={state.show} placement={placement}>
+      <PopPanel trigger={triggerRef.current} show={state.show} placement={placement} mountOnEnter>
         <div className={classString} onClick={(e) => eventOmitHandler(e)}>
           <div className={`${prefixCls}-body`}>
             {(state.showCalendarIndex === -1 || state.showCalendarIndex === 0) && (

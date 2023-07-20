@@ -42,8 +42,8 @@ $button-active-border-color: transparent;
 $button-active-font-color: $layout-bg-color;
 
 // calendar
-$calendar-row-hover-bg-color:$text-color-primary;
-$calendar-row-hover-font-color:$layout-bg-color;
+$calendar-row-hover-bg-color: $text-color-primary;
+$calendar-row-hover-font-color: $layout-bg-color;
 
 // card
 $card-bg-color: $layout-overlay-color;
@@ -53,11 +53,11 @@ $collapse-header-bg-color: $layout-overlay-color;
 $collapse-panel-bg-color: $layout-overlay-color;
 
 // datepicker
-$datepicker-bg-color: $layout-overlay-color;;
+$datepicker-bg-color: $layout-overlay-color;
 
 // input
-$input-addon-bg-color:$layout-overlay-color;
-$input-bg-color:$black;
+$input-addon-bg-color: $layout-overlay-color;
+$input-bg-color: $black;
 
 // list
 $list-bg-color: $layout-overlay-color;
@@ -68,7 +68,7 @@ $message-bg-color: $layout-overlay-color;
 // menu
 $menu-selected-bg-color: $primary-color;
 $menu-selected-font-color: $white;
-$menu-hover-font-color:$primary-color;
+$menu-hover-font-color: $primary-color;
 $menu-bg-color: $layout-overlay-color;
 
 // modal
@@ -82,6 +82,9 @@ $pagination-hover-bg-color: $text-color-regular;
 $pagination-hover-font-color: $white;
 $pagination-active-bg-color: $text-color-regular;
 $pagination-active-font-color: $white;
+
+// poppanel
+$poppanel-bg-color: $layout-overlay-color;
 
 // popover
 $popover-bg-color: $layout-overlay-color;
@@ -104,8 +107,8 @@ $slider-rail-bg-color: $layout-overlay-color;
 $slider-track-bg-color: $white;
 
 // switch
-$switch-dot-bg-color:$white;
-$switch-dot-checked-bg-color:$white;
+$switch-dot-bg-color: $white;
+$switch-dot-checked-bg-color: $white;
 $switch-inner-color: $white;
 $switch-inner-checked-color: $white;
 

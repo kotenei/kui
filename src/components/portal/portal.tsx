@@ -4,7 +4,12 @@ import { PortalProps } from './typing';
 import { Transition, TransitionGroup } from 'react-transition-group';
 
 const Portal = (props: PortalProps) => {
-  const { container = document.body, timeout = 300, children, ...others } = props;
+  const {
+    container = document.body,
+    timeout = 300,
+    children,
+    ...others
+  } = props;
 
   const content = (
     <Transition timeout={timeout} {...others}>

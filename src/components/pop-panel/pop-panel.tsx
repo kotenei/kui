@@ -1,11 +1,26 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 
 import { Portal } from '../portal';
 import { PopPanelProps } from './typing';
 import { getPopoverPosition } from '../../utils';
+import classNames from 'classnames';
 
-const PopPanel = (props: PopPanelProps) => {
-  const { show, trigger, placement="bottomLeft", children, appear, unmountOnExit, timeout = 300 } = props;
+const PopPanel = React.forwardRef((props: PopPanelProps, ref: any) => {
+  const {
+    prefixCls = 'k-poppanel',
+    className,
+    show,
+    trigger,
+    placement = 'bottomLeft',
+    children,
+    appear = true,
+    mountOnEnter,
+    unmountOnExit = true,
+    timeout = 300,
+    style,
+  } = props;
+
+  useEffect(() => {}, []);
 
   const onEnter = useCallback(
     (node, isAppearing) => {
@@ -29,7 +44,15 @@ const PopPanel = (props: PopPanelProps) => {
     node.style.opacity = 0;
     node.style.visibility = 'hidden';
   }, []);
-  
+
+  const classString = classNames(
+    {
+      [prefixCls]: true,
+      [`${prefixCls}--${placement}`]: !!placement,
+    },
+    className,
+  );
+
   return (
     <Portal
       in={show}
@@ -38,11 +61,14 @@ const PopPanel = (props: PopPanelProps) => {
       onEnter={onEnter}
       onEntering={onEntering}
       onExiting={onExiting}
+      mountOnEnter={mountOnEnter}
       unmountOnExit={unmountOnExit}
     >
-      {children}
+      <div ref={ref} className={classString} style={style}>
+        {children}
+      </div>
     </Portal>
   );
-};
+});
 
 export default memo(PopPanel);

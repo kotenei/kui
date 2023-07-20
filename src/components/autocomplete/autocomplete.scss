@@ -1,5 +1,23 @@
 @import '../../assets/styles/global.scss';
 
-.#{$namespace}-autocomplete{
-    
+.#{$namespace}-autocomplete {
+  border: none !important;
+  &-menu {
+    border: none !important;
+    overflow-y: auto;
+    max-height: 200px;
+    width: 100%;
+    min-width: 180px;
+
+    .#{$namespace}-menu {
+      &-item {
+        padding-left: 16px !important;
+        padding-right: 16px;
+        > span {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
 }

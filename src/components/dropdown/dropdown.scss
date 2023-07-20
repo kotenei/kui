@@ -6,12 +6,12 @@
   position: relative;
 
   &-menu {
-    position: absolute;
-    box-shadow: $box-shadow-base;
-    visibility: hidden;
-    transition: all 0.2s ease-in-out;
 
-    >.#{$namespace}-menu {
+    &-wrapper {
+      border: none!important;
+    }
+
+    > .#{$namespace}-menu {
       border-right: none !important;
       border-radius: $radius-base;
 
@@ -19,25 +19,9 @@
         min-width: 120px;
       }
     }
-
-    &--topLeft,
-    &--top,
-    &--topRight {
-      margin-top: -$space-sm;
-    }
-
-
-    &--bottomLeft,
-    &--bottom,
-    &--bottomRight {
-      margin-top: $space-sm;
-    }
-
   }
-
 
   &-button-icon {
     padding: $space-base;
   }
-
 }

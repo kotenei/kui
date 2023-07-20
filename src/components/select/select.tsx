@@ -216,7 +216,7 @@ const Select = (props: SelectProps) => {
 
     const $elm = $elmMenu.current.querySelectorAll('li')[index];
     if ($elm) {
-      $elm.scrollIntoView({ behavior: 'smooth' });
+      $elm.scrollIntoView({ block: 'end' });
       setState({
         hoverKey: item.value,
       });

@@ -111,14 +111,14 @@ const Tooltip = (props: TooltipProps) => {
   };
 
   const setPosition = () => {
-    if (!triggerRef.current || !tooltipRef.current) {
-      return;
-    }
-    const elTrigger = triggerRef.current as any;
-    const elTooltip = tooltipRef.current as any;
-    const position = getPopoverPosition(elTrigger.firstChild, elTooltip, placement);
-    elTooltip.style.left = position.left + 'px';
-    elTooltip.style.top = position.top + 'px';
+    // if (!triggerRef.current || !tooltipRef.current) {
+    //   return;
+    // }
+    // const elTrigger = triggerRef.current as any;
+    // const elTooltip = tooltipRef.current as any;
+    // const position = getPopoverPosition(elTrigger.firstChild, elTooltip, placement);
+    // elTooltip.style.left = position.left + 'px';
+    // elTooltip.style.top = position.top + 'px';
   };
 
   const renderTooltip = () => {
@@ -132,8 +132,14 @@ const Tooltip = (props: TooltipProps) => {
     );
 
     return (
-      <PopPanel trigger={triggerRef.current} show={show} appear placement={placement}>
-        <div ref={tooltipRef} className={classString} {...others}>
+      <PopPanel
+        className={classString}
+        trigger={triggerRef.current}
+        show={show}
+        placement={placement}
+        {...others}
+      >
+        <div ref={tooltipRef} className={`${prefixCls}-wrapper`}>
           <div className={`${prefixCls}__arrow`} />
           <div className={`${prefixCls}__inner`}>{title}</div>
         </div>

@@ -6,7 +6,7 @@ import { MenuProps } from './typing';
 import { useState } from '../../hooks';
 import { generateTree } from '../../utils';
 
-const Menu = React.forwardRef((props: MenuProps, ref) => {
+const Menu = React.forwardRef((props: MenuProps, ref: any) => {
   const {
     prefixCls = 'k-menu',
     className,

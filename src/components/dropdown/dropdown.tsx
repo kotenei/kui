@@ -128,7 +128,7 @@ const Dropdown = React.forwardRef((props: DropdownProps, ref) => {
       onClick={onClick}
     >
       {children}
-      <PopPanel trigger={triggerRef.current} show={state.show} appear placement={placement}>
+      <PopPanel className={`${prefixCls}-menu-wrapper`} trigger={triggerRef.current} show={state.show} appear placement={placement}>
         <div
           ref={menuRef}
           className={classnames(

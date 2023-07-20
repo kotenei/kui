@@ -4,16 +4,6 @@ $prefix: #{$namespace}-datepicker;
 
 .#{$prefix} {
   &-calendar {
-    border: 1px solid $border-color-base;
-    position: absolute;
-    box-shadow: $box-shadow-base;
-    border-radius: $radius-base;
-    margin-top: $space-sm;
-    visibility: hidden;
-    background-color: $datepicker-bg-color;
-    
-    transition: all 0.2s ease-in-out;
-
     &-header {
       display: flex;
       align-items: center;
@@ -62,15 +52,6 @@ $prefix: #{$namespace}-datepicker;
 }
 
 .#{$namespace}-range-picker {
-  border: 1px solid $border-color-base;
-  position: absolute;
-  box-shadow: $box-shadow-base;
-  border-radius: $radius-base;
-  margin-top: $space-sm;
-  visibility: hidden;
-  background-color: $datepicker-bg-color;
-  transition: all 0.2s ease-in-out;
-
   &-body {
     display: flex;
   }
@@ -107,11 +88,9 @@ $prefix: #{$namespace}-datepicker;
     .#{$namespace}-calendar {
       max-width: none;
     }
-
   }
 
   &-control {
-   
     &-input {
       border: 1px solid $border-color-base;
       border-radius: $radius-base;
@@ -120,7 +99,7 @@ $prefix: #{$namespace}-datepicker;
       align-items: center;
       position: relative;
 
-      &--focus{
+      &--focus {
         border-color: $primary-color;
       }
 

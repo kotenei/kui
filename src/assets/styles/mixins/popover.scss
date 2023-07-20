@@ -1,12 +1,10 @@
 @mixin popover($prefix, $defaultBgColor, $defaultFontColor) {
   border-radius: $radius-base;
-  position: absolute;
   background-color: $defaultBgColor;
   color: $defaultFontColor;
   transition: opacity .3s ease;
   z-index: 100;
-  opacity: 0;
-  visibility: hidden;
+  border:none;
 
   &__arrow {
     width: $space-base;
@@ -14,7 +12,6 @@
     position: absolute;
     background-color: $defaultBgColor;
     transform: rotate(45deg);
-
   }
 
   &__inner {
@@ -32,7 +29,6 @@
       left: 50%;
       bottom: -($space-base/2);
       margin-left: -($space-base/2);
-
     }
   }
 
@@ -48,7 +44,6 @@
     }
   }
 
-
   &--bottom,
   &--bottomLeft,
   &--bottomRight {
@@ -62,7 +57,6 @@
     }
   }
 
-
   &--right,
   &--rightTop,
   &--rightBottom {
@@ -75,7 +69,6 @@
       margin-top: -$space-base/2;
     }
   }
-
 
   &--topLeft,
   &--bottomLeft {

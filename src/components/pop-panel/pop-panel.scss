@@ -1,0 +1,37 @@
+@import '../../assets/styles/global.scss';
+
+$prefix: #{$namespace}-poppanel;
+
+.#{$prefix} {
+  border: 1px solid $border-color-base;
+  position: absolute;
+  box-shadow: $box-shadow-base;
+  border-radius: $radius-base;
+  visibility: hidden;
+  background-color: $poppanel-bg-color;
+  transition: all 0.2s ease-in-out;
+
+  &--topLeft,
+  &--top,
+  &--topRight {
+    margin-top: -$space-sm;
+  }
+
+  &--bottomLeft,
+  &--bottom,
+  &--bottomRight {
+    margin-top: $space-sm;
+  }
+
+  &--left,
+  &--leftTop,
+  &--leftBottom {
+    margin-left: -$space-sm;
+  }
+
+  &--right,
+  &--rightTop,
+  &--rightBottom {
+    margin-left: $space-sm;
+  }
+}

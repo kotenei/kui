@@ -17,6 +17,7 @@ export interface PopPanelProps extends KUI.BasicProps<React.HtmlHTMLAttributes<H
   placement?: PopPanelPlacementType;
   show?: boolean;
   appear?: boolean;
+  mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   timeout?: number;
 }

@@ -3,14 +3,6 @@
 $prefix: #{$namespace}-timepicker;
 
 .#{$prefix} {
-  position: absolute;
-  visibility: hidden;
-  border: 1px solid $border-color-base;
-  transition: all 0.2s ease-in-out;
-  border-radius: $radius-base;
-  box-shadow: $box-shadow-base;
-  background-color: $timepicker-bg-color;
-  margin-top: $space-sm;
 
   &::before,
   &::after {

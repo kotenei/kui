@@ -118,7 +118,7 @@ const DatePicker = (props: DatePickerProps) => {
       className,
     );
     return (
-      <PopPanel trigger={triggerRef.current} show={state.show} placement={placement}>
+      <PopPanel trigger={triggerRef.current} show={state.show} placement={placement} unmountOnExit>
         <DatePickerCalendar
           prefixCls={prefixCls}
           className={classString}

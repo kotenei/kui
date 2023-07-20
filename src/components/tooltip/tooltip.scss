@@ -4,6 +4,10 @@ $prefix:#{$namespace}-tooltip;
 
 .#{$prefix} {
   @include popover($prefix, $tooltip-bg-color, $tooltip-font-color);
+  
+  &-handle{
+    display: inline-block;
+  }
 
   @each $color,
   $value in $colors {

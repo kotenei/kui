@@ -1,10 +1,10 @@
-import React, { memo, useCallback, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 
 import { Input } from '../input';
 import { Menu, MenuItem } from '../menu';
 import { PopPanel } from '../pop-panel';
-import { useOutsideClick, useState } from '../../hooks';
+import { useOutsideClick, useState, useMousePosition } from '../../hooks';
 import { eventOmitHandler, domHelpers } from '../../utils';
 import { AutoCompleteProps } from './typing';
 
@@ -15,6 +15,7 @@ const KEY = {
   DOWN: 40,
   TAB: 9,
   ENTER: 13,
+  Backspace: 8,
 };
 
 const AutoComplete = (props: AutoCompleteProps) => {
@@ -29,64 +30,169 @@ const AutoComplete = (props: AutoCompleteProps) => {
     max = 10,
     onChange,
     onSearch,
+    onBlur,
+    onFocus,
     ...others
   } = props;
 
   const [state, setState] = useState({
     show: false,
-    inputVal: '',
+    inputValue: value || defaultValue || '',
     focus: false,
     selectedKeys: [],
   });
   const $menu = useRef<any>(null);
   const active = useRef(-1);
   const timer = useRef<any>(null);
+  const flag = useRef(false);
+  const mounted = useRef(false);
 
   const [triggerRef] = useOutsideClick(
     {
       onClick: (e) => {
         setState({
           show: false,
+          focus: false,
         });
       },
     },
     [],
   );
 
-  const onInputClick = useCallback((e) => {
-    setState({
-      show: true,
-    });
-  }, []);
+  useEffect(() => {
+    if ('value' in props) {
+      setState({
+        inputValue: value,
+      });
+    }
+  }, [value]);
+
+  // useEffect(() => {
+  //   onSearch && onSearch(state.inputValue);
+  // }, [state.inputValue, onSearch]);
+
+  // useEffect(() => {
+  //   console.log('dd');
+  //   const val = !mounted.current ? defaultValue || value : value;
+  //   init(val);
+  //   mounted.current = true;
+  // }, [dataSource, value]);
+
+  const init = (value) => {
+    if (!dataSource || !dataSource.length || !value) {
+      return;
+    }
+    const index = dataSource.findIndex((item) => item.value === value);
+    const item = index === -1 ? null : dataSource[index];
+    if (item) {
+      setState({
+        inputValue: item.text,
+        selectedKeys: [item.value],
+      });
+      active.current = index;
+    }
+  };
+
+  const onInputFocus = useCallback(
+    (e) => {
+      // setState(
+      //   {
+      //     show: true,
+      //   },
+      //   () => {
+      //     if (state.inputValue && onSearch) {
+      //       onSearch(state.inputValue);
+      //     }
+      //   },
+      // );
+
+      // if (dataSource && dataSource.length && dataSource.find((item) => item.value === '')) {
+      //   setState({
+      //     show: true,
+      //   });
+      // }
+
+      onFocus && onFocus(e);
+    },
+    [state.inputValue, dataSource, onSearch, onFocus],
+  );
+
+  const onInputBlur = useCallback(
+    (e) => {
+      setState({
+        focus: false,
+      });
+      onBlur && onBlur(e);
+    },
+    [onBlur],
+  );
 
   const onInputChange = useCallback(
     (e) => {
+      onChange && onChange(e);
+      if ('value' in props) {
+        return;
+      }
       active.current = -1;
       setState({
-        inputVal: e.target.value,
+        inputValue: e.target.value,
+        selectedKeys: [],
+        show: true,
       });
-      onSearch && onSearch(e.target.value);
     },
     [onSearch],
   );
 
-  const onMenuItemHover = useCallback((val, type) => {
-    active.current = -1;
-    console.log('asdf')
-    if (type === 'enter') {
+  const onMenuItemHover = useCallback(
+    (val, type) => {
+      if (!dataSource || flag.current) {
+        return;
+      }
+      const index = dataSource.findIndex((item) => item.value === val);
+      active.current = index;
+      if (type === 'enter') {
+        setState({
+          selectedKeys: [val],
+        });
+      } else {
+        setState({
+          selectedKeys: [],
+        });
+      }
+    },
+    [dataSource],
+  );
+
+  const onMenuItemSelect = useCallback(
+    (key, selectedKeys, openedKeys) => {
+      if (!dataSource || !dataSource.length) {
+        return;
+      }
+
+      const item = dataSource.find((i) => i.value === key);
+      if (!item) {
+        return;
+      }
+
       setState({
-        selectedKeys: [val],
+        inputValue: item.text,
+        show: false,
+        selectedKeys: [key],
       });
-    } else {
-      setState({
-        selectedKeys: [],
-      });
-    }
-  }, []);
+      active.current = -1;
+
+      onChange && onChange(item.value);
+    },
+    [dataSource, onChange],
+  );
 
   const onKeyUp = (e) => {
-    const { target, keyCode } = e;
-    let val = target.value.trim();
+    const { keyCode } = e;
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    flag.current = true;
+
     switch (keyCode) {
       case KEY.UP:
       case KEY.LEFT:
@@ -98,12 +204,16 @@ const AutoComplete = (props: AutoCompleteProps) => {
         break;
       case KEY.ENTER:
       case KEY.TAB:
-        // this.select();
+        select();
         break;
       default:
-        // this.search(val);
+        onSearch && onSearch(e.target.value);
         break;
     }
+
+    timer.current = setTimeout(() => {
+      flag.current = false;
+    }, 300);
   };
 
   const move = (step) => {
@@ -138,12 +248,32 @@ const AutoComplete = (props: AutoCompleteProps) => {
     );
   };
 
+  const select = () => {
+    if (dataSource && dataSource.length) {
+      const item = dataSource[active.current];
+      if (item) {
+        setState({
+          inputValue: item.text,
+          selectedKeys: [item.value],
+          show: false,
+        });
+        return;
+      }
+    }
+
+    active.current = -1;
+    setState({
+      show: false,
+      selectedKeys: [],
+    });
+  };
+
   const getHighlight = (text) => {
-    const { inputVal } = state;
-    if (!inputVal) {
+    const { inputValue } = state;
+    if (!inputValue) {
       return text;
     }
-    const reg = new RegExp(`(${inputVal})`, 'ig');
+    const reg = new RegExp(`(${inputValue})`, 'ig');
     text = text.replace(reg, `<strong>$1</strong>`);
     return text;
   };
@@ -188,6 +318,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
         mode="vertical"
         selectedKeys={selectedKeys}
         onHover={onMenuItemHover}
+        onClick={onMenuItemSelect}
       >
         {menus}
       </Menu>
@@ -215,8 +346,9 @@ const AutoComplete = (props: AutoCompleteProps) => {
         ref={triggerRef}
         className={`${prefixCls}-input`}
         {...others}
-        value={state.inputVal}
-        onClick={onInputClick}
+        value={state.inputValue}
+        onFocus={onInputFocus}
+        onBlur={onInputBlur}
         onKeyUp={onKeyUp}
         onChange={onInputChange}
       />

@@ -32,6 +32,9 @@ const Select = (props: SelectProps) => {
   const filter = useRef<any>([]);
   const inputRef = useRef<any>(null);
   const $elmMenu = useRef<any>(null);
+  const flag = useRef(false);
+  const timer = useRef<any>(null);
+  const active = useRef(-1);
 
   const [dropdownRef] = useOutsideClick(
     {
@@ -66,6 +69,10 @@ const Select = (props: SelectProps) => {
   const onDropdownKeyDown = useCallback(
     (e) => {
       eventOmitHandler(e);
+      flag.current = true;
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
       switch (e.key) {
         case 'ArrowUp':
           onArrowUp(e);
@@ -79,6 +86,9 @@ const Select = (props: SelectProps) => {
         default:
           break;
       }
+      timer.current = setTimeout(() => {
+        flag.current = false;
+      }, 300);
     },
     [state.value, state.hoverKey, state.inputValue, onChange],
   );
@@ -125,6 +135,9 @@ const Select = (props: SelectProps) => {
   };
 
   const onMenuItemHover = useCallback((val, type) => {
+    if (flag.current) {
+      return;
+    }
     if (type === 'enter') {
       setState({
         hoverKey: val,
@@ -145,6 +158,10 @@ const Select = (props: SelectProps) => {
 
   const onInputKeyDown = useCallback(
     (e) => {
+      flag.current = true;
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
       switch (e.key) {
         case 'Backspace':
           const value = e.target.value;
@@ -176,6 +193,9 @@ const Select = (props: SelectProps) => {
         default:
           break;
       }
+      timer.current = setTimeout(() => {
+        flag.current = false;
+      }, 300);
     },
     [state.value, state.hoverKey, state.inputValue, onChange],
   );
@@ -215,6 +235,7 @@ const Select = (props: SelectProps) => {
     }
 
     const $elm = $elmMenu.current.querySelectorAll('li')[index];
+    
     if ($elm) {
       $elm.scrollIntoView({ block: 'end' });
       setState({

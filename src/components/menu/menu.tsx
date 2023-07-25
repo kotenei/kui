@@ -49,7 +49,7 @@ const Menu = React.forwardRef((props: MenuProps, ref: any) => {
 
   useEffect(() => {
     treeInfo.current = generateTree(props.children);
-  }, []);
+  }, [props.children]);
 
   useEffect(() => {
     if ('hoverKey' in props) {

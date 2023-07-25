@@ -20,4 +20,7 @@ export interface PopPanelProps extends KUI.BasicProps<React.HtmlHTMLAttributes<H
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   timeout?: number;
+  onEnter?: (node, position: { left: number; top: number }) => void;
+  onEntering?: (node) => void;
+  onExiting?: (node) => void;
 }

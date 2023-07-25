@@ -6,10 +6,10 @@ export default class Demo extends Component {
   state = {
     dataSource: [],
   };
-  onSearch = (val) => {
-    let result = [];
+  onSearch = (text) => {
+    const result = [];
     data.forEach((item) => {
-      if (val && item.toLowerCase().indexOf(val.toLowerCase()) != -1) {
+      if (item.toLowerCase().indexOf(text.toLowerCase()) > -1) {
         result.push({ text: item, value: item });
       }
     });
@@ -17,6 +17,7 @@ export default class Demo extends Component {
       dataSource: result,
     });
   };
+
   render() {
     return (
       <div className="story-demo-autocomplete">

@@ -245,6 +245,7 @@ const Slider = (props: SliderProps) => {
     return (
       <SliderHandle
         index={index}
+        key={index}
         vertical={vertical}
         disabled={disabled}
         title={title}

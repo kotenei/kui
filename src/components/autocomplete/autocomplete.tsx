@@ -30,29 +30,28 @@ const AutoComplete = (props: AutoCompleteProps) => {
     max = 10,
     onChange,
     onSearch,
-    onBlur,
     onFocus,
+    onSelect,
     ...others
   } = props;
 
   const [state, setState] = useState({
     show: false,
     inputValue: value || defaultValue || '',
-    focus: false,
-    selectedKeys: [],
+    selectedKeys: value || defaultValue ? value || defaultValue : [],
   });
   const $menu = useRef<any>(null);
   const active = useRef(-1);
   const timer = useRef<any>(null);
   const flag = useRef(false);
-  const mounted = useRef(false);
+  const tmpSelectedKeys = useRef(state.selectedKeys);
 
   const [triggerRef] = useOutsideClick(
     {
       onClick: (e) => {
         setState({
           show: false,
-          focus: false,
+          selectedKeys: tmpSelectedKeys.current,
         });
       },
     },
@@ -61,86 +60,56 @@ const AutoComplete = (props: AutoCompleteProps) => {
 
   useEffect(() => {
     if ('value' in props) {
+      tmpSelectedKeys.current = value ? [value] : [];
       setState({
         inputValue: value,
+        selectedKeys: tmpSelectedKeys.current,
       });
     }
   }, [value]);
 
-  // useEffect(() => {
-  //   onSearch && onSearch(state.inputValue);
-  // }, [state.inputValue, onSearch]);
-
-  // useEffect(() => {
-  //   console.log('dd');
-  //   const val = !mounted.current ? defaultValue || value : value;
-  //   init(val);
-  //   mounted.current = true;
-  // }, [dataSource, value]);
-
-  const init = (value) => {
-    if (!dataSource || !dataSource.length || !value) {
-      return;
+  useEffect(() => {
+    if (
+      state.show &&
+      dataSource &&
+      dataSource.length &&
+      tmpSelectedKeys.current &&
+      tmpSelectedKeys.current.length
+    ) {
+      active.current = dataSource.findIndex((item) => item.value === tmpSelectedKeys.current[0]);
+    } else {
+      active.current = -1;
     }
-    const index = dataSource.findIndex((item) => item.value === value);
-    const item = index === -1 ? null : dataSource[index];
-    if (item) {
-      setState({
-        inputValue: item.text,
-        selectedKeys: [item.value],
-      });
-      active.current = index;
-    }
-  };
+  }, [state.show, dataSource]);
 
   const onInputFocus = useCallback(
     (e) => {
-      // setState(
-      //   {
-      //     show: true,
-      //   },
-      //   () => {
-      //     if (state.inputValue && onSearch) {
-      //       onSearch(state.inputValue);
-      //     }
-      //   },
-      // );
-
-      // if (dataSource && dataSource.length && dataSource.find((item) => item.value === '')) {
-      //   setState({
-      //     show: true,
-      //   });
-      // }
-
+      setState({
+        show: true,
+      });
       onFocus && onFocus(e);
     },
-    [state.inputValue, dataSource, onSearch, onFocus],
-  );
-
-  const onInputBlur = useCallback(
-    (e) => {
-      setState({
-        focus: false,
-      });
-      onBlur && onBlur(e);
-    },
-    [onBlur],
+    [onFocus],
   );
 
   const onInputChange = useCallback(
     (e) => {
-      onChange && onChange(e);
+      tmpSelectedKeys.current = [e.target.value];
+
+      onChange && onChange(e.target.value);
+      onSearch && onSearch(e.target.value);
+
       if ('value' in props) {
         return;
       }
-      active.current = -1;
+
       setState({
         inputValue: e.target.value,
-        selectedKeys: [],
+        selectedKeys: [e.target.value],
         show: true,
       });
     },
-    [onSearch],
+    [onSearch, onChange],
   );
 
   const onMenuItemHover = useCallback(
@@ -148,15 +117,13 @@ const AutoComplete = (props: AutoCompleteProps) => {
       if (!dataSource || flag.current) {
         return;
       }
-      const index = dataSource.findIndex((item) => item.value === val);
-      active.current = index;
       if (type === 'enter') {
         setState({
           selectedKeys: [val],
         });
       } else {
         setState({
-          selectedKeys: [],
+          selectedKeys: tmpSelectedKeys.current,
         });
       }
     },
@@ -170,20 +137,25 @@ const AutoComplete = (props: AutoCompleteProps) => {
       }
 
       const item = dataSource.find((i) => i.value === key);
+
       if (!item) {
         return;
       }
 
-      setState({
-        inputValue: item.text,
+      const newState: any = {
         show: false,
-        selectedKeys: [key],
-      });
-      active.current = -1;
+      };
 
+      if (!('value' in props)) {
+        newState.inputValue = item.value;
+        newState.selectedKeys = selectedKeys;
+        tmpSelectedKeys.current = selectedKeys;
+      }
+      setState(newState);
+      onSelect && onSelect(item.value, item);
       onChange && onChange(item.value);
     },
-    [dataSource, onChange],
+    [dataSource, onChange, onSelect],
   );
 
   const onKeyUp = (e) => {
@@ -207,13 +179,12 @@ const AutoComplete = (props: AutoCompleteProps) => {
         select();
         break;
       default:
-        onSearch && onSearch(e.target.value);
         break;
     }
 
     timer.current = setTimeout(() => {
       flag.current = false;
-    }, 300);
+    }, 200);
   };
 
   const move = (step) => {
@@ -251,21 +222,23 @@ const AutoComplete = (props: AutoCompleteProps) => {
   const select = () => {
     if (dataSource && dataSource.length) {
       const item = dataSource[active.current];
-      if (item) {
-        setState({
-          inputValue: item.text,
-          selectedKeys: [item.value],
-          show: false,
-        });
+
+      if (!item) {
         return;
       }
-    }
 
-    active.current = -1;
-    setState({
-      show: false,
-      selectedKeys: [],
-    });
+      const newState: any = {
+        show: false,
+      };
+      
+      if (!('value' in props)) {
+        tmpSelectedKeys.current = [item.value];
+        newState.inputValue = item.value;
+        newState.selectedKeys = tmpSelectedKeys.current;
+      }
+      setState(newState);
+      onChange && onChange(item.value);
+    }
   };
 
   const getHighlight = (text) => {
@@ -348,7 +321,6 @@ const AutoComplete = (props: AutoCompleteProps) => {
         {...others}
         value={state.inputValue}
         onFocus={onInputFocus}
-        onBlur={onInputBlur}
         onKeyUp={onKeyUp}
         onChange={onInputChange}
       />

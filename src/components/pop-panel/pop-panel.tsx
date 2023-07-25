@@ -30,20 +30,29 @@ const PopPanel = React.forwardRef((props: PopPanelProps, ref: any) => {
         node.style.left = position.left + 'px';
         node.style.top = position.top + 'px';
         node.style.opacity = 0;
+        props.onEnter && props.onEnter(node, position);
       }
     },
-    [trigger, placement],
+    [trigger, placement, props.onEnter],
   );
 
-  const onEntering = useCallback((node) => {
-    node.style.opacity = 1;
-    node.style.visibility = 'visible';
-  }, []);
+  const onEntering = useCallback(
+    (node) => {
+      node.style.opacity = 1;
+      node.style.visibility = 'visible';
+      props.onEntering && props.onEntering(node);
+    },
+    [props.onEntering],
+  );
 
-  const onExiting = useCallback((node) => {
-    node.style.opacity = 0;
-    node.style.visibility = 'hidden';
-  }, []);
+  const onExiting = useCallback(
+    (node) => {
+      node.style.opacity = 0;
+      node.style.visibility = 'hidden';
+      props.onExiting && props.onExiting(node);
+    },
+    [props.onExiting],
+  );
 
   const classString = classNames(
     {

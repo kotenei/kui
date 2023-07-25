@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useMemo } from 'react';
 import classnames from 'classnames';
 
 import { PopPanel } from '../pop-panel';
@@ -111,15 +111,19 @@ const Tooltip = (props: TooltipProps) => {
   };
 
   const setPosition = () => {
-    // if (!triggerRef.current || !tooltipRef.current) {
-    //   return;
-    // }
-    // const elTrigger = triggerRef.current as any;
-    // const elTooltip = tooltipRef.current as any;
-    // const position = getPopoverPosition(elTrigger.firstChild, elTooltip, placement);
-    // elTooltip.style.left = position.left + 'px';
-    // elTooltip.style.top = position.top + 'px';
+    if (!triggerRef.current || !tooltipRef.current) {
+      return;
+    }
+    const elTrigger = triggerRef.current as any;
+    const elTooltip = tooltipRef.current as any;
+    const position = getPopoverPosition(elTrigger.firstChild, elTooltip, placement);
+    elTooltip.style.left = position.left + 'px';
+    elTooltip.style.top = position.top + 'px';
   };
+
+  const onEnter = useCallback((node, position) => {
+    setPosition()
+  }, []);
 
   const renderTooltip = () => {
     const classString = classnames(
@@ -133,13 +137,15 @@ const Tooltip = (props: TooltipProps) => {
 
     return (
       <PopPanel
+        ref={tooltipRef}
         className={classString}
         trigger={triggerRef.current}
         show={show}
         placement={placement}
+        onEnter={onEnter}
         {...others}
       >
-        <div ref={tooltipRef} className={`${prefixCls}-wrapper`}>
+        <div className={`${prefixCls}-wrapper`}>
           <div className={`${prefixCls}__arrow`} />
           <div className={`${prefixCls}__inner`}>{title}</div>
         </div>

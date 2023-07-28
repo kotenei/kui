@@ -202,20 +202,6 @@ $prefixCls: #{$namespace}-menu;
     }
   }
 
-  &--vertical {
-    // &.root {
-    //   >li {
-    //     &.#{$prefixCls}-item {
-    //       &--selected {
-    //         &::after {
-    //           @include selected-line(true, true);
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-  }
-
   &--inlineCollapsed {
     &.root {
       width: 80px !important;

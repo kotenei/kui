@@ -61,8 +61,8 @@ glob(`stories/${filePattern}`, (err, files) => {
       const fileString = fs
         .readFileSync(file)
         .toString()
-        .replace(/`/g, '\\`')
-        .replace('${', '\\${');
+        .replace(/\${/g, '\\${')
+        .replace(/`/g, '\\`');
       const mdString = '```jsx\n' + fileString + '\n```\n';
       const codeString = 'export default `' + fileString + '`';
       const folderDir = path.resolve(`stories/${folder}`);

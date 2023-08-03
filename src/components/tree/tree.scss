@@ -61,9 +61,9 @@
     &-content {
       display: inline-block;
       vertical-align: middle;
-      padding:0 4px;
-      &--selected{
-        background-color: #E6F7FF;
+      padding: 0 4px;
+      &--selected {
+        background-color: #e6f7ff;
       }
     }
 
@@ -76,13 +76,21 @@
     }
 
     &-title {
-      &--selectable{
+      &--selectable {
         cursor: pointer;
       }
     }
 
     &-sub {
       height: 0;
+    }
+
+    &--disabled {
+      
+      .#{$namespace}-tree-node-title--selectable {
+        color: $disabled-color;
+        cursor: not-allowed;
+      }
     }
   }
 }

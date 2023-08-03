@@ -28,6 +28,7 @@ const Tree = (props: TreeProps) => {
     onCheck,
     onExpand,
     onSelect,
+    loadData,
   } = props;
 
   const [state, setState] = useState({
@@ -83,16 +84,20 @@ const Tree = (props: TreeProps) => {
   };
 
   const onTreeNodeSelect = (key) => {
+    if (!selectable) {
+      return;
+    }
     let newSelectedKeys = [...state.selectedKeys];
-    const index = newSelectedKeys.indexOf(key);
-    if (index > -1) {
-      newSelectedKeys.splice(index, 1);
-    } else {
-      if (multiple) {
-        newSelectedKeys.push(key);
+
+    if (multiple) {
+      const index = newSelectedKeys.indexOf(key);
+      if (index > -1) {
+        newSelectedKeys.splice(index, 1);
       } else {
-        newSelectedKeys = [key];
+        newSelectedKeys.push(key);
       }
+    } else {
+      newSelectedKeys = [key];
     }
 
     if (!('selectedKeys' in props)) {
@@ -106,24 +111,54 @@ const Tree = (props: TreeProps) => {
 
   const onTreeNodeCheck = (key, parentkeys) => {
     let newCheckedKeys = [...tmpCheckedKeys.current];
-    const index = newCheckedKeys.indexOf(key);
-    const children = nodes.current
+    let tmpCount = 0;
+    let index = newCheckedKeys.indexOf(key);
+    let childNodes;
+
+    const childrenKeys = nodes.current
       .filter((item) => {
-        return item.parentKeys.indexOf(key) > -1;
-      })
-      .map((item) => item.key);
-    const siblings = nodes.current
-      .filter((item) => {
-        return isEqual(item.parentKeys, parentkeys);
+        return item.parentKeys.indexOf(key) > -1 && !item.disabled;
       })
       .map((item) => item.key);
 
+    parentkeys.reverse();
+
     if (index === -1) {
-      newCheckedKeys.push(key, ...children);
-      console.log(siblings);
+      newCheckedKeys.push(key);
+
+      childrenKeys.forEach((k) => {
+        if (newCheckedKeys.indexOf(k) === -1) {
+          newCheckedKeys.push(k);
+        }
+      });
+
+      parentkeys.forEach((parentKey) => {
+        const node = dicNode.current[parentKey];
+        if (node.disabled) {
+          return false;
+        }
+        tmpCount = 0;
+
+        childNodes = nodes.current.filter((item) => {
+          return item.parentKeys.indexOf(parentKey) > -1 && !item.disabled;
+        });
+
+        childNodes.forEach((item) => {
+          index = newCheckedKeys.indexOf(item.key);
+          if (index !== -1) {
+            tmpCount++;
+          }
+        });
+
+        if (tmpCount === childNodes.length && newCheckedKeys.indexOf(parentKey) === -1) {
+          newCheckedKeys.push(parentKey);
+        }
+
+        return true;
+      });
     } else {
       newCheckedKeys = newCheckedKeys.filter((k) => {
-        return k !== key && children.indexOf(k) === -1 && parentkeys.indexOf(k) === -1;
+        return k !== key && childrenKeys.indexOf(k) === -1 && parentkeys.indexOf(k) === -1;
       });
     }
 
@@ -136,9 +171,9 @@ const Tree = (props: TreeProps) => {
     onCheck && onCheck(newCheckedKeys);
   };
 
-  const initNodes = (key, parentKeys) => {
+  const initNodes = (key, parentKeys, disabled) => {
     if (!dicNode.current[key]) {
-      const item = { key, parentKeys };
+      const item = { key, parentKeys, disabled };
       nodes.current.push(item);
       dicNode.current[key] = item;
     }
@@ -157,7 +192,7 @@ const Tree = (props: TreeProps) => {
     const ret = React.Children.map(children, (child: any, index) => {
       if (child && child.type && child.type.type.displayName === 'TreeNode') {
         const key: string = child.key ? String(child.key) : uuid();
-        initNodes(key, []);
+        initNodes(key, [], child.props && child.props.disabled);
         return React.cloneElement(child, {
           ...child.props,
           prefixCls,
@@ -191,6 +226,7 @@ const Tree = (props: TreeProps) => {
     onTreeNodeSelect,
     onTreeNodeExpand,
     onTreeNodeCheck,
+    loadData,
   };
 
   return (

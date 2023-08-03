@@ -5,7 +5,6 @@ export interface TreeProps
   defaultCheckedKeys?: string[];
   defaultExpandedKeys?: string[];
   defaultSelectedKeys?: string[];
-  disabled?: boolean;
   dragable?: boolean;
   expandedKeys?: string[];
   multiple?: boolean;
@@ -13,10 +12,11 @@ export interface TreeProps
   selectedKeys?: string[];
   showIcon?: boolean;
   showLine?: boolean;
+  loadData?: (key: string, children: any) => Promise<any>;
   onCheck?: (checkedKeys: string[]) => void;
   onExpand?: (expandedKeys: string[]) => void;
   onSelect?: (selectedKeys: string[]) => void;
-  onLoad?: (key: string) => void;
+  onLoadData?: (key: string, children: any) => Promise<any>;
 }
 
 export interface TreeNodeProps
@@ -24,8 +24,8 @@ export interface TreeNodeProps
   key: string;
   componentKey: string;
   parentKeys?: string[];
-  disabledCheckbox?: boolean;
   disabled?: boolean;
   icon?: React.ReactNode;
   title?: string | React.ReactNode;
+  isLeaf?: boolean;
 }

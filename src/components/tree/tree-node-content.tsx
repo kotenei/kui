@@ -5,12 +5,15 @@ import { TreeNodeProps } from './typing';
 import { TreeContext } from './tree.context';
 
 const TreeNodeContent = (props: TreeNodeProps) => {
-  const { prefixCls, title, icon, componentKey } = props;
+  const { prefixCls, title, icon, componentKey, disabled } = props;
   const treeContext = useContext(TreeContext);
   const { selectable, selectedKeys, onTreeNodeSelect } = treeContext;
   const selected = selectedKeys && selectedKeys.indexOf(componentKey) > -1;
 
   const onTitleClick = () => {
+    if (disabled) {
+      return;
+    }
     onTreeNodeSelect && onTreeNodeSelect(componentKey);
   };
 

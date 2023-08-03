@@ -7,6 +7,7 @@ import {
   AiOutlineFile,
   AiOutlineMinusSquare,
   AiOutlinePlusSquare,
+  AiOutlineLoading,
 } from 'react-icons/ai';
 
 import { Checkbox } from '../checkbox';
@@ -15,9 +16,10 @@ import TreeNodeContent from './tree-node-content';
 import { TreeContext } from './tree.context';
 import { TreeNodeProps } from './typing';
 import { uuid } from '../../utils';
+import { useState } from '../../hooks';
 
 const TreeNode = (props: TreeNodeProps) => {
-  const { className, children, disabled, componentKey, parentKeys = [] } = props;
+  const { className, children, disabled, componentKey, parentKeys = [], isLeaf } = props;
   const prefixCls = `${props.prefixCls}-node`;
   const treeContext = useContext(TreeContext);
   const {
@@ -29,15 +31,31 @@ const TreeNode = (props: TreeNodeProps) => {
     initCheckedKey,
     onTreeNodeExpand,
     onTreeNodeCheck,
+    loadData,
   } = treeContext;
   const contentElement = useRef(null);
   const expanded = expandedKeys && expandedKeys.indexOf(componentKey) > -1;
+  const [state, setState] = useState({
+    loading: false,
+  });
 
   const onExpaned = () => {
-    if (!children) {
-      return;
-    }
     onTreeNodeExpand && onTreeNodeExpand(componentKey);
+
+    if (!children && loadData && !state.loading && !isLeaf) {
+      setState(
+        {
+          loading: true,
+        },
+        () => {
+          loadData(componentKey, children).then(() => {
+            setState({
+              loading: false,
+            });
+          });
+        },
+      );
+    }
   };
 
   const onEnter = useCallback((node) => {
@@ -71,22 +89,24 @@ const TreeNode = (props: TreeNodeProps) => {
     if (children) {
       React.Children.forEach(children, (child) => {
         if (child && child.type && child.type.type.displayName === 'TreeNode') {
-          if (checkedKeys.indexOf(child.key as string) > -1) {
+          if (checkedKeys.indexOf(child.key) > -1) {
             childCount++;
-            info.type = childCount === (children as any).length ? 'all' : 'indeterminate';
           }
 
           if (child.props.children) {
-            info.type = info.type !== 'none' ? 'indeterminate' : 'none';
             loopChildrenChecked(checkedKeys, child.props.children, info);
           }
         }
       });
+
+      if (childCount > 0) {
+        info.type = childCount === children.length ? 'all' : 'indeterminate';
+      }
     }
   };
 
   const getCheckInfo = (checkedKeys, children) => {
-    const info = { type: 'none', checkedKeys: [] };
+    const info = { type: 'none' };
     loopChildrenChecked(checkedKeys, children, info);
     return info;
   };
@@ -95,17 +115,22 @@ const TreeNode = (props: TreeNodeProps) => {
     let icon = expanded ? <AiOutlineCaretDown /> : <AiOutlineCaretRight />;
     if (showLine) {
       icon = expanded ? <AiOutlineMinusSquare /> : <AiOutlinePlusSquare />;
-      if (!children) {
+      if (!children || isLeaf) {
         icon = <AiOutlineFile />;
       }
     }
 
     return (
       <span className={`${prefixCls}-switcher`}>
-        {children || (!children && showLine) ? (
+        {state.loading && (
+          <Icon spin>
+            <AiOutlineLoading />
+          </Icon>
+        )}
+        {(children || (loadData && !isLeaf) || (!children && showLine)) && !state.loading ? (
           <Icon
             className={children ? `${prefixCls}-switcher__expand` : ''}
-            onClick={children ? onExpaned : undefined}
+            onClick={children || loadData ? onExpaned : undefined}
           >
             {icon}
           </Icon>
@@ -126,7 +151,7 @@ const TreeNode = (props: TreeNodeProps) => {
     let checked = checkedKeys.indexOf(componentKey) > -1;
     let parentChecked = checkedKeys.indexOf(parentKey) > -1;
 
-    if (!checked && (allSelected || parentChecked)) {
+    if (!checked && (allSelected || parentChecked) && !disabled) {
       checked = true;
     }
 
@@ -144,6 +169,7 @@ const TreeNode = (props: TreeNodeProps) => {
           className={`${prefixCls}-checkbox`}
           checked={checked}
           indeterminate={indeterminate}
+          disabled={disabled}
           onChange={onCheckboxChange}
         />
       )
@@ -155,7 +181,7 @@ const TreeNode = (props: TreeNodeProps) => {
       if (child && child.type && child.type.type.displayName === 'TreeNode') {
         const key: string = child.key ? String(child.key) : uuid();
         const newParentKeys = [...parentKeys, componentKey];
-        initNodes(key, newParentKeys);
+        initNodes(key, newParentKeys, child.props && child.props.disabled);
 
         return React.cloneElement(child, {
           ...child.props,

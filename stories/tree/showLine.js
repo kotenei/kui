@@ -1,4 +1,4 @@
-export default `import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { Tree, TreeNode } from 'kui-react';
 
 export default class Demo extends Component {
@@ -6,6 +6,7 @@ export default class Demo extends Component {
     return (
       <div className="story-demo-tree">
         <Tree
+          showLine
           checkable
           selectable
           defaultCheckedKeys={['1-1-1', '1-2']}
@@ -30,4 +31,3 @@ export default class Demo extends Component {
     );
   }
 }
-`

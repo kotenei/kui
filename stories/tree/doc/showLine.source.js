@@ -6,6 +6,7 @@ export default class Demo extends Component {
     return (
       <div className="story-demo-tree">
         <Tree
+          showLine
           checkable
           selectable
           defaultCheckedKeys={['1-1-1', '1-2']}

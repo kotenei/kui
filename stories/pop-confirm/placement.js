@@ -47,7 +47,8 @@ export default class Demo extends Component {
             onConfirm={this.onConfirm}
           >
             <Button>LT</Button>
-          </Popconfirm>
+          </Popconfirm><br />
+          <br />
           <Popconfirm
             placement="left"
             title="Are you sure to delete this row?"
@@ -55,7 +56,8 @@ export default class Demo extends Component {
             onConfirm={this.onConfirm}
           >
             <Button>Left</Button>
-          </Popconfirm>
+          </Popconfirm><br />
+          <br />
           <Popconfirm
             placement="leftBottom"
             title="Are you sure to delete this row?"
@@ -73,7 +75,8 @@ export default class Demo extends Component {
             onConfirm={this.onConfirm}
           >
             <Button>RT</Button>
-          </Popconfirm>
+          </Popconfirm><br />
+          <br />
           <Popconfirm
             placement="right"
             title="Are you sure to delete this row?"
@@ -81,7 +84,8 @@ export default class Demo extends Component {
             onConfirm={this.onConfirm}
           >
             <Button>Right</Button>
-          </Popconfirm>
+          </Popconfirm><br />
+          <br />
           <Popconfirm
             placement="rightBottom"
             title="Are you sure to delete this row?"

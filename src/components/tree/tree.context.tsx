@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface TreeContextType {
+  dropInfo?: any;
   checkedKeys: string[];
   expandedKeys: string[];
   selectedKeys: string[];
@@ -15,6 +16,8 @@ interface TreeContextType {
   onTreeNodeSelect: (key: string) => void;
   onTreeNodeExpand: (key: string) => void;
   onTreeNodeCheck: (key: string, parentKeys: string[]) => void;
+  onTreeNodeDropOver: (info: any) => void;
+  onTreeNodeDropEnd: (info: any) => void;
 }
 
 export const TreeContext: React.Context<TreeContextType> = React.createContext<any>({});

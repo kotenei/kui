@@ -1,5 +1,8 @@
 export interface TreeProps
-  extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLElement>, 'onSelect' | 'onLoad'> {
+  extends KUI.BasicProps<
+    React.HtmlHTMLAttributes<HTMLElement>,
+    'onSelect' | 'onLoad' | 'onDragOver'
+  > {
   checkable?: boolean;
   checkedKeys?: string[];
   defaultCheckedKeys?: string[];
@@ -10,13 +13,13 @@ export interface TreeProps
   multiple?: boolean;
   selectable?: boolean;
   selectedKeys?: string[];
-  showIcon?: boolean;
   showLine?: boolean;
   loadData?: (key: string, children: any) => Promise<any>;
   onCheck?: (checkedKeys: string[]) => void;
   onExpand?: (expandedKeys: string[]) => void;
   onSelect?: (selectedKeys: string[]) => void;
-  onLoadData?: (key: string, children: any) => Promise<any>;
+  onDragOver?: (info) => void;
+  onDragEnd?: (info) => void;
 }
 
 export interface TreeNodeProps
@@ -28,4 +31,9 @@ export interface TreeNodeProps
   icon?: React.ReactNode;
   title?: string | React.ReactNode;
   isLeaf?: boolean;
+}
+
+export interface TreeNodeContentProps extends KUI.BasicProps<TreeNodeProps> {
+  dropInfo?: any;
+  onDropOver?: (dropInfo: any) => void;
 }

@@ -62,8 +62,23 @@
       display: inline-block;
       vertical-align: middle;
       padding: 0 4px;
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
       &--selected {
         background-color: #e6f7ff;
+      }
+
+      &.drag-over-gap-top {
+        border-top-color: $primary-color;
+      }
+      &.drag-over-gap-bottom {
+        border-bottom-color: $primary-color;
+      }
+      &.drag-over-gap-middle {
+        border-color: transparent;
+        background: $primary-color;
+        color: white;
+        border-radius: $radius-sm;
       }
     }
 
@@ -86,7 +101,6 @@
     }
 
     &--disabled {
-      
       .#{$namespace}-tree-node-title--selectable {
         color: $disabled-color;
         cursor: not-allowed;

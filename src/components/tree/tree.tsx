@@ -25,17 +25,19 @@ const Tree = (props: TreeProps) => {
     selectable,
     dragable,
     multiple,
+    loadData,
     onCheck,
     onExpand,
     onSelect,
-    loadData,
+    onDragOver,
+    onDragEnd,
   } = props;
 
   const [state, setState] = useState({
     checkedKeys: checkedKeys || defaultCheckedKeys || [],
     expandedKeys: expandedKeys || defaultExpandedKeys || [],
     selectedKeys: selectedKeys || defaultSelectedKeys || [],
-    halfCheckedKeys: [],
+    dropInfo: null,
   });
   const tmpCheckedKeys = useRef<any>([]);
   const nodes = useRef<any>([]);
@@ -171,6 +173,17 @@ const Tree = (props: TreeProps) => {
     onCheck && onCheck(newCheckedKeys);
   };
 
+  const onTreeNodeDropOver = (info) => {
+    setState({
+      dropInfo: info,
+    });
+    onDragOver && onDragOver(info);
+  };
+
+  const onTreeNodeDropEnd = (result) => {
+    result && onDragEnd && onDragEnd(state.dropInfo);
+  };
+
   const initNodes = (key, parentKeys, disabled) => {
     if (!dicNode.current[key]) {
       const item = { key, parentKeys, disabled };
@@ -223,10 +236,12 @@ const Tree = (props: TreeProps) => {
     showLine,
     initNodes,
     initCheckedKey,
+    loadData,
     onTreeNodeSelect,
     onTreeNodeExpand,
     onTreeNodeCheck,
-    loadData,
+    onTreeNodeDropOver,
+    onTreeNodeDropEnd,
   };
 
   return (

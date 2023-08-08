@@ -3,7 +3,7 @@ import React from 'react';
 export type InputType = 'text' | 'textarea' | 'password';
 
 export interface InputProps
-  extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLDivElement>, 'onChange' | 'prefix'> {
+  extends KUI.BasicProps<React.HtmlHTMLAttributes<HTMLElement>, 'onChange' | 'prefix'> {
   id?: string;
   name?: string;
   type?: InputType;

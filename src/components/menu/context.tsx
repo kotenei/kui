@@ -4,6 +4,7 @@ type ContextMenu = {
   openKeys?: string[];
   selectedKeys?: string[];
   selectedSubMenuKeys?: string[];
+  hoverKey?: string;
   onItemClick?: (componentKey: string, parentKeys: string[], isLeaf: boolean) => void;
   onItemHover?: (
     componentKey: string,

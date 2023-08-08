@@ -77,7 +77,7 @@ export const withForm = (WrappedComponent) => {
       this.form = new Form();
     }
 
-    render() {
+    public render() {
       const cmptProps = {
         ...this.props,
         form: this.form,

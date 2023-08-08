@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import classnames from 'classnames';
-import { format } from 'date-fns';
 
 import { CalendarYearProps } from './typing';
 

@@ -93,7 +93,7 @@ const Calendar = (props: CalendarProps) => {
   const classString = classnames(prefixCls, className);
 
   const renderView = () => {
-    const viewProps = {
+    const viewProps:any = {
       prefixCls,
       minDate,
       maxDate,

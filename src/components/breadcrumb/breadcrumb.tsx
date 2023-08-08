@@ -7,7 +7,7 @@ const Breadcrumb = (props: BreadcrumbProps) => {
   const { prefixCls = 'k-breadcrumb', className, children, separator, ...others } = props;
 
   const renderContent = () => {
-    return React.Children.map(children, (child: any, index) => {
+    return React.Children.map(children, (child: any) => {
       if (child && child.type && child.type.type.displayName === 'BreadcrumbItem') {
         return React.cloneElement(child, {
           prefixCls,

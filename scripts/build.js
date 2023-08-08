@@ -15,14 +15,14 @@ const complieScripts = () => {
   shell.exec('tsc -p tsconfig-build.json');
   // shell.exec('tsc --declaration --declarationDir types');
 
-  console.log(chalk.cyan('Compiling script files with Babel...'));
-  shell.exec('babel lib -d lib -q');
+  // console.log(chalk.cyan('Compiling script files with Babel...'));
+  // shell.exec('babel lib -d lib');
 };
 
 const complieStyles = () => {
   console.log(chalk.cyan('Compiling sass files with node-sass...'));
   shell.exec(
-    'node-sass src/assets/styles/index.scss lib/kui-mobile.min.css  --output-style compressed -q',
+    'node-sass src/assets/styles/index.scss lib/kui-react.min.css  --output-style compressed -q',
   );
 };
 

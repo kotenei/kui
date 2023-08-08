@@ -19,7 +19,7 @@ const Cell = (props) => {
     onHover,
   } = props;
 
-  const onMouseEnter = (e) => {
+  const onMouseEnter = () => {
     onHover && onHover(date);
   };
 

@@ -4,8 +4,7 @@ import classnames from 'classnames';
 import { Input } from '../input';
 import { Menu, MenuItem } from '../menu';
 import { PopPanel } from '../pop-panel';
-import { useOutsideClick, useState, useMousePosition } from '../../hooks';
-import { eventOmitHandler, domHelpers } from '../../utils';
+import { useOutsideClick, useState } from '../../hooks';
 import { AutoCompleteProps } from './typing';
 
 const KEY = {
@@ -48,7 +47,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
 
   const [triggerRef] = useOutsideClick(
     {
-      onClick: (e) => {
+      onClick: () => {
         setState({
           show: false,
           selectedKeys: tmpSelectedKeys.current,
@@ -131,7 +130,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
   );
 
   const onMenuItemSelect = useCallback(
-    (key, selectedKeys, openedKeys) => {
+    (key, selectedKeys) => {
       if (!dataSource || !dataSource.length) {
         return;
       }
@@ -230,7 +229,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
       const newState: any = {
         show: false,
       };
-      
+
       if (!('value' in props)) {
         tmpSelectedKeys.current = [item.value];
         newState.inputValue = item.value;

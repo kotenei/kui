@@ -6,7 +6,9 @@
   "scripts": {
     "start": "start-storybook -p 8080",
     "build": "node scripts/build.js",
-    "prestart": "node scripts/markdown.js"
+    "prestart": "node scripts/markdown.js",
+    "build-storybook": "rimraf storybook-static && build-storybook",
+    "storybook:upload": "gh-pages -d storybook-static --git \"$(which git)\""
   },
   "files": [
     "lib"

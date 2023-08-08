@@ -13,6 +13,7 @@ const TreeNodeContent = (props: TreeNodeContentProps) => {
     selectable,
     selectedKeys,
     expandedKeys,
+    dragable,
     onTreeNodeSelect,
     onTreeNodeExpand,
     onTreeNodeDropOver,
@@ -30,7 +31,7 @@ const TreeNodeContent = (props: TreeNodeContentProps) => {
       };
     },
     canDrop: (dragItem, monitor: any) => {
-      return true;
+      return dragable;
     },
     hover(dragItem: any, monitor: any) {
       if (!ref.current) {
@@ -70,7 +71,7 @@ const TreeNodeContent = (props: TreeNodeContentProps) => {
       return { key: componentKey };
     },
     canDrag: (monitor: any) => {
-      if (disabled) {
+      if (disabled || !dragable) {
         return false;
       }
       return true;

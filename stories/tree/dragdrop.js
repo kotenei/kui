@@ -5,7 +5,7 @@ export default class Demo extends Component {
   render() {
     return (
       <div className="story-demo-tree">
-        <Tree onDragEnd={info=>console.log(info,'ddddddddd')}>
+        <Tree onDragEnd={info=>console.log(info)} dragable>
           <TreeNode title="parent 1" key="1">
             <TreeNode title="parent 1-1" key="1-1">
               <TreeNode title="leaf 1-1-1" key="1-1-1" />

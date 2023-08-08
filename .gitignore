@@ -32,6 +32,7 @@ Thumbs.db
 *.rar
 dist/
 lib/
+storybook-static/
 
 # subversion #
 .svn/
@@ -48,3 +49,5 @@ manifest.json
 *.diff
 *.patch
 *.bak
+
+

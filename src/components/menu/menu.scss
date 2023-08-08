@@ -1,0 +1,231 @@
+@import '../../assets/styles/global.scss';
+
+$prefixCls: #{$namespace}-menu;
+
+@mixin selected-line($isRight, $show) {
+  content: ' ';
+
+  @if $isRight {
+    height: 100%;
+    width: 2px;
+    right: 0;
+  } @else {
+    height: 2px;
+    width: 100%;
+    bottom: 0;
+  }
+
+  @if $show {
+    display: block;
+  }
+
+  position: absolute;
+  background: $primary-color;
+}
+
+.#{$prefixCls} {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: $menu-bg-color;
+
+  &.root {
+    border-right: 1px solid $border-color-base;
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-top: $space-sm;
+    padding-right: $space-xl;
+    padding-bottom: $space-sm;
+    cursor: pointer;
+    height: 36px;
+    line-height: 36px;
+
+    >.#{$namespace}-icon{
+      margin-right: $space-sm;
+      margin-left: $space-sm;
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      color: $disabled-color;
+    }
+
+    &--selected {
+      color: $menu-selected-font-color!important;
+      background-color: $menu-selected-bg-color;
+
+
+      &::after {
+        @include selected-line(true, true);
+      }
+    }
+
+    &--hover {
+      color: $menu-hover-font-color;
+    }
+  }
+
+  &-submenu {
+    position: relative;
+
+    &-title {
+      padding-top: $space-sm;
+      padding-right: $space-xl;
+      padding-bottom: $space-sm;
+      height: 36px;
+      line-height: 36px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .direction {
+        position: absolute;
+        transform: translateY(-50%);
+        top: 50%;
+        right: $space-base;
+        margin: 0;
+        color: $text-color-primary !important;
+      }
+
+      >.#{$namespace}-icon{
+        margin-right: $space-sm;
+        margin-left: $space-sm;
+      }
+    }
+
+    &--disabled {
+      .#{$prefixCls}-submenu {
+        &-title {
+          cursor: not-allowed;
+          color: $disabled-color;
+        }
+      }
+    }
+
+    &--selected {
+      > .#{$prefixCls}-submenu {
+        &-title {
+          color: $primary-color;
+        }
+      }
+    }
+
+    &--hover {
+      > .#{$prefixCls}-submenu-title {
+        color: $menu-hover-font-color;
+      }
+    }
+
+    .#{$prefixCls}-sub {
+      transition: all 0.3s ease-in-out;
+    }
+  }
+
+  &--inline {
+    .#{$prefixCls} {
+      &-sub {
+        height: 0;
+        overflow: hidden;
+      }
+    }
+  }
+
+  &--horizontal,
+  &--vertical,
+  &--inlineCollapsed {
+    .#{$prefixCls} {
+      &-item {
+        &--selected {
+          &::after {
+            content: '';
+            display: none;
+          }
+        }
+      }
+
+      &-sub {
+        position: absolute;
+        display: block;
+        box-shadow: $box-shadow-base;
+        border-radius: $radius-base;
+        overflow: initial !important;
+        top: 0;
+        left: calc(100% + #{$space-sm});
+        visibility: hidden;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+  }
+
+  &--horizontal {
+    display: flex;
+    align-items: center;
+
+    &.root {
+      border-right: 0;
+      border-bottom: 1px solid $border-color-base;
+
+      > li {
+        width: auto;
+
+        &.#{$prefixCls}-item {
+          &--selected {
+            background: transparent;
+
+            &::after {
+              @include selected-line(false, true);
+            }
+          }
+        }
+
+        &.#{$prefixCls}-submenu {
+          &--selected {
+            &::after {
+              @include selected-line(false, true);
+            }
+          }
+
+          > .#{$prefixCls}-sub {
+            left: 0;
+            top: auto;
+          }
+        }
+      }
+    }
+  }
+
+  &--inlineCollapsed {
+    &.root {
+      width: 80px !important;
+
+      > li {
+        min-width: auto;
+        padding: 0;
+
+        &.#{$prefixCls}-item {
+          justify-content: center;
+        }
+
+        &.#{$prefixCls}-submenu {
+          > div {
+            justify-content: center;
+            padding: 0;
+          }
+        }
+
+        > .#{$namespace}-tooltip-handle {
+          flex: 1;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

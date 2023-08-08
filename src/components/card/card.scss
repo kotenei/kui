@@ -1,0 +1,50 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-card {
+  border-radius: $radius-base;
+  background-color: $card-bg-color;
+  position: relative;
+  box-shadow: $box-shadow-base;
+  min-width: 275px;
+  overflow: hidden;
+
+  &--bordered {
+    border: 1px solid $border-color-base;
+  }
+
+  &-header {
+    padding: $space-base $space-lg;
+    display: flex;
+    border-bottom: 1px solid $border-color-base;
+    justify-content: space-between;
+    align-items: center;
+
+    &__title {
+      flex: 1;
+      font-size: $font-size-lg;
+      @include text-truncate();
+    }
+  }
+
+  &-cover {
+    overflow: hidden;
+
+    >* {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  &-body {
+    padding: $space-base $space-lg;
+  }
+
+  &-actions{
+    padding: $space-base $space-lg;
+    display: flex;
+    align-items: center;
+    &-item{
+      
+    }
+  }
+}

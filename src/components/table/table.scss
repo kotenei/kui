@@ -1,0 +1,103 @@
+@import '../../assets/styles/global.scss';
+
+$prefixCls: #{$namespace}-table;
+
+.#{$prefixCls} {
+  position: relative;
+
+  &-scroller {
+    overflow: auto;
+    overflow-x: hidden;
+
+    .#{$prefixCls}-header {
+      overflow: scroll;
+      margin-bottom: -16px;
+    }
+
+    .#{$prefixCls}-body {
+      overflow: scroll;
+    }
+  }
+
+  &--bordered {
+    .#{$prefixCls}-header,
+    .#{$prefixCls}-body {
+      tr {
+        > th,
+        > td {
+          border-right: 1px solid $border-color-base;
+        }
+        > th {
+          border-bottom: none;
+        }
+        > th[colspan] {
+          border-bottom: 1px solid $border-color-base !important;
+        }
+      }
+    }
+
+    table {
+      border: 1px solid $border-color-base;
+      border-bottom: none;
+      border-right: none;
+    }
+  }
+
+  &-bottom {
+    text-align: right;
+  }
+
+  &-thead {
+    > tr {
+      > th {
+        background: $table-cell-bg-color;
+        padding: $space-lg;
+        word-break: break-word;
+        border-bottom: 1px solid $border-color-base;
+        &[colspan] {
+          text-align: center;
+        }
+        ::after {
+          content: ' ';
+          clear: both;
+        }
+      }
+      &:not(:last-child) {
+        > th {
+          &[colspan] {
+            border-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &-tbody {
+    > tr {
+      > td {
+        padding: $space-lg;
+        word-break: break-word;
+        border-bottom: 1px solid $border-color-base;
+      }
+      &.expand-row {
+        display: none;
+        &--show {
+          display: table-row;
+        }
+      }
+      &.stripe-row,
+      &:hover {
+        background: $table-cell-bg-color;
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+    table-layout: fixed;
+    background-color: $table-bg-color;
+  }
+}

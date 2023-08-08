@@ -1,0 +1,47 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-icon {
+  //margin: 0 $space-sm;
+  text-align: center;
+  font-style: normal;
+  vertical-align: middle;
+  text-transform: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  line-height: 0;
+  display: inline-block;
+  position: relative;
+  margin-top: -1px;
+
+  // &~.#{$namespace}-icon{
+  //   margin-left: $space-sm;
+  // }
+
+  &--spin {
+    animation: loadingCircle 1s infinite linear;
+  }
+
+  &--disabled {
+    color: $disabled-color;
+    cursor: not-allowed;
+  }
+
+  @each $color, $value in $colors {
+    &--#{$color} {
+      color: $value;
+    }
+  }
+}
+
+.#{$namespace}-icon-svg {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  fill: currentColor;
+
+  @each $color, $value in $colors {
+    &--#{$color} {
+      fill: $value;
+    }
+  }
+}

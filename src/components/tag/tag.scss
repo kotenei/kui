@@ -1,0 +1,44 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-tag {
+  display: inline-block;
+  padding: $space-xs $space-base;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: $radius-base;
+  margin: $space-sm;
+  border: 1px solid $border-color-base;
+  background-color: $tag-bg-color;
+  color: $tag-font-color;
+  font-size: $font-size-sm;
+
+  &__text {
+    display: inline-block;
+
+  }
+
+  &__icon {
+    margin-left: $space-sm;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  &--line {
+    background: transparent;
+    color: $text-color-primary;
+  }
+
+  @each $color,
+  $value in $colors {
+    &--#{$color} {
+      background: $value;
+      border-color: $value;
+      color: $white;
+
+      &.#{$namespace}-tag--line {
+        background-color: transparent;
+        color: $value
+      }
+    }
+  }
+}

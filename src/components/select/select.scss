@@ -1,0 +1,160 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-select {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  border: 1px solid $border-color-base;
+  border-radius: $radius-base;
+  height: 40px;
+  padding: $space-base;
+  cursor: pointer;
+  outline: none;
+
+
+  &--focus{
+    outline: none;
+    border-color: $primary-color;
+  }
+
+  &--sm {
+    height: 34px;
+    font-size: 12px;
+
+    &.#{$namespace}-select--multiple {
+      min-height: 34px;
+      padding-left: $space-sm;
+    }
+
+    .#{$namespace}-select {
+      &-multiplelist {
+        min-height: 28px;
+        margin-top: $space-sm;
+
+        &-item {
+          margin-bottom: $space-sm;
+          margin-right: $space-sm;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  &--lg {
+    height: 52px;
+    font-size: 16px;
+    padding-left: $space-base;
+    padding-right: $space-base;
+
+    &.#{$namespace}-select--multiple {
+      min-height: 52px;
+    }
+
+    .#{$namespace}-select {
+      &-multiplelist {
+        min-height: 42px;
+        margin-top: $space-base;
+
+        &-item {
+          margin-bottom: $space-base;
+          margin-right: $space-base;
+          height: 34px;
+        }
+      }
+    }
+  }
+
+  &--multiple {
+    height: auto !important;
+    min-height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
+    cursor: default;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    color: $disabled-color;
+
+    .#{$namespace}-select-multiplelist {
+      &-item {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    &__content {
+      flex: 1;
+    }
+
+    > svg {
+      opacity: 0.6;
+    }
+  }
+
+  &-multiplelist {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    min-height: 30px;
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+
+    &-item {
+      display: inline-flex;
+      align-items: center;
+      border-radius: $radius-base;
+      border: 1px solid $border-color-base;
+      padding-left: $space-sm;
+      padding-right: $space-sm;
+      height: 26px;
+      margin-bottom: 6px;
+      margin-right: 6px;
+      cursor: default;
+      > svg {
+        margin-left: $space-sm;
+        opacity: 0.6;
+        cursor: pointer;
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+      &-suffix {
+        border: none;
+        flex: 1;
+        min-width: 70px;
+        input {
+          height: 100%;
+          border: none;
+          outline: 0;
+          width: 100%;
+          color: $text-color-primary;
+          background: none;
+        }
+      }
+    }
+  }
+
+  &-placeholder {
+    opacity: 0.6;
+  }
+
+  &-menu {
+    max-height: 200px;
+    overflow-y: auto;
+    .#{$namespace}-menu {
+      &-item {
+        padding-left: 16px !important;
+        padding-right: 16px;
+      }
+    }
+  }
+}

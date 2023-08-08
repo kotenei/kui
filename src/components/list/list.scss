@@ -1,0 +1,142 @@
+@import '../../assets/styles/global.scss';
+
+$prefix: #{$namespace}-list;
+
+.#{$prefix} {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: $space-base 0;
+  background-color: inherit;
+  font-size: 16px;
+  list-style: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: $list-bg-color;
+
+  &-bordered {
+    border: 1px solid $border-color-base;
+    border-radius: $radius-base;
+
+    .#{$prefix}-header,
+    .#{$prefix}-footer,
+    .#{$prefix}-item {
+      padding-left: $space-xl;
+      padding-right: $space-xl;
+    }
+  }
+
+  &.#{$prefix}-bordered.#{$prefix}-sm {
+
+    .#{$prefix}-header,
+    .#{$prefix}-footer,
+    .#{$prefix}-item {
+      padding-left: $space-lg;
+      padding-right: $space-lg;
+    }
+  }
+
+  &.#{$prefix}-bordered.#{$prefix}-lg {
+
+    .#{$prefix}-header,
+    .#{$prefix}-footer,
+    .#{$prefix}-item {
+      padding-left: $space-xl;
+      padding-right: $space-xl;
+    }
+  }
+
+  &-split {
+    .#{$prefix}-header {
+      border-bottom: 1px solid $border-color-base;
+    }
+
+    .#{$prefix}-item {
+      border-bottom: 1px solid $border-color-base;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &-header,
+  &-footer,
+  &-item {
+    padding: $space-base 0;
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+
+    &-content {
+      flex: 1;
+    }
+
+    &-actions {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      >li {
+        display: inline-block;
+        cursor: pointer;
+        color:$text-color-secondary;
+      }
+
+      &__separator {
+        margin: 0 $space-base;
+        cursor: default !important;
+      }
+    }
+
+    &-meta {
+      display: flex;
+      flex: 1;
+      align-items: center;
+
+      &__avatar {
+        margin-right: $space-lg;
+        width: $space-xxl;
+        height: $space-xxl;
+        line-height: $space-xxl;
+        text-align: center;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      &__content {
+        flex: 1;
+      }
+
+      &__title {
+
+        margin-bottom: $space-sm;
+        font-weight: 500;
+      }
+
+      &__description {
+        color: $text-color-secondary;
+      }
+    }
+  }
+
+  &-sm {
+    .#{$prefix}-header,
+    .#{$prefix}-footer,
+    .#{$prefix}-item {
+      padding: $space-sm 0;
+    }
+  }
+
+  &-lg {
+
+    .#{$prefix}-header,
+    .#{$prefix}-footer,
+    .#{$prefix}-item {
+      padding: $space-lg 0;
+    }
+  }
+}

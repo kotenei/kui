@@ -1,0 +1,65 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-alert {
+  padding: $space-lg;
+  position: relative;
+  border-radius: $radius-base;
+  display: table;
+  width: 100%;
+  margin-bottom: $space-lg;
+  background: $primary-color;
+  color: $white;
+
+  &--info {
+    background: $info-color;
+  }
+
+  &--success {
+    background: $success-color;
+  }
+
+  &--warning {
+    background: $warning-color;
+  }
+
+  &--danger {
+    background: $danger-color;
+  }
+
+  &__icon,
+  &__content {
+    display: table-cell!important;
+  }
+
+  &__icon {
+    vertical-align: middle;
+    width: $space-lg;
+
+    &--lg {
+      font-size: 30px;
+    }
+  }
+
+  &__content{
+    padding-left: $space-base;
+  }
+
+  &__close {
+    position: absolute;
+    top: $space-lg;
+    right: $space-lg;
+    cursor: pointer;
+  }
+
+  &__description {
+    margin-top: $space-sm;
+    color: rgba(255, 255, 255, .8);
+  }
+
+  &__closetext {
+    position: absolute;
+    right: $space-lg;
+    cursor: pointer;
+    top: $space-lg;
+  }
+}

@@ -1,0 +1,37 @@
+@mixin notification-left-effect($width) {
+  .notice-enter {
+    left: -$width;
+  }
+
+  .notice-enter.notice-enter-active {
+    left: 0;
+  }
+
+  .notice-exit {
+    left: 0;
+  }
+}
+
+@mixin notification-right-effect($width) {
+  .notice-enter {
+    right: -$width;
+  }
+
+  .notice-enter.notice-enter-active {
+    right: 0;
+  }
+
+  .notice-exit {
+    right: 0;
+  }
+}
+
+@mixin notification-notice-state($state, $color) {
+  &.#{$namespace}-notice--#{$state}>.#{$namespace}-icon:first-child {
+    color: $color;
+    font-size: 30px;
+    margin-right: 16px;
+    vertical-align: top;
+    margin-left: 0;
+  }
+}

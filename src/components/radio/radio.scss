@@ -1,0 +1,65 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-radio {
+  display: flex;
+  align-items: center;
+  margin: 8px;
+  margin-left: 0;
+
+  &--disabled,
+  &--readOnly {
+    color: $disabled-color;
+    > label {
+      cursor: not-allowed !important;
+    }
+    .#{$namespace}-icon {
+      > svg {
+        fill: $disabled-color;
+      }
+    }
+  }
+
+  &--readOnly {
+    > label {
+      cursor: default !important;
+    }
+  }
+
+  > label {
+    cursor: pointer;
+  }
+
+  input {
+    display: none;
+  }
+
+  &-icon {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    position: relative;
+    width: 24px;
+    height: 24px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: $text-color-regular;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: 50%;
+    }
+
+    @each $color, $value in $colors {
+      &--#{$color} {
+        svg {
+          fill: $value;
+        }
+      }
+    }
+  }
+
+  &-label {
+    margin-left: 4px;
+  }
+}

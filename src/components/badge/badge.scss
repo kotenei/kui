@@ -1,0 +1,62 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-badge {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 $space-sm;
+
+  line-height: 1;
+
+  &--notwrap {
+    sup {
+      position: relative;
+      transform: none;
+      top: auto;
+      right: auto;
+    }
+  }
+
+  &__sup {
+    display: inline-block;
+    vertical-align: middle;
+    padding: $space-sm $space-base;
+    white-space: nowrap;
+    border-radius: 10px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+    color: $white;
+  }
+
+  &__text {
+    z-index: 10;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    transform: translateY(-50%) translateX(100%);
+  }
+
+  &__dot {
+    z-index: 10;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    padding: 0;
+    min-width: 8px;
+    top: -4px;
+    right: -4px;
+  }
+
+
+
+  @each $color,
+  $value in $colors {
+    &--#{$color} {
+      sup {
+        background: $value;
+      }
+    }
+  }
+}

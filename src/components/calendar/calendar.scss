@@ -1,0 +1,156 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-calendar {
+  min-width: 250px;
+  max-width: 320px;
+
+  &-header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 $space-base;
+    text-align: center;
+
+    > i {
+      width: 20px;
+      opacity: 0.6;
+      &:hover {
+        color: $primary-color;
+        opacity: 1;
+      }
+    }
+
+    &-select {
+      flex: 1;
+      > span {
+        margin: 0 4px;
+      }
+
+      a {
+        cursor: pointer;
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  &-body {
+    padding: $space-base;
+
+    table {
+      width: 100%;
+      
+      border-collapse: collapse;
+      border-spacing: 0;
+      tr {
+        &.inRange{
+          background-color: #E6F7FF;
+        }
+        td {
+          text-align: center;
+          // padding: 0 6px;
+         
+          a {
+            cursor: pointer;
+            &:hover {
+              color: $primary-color;
+            }
+            &.inRange{
+              background-color: #E6F7FF;
+            }
+            &.active {
+              background: $primary-color;
+              color: white;
+            }
+
+           
+            &.disabled {
+              cursor: not-allowed;
+              color: $text-color-primary;
+            }
+          }
+
+          span {
+            &.disabled {
+              color: $text-color-primary;
+            }
+          }
+
+          a,
+          span {
+            font-size: 12px;
+            padding: 0 6px;
+            // border-radius: 2px;
+            display: block;
+            height: 24px;
+            line-height: 24px;
+
+            &.disabled {
+              opacity: 0.4;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &-day {
+    tr.week {
+      cursor: pointer;
+      &:hover {
+        background-color: $calendar-row-hover-bg-color;
+        color: $calendar-row-hover-font-color;
+        opacity: 0.8;
+        span.today {
+          color: $calendar-row-hover-font-color;
+        }
+      }
+      &.active {
+        background-color: $primary-color !important;
+        color: white;
+        opacity: 1;
+        td {
+          opacity: 1;
+        }
+        span {
+          color: white;
+          opacity: 1;
+        }
+      }
+    }
+
+    th,
+    td {
+      height: 30px;
+      line-height: 30px;
+      font-weight: normal;
+    }
+
+    &__day {
+      > a,
+      span {
+        opacity: 0.4;
+      }
+
+      &--inview {
+        > a,
+        span {
+          opacity: 1;
+        }
+      }
+    }
+
+    .today {
+      color: $primary-color;
+    }
+  }
+
+  &-year,
+  &-month {
+    td {
+      height: 66px;
+      width: 66px;
+    }
+  }
+}

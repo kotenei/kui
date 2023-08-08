@@ -1,0 +1,110 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-tree {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
+  }
+  li ul {
+    padding-left: 18px;
+  }
+  li {
+    padding: 4px 0;
+  }
+
+  &--line {
+    li {
+      position: relative;
+      &:not(:last-child):before {
+        content: ' ';
+        width: 1px;
+        border-left: 1px solid $border-color-base;
+        height: 100%;
+        position: absolute;
+        left: 12px;
+        margin: 22px 0;
+      }
+    }
+  }
+
+  &-node {
+    line-height: 20px;
+
+    &-switcher {
+      font-size: 12px;
+      vertical-align: middle;
+      width: 24px;
+      display: inline-block;
+      text-align: center;
+      background: white;
+      &__expand {
+        cursor: pointer;
+      }
+    }
+
+    &-checkbox {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0;
+
+      .#{$namespace}-checkbox-label {
+        display: none;
+      }
+    }
+
+    &-content {
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 4px;
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+      &--selected {
+        background-color: #e6f7ff;
+      }
+
+      &.drag-over-gap-top {
+        border-top-color: $primary-color;
+      }
+      &.drag-over-gap-bottom {
+        border-bottom-color: $primary-color;
+      }
+      &.drag-over-gap-middle {
+        border-color: transparent;
+        background: $primary-color;
+        color: white;
+        border-radius: $radius-sm;
+      }
+    }
+
+    &-icon {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 16px;
+      vertical-align: -2px;
+      margin-right: 2px;
+    }
+
+    &-title {
+      &--selectable {
+        cursor: pointer;
+      }
+    }
+
+    &-sub {
+      height: 0;
+    }
+
+    &--disabled {
+      .#{$namespace}-tree-node-title--selectable {
+        color: $disabled-color;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

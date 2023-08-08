@@ -1,0 +1,51 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-rate {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: $rate-font-color;
+  display: inline-block;
+  font-size: $font-size-xxl;
+
+  &-star {
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s;
+    cursor: pointer;
+    margin-right: $space-sm;
+
+    &:hover {
+      transform-origin: 50% 50%;
+      transform: scale(1.2);
+    }
+
+    .#{$namespace}-icon {
+      margin: 0;
+    }
+
+    &--half {
+      .#{$namespace}-rate-star-first {
+        color: $rate-active-font-color;
+        opacity: 1;
+        
+      }
+    }
+
+    &--full {
+      color: $rate-active-font-color;
+    }
+
+    &-first {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      opacity: 0;
+      user-select: none;
+      z-index: 1;
+    }
+  }
+}

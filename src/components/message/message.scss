@@ -1,0 +1,48 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-message {
+  position: fixed;
+  padding: $space-base $space-lg;
+  border-radius: $radius-base;
+  box-shadow: $box-shadow-base;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $message-bg-color;
+  top: 20px;
+  transition: all ease .5s;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .#{$namespace}-icon {
+    margin-right: $space-base;
+    font-size: $font-size-lg;
+  }
+
+  .#{$namespace}-message-content {
+    flex: 1;
+
+  }
+
+  @include message-variant('info', $info-color);
+  @include message-variant('success', $success-color);
+  @include message-variant('danger', $danger-color);
+  @include message-variant('warning', $warning-color);
+}
+
+
+.message-enter {
+  opacity: 0;
+  top: 0;
+}
+
+.message-enter.message-enter-active {
+  opacity: 1;
+  top: 20px;
+}
+
+.message-exit {
+  opacity: 0;
+  top: 0;
+}

@@ -1,0 +1,19 @@
+@import '../../assets/styles/global.scss';
+
+
+$prefix:#{$namespace}-popconfirm;
+
+
+.#{$prefix} {
+  padding: $space-base;
+
+  &-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: $space-lg;
+  }
+
+  &-buttons{
+    text-align: right;
+  }
+}

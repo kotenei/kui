@@ -1,7 +1,0 @@
-@mixin tag-variant($bgColor){
-    background: $bgColor;
-
-    &:hover{
-        background: lighten($bgColor,3%)
-    }
-}

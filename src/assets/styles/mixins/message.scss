@@ -1,0 +1,8 @@
+@mixin message-variant($state, $color) {
+  &.#{$namespace}-message--#{$state} {
+    .#{$namespace}-icon {
+      color: $color;
+      margin-left: 0;
+    }
+  }
+}

@@ -1,0 +1,41 @@
+@import '../../assets/styles/global.scss';
+
+$avatar-size-map: (lg: 48px, md: 32px, sm: 24px);
+
+.#{$namespace}-avatar {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: $avatar-bg-color;
+  color: $avatar-font-color;
+  user-select: none;
+  overflow: hidden;
+  vertical-align: middle;
+  margin:0 $space-sm;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &--square {
+    border-radius: $radius-base;
+  }
+
+  @each $color, $value in $colors {
+    &--#{$color} {
+      background: $value;
+      color: $white;
+    }
+  }
+
+  @each $size, $value in $avatar-size-map {
+    &--#{$size} {
+      width: $value;
+      height: $value;
+      font-size: ceil($value/1.8);
+    }
+  }
+}

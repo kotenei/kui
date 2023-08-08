@@ -1,0 +1,142 @@
+@import '../../assets/styles/global.scss';
+
+$prefixCls: '.k-slider';
+
+#{$prefixCls} {
+  width: 100%;
+  position: relative;
+  height: 12px;
+  line-height: 1.5;
+  padding: $space-sm 0;
+  cursor: pointer;
+  //   &:hover {
+  //     #{$prefixCls}-track {
+  //       background: $primary-color;
+  //     }
+  //   }
+
+  &-rail {
+    position: absolute;
+    width: 100%;
+    background: $slider-rail-bg-color;
+    height: 4px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  &-track {
+    position: absolute;
+    height: 4px;
+    background: $slider-track-bg-color;
+  }
+
+  &-step {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    &-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border: 2px solid $slider-rail-bg-color;
+      border-radius: 50%;
+      background: white;
+      top: -2px;
+      margin-left: -4px;
+      &--active {
+        border-color: $slider-track-bg-color;
+      }
+    }
+  }
+
+  &-marks {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 14px;
+    &-mark {
+      position: absolute;
+      text-align: center;
+      width: 30%;
+      margin-left: -15%;
+      vertical-align: middle;
+      // color: rgba(0, 0, 0, 0.45);
+      opacity: .5;
+      &--active {
+        // color: rgba(0, 0, 0, 0.65);
+        opacity: .65;
+      }
+    }
+  }
+
+  &-handle {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin-left: -7px;
+    margin-top: -5px;
+    border: 2px solid $slider-track-bg-color;
+    background: $slider-track-bg-color;
+    border-radius: 50%;
+    transition: scale 0.3s ease;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  &--vertical {
+    width: 12px;
+    height: 100%;
+    padding: 0 4px;
+    margin: 6px 10px;
+    #{$prefixCls}-rail {
+      width: 4px;
+      height: 100%;
+    }
+    #{$prefixCls}-track {
+      width: 4px;
+      height: 100%;
+    }
+    #{$prefixCls}-step {
+      width: 4px;
+      height: 100%;
+      &-dot {
+        top: auto;
+        left: 2px;
+        margin-bottom: -4px;
+      }
+    }
+    #{$prefixCls}-marks {
+      left: 12px;
+      height: 100%;
+      width: 20px;
+      top: 0;
+      &-mark {
+        left: 4px;
+        margin-bottom: -50%;
+        white-space: nowrap;
+        margin-left: auto;
+        width: auto;
+      }
+    }
+    #{$prefixCls}-handle {
+      margin-left: -5px;
+      margin-bottom: -7px;
+    }
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    #{$prefixCls}-track {
+      background: $disabled-color;
+    }
+    #{$prefixCls}-handle {
+      border-color: $disabled-color;
+      background-color: $disabled-color;
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+}

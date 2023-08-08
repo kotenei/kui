@@ -1,0 +1,98 @@
+@import '../../assets/styles/global.scss';
+
+.#{$namespace}-pagination {
+  list-style: none;
+  display: block;
+  margin:  $space-base 0;
+  padding: 0;
+
+  li {
+    display: inline-block;
+    vertical-align: middle;
+
+    span {
+      text-align: center;
+      float: left;
+      display: block;
+      width: 32px;
+      height: 32px;
+      border: 1px solid $border-color-base;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 0 $space-sm;
+
+      &:hover {
+        background-color: $pagination-hover-bg-color;
+        color: $pagination-hover-font-color;
+      }
+    }
+
+    &.active {
+      span {
+        background-color: $pagination-active-bg-color;
+        color: $pagination-active-font-color;
+      }
+    }
+
+  
+    &.disabled {
+      span {
+        cursor: not-allowed;
+        color: $disabled-color!important;
+        &:hover {
+          background: none;
+        }
+      }
+    }
+  }
+
+  @each $color, $value in $colors {
+    &--#{$color} {
+      li {
+        span {
+          color: $value;
+
+          &:hover {
+            background-color: $value;
+            border-color: $value;
+          }
+        }
+
+        &.active {
+          span {
+            background-color: $value;
+            border-color: $value;
+          }
+        }
+
+        &.disabled{
+          span{
+            border-color: $border-color-base;
+          }
+        }
+      }
+    }
+  }
+
+  &--sm{
+    li{
+      span{
+        width: 24px;
+        height:24px;
+        font-size: $font-size-sm;
+      }
+    }
+  }
+
+  &--lg{
+    li{
+      span{
+        width: 48px;
+        height:48px;
+        font-size: $font-size-lg;
+      }
+    }
+  }
+}

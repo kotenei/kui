@@ -1,0 +1,88 @@
+@import '../../assets/styles/global.scss';
+
+$prefix: #{$namespace}-timepicker;
+
+.#{$prefix} {
+
+  &::before,
+  &::after {
+    content: ' ';
+    position: absolute;
+    height: 1px;
+    top: 70px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    border-top: 1px solid $border-color-base;
+  }
+
+  &::after {
+    top: 105px;
+    border-top: none;
+    border-bottom: 1px solid $border-color-base;
+  }
+
+  &-input {
+    input {
+      cursor: pointer;
+    }
+    svg {
+      cursor: pointer;
+    }
+    &--disabled {
+      input {
+        cursor: not-allowed;
+      }
+      svg {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &-wrapper {
+    display: flex;
+  }
+
+  &-select {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 175px;
+    width: 60px;
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      overflow: hidden;
+      width: 60px;
+      li {
+        text-align: center;
+        height: 35px;
+        line-height: 35px;
+        cursor: pointer;
+        &.active {
+          font-weight: bold;
+        }
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 4px;
+      display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    &:hover::-webkit-scrollbar {
+      display: block;
+    }
+  }
+
+  &-bottom {
+    padding: 10px;
+    border-top: 1px solid $border-color-base;
+    text-align: right;
+  }
+}

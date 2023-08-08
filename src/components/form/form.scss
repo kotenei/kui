@@ -1,0 +1,95 @@
+@import '../../assets/styles/global.scss';
+
+$prefix: #{$namespace}-form;
+
+.#{$prefix} {
+  &-item {
+    position: relative;
+    &::before {
+      content: ' ';
+      display: table;
+    }
+    &::after {
+      content: ' ';
+      clear: both;
+      display: table;
+    }
+    margin-bottom: 24px;
+    &__label {
+      text-align: right;
+      vertical-align: middle;
+      margin-bottom: 0;
+      padding-right: 12px;
+      &--required::before {
+        content: '*';
+        margin-right: 4px;
+        color: $danger-color;
+      }
+      &--colon::after {
+        content: ':';
+      }
+    }
+    &__wrapper {
+      position: relative;
+      vertical-align: middle;
+    }
+  }
+
+  &-field {
+    position: relative;
+    &__error {
+      transition: all 0.3s ease;
+      position: absolute;
+      color: $danger-color;
+      font-size: 12px;
+    }
+    &--error {
+      .#{$namespace}-input,
+      .#{$namespace}-select {
+        border-color: $danger-color;
+      }
+
+      .#{$namespace}-checkbox {
+        svg {
+          fill: $danger-color;
+        }
+      }
+    }
+  }
+
+  &--vertical {
+    .#{$prefix}-item {
+      display: block;
+      padding-bottom: $space-base;
+      &__label {
+        display: block;
+        text-align: left;
+        padding-bottom: $space-base;
+        &::after {
+          content: '';
+        }
+      }
+      &__wrapper {
+        display: block;
+      }
+    }
+  }
+  &--inline {
+    .#{$prefix}-item {
+      display: inline-block;
+      margin-right: 24px;
+      &__label {
+        min-width: auto;
+        display: inline-block !important;
+      }
+      &__wrapper {
+        display: inline-block !important;
+      }
+    }
+  }
+  &--horizontal {
+    .#{$prefix}-item {
+      align-items: center;
+    }
+  }
+}

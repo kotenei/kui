@@ -1,24 +1,22 @@
-# KUI of React （重构中...）
- 基于React开发的前端组件库，旨在帮助开发者快速构建网站，后台系统等。
+# KUI of React
 
-## Demo
-[Demo](https://kotenei.github.io/kui/dist/index.html)
+kui provides plenty of UI components to enrich your web applications,
 
-## 安装
+## Install
+
 ```jsx
 npm install kui-react --save
 ```
 
-## 示例
-```jsx
+## Example
 
-import { Button } from "kui-react";
+```jsx
+import { Button } from 'kui-react';
 
 ReactDOM.render(<Button raised>default</Button>, mountNode);
-
 ```
 
-引入样式
+Import style
 
 ```jsx
 import "kui-react/lib/kui.min.css";

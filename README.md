@@ -1,6 +1,8 @@
 # KUI of React
 
-kui provides plenty of UI components to enrich your web applications,
+kui provides plenty of UI components to enrich your web applications
+
+[Demo](https://kotenei.github.io/kui/index.html)
 
 ## Install
 

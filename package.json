@@ -7,8 +7,7 @@
     "start": "start-storybook -p 8080",
     "build": "node scripts/build.js",
     "prestart": "node scripts/markdown.js",
-    "build-storybook": "rimraf storybook-static && build-storybook",
-    "storybook:upload": "gh-pages -d storybook-static --git \"$(which git)\""
+    "build-storybook": "rimraf storybook-static && build-storybook"
   },
   "files": [
     "lib"
@@ -24,7 +23,7 @@
     "framework",
     "frontend"
   ],
-  "homepage": "https://kotenei.github.io/kui/dist/index.html",
+  "homepage": "https://kotenei.github.io/kui/index.html",
   "repository": "https://github.com/kotenei/kui",
   "dependencies": {
     "classnames": "^2.3.1",

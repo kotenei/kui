@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "description": "kui components build with react.js",
   "main": "lib/index.js",
+  "module": "esm/index.js",
   "scripts": {
     "start": "start-storybook -p 8080",
     "build": "node scripts/build.js",
@@ -10,7 +11,8 @@
     "build-storybook": "rimraf storybook-static && build-storybook"
   },
   "files": [
-    "lib"
+    "lib",
+    "esm"
   ],
   "author": "kotenei",
   "license": "MIT",

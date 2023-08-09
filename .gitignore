@@ -32,6 +32,7 @@ Thumbs.db
 *.rar
 dist/
 lib/
+esm/
 storybook-static/
 
 # subversion #
